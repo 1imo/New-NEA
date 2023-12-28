@@ -8,6 +8,7 @@ const PostType = require("../TypeDefs/PostType")
 
 const userData = require("../../USER_DATA.json")
 const postData = require("../../POST_DATA.json")
+const sensitive = require("../../SENSITIVE_USER_DATA.json")
 
 const PostMutations = {
     createPost: {
@@ -20,7 +21,11 @@ const PostMutations = {
         resolve(parent, args) {
 
             const user = userData.find(user => user.id === args.id && user.secretkey === args.secretkey ? user : null)
+            const secret = sensitive[user.id - 1]
 
+            if(secret.id != user.id || secret.secretkey != user.secretkey) {
+                return
+            }
             
             const newPost = {
                 id: postData.length + 1,

@@ -3,6 +3,7 @@ const graphql = require("graphql")
 const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString } = require("graphql")
 const { graphqlHTTP } = require("express-graphql")
 const ChatroomType = require("../TypeDefs/ChatroomType")
+const UserType = require("../TypeDefs/UserType")
 
 
 // id: { type: GraphQLInt},
@@ -13,7 +14,7 @@ const ChatroomType = require("../TypeDefs/ChatroomType")
 
 const ChatroomQueries = {
         getLocation: {
-            type: ChatroomType,
+            type: UserType,
             args: { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, username: { type: GraphQLString }},
             resolve(parent, args) {
                 const user = users.find(user => user.id === args.id && user.secretkey === args.secretkey ? user : null)

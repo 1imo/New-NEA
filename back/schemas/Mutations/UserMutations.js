@@ -4,6 +4,7 @@ const { graphqlHTTP } = require("express-graphql")
 const fs = require("fs")
 
 const users = require("../../USER_DATA.json")
+const sensitive = require("../../SENSITIVE_USER_DATA.json")
 
 
 const UserType = require("../TypeDefs/UserType")
@@ -26,8 +27,6 @@ const UserMutations = {
                 firstName: args.firstName,
                 lastName: args.lastName,
                 username: args.username,
-                password: args.password,
-                secretkey: args.username,
                 posts: [],
                 friends: [],
                 friendCount: 0,
@@ -40,11 +39,22 @@ const UserMutations = {
                 avgRatio: 0.00
             }
 
-            users.push(newUser)
-            const updatedJson = JSON.stringify(users, null, 2);
-            fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson);
+            const sensitiveInfo = {
+                id: users.length + 1,
+                username: args.username,
+                password: args.password,
+                secretkey: args.username,
+            }
 
-            console.log("WRITTEN")
+            users.push(newUser)
+            let updatedJson = JSON.stringify(users, null, 2)
+            fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
+
+            sensitive.push(sensitiveInfo)
+            updatedJson = JSON.stringify(sensitive, null, 2);
+            fs.writeFileSync(__dirname + "/../../SENSITIVE_USER_DATA.json", updatedJson);
+
+            
 
             return newUser
 
@@ -58,7 +68,13 @@ const UserMutations = {
                 username: { type: GraphQLString }
             },
             resolve(parent, args) {
-                const user = users.find(user => user.id === args.id && user.secretkey === args.secretkey ? user : null)
+                const user = users.find(user => user.id === args.id ? user : null)
+                const secret = sensitive[user.id - 1]
+
+                if(secret.id != user.id || secret.secretkey != user.secretkey) {
+                    return
+                }
+
                 const inQuestion = users.find(user => user.username === args.username  ? user : null)
 
                 let following = user.following.find(following => following.username === args.username ? following : null)

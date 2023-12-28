@@ -4,14 +4,14 @@ const { graphqlHTTP } = require("express-graphql")
 
 
 
-const AuthorType = new GraphQLObjectType({
-    name: "Author",
+const SensitiveUserDataType = new GraphQLObjectType({
+    name: "Post",
     fields: () => ({
         id: { type: GraphQLInt},
-        username: { type: GraphQLString},
-        firstName: { type: GraphQLString},
-        lastName: { type: GraphQLString}
+        username: { type: GraphQLString },
+        password: { type: GraphQLString },
+        secretkey: { type: GraphQLString },
     })
 })
 
-module.exports = AuthorType
+module.exports = SensitiveUserDataType
