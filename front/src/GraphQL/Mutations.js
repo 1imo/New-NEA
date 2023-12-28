@@ -19,21 +19,6 @@ export const CREATE_USER_MUTATION = gql`
     }
 `
 
-export const GET_NAVINFO = gql`
-    mutation getNavInfo(
-        $id: Int!,
-        $secretkey: String!
-    ) {
-        getNavInfo(
-            id: $id
-            secretkey: $secretkey
-        ) {
-            username,
-            firstName,
-            lastName
-        }
-    }
-`
 
 export const CREATE_NEWPOST = gql`
     mutation createPost(
@@ -63,6 +48,52 @@ export const FOLLOW_UNFOLLOW = gql`
             username: $username
         ) {
             username
+        }
+    }
+`
+
+export const GET_CHATROOM = gql`
+    mutation getLocation(
+        $id: Int!,
+        $secretkey: String!,
+        $username: String!
+    ) {
+        getLocation(
+            id: $id
+            secretkey: $secretkey
+            username: $username
+        ) {
+            id,
+            chatters {
+              id,
+              firstName,
+              lastName,
+              username
+            },
+            messages {
+              id,
+              sender {
+                firstName,
+                lastName,
+                username,
+                id
+              }
+              content,
+              date,
+              read
+            },
+            lastMessage {
+              id,
+              sender {
+                firstName,
+                lastName,
+                username,
+                id
+              }
+              content,
+              date,
+              read
+            }
         }
     }
 `

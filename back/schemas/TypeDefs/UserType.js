@@ -3,9 +3,8 @@ const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList
 const { graphqlHTTP } = require("express-graphql")
 const postData = require("../../POST_DATA.json")
 const PostType = require("./PostType")
-const ChatroomType = require("./ChatroomType")
-const PublicUserType = require("./PublicUserType")
-const ShortUserType = require("./ShortUserType")
+// const ChatroomType = require("./ChatroomType")
+
 
 
 const UserType = new GraphQLObjectType({
@@ -27,14 +26,14 @@ const UserType = new GraphQLObjectType({
               return posts 
             }
         },
-        friends: { type: new GraphQLList(ShortUserType) },
-        followers: { type: new GraphQLList(ShortUserType) },
-        following: { type: new GraphQLList(ShortUserType) },
+        friends: { type: new GraphQLList(UserType) },
+        followers: { type: new GraphQLList(UserType) },
+        following: { type: new GraphQLList(UserType) },
         friendCount: { type: GraphQLInt },
         followerCount: { type: GraphQLInt },
         followingCount: { type: GraphQLInt },
-        pending: { type: new GraphQLList(ShortUserType) },
-        chatrooms: { type: new GraphQLList(GraphQLString) },
+        pending: { type: new GraphQLList(UserType) },
+        chatrooms: { type: new GraphQLList(GraphQLInt) },
         avgRatio: { type: graphql.GraphQLFloat}
     })
 })

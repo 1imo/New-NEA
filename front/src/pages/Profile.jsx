@@ -1,4 +1,4 @@
-import { GET_USERPOSTS } from "../GraphQL/Queries"
+import { GET_PUBLICDATA, GET_USERPOSTS } from "../GraphQL/Queries"
 import Post from "../components/Post"
 import ProfileInfo from "../components/ProfileInfo"
 import { useQuery, gql } from "@apollo/client"
@@ -14,17 +14,18 @@ function Profile() {
 
     const { loading, error, data } = useQuery(GET_USERPOSTS, {
         variables: {
-            username: d
+            username: id
         }
     })
 
-    useEffect(() => {
-        setD(id)
-    }, [id])
+    
+
+   
 
     useEffect(() => {
-        if(data?.getPosts) {
-            const posts = data?.getPosts.map((vals, index) => {
+
+        if(data?.getAllPosts) {
+            const posts = data?.getAllPosts.map((vals, index) => {
                 return <Post author={vals?.author} content={vals?.content} key={index} />
             })
 

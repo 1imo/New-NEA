@@ -7,11 +7,11 @@ const fs = require("fs")
 
 const UserMutations = require("./Mutations/UserMutations")
 const PostMutations = require("./Mutations/PostMutations")
+const ChatroomMutations = require("./Mutations/ChatroomMutations")
 
 const PostQueries = require("./Queries/PostQueries")
 const UserQueries = require("./Queries/UserQuery")
-const PublicUserQueries = require("./Queries/PublicUserQuery")
-const ChatroomQueries = require("./Queries/ChatroomQueries")
+// const ChatroomQueries = require("./Queries/ChatroomQueries")
 
 const RootQuery = new GraphQLObjectType({
     name: "RootQueryType",
@@ -25,8 +25,7 @@ const RootQuery = new GraphQLObjectType({
         },
         ...UserQueries,
         ...PostQueries,
-        ...PublicUserQueries,
-        ...ChatroomQueries
+        // ...ChatroomQueries
     }
 })
 
@@ -35,7 +34,8 @@ const Mutation = new GraphQLObjectType({
     name: "Mutation",
     fields: {
         ...UserMutations,
-        ...PostMutations
+        ...PostMutations,
+        ...ChatroomMutations
     }
 })
 

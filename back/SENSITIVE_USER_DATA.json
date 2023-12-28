@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": 1,
+    "username": "1imo",
+    "password": "1imo",
+    "secretkey": "1imo"
+  },
+  {
+    "id": 2,
+    "username": "shoecollective",
+    "password": "shoecollective",
+    "secretkey": "shoecollective"
+  }
+]

@@ -10,13 +10,15 @@ export const LOAD_USERS = gql`
     }
 `
 
-// export const LOAD_POST = gql`
-//     query getPost($id: Int!) {
-//         getPost {
-//             id
-//         }
-//     }
-// `
+export const GET_NAVINFO = gql`
+  query($id: Int!) {
+      navInfo(id: $id) {
+          username,
+          firstName,
+          lastName
+      }
+  }
+`
 
 export const LOAD_POST = gql`
   query($id: Int!) {
@@ -57,14 +59,14 @@ export const GET_PUBLICDATA = gql`
 
 export const GET_USERPOSTS = gql`
     query($username: String!) {
-        getPosts(username: $username) {
+        getAllPosts(username: $username) {
           id,
           content,
           author {
-            username,
             id,
             firstName,
-            lastName
+            lastName,
+            username
           }
         }
     }
@@ -79,3 +81,5 @@ export const GET_SEARCH_INSIGHTDATA = gql`
         }
     }
 `
+
+// export const GET_CHATROOM = 

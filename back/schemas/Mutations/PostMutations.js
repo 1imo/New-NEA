@@ -19,11 +19,15 @@ const PostMutations = {
             content: { type: GraphQLString }
         },
         resolve(parent, args) {
+            console.log("HERE")
 
-            const user = userData.find(user => user.id === args.id && user.secretkey === args.secretkey ? user : null)
+            const user = userData.find(user => user.id === args.id ? user : null)
             const secret = sensitive[user.id - 1]
 
-            if(secret.id != user.id || secret.secretkey != user.secretkey) {
+            console.log(user)
+            console.log(secret)
+
+            if(secret.id != args.id || secret.secretkey != args.secretkey) {
                 return
             }
             

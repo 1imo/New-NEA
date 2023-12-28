@@ -5,12 +5,10 @@ import {
     useQuery,
     gql
 } from "@apollo/client"
-import { GET_NAVINFO } from "../GraphQL/Mutations"
-import { useMutation } from "@apollo/client"
 import Cookies from "js-cookie"
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
-import { LOAD_NAV } from "../GraphQL/Queries";
+import { GET_NAVINFO } from "../GraphQL/Queries";
 
         
 
@@ -29,16 +27,18 @@ function Nav(props) {
 
     const Ctx = useContext(Context)
 
-    const { loading, error, data } = useQuery(LOAD_NAV, {
+    const { loading, error, data } = useQuery(GET_NAVINFO, {
         variables: vars
     })
 
     useEffect(() => {
         setVars({
-            id: Ctx.id,
-            secretkey: Ctx.secretkey
+            id: Ctx.id
         })
     }, [])
+
+    console.log(data)
+    console.log(vars)
 
     
 

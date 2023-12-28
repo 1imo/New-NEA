@@ -29,7 +29,7 @@ function Search() {
                 return <ProfileInsight 
                 username={res.username} 
                 firstName={res.firstName}
-                lastName={res.lastName} key={index} ref={state.searchType}/>
+                lastName={res.lastName} key={index} reference={state.searchType}/>
             }) : null}
         </section>
     </>

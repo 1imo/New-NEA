@@ -4,38 +4,7 @@
     "firstName": "Timo",
     "lastName": "H",
     "username": "1imo",
-    "password": "foo foo",
-    "secretkey": "1imo",
-    "posts": [
-      {
-        "id": 1,
-        "content": "hiiiiiiii",
-        "author": {
-          "id": 1,
-          "firstName": "Timo",
-          "lastName": "H",
-          "username": "1imo"
-        },
-        "date": "2023-12-25T07:45:58.867Z",
-        "views": [],
-        "likes": [],
-        "avgRatio": 0
-      },
-      {
-        "id": 2,
-        "content": "ticky boo",
-        "author": {
-          "id": 1,
-          "firstName": "Timo",
-          "lastName": "H",
-          "username": "1imo"
-        },
-        "date": "2023-12-27T17:56:25.243Z",
-        "views": [],
-        "likes": [],
-        "avgRatio": 0
-      }
-    ],
+    "posts": [],
     "friends": [],
     "friendCount": 0,
     "followers": [],
@@ -43,16 +12,110 @@
     "following": [],
     "followingCount": 0,
     "pending": [],
-    "chatrooms": [],
+    "chatrooms": [
+      {
+        "id": 1,
+        "chatters": [
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          },
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      },
+      {
+        "id": 2,
+        "chatters": [
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          },
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      },
+      {
+        "id": 3,
+        "chatters": [
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          },
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      },
+      {
+        "id": 4,
+        "chatters": [
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          },
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      },
+      {
+        "id": 5,
+        "chatters": [
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          },
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      }
+    ],
     "avgRatio": 0
   },
   {
     "id": 2,
-    "firstName": "dopel",
-    "lastName": "G",
-    "username": "dg",
-    "password": "foofoo",
-    "secretkey": "dg",
+    "firstName": "shoeCollective",
+    "lastName": "!!!!",
+    "username": "shoecollective",
     "posts": [],
     "friends": [],
     "friendCount": 0,
@@ -61,25 +124,103 @@
     "following": [],
     "followingCount": 0,
     "pending": [],
-    "chatrooms": [],
-    "avgRatio": 0
-  },
-  {
-    "id": 3,
-    "firstName": "test",
-    "lastName": "test",
-    "username": "test",
-    "password": "test",
-    "secretkey": "test",
-    "posts": [],
-    "friends": [],
-    "friendCount": 0,
-    "followers": [],
-    "followerCount": 0,
-    "following": [],
-    "followingCount": 0,
-    "pending": [],
-    "chatrooms": [],
+    "chatrooms": [
+      {
+        "id": 1,
+        "chatters": [
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          },
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      },
+      {
+        "id": 2,
+        "chatters": [
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          },
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      },
+      {
+        "id": 3,
+        "chatters": [
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          },
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      },
+      {
+        "id": 4,
+        "chatters": [
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          },
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      },
+      {
+        "id": 5,
+        "chatters": [
+          {
+            "id": 2,
+            "firstName": "shoeCollective",
+            "lastName": "!!!!",
+            "username": "shoecollective"
+          },
+          {
+            "id": 1,
+            "firstName": "Timo",
+            "lastName": "H",
+            "username": "1imo"
+          }
+        ],
+        "messages": [],
+        "lastMessage": {}
+      }
+    ],
     "avgRatio": 0
   }
 ]

@@ -9,14 +9,10 @@ const PostType = require("../TypeDefs/PostType")
 const UserQuery = {
         navInfo: {
             type: UserType,
-            args: { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }},
+            args: { id: { type: GraphQLInt}},
             resolve(parent, args) {
                 const user = users.find(user => user.id === args.id ? user : null)
-                const secret = sensitive[user.id - 1]
-
-                if(secret.id != user.id || secret.secretkey != user.secretkey) {
-                    return
-                }
+                console.log(users[args.id])
 
                 return user
             }
@@ -30,10 +26,11 @@ const UserQuery = {
                 return user
             }
         },
-        getPosts: {
+        getAllPosts: {
             type: new GraphQLList(PostType),
             args: { username: { type: GraphQLString }}, 
             resolve(parent, args) {
+                console.log("POSTS")
                 const user = users.find(user => user.username === args.username ? user : null)
                 
                 return user.posts

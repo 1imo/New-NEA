@@ -1,8 +1,42 @@
 // This is a top-level view of a user's profile once searched for. Not to be confused with ProfileInfo.jsx
+import { useMutation } from "@apollo/client"
+import { useNavigate } from "react-router-dom"
+import { GET_CHATROOM } from "../GraphQL/Mutations"
+import { useContext } from "react"
+import { Context } from "../context/Context"
 
 function ProfileInsight(props) {
+
+    const navigate = useNavigate()
+
+    const [ get_chatroom, { data, error, loading } ] = useMutation(GET_CHATROOM)
+
+    const Ctx = useContext(Context)
+
+    async function call() {
+        if(props.reference == "message") {
+            console.log("MESSAGE")
+            console.log({id: Ctx.id,
+                secretkey: Ctx.secretkey,
+                username: props?.username})
+            const res = await get_chatroom({
+                variables: {
+                    id: Ctx.id,
+                    secretkey: Ctx.secretkey,
+                    username: props?.username
+                }
+            })
+
+
+            console.log(res, data)
+        } else {
+            console.log("NOPE")
+        }
+    }
+
+
     return <>
-        <section style={styles.section}>
+        <section style={styles.section} onClick={() => call()}>
             <div>
                 <img src="/shoe_collective.jpg" height="80px" width="80px" style={{"borderRadius": "40px"}}/>
             </div>
@@ -17,7 +51,7 @@ function ProfileInsight(props) {
 const styles = {
     section: {
         "display": "flex",
-        "align-items": "center",
+        "alignItems": "center",
         "width": "calc(100vw - 32px)",
         "boxSizing": "border-box",
         "maxWidth": "400px",

@@ -8,12 +8,13 @@ const sensitive = require("../../SENSITIVE_USER_DATA.json")
 
 
 const UserType = require("../TypeDefs/UserType")
-const ShortUserType = require("../TypeDefs/ShortUserType")
+const SensitiveUserDataType = require("../TypeDefs/SensitiveUserDataType")
+
 
 
 const UserMutations = {
     createUser: {
-        type: UserType,
+        type: SensitiveUserDataType,
         args: {
             firstName: { type: GraphQLString},
             lastName: { type: GraphQLString},
@@ -56,12 +57,12 @@ const UserMutations = {
 
             
 
-            return newUser
+            return sensitiveInfo
 
             }
         },
         followUnfollowUser: {
-            type: ShortUserType,
+            type: UserType,
             args: { 
                 id: { type: GraphQLInt}, 
                 secretkey: { type: GraphQLString }, 
@@ -71,7 +72,7 @@ const UserMutations = {
                 const user = users.find(user => user.id === args.id ? user : null)
                 const secret = sensitive[user.id - 1]
 
-                if(secret.id != user.id || secret.secretkey != user.secretkey) {
+                if(secret.id != args.id || secret.secretkey != args.secretkey) {
                     return
                 }
 

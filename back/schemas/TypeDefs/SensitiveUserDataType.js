@@ -5,7 +5,7 @@ const { graphqlHTTP } = require("express-graphql")
 
 
 const SensitiveUserDataType = new GraphQLObjectType({
-    name: "Post",
+    name: "SensitiveUserData",
     fields: () => ({
         id: { type: GraphQLInt},
         username: { type: GraphQLString },

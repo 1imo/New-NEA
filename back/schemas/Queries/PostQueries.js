@@ -9,7 +9,6 @@ const posts = require("../../POST_DATA.json")
 const users = require("../../USER_DATA.json")
 
 const PostQuery = {
-
         getPost: {
             type: PostType,
             args: { id: { type: GraphQLInt}},

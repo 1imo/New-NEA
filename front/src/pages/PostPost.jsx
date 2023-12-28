@@ -1,4 +1,4 @@
-import { GET_NAVINFO, CREATE_NEWPOST } from "../GraphQL/Mutations"
+import { CREATE_NEWPOST } from "../GraphQL/Mutations"
 import { useMutation } from "@apollo/client"
 import Cookies from "js-cookie"
 import { useEffect, useState, useRef, useContext } from "react";
@@ -8,7 +8,6 @@ import Nav from "../components/Nav";
 
 function PostPost() {
 
-    // const [ getNavInfo, { data, error, loading } ] = useMutation(GET_NAVINFO)
     const [ createPost, { dataMain, errorMain, loadingMain } ] = useMutation(CREATE_NEWPOST)
 
 
