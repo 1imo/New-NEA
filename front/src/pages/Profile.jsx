@@ -14,23 +14,30 @@ function Profile() {
 
     const { loading, error, data } = useQuery(GET_USERPOSTS, {
         variables: {
-            username: id
+            username: d
         }
     })
+
+    useEffect(() => {
+        setD(id)
+    }, [id])
 
     
 
    
 
     useEffect(() => {
+        console.log(data, "DATA")
 
         if(data?.getAllPosts) {
             const posts = data?.getAllPosts.map((vals, index) => {
-                return <Post author={vals?.author} content={vals?.content} key={index} />
+                return <Post data={vals} key={index} />
             })
 
             setReversed(posts.reverse())
         }
+
+        console.log("CHANGE")
     }, [data])
    
 

@@ -70,18 +70,6 @@ export const GET_CHATROOM = gql`
               lastName,
               username
             },
-            messages {
-              id,
-              sender {
-                firstName,
-                lastName,
-                username,
-                id
-              }
-              content,
-              date,
-              read
-            },
             lastMessage {
               id,
               sender {
@@ -96,4 +84,45 @@ export const GET_CHATROOM = gql`
             }
         }
     }
+`
+
+export const VIEW_POST = gql`
+    mutation postViewed(
+        $post: Int!
+        $id: Int!,
+        $secretkey: String!,
+    ) {
+        postViewed (
+            post: $post
+            id: $id
+            secretkey: $secretkey
+        ) {
+            id
+            views {
+                id
+            }
+        }
+    }
+
+`
+
+export const LIKE_POST = gql`
+    mutation postLiked(
+        $post: Int!
+        $id: Int!,
+        $secretkey: String!,
+    ) {
+        postLiked (
+            post: $post
+            id: $id
+            secretkey: $secretkey
+        ) {
+            id,
+            likes {
+                id
+            }
+
+        }
+    }
+
 `

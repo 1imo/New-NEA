@@ -11,8 +11,8 @@ const PostType = new GraphQLObjectType({
         content: { type: GraphQLString },
         author: { type: AuthorType },
         date: { type: GraphQLString},
-        views: { type: new GraphQLList(GraphQLString) },
-        likes: { type: new GraphQLList(GraphQLString) },
+        views: { type: new GraphQLList(AuthorType) },
+        likes: { type: new GraphQLList(AuthorType) },
         avgRatio: { type: graphql.GraphQLFloat}
     })
 })

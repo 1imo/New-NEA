@@ -82,4 +82,40 @@ export const GET_SEARCH_INSIGHTDATA = gql`
     }
 `
 
-// export const GET_CHATROOM = 
+export const GET_CHATROOM = gql`
+    query($chatId: Int!, $id: Int!, $secretkey: String!) {
+        getUserSearchResults(chatId: $chatId, id: $id, secretkey: $secretkey) {
+          id,
+          chatters {
+            id,
+            firstName,
+            lastName,
+            username
+          },
+          messages {
+            id,
+            sender {
+              firstName,
+              lastName,
+              username,
+              id
+            }
+            content,
+            date,
+            read
+          },
+          lastMessage {
+            id,
+            sender {
+              firstName,
+              lastName,
+              username,
+              id
+            }
+            content,
+            date,
+            read
+          }
+        }
+    }
+`

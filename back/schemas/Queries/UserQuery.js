@@ -30,7 +30,6 @@ const UserQuery = {
             type: new GraphQLList(PostType),
             args: { username: { type: GraphQLString }}, 
             resolve(parent, args) {
-                console.log("POSTS")
                 const user = users.find(user => user.username === args.username ? user : null)
                 
                 return user.posts

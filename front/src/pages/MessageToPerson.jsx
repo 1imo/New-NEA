@@ -1,7 +1,29 @@
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { useQuery } from "@apollo/client"
+import { GET_CHATROOM } from "../GraphQL/Queries"
+import { useParams } from "react-router-dom"
+import { Context } from "../context/Context"
 
 function MessageToPerson() {
+
+    const { id } = useParams()
+
+    const Ctx = useContext(Context)
+
     const [ contentHeight, setContentHeight ] = useState("calc(100svh)")
+    const [ vars, setVars ] = useState({})
+
+    const { loading, error, data } = useQuery(GET_CHATROOM, {
+        variables: vars
+    })
+
+    useEffect(() => {
+        setVars({
+            id: Ctx.id,
+            secretkey: Ctx.secretkey,
+            chatId: parseInt(id)
+        })
+    }, [])
 
 
     const Message = (props) => {

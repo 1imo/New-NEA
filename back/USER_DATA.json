@@ -12,103 +12,7 @@
     "following": [],
     "followingCount": 0,
     "pending": [],
-    "chatrooms": [
-      {
-        "id": 1,
-        "chatters": [
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          },
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      },
-      {
-        "id": 2,
-        "chatters": [
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          },
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      },
-      {
-        "id": 3,
-        "chatters": [
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          },
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      },
-      {
-        "id": 4,
-        "chatters": [
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          },
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      },
-      {
-        "id": 5,
-        "chatters": [
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          },
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      }
-    ],
+    "chatrooms": [],
     "avgRatio": 0
   },
   {
@@ -116,7 +20,22 @@
     "firstName": "shoeCollective",
     "lastName": "!!!!",
     "username": "shoecollective",
-    "posts": [],
+    "posts": [
+      {
+        "id": 1,
+        "content": "post one",
+        "author": {
+          "id": 2,
+          "firstName": "shoeCollective",
+          "lastName": "!!!!",
+          "username": "shoecollective"
+        },
+        "date": "2023-12-29T03:58:41.792Z",
+        "views": [],
+        "likes": [],
+        "avgRatio": 0
+      }
+    ],
     "friends": [],
     "friendCount": 0,
     "followers": [],
@@ -124,103 +43,7 @@
     "following": [],
     "followingCount": 0,
     "pending": [],
-    "chatrooms": [
-      {
-        "id": 1,
-        "chatters": [
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          },
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      },
-      {
-        "id": 2,
-        "chatters": [
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          },
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      },
-      {
-        "id": 3,
-        "chatters": [
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          },
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      },
-      {
-        "id": 4,
-        "chatters": [
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          },
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      },
-      {
-        "id": 5,
-        "chatters": [
-          {
-            "id": 2,
-            "firstName": "shoeCollective",
-            "lastName": "!!!!",
-            "username": "shoecollective"
-          },
-          {
-            "id": 1,
-            "firstName": "Timo",
-            "lastName": "H",
-            "username": "1imo"
-          }
-        ],
-        "messages": [],
-        "lastMessage": {}
-      }
-    ],
-    "avgRatio": 0
+    "chatrooms": [],
+    "avgRatio": 1
   }
 ]

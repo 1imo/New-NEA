@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "id": 1,
+    "chatters": [
+      {
+        "id": 2,
+        "firstName": "shoeCollective",
+        "lastName": "!!!!",
+        "username": "shoecollective"
+      },
+      {
+        "id": 1,
+        "firstName": "Timo",
+        "lastName": "H",
+        "username": "1imo"
+      }
+    ],
+    "messages": [],
+    "lastMessage": {}
+  }
+]

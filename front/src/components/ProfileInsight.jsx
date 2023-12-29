@@ -28,7 +28,9 @@ function ProfileInsight(props) {
             })
 
 
-            console.log(res, data)
+            if(res?.data?.getLocation?.id) {
+                navigate("/messaging/id/" + res.data.getLocation.id)
+            }
         } else {
             console.log("NOPE")
         }
