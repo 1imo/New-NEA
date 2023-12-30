@@ -1,21 +1,59 @@
-import { useContext, useEffect, useState } from "react"
-import { useQuery } from "@apollo/client"
+import { useContext, useEffect, useRef, useState } from "react"
+import { useQuery, useMutation } from "@apollo/client"
 import { GET_CHATROOM } from "../GraphQL/Queries"
+import { SEND_MESSAGE } from "../GraphQL/Mutations"
 import { useParams } from "react-router-dom"
 import { Context } from "../context/Context"
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8000/');
 
 function MessageToPerson() {
 
+    
+    const joinRoom = (roomId) => {
+        socket.emit('joinRoom', roomId);
+        console.log(roomId, "ROOM")
+    }
+
+    // console.log(socket)
+    
     const { id } = useParams()
+    
 
     const Ctx = useContext(Context)
 
     const [ contentHeight, setContentHeight ] = useState("calc(100svh)")
     const [ vars, setVars ] = useState({})
+    const [ messages, setMessages ] = useState([])
+    const contentRef = useRef()
 
     const { loading, error, data } = useQuery(GET_CHATROOM, {
         variables: vars
     })
+
+    
+
+    
+
+    const [ sendMessage, { dataMain, errorMain, loadingMain } ] = useMutation(SEND_MESSAGE)
+
+    async function send() {
+        // console.log("SEND")
+        const res = await sendMessage({
+            variables: {
+                id: Ctx.id,
+                secretkey: Ctx.secretkey,
+                content: contentRef.current.value,
+                chatroom: parseInt(id)
+            }
+        })
+
+
+        console.log(res)
+        if(errorMain) console.log(errorMain)
+    }
+
 
     useEffect(() => {
         setVars({
@@ -23,7 +61,24 @@ function MessageToPerson() {
             secretkey: Ctx.secretkey,
             chatId: parseInt(id)
         })
+
+        joinRoom(parseInt(id))
+
+        socket.on('chatroom', (data) => {
+            // console.log(data, "PING")
+            if(data?.messages) {
+                const reverse = data.messages.reverse()
+                // console.log(reverse)
+                setMessages(reverse)
+            }
+
+          });
     }, [])
+
+
+    
+
+    
 
 
     const Message = (props) => {
@@ -40,13 +95,11 @@ function MessageToPerson() {
             </div>
         </nav>
         <section style={{display: "flex", flexDirection: "column-reverse", height: "calc(100vh - 160px)"}}>
-            <Message msg={contentHeight} />
-            <Message msg={"hi"} />
-            <Message msg={"no"} />
+            {messages ? messages.map((cont, index) => <Message msg={cont.content} key={index} /> ) : null}
         </section>
         <div style={styles.input}>
-            <img src="/send.svg" />
-            <input type="text" placeholder="|Message" style={styles.inputBox} />
+            <img onClick={() => send()} src="/send.svg" />
+            <input ref={contentRef} type="text" placeholder="|Message" style={styles.inputBox} />
         </div>
 
     </section>

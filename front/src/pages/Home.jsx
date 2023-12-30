@@ -16,7 +16,7 @@ function Home() {
     }, [data])
     return <>
         <Nav icons={true}/>
-        <Post />
+        {/* <Post /> */}
     </>
 }
 export default Home

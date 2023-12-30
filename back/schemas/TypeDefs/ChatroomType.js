@@ -13,7 +13,8 @@ const ChatroomType = new GraphQLObjectType({
         id: { type: GraphQLInt},
         chatters: { type: new GraphQLList(AuthorType) },
         messages: { type: new GraphQLList(MessageType) },
-        lastMessage: { type: MessageType }
+        lastMessage: { type: MessageType },
+        connections: { type: new GraphQLList(GraphQLString)}
     })
 })
 

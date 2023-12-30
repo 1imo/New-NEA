@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "firstName": "Timo",
+    "firstName": "1imo",
     "lastName": "H",
     "username": "1imo",
     "posts": [],
@@ -12,30 +12,905 @@
     "following": [],
     "followingCount": 0,
     "pending": [],
-    "chatrooms": [],
+    "chatrooms": [
+      {
+        "id": 1,
+        "chatters": [
+          {
+            "id": 1,
+            "firstName": "1imo",
+            "lastName": "H",
+            "username": "1imo"
+          },
+          {
+            "id": 2,
+            "firstName": "shoe",
+            "lastName": "shoecollective",
+            "username": "shoecollective"
+          }
+        ],
+        "messages": [
+          {
+            "id": 1,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hye",
+            "date": "2023-12-30T09:03:34.615Z",
+            "read": false
+          },
+          {
+            "id": 1,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hye",
+            "date": "2023-12-30T09:03:34.615Z",
+            "read": false
+          },
+          {
+            "id": 1,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hye",
+            "date": "2023-12-30T09:03:34.615Z",
+            "read": false
+          },
+          {
+            "id": 4,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:03:46.740Z",
+            "read": false
+          },
+          {
+            "id": 4,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:03:46.740Z",
+            "read": false
+          },
+          {
+            "id": 4,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:03:46.740Z",
+            "read": false
+          },
+          {
+            "id": 7,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:42.940Z",
+            "read": false
+          },
+          {
+            "id": 7,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:42.940Z",
+            "read": false
+          },
+          {
+            "id": 7,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:42.940Z",
+            "read": false
+          },
+          {
+            "id": 10,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:52.998Z",
+            "read": false
+          },
+          {
+            "id": 10,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:52.998Z",
+            "read": false
+          },
+          {
+            "id": 10,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:52.998Z",
+            "read": false
+          },
+          {
+            "id": 13,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:30.880Z",
+            "read": false
+          },
+          {
+            "id": 13,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:30.880Z",
+            "read": false
+          },
+          {
+            "id": 13,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:30.880Z",
+            "read": false
+          },
+          {
+            "id": 16,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:38.330Z",
+            "read": false
+          },
+          {
+            "id": 16,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:38.330Z",
+            "read": false
+          },
+          {
+            "id": 16,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:38.330Z",
+            "read": false
+          },
+          {
+            "id": 19,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:51.038Z",
+            "read": false
+          },
+          {
+            "id": 19,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:51.038Z",
+            "read": false
+          },
+          {
+            "id": 19,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:51.038Z",
+            "read": false
+          },
+          {
+            "id": 22,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:15:19.698Z",
+            "read": false
+          },
+          {
+            "id": 22,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:15:19.698Z",
+            "read": false
+          },
+          {
+            "id": 22,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:15:19.698Z",
+            "read": false
+          },
+          {
+            "id": 25,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "yoo hoo",
+            "date": "2023-12-30T09:18:18.435Z",
+            "read": false
+          },
+          {
+            "id": 25,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "yoo hoo",
+            "date": "2023-12-30T09:18:18.435Z",
+            "read": false
+          },
+          {
+            "id": 25,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "yoo hoo",
+            "date": "2023-12-30T09:18:18.435Z",
+            "read": false
+          },
+          {
+            "id": 28,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "yhyhyh",
+            "date": "2023-12-30T09:18:28.862Z",
+            "read": false
+          },
+          {
+            "id": 28,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "yhyhyh",
+            "date": "2023-12-30T09:18:28.862Z",
+            "read": false
+          },
+          {
+            "id": 28,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "yhyhyh",
+            "date": "2023-12-30T09:18:28.862Z",
+            "read": false
+          },
+          {
+            "id": 31,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:20:47.115Z",
+            "read": false
+          },
+          {
+            "id": 31,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:20:47.115Z",
+            "read": false
+          },
+          {
+            "id": 31,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:20:47.115Z",
+            "read": false
+          },
+          {
+            "id": 34,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:20:58.466Z",
+            "read": false
+          },
+          {
+            "id": 34,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:20:58.466Z",
+            "read": false
+          },
+          {
+            "id": 34,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:20:58.466Z",
+            "read": false
+          },
+          {
+            "id": 37,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:21:05.313Z",
+            "read": false
+          },
+          {
+            "id": 37,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:21:05.313Z",
+            "read": false
+          },
+          {
+            "id": 37,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:21:05.313Z",
+            "read": false
+          },
+          {
+            "id": 40,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "fuck",
+            "date": "2023-12-30T09:21:12.532Z",
+            "read": false
+          },
+          {
+            "id": 40,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "fuck",
+            "date": "2023-12-30T09:21:12.532Z",
+            "read": false
+          },
+          {
+            "id": 40,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "fuck",
+            "date": "2023-12-30T09:21:12.532Z",
+            "read": false
+          },
+          {
+            "id": 43,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "ayyy",
+            "date": "2023-12-30T09:21:18.561Z",
+            "read": false
+          },
+          {
+            "id": 43,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "ayyy",
+            "date": "2023-12-30T09:21:18.561Z",
+            "read": false
+          },
+          {
+            "id": 43,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "ayyy",
+            "date": "2023-12-30T09:21:18.561Z",
+            "read": false
+          },
+          {
+            "id": 46,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:24:08.817Z",
+            "read": false
+          },
+          {
+            "id": 46,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:24:08.817Z",
+            "read": false
+          },
+          {
+            "id": 46,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:24:08.817Z",
+            "read": false
+          },
+          {
+            "id": 49,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "no",
+            "date": "2023-12-30T09:24:25.018Z",
+            "read": false
+          },
+          {
+            "id": 49,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "no",
+            "date": "2023-12-30T09:24:25.018Z",
+            "read": false
+          },
+          {
+            "id": 49,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "no",
+            "date": "2023-12-30T09:24:25.018Z",
+            "read": false
+          },
+          {
+            "id": 52,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "nope",
+            "date": "2023-12-30T09:24:31.008Z",
+            "read": false
+          },
+          {
+            "id": 52,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "nope",
+            "date": "2023-12-30T09:24:31.008Z",
+            "read": false
+          },
+          {
+            "id": 52,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "nope",
+            "date": "2023-12-30T09:24:31.008Z",
+            "read": false
+          },
+          {
+            "id": 55,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:18.676Z",
+            "read": false
+          },
+          {
+            "id": 55,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:18.676Z",
+            "read": false
+          },
+          {
+            "id": 55,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:18.676Z",
+            "read": false
+          },
+          {
+            "id": 58,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:55.939Z",
+            "read": false
+          },
+          {
+            "id": 58,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:55.939Z",
+            "read": false
+          },
+          {
+            "id": 58,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:55.939Z",
+            "read": false
+          },
+          {
+            "id": 61,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:26:17.743Z",
+            "read": false
+          },
+          {
+            "id": 62,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:26:19.940Z",
+            "read": false
+          },
+          {
+            "id": 63,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "now",
+            "date": "2023-12-30T09:26:37.786Z",
+            "read": false
+          },
+          {
+            "id": 64,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "now",
+            "date": "2023-12-30T09:26:40.791Z",
+            "read": false
+          },
+          {
+            "id": 65,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:26:49.759Z",
+            "read": false
+          },
+          {
+            "id": 66,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:29:27.572Z",
+            "read": false
+          },
+          {
+            "id": 67,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:29:33.130Z",
+            "read": false
+          },
+          {
+            "id": 68,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "how does that wrk then?",
+            "date": "2023-12-30T09:30:10.122Z",
+            "read": false
+          },
+          {
+            "id": 69,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "idk lol",
+            "date": "2023-12-30T09:30:17.948Z",
+            "read": false
+          }
+        ],
+        "lastMessage": {},
+        "connections": [
+          "JaqV-0BZ3_u74VCfAAAH",
+          "D4MRBiXnz_73iTIyAAAN",
+          "fZkhN8AJqY5Pg8OqAAAQ",
+          "fOn4_ZW_R17lh-1FAAAR",
+          "WeRXUffIR9fFBZolAAAT",
+          "6J1WHGRizB-95u2rAAAV",
+          "vRj5fNUtu3xkWcnWAAAY",
+          "7rUb_iE4pZdxssUsAAAZ",
+          "zg4usHfcm__UvKmTAAAb",
+          "-rn-BLdtxgRsCYDIAAAd",
+          "K-OSTUcvvZvVYKnmAAAg",
+          "8lK0ff9z7GWG2VxSAAAh",
+          "geXSNjHwDh0pceUeAAAo",
+          "7lvF74MXOkNCQWpZAAAp",
+          "NWBvOrD-mXx2W2e0AAAs",
+          "GsXL5KK2j4fgnoaFAAAt",
+          "41g6V4XkdZgvEVN_AAAv",
+          "YxFK3QZTe4HxTlaIAAAx",
+          "1Axi0BQCxTjYsnYsAAA0",
+          "uz0QDlAPoQkVzY0CAAA1",
+          "4pdEuxlORVrD9R1lAAA3",
+          "1esU2rxJbnaVK28FAAA6",
+          "lxejI6gGSIM-bYOTAAA7",
+          "uF7oF31HfLxyW2qpAAA9",
+          "_5UhRQ_zkjkiKPkvAAA_",
+          "IAW2kkmojhJd7vVCAABB",
+          "YqDp5ovWj_xlC96cAABD",
+          "wos0YrgAysQbNJt6AABF",
+          "gt9nsEHjWXZHPMwiAABJ",
+          "lvKNiwnQ-5onKMT6AABI",
+          "rUuLVnGUWVUZIB3bAABM",
+          "SOMoEwyNr_6JkGseAABN",
+          "Ak4OyGh75IH8lDdsAABQ",
+          "qcEvXTaNjXaUYQYNAABR",
+          "4MmnEkk4sMt7S0ETAABT",
+          "HpSGK1eBu9q-mA_DAABV",
+          "BO4xJTetfd8s4sd6AABX",
+          "6MszUbg3W-AKZExbAABa",
+          "P-kQ4rxTWONrJ6nwAABb"
+        ]
+      }
+    ],
     "avgRatio": 0
   },
   {
     "id": 2,
-    "firstName": "shoeCollective",
-    "lastName": "!!!!",
+    "firstName": "shoe",
+    "lastName": "shoecollective",
     "username": "shoecollective",
-    "posts": [
-      {
-        "id": 1,
-        "content": "post one",
-        "author": {
-          "id": 2,
-          "firstName": "shoeCollective",
-          "lastName": "!!!!",
-          "username": "shoecollective"
-        },
-        "date": "2023-12-29T03:58:41.792Z",
-        "views": [],
-        "likes": [],
-        "avgRatio": 0
-      }
-    ],
+    "posts": [],
     "friends": [],
     "friendCount": 0,
     "followers": [],
@@ -43,7 +918,897 @@
     "following": [],
     "followingCount": 0,
     "pending": [],
-    "chatrooms": [],
-    "avgRatio": 1
+    "chatrooms": [
+      {
+        "id": 1,
+        "chatters": [
+          {
+            "id": 1,
+            "firstName": "1imo",
+            "lastName": "H",
+            "username": "1imo"
+          },
+          {
+            "id": 2,
+            "firstName": "shoe",
+            "lastName": "shoecollective",
+            "username": "shoecollective"
+          }
+        ],
+        "messages": [
+          {
+            "id": 1,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hye",
+            "date": "2023-12-30T09:03:34.615Z",
+            "read": false
+          },
+          {
+            "id": 1,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hye",
+            "date": "2023-12-30T09:03:34.615Z",
+            "read": false
+          },
+          {
+            "id": 1,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hye",
+            "date": "2023-12-30T09:03:34.615Z",
+            "read": false
+          },
+          {
+            "id": 4,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:03:46.740Z",
+            "read": false
+          },
+          {
+            "id": 4,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:03:46.740Z",
+            "read": false
+          },
+          {
+            "id": 4,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:03:46.740Z",
+            "read": false
+          },
+          {
+            "id": 7,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:42.940Z",
+            "read": false
+          },
+          {
+            "id": 7,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:42.940Z",
+            "read": false
+          },
+          {
+            "id": 7,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:42.940Z",
+            "read": false
+          },
+          {
+            "id": 10,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:52.998Z",
+            "read": false
+          },
+          {
+            "id": 10,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:52.998Z",
+            "read": false
+          },
+          {
+            "id": 10,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "hey",
+            "date": "2023-12-30T09:09:52.998Z",
+            "read": false
+          },
+          {
+            "id": 13,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:30.880Z",
+            "read": false
+          },
+          {
+            "id": 13,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:30.880Z",
+            "read": false
+          },
+          {
+            "id": 13,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:30.880Z",
+            "read": false
+          },
+          {
+            "id": 16,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:38.330Z",
+            "read": false
+          },
+          {
+            "id": 16,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:38.330Z",
+            "read": false
+          },
+          {
+            "id": 16,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:38.330Z",
+            "read": false
+          },
+          {
+            "id": 19,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:51.038Z",
+            "read": false
+          },
+          {
+            "id": 19,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:51.038Z",
+            "read": false
+          },
+          {
+            "id": 19,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:10:51.038Z",
+            "read": false
+          },
+          {
+            "id": 22,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:15:19.698Z",
+            "read": false
+          },
+          {
+            "id": 22,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:15:19.698Z",
+            "read": false
+          },
+          {
+            "id": 22,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:15:19.698Z",
+            "read": false
+          },
+          {
+            "id": 25,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "yoo hoo",
+            "date": "2023-12-30T09:18:18.435Z",
+            "read": false
+          },
+          {
+            "id": 25,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "yoo hoo",
+            "date": "2023-12-30T09:18:18.435Z",
+            "read": false
+          },
+          {
+            "id": 25,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "yoo hoo",
+            "date": "2023-12-30T09:18:18.435Z",
+            "read": false
+          },
+          {
+            "id": 28,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "yhyhyh",
+            "date": "2023-12-30T09:18:28.862Z",
+            "read": false
+          },
+          {
+            "id": 28,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "yhyhyh",
+            "date": "2023-12-30T09:18:28.862Z",
+            "read": false
+          },
+          {
+            "id": 28,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "yhyhyh",
+            "date": "2023-12-30T09:18:28.862Z",
+            "read": false
+          },
+          {
+            "id": 31,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:20:47.115Z",
+            "read": false
+          },
+          {
+            "id": 31,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:20:47.115Z",
+            "read": false
+          },
+          {
+            "id": 31,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:20:47.115Z",
+            "read": false
+          },
+          {
+            "id": 34,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:20:58.466Z",
+            "read": false
+          },
+          {
+            "id": 34,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:20:58.466Z",
+            "read": false
+          },
+          {
+            "id": 34,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:20:58.466Z",
+            "read": false
+          },
+          {
+            "id": 37,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:21:05.313Z",
+            "read": false
+          },
+          {
+            "id": 37,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:21:05.313Z",
+            "read": false
+          },
+          {
+            "id": 37,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "f cache",
+            "date": "2023-12-30T09:21:05.313Z",
+            "read": false
+          },
+          {
+            "id": 40,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "fuck",
+            "date": "2023-12-30T09:21:12.532Z",
+            "read": false
+          },
+          {
+            "id": 40,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "fuck",
+            "date": "2023-12-30T09:21:12.532Z",
+            "read": false
+          },
+          {
+            "id": 40,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "fuck",
+            "date": "2023-12-30T09:21:12.532Z",
+            "read": false
+          },
+          {
+            "id": 43,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "ayyy",
+            "date": "2023-12-30T09:21:18.561Z",
+            "read": false
+          },
+          {
+            "id": 43,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "ayyy",
+            "date": "2023-12-30T09:21:18.561Z",
+            "read": false
+          },
+          {
+            "id": 43,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "ayyy",
+            "date": "2023-12-30T09:21:18.561Z",
+            "read": false
+          },
+          {
+            "id": 46,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:24:08.817Z",
+            "read": false
+          },
+          {
+            "id": 46,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:24:08.817Z",
+            "read": false
+          },
+          {
+            "id": 46,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:24:08.817Z",
+            "read": false
+          },
+          {
+            "id": 49,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "no",
+            "date": "2023-12-30T09:24:25.018Z",
+            "read": false
+          },
+          {
+            "id": 49,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "no",
+            "date": "2023-12-30T09:24:25.018Z",
+            "read": false
+          },
+          {
+            "id": 49,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "no",
+            "date": "2023-12-30T09:24:25.018Z",
+            "read": false
+          },
+          {
+            "id": 52,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "nope",
+            "date": "2023-12-30T09:24:31.008Z",
+            "read": false
+          },
+          {
+            "id": 52,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "nope",
+            "date": "2023-12-30T09:24:31.008Z",
+            "read": false
+          },
+          {
+            "id": 52,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "nope",
+            "date": "2023-12-30T09:24:31.008Z",
+            "read": false
+          },
+          {
+            "id": 55,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:18.676Z",
+            "read": false
+          },
+          {
+            "id": 55,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:18.676Z",
+            "read": false
+          },
+          {
+            "id": 55,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:18.676Z",
+            "read": false
+          },
+          {
+            "id": 58,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:55.939Z",
+            "read": false
+          },
+          {
+            "id": 58,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:55.939Z",
+            "read": false
+          },
+          {
+            "id": 58,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:25:55.939Z",
+            "read": false
+          },
+          {
+            "id": 61,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:26:17.743Z",
+            "read": false
+          },
+          {
+            "id": 62,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "one",
+            "date": "2023-12-30T09:26:19.940Z",
+            "read": false
+          },
+          {
+            "id": 63,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "now",
+            "date": "2023-12-30T09:26:37.786Z",
+            "read": false
+          },
+          {
+            "id": 64,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "now",
+            "date": "2023-12-30T09:26:40.791Z",
+            "read": false
+          },
+          {
+            "id": 65,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "boo",
+            "date": "2023-12-30T09:26:49.759Z",
+            "read": false
+          },
+          {
+            "id": 66,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:29:27.572Z",
+            "read": false
+          },
+          {
+            "id": 67,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "tf",
+            "date": "2023-12-30T09:29:33.130Z",
+            "read": false
+          },
+          {
+            "id": 68,
+            "sender": {
+              "id": 2,
+              "username": "shoecollective",
+              "firstName": "shoe",
+              "lastName": "shoecollective"
+            },
+            "content": "how does that wrk then?",
+            "date": "2023-12-30T09:30:10.122Z",
+            "read": false
+          },
+          {
+            "id": 69,
+            "sender": {
+              "id": 1,
+              "username": "1imo",
+              "firstName": "1imo",
+              "lastName": "H"
+            },
+            "content": "idk lol",
+            "date": "2023-12-30T09:30:17.948Z",
+            "read": false
+          }
+        ],
+        "lastMessage": {},
+        "connections": [
+          "JaqV-0BZ3_u74VCfAAAH",
+          "D4MRBiXnz_73iTIyAAAN",
+          "fZkhN8AJqY5Pg8OqAAAQ",
+          "fOn4_ZW_R17lh-1FAAAR",
+          "WeRXUffIR9fFBZolAAAT",
+          "6J1WHGRizB-95u2rAAAV",
+          "vRj5fNUtu3xkWcnWAAAY",
+          "7rUb_iE4pZdxssUsAAAZ",
+          "zg4usHfcm__UvKmTAAAb",
+          "-rn-BLdtxgRsCYDIAAAd",
+          "K-OSTUcvvZvVYKnmAAAg",
+          "8lK0ff9z7GWG2VxSAAAh",
+          "geXSNjHwDh0pceUeAAAo",
+          "7lvF74MXOkNCQWpZAAAp",
+          "NWBvOrD-mXx2W2e0AAAs",
+          "GsXL5KK2j4fgnoaFAAAt",
+          "41g6V4XkdZgvEVN_AAAv",
+          "YxFK3QZTe4HxTlaIAAAx",
+          "1Axi0BQCxTjYsnYsAAA0",
+          "uz0QDlAPoQkVzY0CAAA1",
+          "4pdEuxlORVrD9R1lAAA3",
+          "1esU2rxJbnaVK28FAAA6",
+          "lxejI6gGSIM-bYOTAAA7",
+          "uF7oF31HfLxyW2qpAAA9",
+          "_5UhRQ_zkjkiKPkvAAA_",
+          "IAW2kkmojhJd7vVCAABB",
+          "YqDp5ovWj_xlC96cAABD",
+          "wos0YrgAysQbNJt6AABF",
+          "gt9nsEHjWXZHPMwiAABJ",
+          "lvKNiwnQ-5onKMT6AABI",
+          "rUuLVnGUWVUZIB3bAABM",
+          "SOMoEwyNr_6JkGseAABN",
+          "Ak4OyGh75IH8lDdsAABQ",
+          "qcEvXTaNjXaUYQYNAABR",
+          "4MmnEkk4sMt7S0ETAABT",
+          "HpSGK1eBu9q-mA_DAABV",
+          "BO4xJTetfd8s4sd6AABX",
+          "6MszUbg3W-AKZExbAABa",
+          "P-kQ4rxTWONrJ6nwAABb"
+        ]
+      }
+    ],
+    "avgRatio": 0
   }
 ]

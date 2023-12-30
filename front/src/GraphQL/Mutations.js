@@ -126,3 +126,28 @@ export const LIKE_POST = gql`
     }
 
 `
+
+// mutation {
+//     sendMessage(id: 1 secretkey: "1imo" content: "hii", chatroom: 1) {
+//       id
+//     }
+//   }
+
+export const SEND_MESSAGE = gql`
+    mutation sendMessage(
+        $chatroom: Int!
+        $id: Int!,
+        $secretkey: String!,
+        $content: String!
+    ) {
+        sendMessage (
+            chatroom: $chatroom
+            id: $id
+            secretkey: $secretkey
+            content: $content
+        ) {
+            id
+        }
+    }
+
+`
