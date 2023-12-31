@@ -70,8 +70,8 @@ const ChatroomMutations = {
 
             
 
-            user.chatrooms.push(chatroom)
-            recipient.chatrooms.push(chatroom)
+            user.chatrooms.push(chatroom.id)
+            recipient.chatrooms.push(chatroom.id)
             let updatedJson = JSON.stringify(users, null, 2)
             fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
 
@@ -101,18 +101,7 @@ const ChatroomMutations = {
             const recipient = chatroom.chatters.find(rec => rec.id !== user.id)
             const recipientFull = users.find(user => user.id === recipient.id)
 
-            // id: { type: GraphQLInt},
-            // sender: { type: AuthorType },
-            // content: { type: GraphQLString },
-            // date: { type: GraphQLString},
-            // read: { type: GraphQLBoolean }
-
-            // id: { type: GraphQLInt},
-            // chatters: { type: new GraphQLList(AuthorType) },
-            // messages: { type: new GraphQLList(MessageType) },
-            // lastMessage: { type: MessageType }
-
-
+            
             const message = {
                 id: chatroom.messages.length + 1,
                 sender: {
@@ -134,61 +123,79 @@ const ChatroomMutations = {
                 return
             }
 
-            // console.log(message)
-            // console.log(chatroom)
-
             chatroom.messages.push(message)
+            chatroom.lastMessage = message
 
-            userChat = user.chatrooms.find(ch => ch.id === args.chatroom)
-            recChat = recipientFull.chatrooms.find(ch => ch.id === args.chatroom)
-            // console.log(userChat == recChat)
-            // console.log(user, recipientFull)
+            const userIndex = user.chatrooms.findIndex(chat => chat === chatroom.id)
+            user.chatrooms.splice(userIndex, 1)
+            user.chatrooms = [ chatroom.id, ...user.chatrooms ]
+            const recipientIndex = recipientFull.chatrooms.findIndex(chat => chat === chatroom.id)
+            recipientFull.chatrooms.splice(recipientIndex, 1)
+            recipientFull.chatrooms = [ chatroom.id, ...recipientFull.chatrooms ]
+
+
+
             
-            userChat.messages.push(message)
-            recChat.messages.push(message)
-
-            let updatedJson = JSON.stringify(users, null, 2)
+            const updatedJson = JSON.stringify(users)
             fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
+            
+            updatedJso = JSON.stringify(chatrooms)
+            fs.writeFileSync(__dirname + "/../../CHATROOM_DATA.json", updatedJso)
 
-            updatedJson = JSON.stringify(chatrooms)
-            fs.writeFileSync(__dirname + "/../../CHATROOM_DATA.json", updatedJson)
-
-            // console.log(io)
 
             chatroom.connections.map(connection => io.to(connection).emit('chatroom', chatroom))
-
-            
-            
-            
-            // io.on('connection', (socket) => {
-            //     // On join room event
-            //     console.log(socket.conn.id, "CHATROOM MUT")
-            //     socket.on('joinRoom', (roomId) => {
-                  
-            //       io.to(roomId).emit('chatroom', chatroom);
-            //       console.log(roomId, "ROOM")
-                  
-            //     });
-
-              
-                
-                
-              
-            //     // // On leave room event
-            //     // socket.on('leaveRoom', (roomId) => {
-            //     //   const room = rooms[roomId];
-            //     //   const index = room.indexOf(socket.user.id);
-            //     //   if (index !== -1) room.splice(index, 1);
-            //     //   socket.leave(roomId);
-            //     // });
-              
-              
-            //   });
-
 
 
 
             return message
+        }
+    },
+    editMessage: {
+        type: MessageType,
+        args: { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLInt }, message: { type: GraphQLInt }, edit: { type: GraphQLString }},
+        resolve(parent, args, { io }) {
+
+            console.log(args)
+
+            const user = users.find(user => user.id === args.id ? user : null)
+            const secret = sensitive[user.id - 1]
+
+            if(secret.id != args.id || secret.secretkey != args.secretkey) {
+                return
+            }
+
+            const chatroom = chatrooms.find(chat => chat.id === args.chatroom ? chat : null)
+            const msg = chatroom.messages.find(msg => msg.id === args.message ? msg : null)
+
+            // console.log(chatroom, msg)
+            
+            // id: { type: GraphQLInt},
+            // sender: { type: AuthorType },
+            // content: { type: GraphQLString },
+            // date: { type: GraphQLString},
+            // read: { type: GraphQLBoolean }
+
+            console.log(chatroom)
+
+            switch(args.edit) {
+                case "read":
+
+                    msg.read = true
+                    console.log("READING")
+                case "unread":
+                    msg.read === false
+                case "delete":
+                    msg.content === "Message has been deleted"
+            }
+
+            const updatedJson = JSON.stringify(chatrooms, null, 2)
+            fs.writeFileSync(__dirname + "/../../CHATROOM_DATA.json", updatedJson)
+
+
+            chatroom.connections.map(connection => io.to(connection).emit('chatroom', chatroom))
+
+            return msg
+
         }
     }
 }

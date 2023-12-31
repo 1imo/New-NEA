@@ -1,45 +1,39 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { forwardRef, useContext, useEffect, useRef, useState } from "react"
 import { useQuery, useMutation } from "@apollo/client"
 import { GET_CHATROOM } from "../GraphQL/Queries"
-import { SEND_MESSAGE } from "../GraphQL/Mutations"
+import { EDIT_MESSAGE, SEND_MESSAGE } from "../GraphQL/Mutations"
 import { useParams } from "react-router-dom"
 import { Context } from "../context/Context"
-import io from 'socket.io-client';
+import { useInView } from "react-intersection-observer"
 
-const socket = io('http://localhost:8000/');
 
 function MessageToPerson() {
-
-    
-    const joinRoom = (roomId) => {
-        socket.emit('joinRoom', roomId);
-        console.log(roomId, "ROOM")
-    }
-
-    // console.log(socket)
-    
     const { id } = useParams()
-    
-
+    const { ref, inView } = useInView()
+    const { socket } = useContext(Context)
     const Ctx = useContext(Context)
 
     const [ contentHeight, setContentHeight ] = useState("calc(100svh)")
     const [ vars, setVars ] = useState({})
     const [ messages, setMessages ] = useState([])
+    const [ recipient, setRecipient ] = useState({})
+    const [ focus, setFocus ] = useState(false)
     const contentRef = useRef()
-
+    
     const { loading, error, data } = useQuery(GET_CHATROOM, {
         variables: vars
     })
-
     
-
-    
-
     const [ sendMessage, { dataMain, errorMain, loadingMain } ] = useMutation(SEND_MESSAGE)
+    const [ editMessage, { dataEdit, errorEdit, loadingEdit } ] = useMutation(EDIT_MESSAGE)
+
+    const joinRoom = (roomId) => {
+        socket.emit('joinRoom', roomId);
+        console.log(roomId, "ROOM")
+    }
 
     async function send() {
-        // console.log("SEND")
+        if(contentRef.current.value == "") return
         const res = await sendMessage({
             variables: {
                 id: Ctx.id,
@@ -48,10 +42,31 @@ function MessageToPerson() {
                 chatroom: parseInt(id)
             }
         })
+        contentRef.current.value = ""
 
+
+        if(errorMain) console.log(errorMain)
+    }
+
+    async function edit(type, msg) {
+        console.log({
+            id: Ctx.id,
+            secretkey: Ctx.secretkey,
+            edit: type,
+            chatroom: parseInt(id),
+            msg
+        })
+        const res = await editMessage({
+            variables: {
+                id: Ctx.id,
+                secretkey: Ctx.secretkey,
+                edit: type,
+                chatroom: parseInt(id),
+                message: msg
+            }
+        })
 
         console.log(res)
-        if(errorMain) console.log(errorMain)
     }
 
 
@@ -65,47 +80,77 @@ function MessageToPerson() {
         joinRoom(parseInt(id))
 
         socket.on('chatroom', (data) => {
-            // console.log(data, "PING")
-            if(data?.messages) {
-                const reverse = data.messages.reverse()
-                // console.log(reverse)
-                setMessages(reverse)
+            console.log(data, "PING")
+            if(data?.messages?.length > 0) {
+                setMessages(data.messages)
+                // console.log(messages)
+                setRecipient(data.chatters.find(user => user.id !== Ctx.id))
+                console.log(data)
+
+                
             }
 
+            
+
           });
+
     }, [])
 
+    useEffect(() => {
+        
+        const messageContainer = document.querySelector('.message-container');
+        messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to bottom
+    }, [messages])
+
+    // document.addEventListener("visibilitychange", () => {
+    //     if (document.visibilityState === "visible") {
+    //         if(messages[messages.length - 1]?.sender?.id !== Ctx.id) {
+    //             edit("read", messages[messages.length - 1].id)
+    //         }
+    //     }
+    // });
+
 
     
 
     
+    // useEffect(() => {
+    //     if(inView) {
+    //         console.log(props.data, "LAST")
+    //     }
+    // }, [inView])
 
 
-    const Message = (props) => {
-        return <p style={{color: "#fff", padding: "8px 16px", background: "#4C9BF7", display: "inline-block", width: "fit-content", borderRadius: 24}}>{props.msg}</p>
-    }
+    useEffect(() => {
+        if(inView && messages[messages.length - 1]?.sender?.id !== Ctx.id) {
+            console.log(messages[messages.length - 1])
+            edit("read", messages[messages.length - 1].id)
+            setFocus(false)
+        }
+    }, [inView])
 
-    return <>
-    <section style={{height: "calc(100dvh - 136px)"}}>
-        <nav style={{display: "flex", columnGap: 8, position: "fixed", background: "#fff", paddingBottom: 16}}>
-            <img src="/shoe_collective.jpg" height="40px" width="40px" style={{borderRadius: 80}} />
-            <div>
-                <h3>Shoe Collective</h3>
-                <h5>@shoecollective</h5>
+    
+ return <>
+        <section onFocus={() => setFocus(true)} style={{display: "flex", flexDirection: "column-reverse", height: "calc(100svh - 88px)", margin: "48px 0 40px", boxSizing: "border-box", overflowY: "scroll", overflowX: "hidden"}} className="message-container">
+            <div style={styles.input}>
+                <img onClick={() => send()} src="/send.svg" />
+                <input ref={contentRef} type="text" placeholder="|Message" />
             </div>
-        </nav>
-        <section style={{display: "flex", flexDirection: "column-reverse", height: "calc(100vh - 160px)"}}>
-            {messages ? messages.map((cont, index) => <Message msg={cont.content} key={index} /> ) : null}
-        </section>
-        <div style={styles.input}>
-            <img onClick={() => send()} src="/send.svg" />
-            <input ref={contentRef} type="text" placeholder="|Message" style={styles.inputBox} />
-        </div>
 
-    </section>
+            {messages ? messages.map((cont, index) => {
+                return <div key={index} ref={index == 0 ? ref : null} style={ messages[messages.length - 1 - index].sender.id === Ctx.id ? {width: "100%", display: "flex", justifyContent: "flex-end"} : null}><div><p style={{...styles.msg}}>{messages[messages.length - 1 - index].content}</p><p>{index == 0 && messages[messages.length - 1 - index].read && messages[messages.length - 1 - index].sender.id == Ctx.id ? "Read" : null}</p></div></div>
+                } ) : null}
+
+            <nav style={{display: "flex", columnGap: 8, position: "fixed", top: 0, background: "#fff", padding: "16px 0"}}>
+                <img src="/shoe_collective.jpg" height="40px" width="40px" style={{borderRadius: 80}} />
+                <div>
+                    <h3>{`${recipient.firstName} ${recipient.lastName}`}</h3>
+                    <h5>@{recipient.username}</h5>
+                </div>
+            </nav>
+        </section>
     </>
 }
-
 const styles = {
     input: {
         width: "calc(100vw - 32px)",
@@ -113,8 +158,27 @@ const styles = {
         flexDirection: "row-reverse",
         columnGap: 8,
         position: "fixed",
-        top: "100%",
-        transform: "translateY(calc(-100% - 8px)"
+        bottom: "0%",
+        background: "#fff"
+        // transform: "translateY(calc(-100% - 8px)"
+    },
+    msg: {
+        color: "#fff",
+        padding: "8px 16px", 
+        background: "#4C9BF7", 
+        display: "inline-block",
+        borderRadius: 24,
+        marginTop: 8,
+        wordWrap: "break-wrord",
+        overflowWrap: "break-word",
+        width: "fit-content"
+    },
+    view: {
+        display: "flex", 
+        flexDirection: "column-reverse", 
+        height: "calc(100svh - 48px)",
+        overflowY: "scroll",
+        boxSizing: "border-box"
     }
 }
 

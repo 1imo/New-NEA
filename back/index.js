@@ -3,6 +3,8 @@ const userData = require("./USER_DATA.json")
 const { graphqlHTTP } = require("express-graphql")
 const schema = require("./schemas/index.js")
 const chatrooms = require("./CHATROOM_DATA.json")
+const users = require("./USER_DATA.json")
+const sensitive = require("./SENSITIVE_USER_DATA.json")
 const cors = require('cors')
 const http = require('http');
 const app = express()
@@ -23,12 +25,12 @@ const io = require('socket.io')(server, {
 
   
   
-  
+const connections = []
 
 
   
 io.on('connection', (socket) => {
-  // On join room event
+  
   socket.on('joinRoom', (roomId) => {
     const chatroom = chatrooms.find(chat => chat.id === roomId)
     if(!chatroom.connections.includes(socket.id)) {
@@ -51,6 +53,29 @@ io.on('connection', (socket) => {
     const chatroom = chatrooms.find(chat => chat.id === roomId)
     io.in(roomId).emit("chatroom", chatrooms[roomId - 1])
     chatroom.connections.map(connection => io.to(connection).emit("chatroom", chatroom))
+
+  })
+
+  socket.on("getChats", data => {
+    const user = users.find(user => user.id === data.id ? user : null)
+    const secret = sensitive[user.id - 1]
+    if(secret.id != data.id || secret.secretkey != data.secretkey) {
+        return
+    }
+
+    console.log(secret)
+
+    
+    const chats = chatrooms.map(chat => {
+      for(let i = 0; i < user.chatrooms.length; i++) {
+        if(user.chatrooms[i] == chat.id) {
+          return chat
+        }
+      }
+    })
+
+    io.to(socket.id).emit("getChats", chats)
+
 
   })
 

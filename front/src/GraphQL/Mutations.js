@@ -151,3 +151,26 @@ export const SEND_MESSAGE = gql`
     }
 
 `
+
+// { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLInt }, message: { type: MessageType }, edit: { type: GraphQLString }},
+
+export const EDIT_MESSAGE = gql`
+    mutation editMessage(
+        $chatroom: Int!
+        $id: Int!,
+        $message: Int!
+        $secretkey: String!,
+        $edit: String!
+    ) {
+        editMessage (
+            chatroom: $chatroom
+            id: $id
+            secretkey: $secretkey
+            message: $message
+            edit: $edit
+        ) {
+            id
+        }
+    }
+
+`

@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
         //     console.log(data)
         // }, [data])
         
-function PostView(props) {
+function PostView() {
     const { id } = useParams()
 
     const [ author, setAuthor ] = useState({})
@@ -37,7 +37,7 @@ function PostView(props) {
     return <>
         <Nav />
         {data?.getPost ? 
-            <Post author={data.getPost.author} content={data.getPost.content}/>
+            <Post data={data?.getPost} />
             : null}
     </>
 }

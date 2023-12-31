@@ -1,1 +1,276 @@
-[{"id":1,"chatters":[{"id":1,"firstName":"1imo","lastName":"H","username":"1imo"},{"id":2,"firstName":"shoe","lastName":"shoecollective","username":"shoecollective"}],"messages":[{"id":1,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"hye","date":"2023-12-30T09:03:34.615Z","read":false},{"id":1,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"hye","date":"2023-12-30T09:03:34.615Z","read":false},{"id":1,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"hye","date":"2023-12-30T09:03:34.615Z","read":false},{"id":4,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"hey","date":"2023-12-30T09:03:46.740Z","read":false},{"id":4,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"hey","date":"2023-12-30T09:03:46.740Z","read":false},{"id":4,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"hey","date":"2023-12-30T09:03:46.740Z","read":false},{"id":7,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"hey","date":"2023-12-30T09:09:42.940Z","read":false},{"id":7,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"hey","date":"2023-12-30T09:09:42.940Z","read":false},{"id":7,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"hey","date":"2023-12-30T09:09:42.940Z","read":false},{"id":10,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"hey","date":"2023-12-30T09:09:52.998Z","read":false},{"id":10,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"hey","date":"2023-12-30T09:09:52.998Z","read":false},{"id":10,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"hey","date":"2023-12-30T09:09:52.998Z","read":false},{"id":13,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:30.880Z","read":false},{"id":13,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:30.880Z","read":false},{"id":13,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:30.880Z","read":false},{"id":16,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:38.330Z","read":false},{"id":16,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:38.330Z","read":false},{"id":16,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:38.330Z","read":false},{"id":19,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:51.038Z","read":false},{"id":19,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:51.038Z","read":false},{"id":19,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:10:51.038Z","read":false},{"id":22,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"boo","date":"2023-12-30T09:15:19.698Z","read":false},{"id":22,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"boo","date":"2023-12-30T09:15:19.698Z","read":false},{"id":22,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"boo","date":"2023-12-30T09:15:19.698Z","read":false},{"id":25,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"yoo hoo","date":"2023-12-30T09:18:18.435Z","read":false},{"id":25,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"yoo hoo","date":"2023-12-30T09:18:18.435Z","read":false},{"id":25,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"yoo hoo","date":"2023-12-30T09:18:18.435Z","read":false},{"id":28,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"yhyhyh","date":"2023-12-30T09:18:28.862Z","read":false},{"id":28,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"yhyhyh","date":"2023-12-30T09:18:28.862Z","read":false},{"id":28,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"yhyhyh","date":"2023-12-30T09:18:28.862Z","read":false},{"id":31,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"f cache","date":"2023-12-30T09:20:47.115Z","read":false},{"id":31,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"f cache","date":"2023-12-30T09:20:47.115Z","read":false},{"id":31,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"f cache","date":"2023-12-30T09:20:47.115Z","read":false},{"id":34,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"tf","date":"2023-12-30T09:20:58.466Z","read":false},{"id":34,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"tf","date":"2023-12-30T09:20:58.466Z","read":false},{"id":34,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"tf","date":"2023-12-30T09:20:58.466Z","read":false},{"id":37,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"f cache","date":"2023-12-30T09:21:05.313Z","read":false},{"id":37,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"f cache","date":"2023-12-30T09:21:05.313Z","read":false},{"id":37,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"f cache","date":"2023-12-30T09:21:05.313Z","read":false},{"id":40,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"fuck","date":"2023-12-30T09:21:12.532Z","read":false},{"id":40,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"fuck","date":"2023-12-30T09:21:12.532Z","read":false},{"id":40,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"fuck","date":"2023-12-30T09:21:12.532Z","read":false},{"id":43,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"ayyy","date":"2023-12-30T09:21:18.561Z","read":false},{"id":43,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"ayyy","date":"2023-12-30T09:21:18.561Z","read":false},{"id":43,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"ayyy","date":"2023-12-30T09:21:18.561Z","read":false},{"id":46,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"one","date":"2023-12-30T09:24:08.817Z","read":false},{"id":46,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"one","date":"2023-12-30T09:24:08.817Z","read":false},{"id":46,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"one","date":"2023-12-30T09:24:08.817Z","read":false},{"id":49,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"no","date":"2023-12-30T09:24:25.018Z","read":false},{"id":49,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"no","date":"2023-12-30T09:24:25.018Z","read":false},{"id":49,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"no","date":"2023-12-30T09:24:25.018Z","read":false},{"id":52,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"nope","date":"2023-12-30T09:24:31.008Z","read":false},{"id":52,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"nope","date":"2023-12-30T09:24:31.008Z","read":false},{"id":52,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"nope","date":"2023-12-30T09:24:31.008Z","read":false},{"id":55,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"one","date":"2023-12-30T09:25:18.676Z","read":false},{"id":55,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"one","date":"2023-12-30T09:25:18.676Z","read":false},{"id":55,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"one","date":"2023-12-30T09:25:18.676Z","read":false},{"id":58,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"one","date":"2023-12-30T09:25:55.939Z","read":false},{"id":58,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"one","date":"2023-12-30T09:25:55.939Z","read":false},{"id":58,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"one","date":"2023-12-30T09:25:55.939Z","read":false},{"id":61,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"one","date":"2023-12-30T09:26:17.743Z","read":false},{"id":62,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"one","date":"2023-12-30T09:26:19.940Z","read":false},{"id":63,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"now","date":"2023-12-30T09:26:37.786Z","read":false},{"id":64,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"now","date":"2023-12-30T09:26:40.791Z","read":false},{"id":65,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"boo","date":"2023-12-30T09:26:49.759Z","read":false},{"id":66,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"tf","date":"2023-12-30T09:29:27.572Z","read":false},{"id":67,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"tf","date":"2023-12-30T09:29:33.130Z","read":false},{"id":68,"sender":{"id":2,"username":"shoecollective","firstName":"shoe","lastName":"shoecollective"},"content":"how does that wrk then?","date":"2023-12-30T09:30:10.122Z","read":false},{"id":69,"sender":{"id":1,"username":"1imo","firstName":"1imo","lastName":"H"},"content":"idk lol","date":"2023-12-30T09:30:17.948Z","read":false}],"lastMessage":{},"connections":["JaqV-0BZ3_u74VCfAAAH","D4MRBiXnz_73iTIyAAAN","fZkhN8AJqY5Pg8OqAAAQ","fOn4_ZW_R17lh-1FAAAR","WeRXUffIR9fFBZolAAAT","6J1WHGRizB-95u2rAAAV","vRj5fNUtu3xkWcnWAAAY","7rUb_iE4pZdxssUsAAAZ","zg4usHfcm__UvKmTAAAb","-rn-BLdtxgRsCYDIAAAd","K-OSTUcvvZvVYKnmAAAg","8lK0ff9z7GWG2VxSAAAh","geXSNjHwDh0pceUeAAAo","7lvF74MXOkNCQWpZAAAp","NWBvOrD-mXx2W2e0AAAs","GsXL5KK2j4fgnoaFAAAt","41g6V4XkdZgvEVN_AAAv","YxFK3QZTe4HxTlaIAAAx","1Axi0BQCxTjYsnYsAAA0","uz0QDlAPoQkVzY0CAAA1","4pdEuxlORVrD9R1lAAA3","1esU2rxJbnaVK28FAAA6","lxejI6gGSIM-bYOTAAA7","uF7oF31HfLxyW2qpAAA9","_5UhRQ_zkjkiKPkvAAA_","IAW2kkmojhJd7vVCAABB","YqDp5ovWj_xlC96cAABD","wos0YrgAysQbNJt6AABF","gt9nsEHjWXZHPMwiAABJ","lvKNiwnQ-5onKMT6AABI","rUuLVnGUWVUZIB3bAABM","SOMoEwyNr_6JkGseAABN","Ak4OyGh75IH8lDdsAABQ","qcEvXTaNjXaUYQYNAABR","4MmnEkk4sMt7S0ETAABT","HpSGK1eBu9q-mA_DAABV","BO4xJTetfd8s4sd6AABX","6MszUbg3W-AKZExbAABa","P-kQ4rxTWONrJ6nwAABb","m0xGYnIgdQqnjXhuAAAJ","H-RccPhDh-M0wIhoAAAL","3HpqsJtpfIsRwjV6AAAN","4vK_XK2hISpzl47VAAAP","dRB9xViih4xqKKqBAAAR","e5cLpp07fu2_7b7LAAAU","A1BbwyRwnFVCNOr6AAAV","ZPhl7qK39dHjgjXuAAAX","mCw3NUi3vVR4FWaPAAAZ","aEjzft_ZeslbNiBqAAAb","yDUDy7S1Fp_5ZfR7AAAe","OKbfnjj_BKhDkIVMAAAf","227xcPC15ghp7aPlAAAi","5E_Bso0RMWcqER4TAAAj","KxuyxB46W0zXZeM2AAAl","P2iQrPcie-P4iiTIAAAn","rFQEpECA_HXli9YIAAAp","U-d7ZyWplwBDlF7YAAAr"]}]
+[
+  {
+    "id": 1,
+    "chatters": [
+      {
+        "id": 1,
+        "firstName": "timo",
+        "lastName": "h",
+        "username": "1imo"
+      },
+      {
+        "id": 2,
+        "firstName": "timo",
+        "lastName": "2nd",
+        "username": "1imo2"
+      }
+    ],
+    "messages": [
+      {
+        "id": 1,
+        "sender": {
+          "id": 1,
+          "username": "1imo",
+          "firstName": "timo",
+          "lastName": "h"
+        },
+        "content": "message",
+        "date": "2023-12-31T03:17:35.971Z",
+        "read": false
+      },
+      {
+        "id": 2,
+        "sender": {
+          "id": 1,
+          "username": "1imo",
+          "firstName": "timo",
+          "lastName": "h"
+        },
+        "content": "ohhhhh",
+        "date": "2023-12-31T03:17:42.769Z",
+        "read": true
+      },
+      {
+        "id": 3,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "booyakasha",
+        "date": "2023-12-31T03:18:10.385Z",
+        "read": true
+      },
+      {
+        "id": 4,
+        "sender": {
+          "id": 1,
+          "username": "1imo",
+          "firstName": "timo",
+          "lastName": "h"
+        },
+        "content": "again",
+        "date": "2023-12-31T03:26:26.420Z",
+        "read": false
+      },
+      {
+        "id": 5,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "now",
+        "date": "2023-12-31T03:26:38.992Z",
+        "read": true
+      },
+      {
+        "id": 6,
+        "sender": {
+          "id": 1,
+          "username": "1imo",
+          "firstName": "timo",
+          "lastName": "h"
+        },
+        "content": "hii",
+        "date": "2023-12-31T05:20:33.813Z",
+        "read": false
+      },
+      {
+        "id": 7,
+        "sender": {
+          "id": 1,
+          "username": "1imo",
+          "firstName": "timo",
+          "lastName": "h"
+        },
+        "content": "again",
+        "date": "2023-12-31T05:20:49.584Z",
+        "read": true
+      },
+      {
+        "id": 8,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "long long",
+        "date": "2023-12-31T05:23:44.800Z",
+        "read": false
+      },
+      {
+        "id": 9,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "scroll",
+        "date": "2023-12-31T05:23:48.828Z",
+        "read": false
+      },
+      {
+        "id": 10,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "boom",
+        "date": "2023-12-31T05:23:51.711Z",
+        "read": false
+      },
+      {
+        "id": 11,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "word",
+        "date": "2023-12-31T05:23:55.206Z",
+        "read": false
+      },
+      {
+        "id": 12,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "association ",
+        "date": "2023-12-31T05:24:06.680Z",
+        "read": false
+      },
+      {
+        "id": 13,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "can i spell?",
+        "date": "2023-12-31T05:24:12.938Z",
+        "read": false
+      },
+      {
+        "id": 14,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "idk",
+        "date": "2023-12-31T05:24:16.749Z",
+        "read": false
+      },
+      {
+        "id": 15,
+        "sender": {
+          "id": 2,
+          "username": "1imo2",
+          "firstName": "timo",
+          "lastName": "2nd"
+        },
+        "content": "but we can scroll",
+        "date": "2023-12-31T05:24:24.045Z",
+        "read": true
+      }
+    ],
+    "lastMessage": {
+      "id": 15,
+      "sender": {
+        "id": 2,
+        "username": "1imo2",
+        "firstName": "timo",
+        "lastName": "2nd"
+      },
+      "content": "but we can scroll",
+      "date": "2023-12-31T05:24:24.045Z",
+      "read": true
+    },
+    "connections": [
+      "BN3M2wPhj5oduOHDAAAB",
+      "X-QvNolvzOPf9BOIAAAD",
+      "NJxPavd8dadeNaoZAAAH",
+      "eQZkiX92GQmI7VHwAAAJ",
+      "lAKDD8EosNgdD_WkAAAL",
+      "oBfGp8U5StxagpYyAAAN",
+      "oLRT2dPBKKKidJgQAAAP",
+      "ZH3RhVPYD5_tmB1HAAAR",
+      "rYsjfOO0FQyvBwNGAAAZ",
+      "PXt12VlWBHy3UAAjAAAd",
+      "u1NknQIb8fxx5HQLAAAY",
+      "PFn1CEA7kjrOL108AAAT",
+      "ZHdy-oB8aeROazrPAAAF",
+      "Ckr0CqW_8WT0Hnt4AAAC",
+      "uj7V6TDrcoa5UxxSAAAH",
+      "rcQoI9qQmqPrpOigAAAN",
+      "mQdrdgCk8iKc7zlMAAAL"
+    ]
+  },
+  {
+    "id": 2,
+    "chatters": [
+      {
+        "id": 1,
+        "firstName": "timo",
+        "lastName": "h",
+        "username": "1imo"
+      },
+      {
+        "id": 2,
+        "firstName": "timo",
+        "lastName": "2nd",
+        "username": "1imo2"
+      }
+    ],
+    "messages": [],
+    "lastMessage": {},
+    "connections": [
+      "X-QvNolvzOPf9BOIAAAD"
+    ]
+  },
+  {
+    "id": 3,
+    "chatters": [
+      {
+        "id": 1,
+        "firstName": "timo",
+        "lastName": "h",
+        "username": "1imo"
+      },
+      {
+        "id": 1,
+        "firstName": "timo",
+        "lastName": "h",
+        "username": "1imo"
+      }
+    ],
+    "messages": [],
+    "lastMessage": {},
+    "connections": [
+      "X-QvNolvzOPf9BOIAAAD"
+    ]
+  }
+]

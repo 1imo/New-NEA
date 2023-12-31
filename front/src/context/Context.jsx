@@ -1,7 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import Cookies from 'js-cookie';
+import io from 'socket.io-client';
 
 
+const socket = io('http://localhost:8000/');
 
 
 export const Context = createContext()
@@ -20,7 +22,8 @@ export const ContextProvider = ({ children }) => {
         id: parseInt(id),
         secretkey: secretkey,
         setId,
-        setSecretKey
+        setSecretKey,
+        socket
     }
   
     return (

@@ -29,11 +29,19 @@ body {
   padding: 0;
   /* display: flex; */
   /* place-items: center; */
-  min-height: 100vh;
-  padding: 16px 16px;
+  height: 100svh;
+  padding: 0px 16px 16px;
   width: 100vw !important;
   box-sizing: border-box !important;
   /* overflow-x: clip; */
+  overflow-y: scroll;
+}
+
+#root {
+  min-height: 100svh;
+  box-sizing: border-box !important;
+  width: 100%;
+  /* overflow-y: scroll; */
 }
 
 h1 {
