@@ -119,3 +119,29 @@ export const GET_CHATROOM = gql`
         }
     }
 `
+
+export const GET_PENDING_REQUESTS = gql`
+    query($id: Int!, $secretkey: String!) {
+        getPending(id: $id, secretkey: $secretkey) {
+          firstName,
+          lastName,
+          username,
+          id
+        }
+    }
+`
+
+export const GET_FEED = gql`
+  query($id: Int!, $secretkey: String!) {
+    getFeed(id: $id, secretkey: $secretkey) {
+      id,
+      content,
+      author {
+        id,
+        firstName,
+        lastName,
+        username
+      }
+    }
+  }
+`

@@ -17,4 +17,22 @@ const PostType = new GraphQLObjectType({
     })
 })
 
+// const PostDef = gql`
+//   type Post {
+//     id: Int
+//     content: String
+//     author: AuthorType
+//     date: String
+//     views: [Author]
+//     likes: [Author]
+//     avgRatio: Float
+//   }
+
+//   type Query {
+//     getPost(id: Int): Post
+//     profileInfo(username: String): User
+//     getFriends(username: String): User
+//   }
+// `;
+
 module.exports = PostType

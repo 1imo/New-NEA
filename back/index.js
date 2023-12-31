@@ -61,13 +61,13 @@ io.on('connection', (socket) => {
 
     io.in(roomId).emit("chatroom", chatrooms[roomId - 1])
     
-    chatroom.connections.map(connection => io.to(connection).emit("chatroom", chatroom))
+    chatroom?.connections.map(connection => io.to(connection).emit("chatroom", chatroom))
   });
 
   socket.on('chatroom', (roomId) => {
     const chatroom = chatrooms.find(chat => chat.id === roomId)
     io.in(roomId).emit("chatroom", chatrooms[roomId - 1])
-    chatroom.connections.map(connection => io.to(connection).emit("chatroom", chatroom))
+    chatroom?.connections.map(connection => io.to(connection).emit("chatroom", chatroom))
 
   })
 
@@ -92,6 +92,15 @@ io.on('connection', (socket) => {
     io.to(socket.id).emit("getChats", chats)
 
 
+  })
+
+  socket.on("foll", data => {
+    const user = users.find(user => user.id === data.id ? user : null)
+    const secret = sensitive[user.id - 1]
+    if(secret.id != data.id || secret.secretkey != data.secretkey) {
+        return
+    }
+    io.to(socket.id).emit("foll", user.pending)
   })
 
   

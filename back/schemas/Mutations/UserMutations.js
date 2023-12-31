@@ -9,6 +9,7 @@ const sensitive = require("../../SENSITIVE_USER_DATA.json")
 
 const UserType = require("../TypeDefs/UserType")
 const SensitiveUserDataType = require("../TypeDefs/SensitiveUserDataType")
+const AuthorType = require("../TypeDefs/AuthorType")
 
 
 
@@ -68,7 +69,7 @@ const UserMutations = {
                 secretkey: { type: GraphQLString }, 
                 username: { type: GraphQLString }
             },
-            resolve(parent, args) {
+            resolve(parent, args, { io }) {
                 const user = users.find(user => user.id === args.id ? user : null)
                 const secret = sensitive[user.id - 1]
 
@@ -80,7 +81,6 @@ const UserMutations = {
 
                 let following = user.following.find(following => following.username === args.username ? following : null)
                 let follower = inQuestion.followers.find(follower => follower.username === user.username ? follower : null)
-
 
                 
                 if(!following && !follower && user && inQuestion) {
@@ -105,8 +105,18 @@ const UserMutations = {
                     user.following.push(following)
                     user.followingCount+=1
 
+                    const inPending = inQuestion.pending.findIndex(pen => pen.id === follower.id)
+
+                    if(inPending == -1) {
+                        inQuestion.pending.push(follower)
+                    }
+
+
+                    
                     const updatedJson = JSON.stringify(users, null, 2);
                     fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson);
+                    
+                    io.to(inQuestion.socket).emit("followed", follower)
 
                 } else if(following && follower && user && inQuestion) {
                     console.log("UNFOLLOW")
@@ -127,9 +137,13 @@ const UserMutations = {
 
                     const followingIndex = user.following.findIndex(following => following.username === args.username);
                     const followerIndex = inQuestion.followers.findIndex(follower => follower.username === user.username);
+                    const pendingIndex = inQuestion.pending.findIndex(pending => pending.id === user.id)
 
-                    inQuestion.followers.splice(followerIndex, 1);
-                    user.following.splice(followingIndex, 1);
+                    inQuestion.followers.splice(followerIndex, 1)
+                    user.following.splice(followingIndex, 1)
+                    inQuestion.pending.splice(pendingIndex, 1)
+
+                    
 
 
                     inQuestion.followerCount-=1
@@ -145,6 +159,56 @@ const UserMutations = {
                 return following
             }
         },
+        pendingRequest: {
+            type: UserType,
+            args: { id: { type: GraphQLInt }, secretkey: { type: GraphQLString }, request: { type: GraphQLInt}, action: { type: GraphQLString } },
+            resolve(parent, args, { io }) {
+                console.log("HITTTTT")
+                console.log(args, "ARGS")
+                const user = users.find(user => user.id === args.id ? user : null)
+                const secret = sensitive[user.id - 1]
+
+                if(secret.id != args.id || secret.secretkey != args.secretkey) {
+                    return
+                }
+
+                const specified = user.pending.find(pending => pending.id === args.request)
+
+                const recipient = users.find(rec => rec.id === specified.id)
+
+                switch(args.action) {
+                    case "add":
+                        let index = user.followers.findIndex(us => us.id === specified.id)
+                        user.followers.splice(index, 1)
+                        user.friends.push(specified)
+                        user.friendCount+=1
+                        user.followerCount-=1
+
+                        index = recipient.following.findIndex(us => us.id === user.id)
+                        recipient.following.splice(index, 1)
+                        recipient.friends.push({
+                            id: user.id,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            username: user.username
+                        })
+                        recipient.friendCount+=1
+                        recipient.followingCount-=1
+
+                        index = user.pending.findIndex(pen => pen.id === specified.id)
+                        user.pending.splice(index, 1)
+                    
+                    case "remove": 
+                        index = user.pending.findIndex(pen => pen.id === specified.id)
+                        user.pending.splice(index, 1)
+                }
+
+                const updatedJson = JSON.stringify(users, null, 2)
+                fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
+
+                return user
+            }
+        }
     }
 
 module.exports = UserMutations

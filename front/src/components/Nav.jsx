@@ -60,6 +60,7 @@ function Nav(props) {
                 <Link to="/post"><img src="/post.svg" /></Link>
                 <Link to="/search"><img src="/search.svg" /></Link>
                 <Link to="/messaging"><img src="/message.svg" /></Link>
+                <Link to="/settings"><img src="/more.svg" /></Link>
             </div> : null}
         </nav>
     </>
@@ -70,7 +71,8 @@ const styles = {
         "display": "flex",
         "justifyContent": "space-between",
         "width": "100%",
-        "marginBottom": "32px"
+        "marginBottom": "32px",
+        paddingTop: 32
     },
     one: {
         "display": "flex",

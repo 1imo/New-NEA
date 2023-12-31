@@ -4,11 +4,18 @@ import {
     useQuery,
     gql
 } from "@apollo/client"
-import { LOAD_USERS } from "../GraphQL/Queries";
-import { useEffect } from "react";
+import { GET_FEED, LOAD_USERS } from "../GraphQL/Queries";
+import { useContext, useEffect } from "react";
+import { Context } from "../context/Context";
 
 function Home() {
-    const { error, loading, data } = useQuery(LOAD_USERS)
+    const Ctx = useContext(Context)
+    const { error, loading, data } = useQuery(GET_FEED, {
+        variables: {
+            id: Ctx.id,
+            secretkey: Ctx.secretkey
+        }
+    })
 
     useEffect(() => {
         // if(data)
@@ -16,7 +23,9 @@ function Home() {
     }, [data])
     return <>
         <Nav icons={true}/>
-        {/* <Post /> */}
+        { data?.getFeed.map((dat, index) => {
+            return <Post data={dat} key={index} />
+        })}
     </>
 }
 export default Home

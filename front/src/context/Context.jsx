@@ -19,7 +19,7 @@ export const ContextProvider = ({ children }) => {
 
         if(id, secretkey) {
           socket.emit("initialConnection", {id, secretkey})
-
+    
         }
 
     }, [id, secretkey])
@@ -30,6 +30,9 @@ export const ContextProvider = ({ children }) => {
 
       }
     }, [socket])
+
+   
+
 
     const contextValue = {
         id: parseInt(id),

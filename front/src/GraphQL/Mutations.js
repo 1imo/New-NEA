@@ -174,3 +174,21 @@ export const EDIT_MESSAGE = gql`
     }
 
 `
+
+export const BEFRIEND_PENDING = gql`
+    mutation pendingRequest(
+        $request: Int!
+        $id: Int!,
+        $secretkey: String!,
+        $action: String!
+    ) {
+        pendingRequest (
+            request: $request,
+            id: $id,
+            secretkey: $secretkey,
+            action: $action
+        ) {
+            id
+        }
+    }
+`

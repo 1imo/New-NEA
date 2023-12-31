@@ -76,7 +76,7 @@ function ProfileInfo() {
 
 
     return <>
-        <section style={{"display": "flex", "width": "100%", "columnGap": "16px", "justifyContent": "space-between", marginBottom: 32}}>
+        <section style={{"display": "flex", "width": "100%", "columnGap": "16px", "justifyContent": "space-between", marginBottom: 32, paddingTop: 16}}>
             <div>
                 <div style={{display: "flex", columnGap: 8}}>
                     <img src="/profile.jpg" height="40px" width="40px" style={{"borderRadius": "40px"}} />

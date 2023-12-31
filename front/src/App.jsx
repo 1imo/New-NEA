@@ -19,6 +19,7 @@ import Search from './pages/Search';
 import ResultList from './pages/ResultList';
 import Onboarding from './pages/Onboarding';
 import Cookies from 'js-cookie';
+import Settings from './pages/Settings';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/search" element={<Search />} />
           <Route path="/search/:id" element={<ResultList />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Router>
     </>

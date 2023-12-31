@@ -15,7 +15,7 @@ function Post(props) {
     const [ postViewed, { data, error, loading } ] = useMutation(VIEW_POST)
     const [ postLiked, { dataLike, errorLike, loadingLike } ] = useMutation(LIKE_POST)
 
-
+    console.log(props)
     async function call(id, secretkey, post) {
         const res = await postViewed({
             variables: {

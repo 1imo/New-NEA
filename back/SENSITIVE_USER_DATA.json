@@ -34,5 +34,17 @@
     "username": "lollol",
     "password": "lollol",
     "secretkey": "lollol"
+  },
+  {
+    "id": 7,
+    "username": "xxx",
+    "password": "xxx",
+    "secretkey": "xxx"
+  },
+  {
+    "id": 8,
+    "username": "dave",
+    "password": "dave",
+    "secretkey": "dave"
   }
 ]

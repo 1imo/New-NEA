@@ -1,1 +1,89 @@
-[]
+[
+  {
+    "id": 1,
+    "content": "post post post",
+    "author": {
+      "id": 1,
+      "firstName": "timo",
+      "lastName": "h",
+      "username": "1imo"
+    },
+    "date": "2023-12-31T07:01:16.866Z",
+    "views": [
+      {
+        "id": 1,
+        "firstName": "timo",
+        "lastName": "h",
+        "username": "1imo"
+      },
+      {
+        "id": 6,
+        "firstName": "again",
+        "lastName": "again",
+        "username": "lollol"
+      },
+      {
+        "id": 7,
+        "firstName": "sad",
+        "lastName": "xxx",
+        "username": "xxx"
+      },
+      {
+        "id": 8,
+        "firstName": "x",
+        "lastName": "dave",
+        "username": "dave"
+      }
+    ],
+    "likes": [],
+    "avgRatio": 0
+  },
+  {
+    "id": 2,
+    "content": "first post x",
+    "author": {
+      "id": 8,
+      "firstName": "x",
+      "lastName": "dave",
+      "username": "dave"
+    },
+    "date": "2023-12-31T13:00:01.178Z",
+    "views": [
+      {
+        "id": 8,
+        "firstName": "x",
+        "lastName": "dave",
+        "username": "dave"
+      },
+      {
+        "id": 1,
+        "firstName": "timo",
+        "lastName": "h",
+        "username": "1imo"
+      }
+    ],
+    "likes": [],
+    "avgRatio": 0
+  },
+  {
+    "id": 3,
+    "content": "post from 1imo",
+    "author": {
+      "id": 1,
+      "firstName": "timo",
+      "lastName": "h",
+      "username": "1imo"
+    },
+    "date": "2023-12-31T13:02:04.507Z",
+    "views": [
+      {
+        "id": 1,
+        "firstName": "timo",
+        "lastName": "h",
+        "username": "1imo"
+      }
+    ],
+    "likes": [],
+    "avgRatio": 0
+  }
+]
