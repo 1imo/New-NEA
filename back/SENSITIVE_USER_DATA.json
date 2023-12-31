@@ -7,8 +7,32 @@
   },
   {
     "id": 2,
-    "username": "1imo2",
-    "password": "1imo2",
-    "secretkey": "1imo2"
+    "username": "johndoe",
+    "password": "johndoe",
+    "secretkey": "johndoe"
+  },
+  {
+    "id": 3,
+    "username": "no1",
+    "password": "no1",
+    "secretkey": "no1"
+  },
+  {
+    "id": 4,
+    "username": "checker",
+    "password": "checker",
+    "secretkey": "checker"
+  },
+  {
+    "id": 5,
+    "username": "user",
+    "password": "user",
+    "secretkey": "user"
+  },
+  {
+    "id": 6,
+    "username": "lollol",
+    "password": "lollol",
+    "secretkey": "lollol"
   }
 ]

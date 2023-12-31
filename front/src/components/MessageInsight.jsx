@@ -26,7 +26,7 @@ function MessageInsight(props) {
     
 
     return <>
-        <Link to="id/1">
+        <Link to={`id/${props?.data?.id}`}>
             <section style={{display: "flex", columnGap: 8, alignItems: "center", margin: "16px 0"}}>
                 <img src="./shoe_collective.jpg" height="80px" width="80px" style={{borderRadius: 400}} />
                 <div>

@@ -34,7 +34,8 @@ const UserType = new GraphQLObjectType({
         followingCount: { type: GraphQLInt },
         pending: { type: new GraphQLList(UserType) },
         chatrooms: { type: new GraphQLList(GraphQLInt) },
-        avgRatio: { type: graphql.GraphQLFloat}
+        avgRatio: { type: graphql.GraphQLFloat},
+        socket: { type: GraphQLString }
     })
 })
 

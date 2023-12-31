@@ -79,6 +79,9 @@ const ChatroomMutations = {
             updatedJson = JSON.stringify(chatrooms, null, 2)
             fs.writeFileSync(__dirname + "/../../CHATROOM_DATA.json", updatedJson)
 
+            io.to(recipient.socket).emit("updatedChat", chatroom)
+
+
 
             
             return chatroom
@@ -139,11 +142,15 @@ const ChatroomMutations = {
             const updatedJson = JSON.stringify(users)
             fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
             
-            updatedJso = JSON.stringify(chatrooms)
+            const updatedJso = JSON.stringify(chatrooms)
             fs.writeFileSync(__dirname + "/../../CHATROOM_DATA.json", updatedJso)
 
 
-            chatroom.connections.map(connection => io.to(connection).emit('chatroom', chatroom))
+            // chatroom.connections.map(connection => io.to(connection).emit('chatroom', chatroom))
+
+            io.to(user.socket).emit("chatroom", chatroom)
+            io.to(recipientFull.socket).emit("chatroom", chatroom)
+            io.to(recipientFull.socket).emit("updatedChat", chatroom)
 
 
 

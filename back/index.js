@@ -30,11 +30,26 @@ const connections = []
 
   
 io.on('connection', (socket) => {
+
+  socket.on("initialConnection", data => {
+    console.log(data)
+    const user = users.find(user => user?.id === parseInt(data.id) ? user : null)
+    const secret = sensitive[user?.id - 1]
+    if(secret.id != data.id || secret.secretkey != data.secretkey) {
+        return
+    } else {
+      user.socket = socket.id
+      const updatedJSON = JSON.stringify(users, null, 2)
+      fs.writeFileSync(__dirname + "/USER_DATA.json", updatedJSON)
+    }
+
+
+  })
   
   socket.on('joinRoom', (roomId) => {
     const chatroom = chatrooms.find(chat => chat.id === roomId)
-    if(!chatroom.connections.includes(socket.id)) {
-        chatroom.connections.push(socket.id)
+    if(!chatroom?.connections.includes(socket.id)) {
+        chatroom?.connections.push(socket.id)
         const updatedJSON = JSON.stringify(chatrooms, null, 2)
         fs.writeFileSync(__dirname + "/CHATROOM_DATA.json", updatedJSON)
     }

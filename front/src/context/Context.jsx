@@ -16,7 +16,20 @@ export const ContextProvider = ({ children }) => {
     useEffect(() => {
         setSecretKey(Cookies.get('secretkey'))
         setId(Cookies.get('id'))
+
+        if(id, secretkey) {
+          socket.emit("initialConnection", {id, secretkey})
+
+        }
+
     }, [id, secretkey])
+
+    useEffect(() => {
+      if(id, secretkey) {
+        socket.emit("initialConnection", {id, secretkey})
+
+      }
+    }, [socket])
 
     const contextValue = {
         id: parseInt(id),

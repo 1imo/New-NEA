@@ -25,10 +25,15 @@ function MessageList() {
         socket.on("getChats", (data) => {
             // console.log(data)
 
-            if(data != chats) {
-                setChats(data)
-                // console.log("SETTING")
-            }
+            setChats(data)
+            
+        })
+
+        socket.on("updatedChat", (data) => {
+            socket.emit("getChats", {
+                id: Ctx.id,
+                secretkey: Ctx.secretkey
+            })
         })
 
     
@@ -42,7 +47,7 @@ function MessageList() {
 
         { chats ? chats.map((chat, index) => {
             // console.log(chat, index)
-            return <MessageInsight key={index} data={chat} />
+            return <MessageInsight key={index} data={chats[chats.length - 1 - index]} />
         }) : null }
     </>
 }
