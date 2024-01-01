@@ -81,6 +81,39 @@
         "firstName": "timo",
         "lastName": "h",
         "username": "1imo"
+      },
+      {
+        "id": 8,
+        "firstName": "x",
+        "lastName": "dave",
+        "username": "dave"
+      }
+    ],
+    "likes": [],
+    "avgRatio": 0
+  },
+  {
+    "id": 4,
+    "content": "FOLLOW ME",
+    "author": {
+      "id": 9,
+      "firstName": "follow",
+      "lastName": "me",
+      "username": "followme"
+    },
+    "date": "2024-01-01T06:08:39.284Z",
+    "views": [
+      {
+        "id": 9,
+        "firstName": "follow",
+        "lastName": "me",
+        "username": "followme"
+      },
+      {
+        "id": 1,
+        "firstName": "timo",
+        "lastName": "h",
+        "username": "1imo"
       }
     ],
     "likes": [],

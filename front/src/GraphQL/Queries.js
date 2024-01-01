@@ -132,8 +132,8 @@ export const GET_PENDING_REQUESTS = gql`
 `
 
 export const GET_FEED = gql`
-  query($id: Int!, $secretkey: String!) {
-    getFeed(id: $id, secretkey: $secretkey) {
+  query($id: Int!, $secretkey: String!, $type: String!) {
+    getFeed(id: $id, secretkey: $secretkey, type: $type) {
       id,
       content,
       author {

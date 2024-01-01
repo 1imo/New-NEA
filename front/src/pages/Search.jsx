@@ -15,9 +15,13 @@ function Search() {
     const { loading, error, data } = useQuery(GET_SEARCH_INSIGHTDATA, {
         variables: {
             username: searchTerm,
-            type: state.searchType
+            type: "state.searchType"
         }
     })
+
+    useEffect(() => {
+        console.log(data)
+    }, [data])
 
 
     

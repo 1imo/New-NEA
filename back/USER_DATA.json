@@ -77,8 +77,15 @@
     "friendCount": 3,
     "followers": [],
     "followerCount": 0,
-    "following": [],
-    "followingCount": 0,
+    "following": [
+      {
+        "id": 9,
+        "username": "followme",
+        "firstName": "follow",
+        "lastName": "me"
+      }
+    ],
+    "followingCount": 1,
     "pending": [],
     "chatrooms": [
       5,
@@ -88,7 +95,7 @@
       1
     ],
     "avgRatio": 0,
-    "socket": "Fg2ULY39b_U6p-hhAAAL"
+    "socket": "GIv6BbLTsX7nRI-VAAAL"
   },
   {
     "id": 2,
@@ -260,6 +267,65 @@
     "pending": [],
     "chatrooms": [],
     "avgRatio": 0,
-    "socket": "BdjEndi0VeQ9nGRuAAAH"
+    "socket": "ErAB1BsROPzjTU3mAAAH"
+  },
+  {
+    "id": 9,
+    "firstName": "follow",
+    "lastName": "me",
+    "username": "followme",
+    "posts": [
+      {
+        "id": 4,
+        "content": "FOLLOW ME",
+        "author": {
+          "id": 9,
+          "firstName": "follow",
+          "lastName": "me",
+          "username": "followme"
+        },
+        "date": "2024-01-01T06:08:39.284Z",
+        "views": [
+          {
+            "id": 9,
+            "firstName": "follow",
+            "lastName": "me",
+            "username": "followme"
+          },
+          {
+            "id": 1,
+            "firstName": "timo",
+            "lastName": "h",
+            "username": "1imo"
+          }
+        ],
+        "likes": [],
+        "avgRatio": 0
+      }
+    ],
+    "friends": [],
+    "friendCount": 0,
+    "followers": [
+      {
+        "id": 1,
+        "username": "1imo",
+        "firstName": "timo",
+        "lastName": "h"
+      }
+    ],
+    "followerCount": 1,
+    "following": [],
+    "followingCount": 0,
+    "pending": [
+      {
+        "id": 1,
+        "username": "1imo",
+        "firstName": "timo",
+        "lastName": "h"
+      }
+    ],
+    "chatrooms": [],
+    "avgRatio": 0,
+    "socket": "T3_KMU8xAXPT7nr3AAAL"
   }
 ]

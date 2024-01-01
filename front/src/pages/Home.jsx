@@ -5,15 +5,18 @@ import {
     gql
 } from "@apollo/client"
 import { GET_FEED, LOAD_USERS } from "../GraphQL/Queries";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
+import Cookies from "js-cookie";
 
 function Home() {
     const Ctx = useContext(Context)
+    const [ vars, setVars ] = useState(Cookies.get('feed') )
     const { error, loading, data } = useQuery(GET_FEED, {
         variables: {
             id: Ctx.id,
-            secretkey: Ctx.secretkey
+            secretkey: Ctx.secretkey,
+            type: vars || "Recommended"
         }
     })
 
@@ -21,6 +24,10 @@ function Home() {
         // if(data)
         console.log(data)
     }, [data])
+
+    useEffect(() => {
+        console.log(Cookies.get('feed'), "FEED")
+    }, [])
     return <>
         <Nav icons={true}/>
         { data?.getFeed.map((dat, index) => {

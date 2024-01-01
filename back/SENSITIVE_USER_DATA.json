@@ -46,5 +46,11 @@
     "username": "dave",
     "password": "dave",
     "secretkey": "dave"
+  },
+  {
+    "id": 9,
+    "username": "followme",
+    "password": "followme",
+    "secretkey": "followme"
   }
 ]
