@@ -15,7 +15,7 @@ function Search() {
     const { loading, error, data } = useQuery(GET_SEARCH_INSIGHTDATA, {
         variables: {
             username: searchTerm,
-            type: "state.searchType"
+            type: state.searchType || "main"
         }
     })
 
@@ -33,7 +33,7 @@ function Search() {
                 return <ProfileInsight 
                 username={res.username} 
                 firstName={res.firstName}
-                lastName={res.lastName} key={index} reference={state.searchType}/>
+                lastName={res.lastName} key={index} reference={state.searchType || "main"}/>
             }) : null}
         </section>
     </>

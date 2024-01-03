@@ -32,9 +32,11 @@ function ProfileInsight(props) {
             if(res?.data?.getLocation?.id) {
                 navigate("/messaging/id/" + res.data.getLocation.id)
             }
+        } else if (props?.reference == "main") {
+            navigate("/profile/" + props?.username)
         }
         
-        }
+    }
 
     async function befriend() {
         if(props?.reference == "pending") {

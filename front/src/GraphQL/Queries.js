@@ -72,6 +72,8 @@ export const GET_USERPOSTS = gql`
     }
 `
 
+
+
 export const GET_SEARCH_INSIGHTDATA = gql`
     query($username: String!, $type: String!) {
         getUserSearchResults(username: $username, type: $type) {
@@ -142,6 +144,17 @@ export const GET_FEED = gql`
         lastName,
         username
       }
+    }
+  }
+`
+
+export const DISCOVER_PEOPLE = gql`
+  query($id: Int!) {
+    recommendedUsers(id: $id) {
+      id,
+      firstName,
+      lastName,
+      username
     }
   }
 `

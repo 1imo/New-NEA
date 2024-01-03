@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String         @unique @default(uuid())
+  username            String         @unique
+  name                String
+  userData            UserData?
+  posts               Post[]
+  viewedPosts         ViewedPost[]
+  likedPosts          LikedPost[]
+  friends             Friendship[]   @relation("User_One")
+  friendshipsReceived Friendship[]   @relation("User_Two")
+  following           Follow[]       @relation("Following")
+  followers           Follow[]       @relation("Follower")
+  chatroomUsers       ChatroomUser[]
+  avgRatio            Float          @default(0.0)
+  multiplier          Float          @default(1.0)
+  socket              String?
+  Message             Message[]
+
+  @@index([username])
+}
+
+model Friendship {
+  id        String @id @default(uuid())
+  userOne   User   @relation("User_One", fields: [userOneId], references: [id])
+  userOneId String
+  userTwo   User   @relation("User_Two", fields: [userTwoId], references: [id])
+  userTwoId String
+
+  @@unique([userOneId, userTwoId])
+}
+
+model Follow {
+  id          String  @id @default(uuid())
+  follower    User    @relation("Following", fields: [followerId], references: [id])
+  followerId  String
+  following   User    @relation("Follower", fields: [followingId], references: [id])
+  followingId String
+  denial      Boolean @default(false)
+
+  @@unique([followerId, followingId])
+}
+
+model UserData {
+  id        String  @unique
+  user      User    @relation(fields: [id], references: [id])
+  password  String
+  secretkey String?
+}
+
+model Post {
+  id         Int          @id @default(autoincrement())
+  content    String
+  user       User         @relation(fields: [userId], references: [id])
+  userId     String
+  date       DateTime     @default(now())
+  likedBy    LikedPost[]
+  viewedBy   ViewedPost[]
+  avgRatio   Float        @default(0.0)
+  multiplier Float        @default(1.0) // Ensure decimal point
+}
+
+model LikedPost {
+  post   Post   @relation(fields: [postId], references: [id])
+  postId Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@id([postId, userId])
+}
+
+model ViewedPost {
+  post   Post   @relation(fields: [postId], references: [id])
+  postId Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@id([postId, userId])
+}
+
+model Message {
+  id         String    @id @default(uuid())
+  content    String
+  sender     User      @relation(fields: [senderId], references: [id])
+  senderId   String
+  date       DateTime  @default(now())
+  read       Boolean   @default(false)
+  chatroom   Chatroom? @relation("Chatroom_Messages", fields: [chatroomId], references: [id])
+  chatroomId String?
+}
+
+model Chatroom {
+  id            String         @id @default(uuid())
+  chatroomUsers ChatroomUser[]
+  messages      Message[]      @relation("Chatroom_Messages")
+}
+
+model ChatroomUser {
+  chatroom   Chatroom @relation(fields: [chatroomId], references: [id])
+  chatroomId String
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+
+  @@id([chatroomId, userId])
+}

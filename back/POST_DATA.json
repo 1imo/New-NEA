@@ -33,6 +33,12 @@
         "firstName": "x",
         "lastName": "dave",
         "username": "dave"
+      },
+      {
+        "id": 9,
+        "firstName": "follow",
+        "lastName": "me",
+        "username": "followme"
       }
     ],
     "likes": [],
@@ -87,6 +93,12 @@
         "firstName": "x",
         "lastName": "dave",
         "username": "dave"
+      },
+      {
+        "id": 9,
+        "firstName": "follow",
+        "lastName": "me",
+        "username": "followme"
       }
     ],
     "likes": [],

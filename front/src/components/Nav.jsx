@@ -1,5 +1,5 @@
 import {
-    Link
+    Link, useNavigate
   } from "react-router-dom";
 import {
     useQuery,
@@ -20,6 +20,8 @@ function Nav(props) {
 
     // const [ getNavInfo, { data, error, loading } ] = useMutation(GET_NAVINFO)
 
+    const navigate = useNavigate()
+
     const [ username, setUsername ] = useState("")
     const [ firstName, setFirstName ] = useState("")
     const [ lastName, setLastName ] = useState("")
@@ -37,8 +39,7 @@ function Nav(props) {
         })
     }, [])
 
-    console.log(data)
-    console.log(vars)
+    
 
     
 
@@ -58,7 +59,7 @@ function Nav(props) {
             </div>
             {props.icons === true ? <div style={styles.two}>
                 <Link to="/post"><img src="/post.svg" /></Link>
-                <Link to="/search"><img src="/search.svg" /></Link>
+                <Link to="#" onClick={(e) => {e.preventDefault();navigate("/search", { state: "main" })}}><img src="/search.svg" /></Link>
                 <Link to="/messaging"><img src="/message.svg" /></Link>
                 <Link to="/settings"><img src="/more.svg" /></Link>
             </div> : null}
@@ -70,7 +71,7 @@ const styles = {
     nav: {
         "display": "flex",
         "justifyContent": "space-between",
-        "width": "100%",
+        "width": "calc(100vw - 32px)",
         "marginBottom": "32px",
         paddingTop: 32
     },

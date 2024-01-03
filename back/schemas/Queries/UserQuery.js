@@ -41,7 +41,6 @@ const UserQuery = {
             type: new GraphQLList(UserType),
             args: { username: { type: GraphQLString }, type: { type: GraphQLString }},
             resolve(parent, args) {
-                console.log(args)
                 const applicableUsernames = users.filter(user => user.username.includes(args.username));
                 const applicableNames = users.filter(user => user.firstName.includes(args.username));
 
@@ -248,6 +247,132 @@ const UserQuery = {
 
 
                 return raw
+
+
+            }
+        },
+        recommendedUsers: {
+            type: new GraphQLList(AuthorType),
+            args: { id: { type: GraphQLInt }},
+            resolve(parent, args) {
+                console.log(args, "DISCOVERTHISQUERY")
+                const user = users.find(user => user.id === args.id ? user : null)
+
+                const obj = {
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    username: user.username
+                }
+
+
+                return [ obj, obj ]
+
+                // const friends = []
+                // const following = []
+
+                // const friendsOfFriends = [[], []]
+                // const followingOfFriends = [[], []]
+
+
+                // for(let i = 0; i < user.friends.length; i++) {
+                //     const specified = users.find(us => us.id === user.friends[i].id)
+                //     friends.push(specified)
+                // }
+
+                // for(let i = 0; i < user.following.length; i++) {
+                //     const specified = users.find(us => us.id === user.following[i].id)
+                //     following.push(specified)
+                // }
+
+                // console.log([ ...friends, ...following ])
+
+                // return [ ...friends, ...following ]
+
+
+                // for(let i = 0; i < friends.length; i++) {
+
+                //     for(let x = 0; x < friends[i].friends.length; x++) {
+                //         const specified = users.find(us => us.id === friends[i].friends[x].id)
+                //         const copy = { ...specified }
+                //         copy.avgRatio = copy.avgRatio * ( x + 1 )
+                //         friendsOfFriends[0].push(copy)
+                //     }
+
+                //     for(let x = 0; x < friends[i].following.length; x++) {
+                //         const specified = users.find(us => us.id === friends[i].following[x].id)
+                //         const copy = { ...specified }
+                //         copy.avgRatio = copy.avgRatio * ( x + 1 )
+                //         friendsOfFriends[1].push(copy)
+                //     }
+                // }
+
+                // for(let i = 0; i < following.length; i++) {
+
+                //     for(let x = 0; x < following[i].friends.length; x++) {
+                //         const specified = users.find(us => us.id === following[i].friends[x].id)
+                //         const copy = { ...specified }
+                //         copy.avgRatio = copy.avgRatio * ( x + 1 )
+                //         followingOfFriends[0].push(copy)
+                //     }
+
+                //     for(let x = 0; x < following[i].following.length; x++) {
+                //         const specified = users.find(us => us.id === following[i].following[x].id)
+                //         const copy = { ...specified }
+                //         copy.avgRatio = copy.avgRatio * ( x + 1 )
+                //         followingOfFriends[1].push(copy)
+                //     }
+                // }
+
+                // console.log([ ...friendsOfFriends[0], ...friendsOfFriends[1], ...followingOfFriends[0], ...followingOfFriends[1] ])
+
+                // return [ ...friendsOfFriends[0], ...friendsOfFriends[1], ...followingOfFriends[0], ...followingOfFriends[1] ]
+
+
+                // function mergeSort(arr) {
+                //     if (arr.length <= 1) {
+                //       return arr
+                //     }
+                  
+                //     const mid = Math.floor(arr.length / 2)
+                //     const left = arr.slice(0, mid)
+                //     const right = arr.slice(mid)
+                  
+                //     return merge(mergeSort(left), mergeSort(right))
+                // }
+                  
+                // function merge(left, right) {
+                //   const result = []
+                //   let leftIndex = 0
+                //   let rightIndex = 0
+                
+                //   while (leftIndex < left.length && rightIndex < right.length) {
+                //     if (left[leftIndex].avgRatio >= right[rightIndex].avgRatio) {
+                //       result.push(left[leftIndex])
+                //       leftIndex++
+                //     } else {
+                //       result.push(right[rightIndex])
+                //       rightIndex++
+                //     }
+                //   }
+                
+                //   return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex))
+                // }
+
+                // const friendsFriendsSorted = mergeSort(friendsOfFriends[0])
+                // const followingFriendsSorted = mergeSort(friendsOfFriends[1])
+                // const friendsFollowingSorted = mergeSort(followingOfFriends[0])
+                // const followingFollowingSorted = mergeSort(followingOfFriends[1])
+                
+
+                // const formatted = [ ...friendsFriendsSorted, ...followingFollowingSorted, ...followingFriendsSorted, ...friendsFollowingSorted ]
+
+                // console.log(formatted)
+
+               
+
+                // return formatted
+                
 
 
             }
