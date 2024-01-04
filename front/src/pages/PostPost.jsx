@@ -30,8 +30,8 @@ function PostPost() {
             }
         })
 
-        if(res?.data?.createPost?.id) {
-            navigate(`/post/id/${res.data.createPost.id}`)
+        if(res?.data?.createPost?.url) {
+            navigate(res?.data?.createPost?.url)
         }
 
         if(errorMain) console.log(errorMain)

@@ -40,7 +40,7 @@ function MessageList() {
     }, [])
 
     return <>
-        <nav style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
+        <nav style={{display: "flex", justifyContent: "space-between", marginBottom: 16, marginTop: 32}}>
             <h3>Messages</h3>
             <img onClick={ () => newChat() }src="/new-message.svg" />
         </nav>

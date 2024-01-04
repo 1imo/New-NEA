@@ -3,13 +3,11 @@ const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList
 const { graphqlHTTP } = require("express-graphql")
 
 
-
-const SensitiveUserDataType = new GraphQLObjectType({
-    name: "SensitiveUserData",
+const LinkType = new GraphQLObjectType({
+    name: "Link",
     fields: () => ({
-        id: { type: GraphQLString},
-        secretkey: { type: GraphQLString },
+        url: { type: GraphQLString}
     })
 })
 
-module.exports = SensitiveUserDataType
+module.exports = LinkType

@@ -94,7 +94,7 @@
       1
     ],
     "avgRatio": 0,
-    "socket": "QSURDPZLMfLXe_mcAAAJ"
+    "socket": "o1asXJRLdXCQIs6BAAAB"
   },
   {
     "id": 2,
@@ -380,5 +380,54 @@
     "chatrooms": [],
     "avgRatio": 0,
     "socket": "fe5I68V6yE9xkQrtAAAH"
+  },
+  {
+    "id": 10,
+    "firstName": "kiiss",
+    "lastName": "mwah",
+    "username": "mwah",
+    "posts": [],
+    "friends": [],
+    "friendCount": 0,
+    "followers": [],
+    "followerCount": 0,
+    "following": [],
+    "followingCount": 0,
+    "pending": [],
+    "chatrooms": [],
+    "avgRatio": 0
+  },
+  {
+    "id": 11,
+    "firstName": "suud",
+    "lastName": "suud",
+    "username": "suud",
+    "posts": [],
+    "friends": [],
+    "friendCount": 0,
+    "followers": [],
+    "followerCount": 0,
+    "following": [],
+    "followingCount": 0,
+    "pending": [],
+    "chatrooms": [],
+    "avgRatio": 0
+  },
+  {
+    "id": 12,
+    "firstName": "timo",
+    "lastName": "hoyland",
+    "username": "1imo",
+    "posts": [],
+    "friends": [],
+    "friendCount": 0,
+    "followers": [],
+    "followerCount": 0,
+    "following": [],
+    "followingCount": 0,
+    "pending": [],
+    "chatrooms": [],
+    "avgRatio": 0,
+    "socket": "WEMIjNg70x8fG-vlAAAN"
   }
 ]

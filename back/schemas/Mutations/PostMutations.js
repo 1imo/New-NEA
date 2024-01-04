@@ -9,150 +9,181 @@ const PostType = require("../TypeDefs/PostType")
 const users = require("../../USER_DATA.json")
 const posts = require("../../POST_DATA.json")
 const sensitive = require("../../SENSITIVE_USER_DATA.json")
+const LinkType = require("../TypeDefs/LinkType")
 
 const PostMutations = {
     createPost: {
-        type: PostType,
+        type: LinkType,
         args: { 
-            id: { type: GraphQLInt},
+            id: { type: GraphQLString},
             secretkey: { type: GraphQLString },
             content: { type: GraphQLString }
         },
-    resolve(parent, args) {
+    async resolve(parent, args, { prisma }) {
+        console.log(args, "ARGS")
 
-        const user = users.find(user => user.id === args.id ? user : null)
-        const secret = sensitive[user.id - 1]
-        
-        if(secret.id != args.id || secret.secretkey != args.secretkey) {
+        const exists = await prisma.userData.count({
+            where: { 
+                AND: [
+                    {id: args.id},
+                    {secretkey: args.secretkey}
+                ]
+            }
+        })
+
+        if(!exists) {
             return
         }
-        
-        const newPost = {
-            id: posts.length + 1,
-            content: args.content,
-            author: {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username
+
+        console.log(args, "ARGS")
+
+
+        const post = await prisma.post.create({
+            data: {
+                content: args.content,
+                userId: args.id,
             },
-            date: new Date(),
-            views: [],
-            likes: [],
-            avgRatio: user.avgRatio
+            select: {
+                id: true
+            }
+        })
+        
+
+
+        return {
+            url: `/post/id/${post.id}`
         }
 
-        user.posts = [...user.posts, newPost]
-        posts.push(newPost)
-
-        let updatedJson = JSON.stringify(posts, null, 2)
-        fs.writeFileSync(__dirname + "/../../POST_DATA.json", updatedJson)
-
-        updatedJson = JSON.stringify(users, null, 2)
-        fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
-
-
-        return newPost
         }
     },
     postViewed: {
-        type: PostType,
-        args: { post: { type: GraphQLInt }, id: { type: GraphQLInt }, secretkey: { type: GraphQLString }},
-        resolve(parent, args) {
-           console.log("HEY")
-            console.log(args)
-            const user = users.find(user => user.id === args.id ? user : null)
-            const secret = sensitive[user.id - 1]
-            
-            if(secret.id != args.id || secret.secretkey != args.secretkey) {
+        type: LinkType,
+        args: { post: { type: GraphQLInt }, id: { type: GraphQLString }, secretkey: { type: GraphQLString }},
+        async resolve(parent, args) {
+            const exists = await prisma.userData.count({
+                where: { 
+                    AND: [
+                        {id: args.id},
+                        {secretkey: args.secretkey}
+                    ]
+                }
+            })
+    
+            if(!exists) {
                 return
             }
 
-            const post = posts.find(post => post.id === args.post ? post : null)
 
-            
-            const viewer = {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username
+            const post = await prisma.post.findFirst({
+                where: {
+                    id: args.post
+                },
+                select: {
+                    viewedBy: {
+                        where: {
+                            userId: args.id
+                        }
+                    },
+                    avgRatio: true
+                }
+            })
+
+            if(!post.viewedBy) {
+     
+                const inDepth = await prisma.post.findFirst({
+                    where: {
+                        id: args.post
+                    },
+                    select: {
+                        viewedBy: true,
+                        likedBy: true,
+                        avgRatio: true
+                    }
+                })
+
+                const ratio = inDepth.likedBy.length / (inDepth.viewedBy + 1)
+
+                await prisma.ViewedPost.create({
+                    data: {
+                        postId: args.post,
+                        userId: args.id,
+                        avgRatio: ratio
+                    }
+                })
+
             }
 
-            const viewerExists = post.views.some(view => view.id === viewer.id);
-
-            if(viewerExists) {
-                console.log("EXISTS")
-                return
+            
+           
+            
+            return {
+                url: "#"
             }
-
-            
-            const currentViews = post.views.length + 1
-            const currentLikes = post.likes.length
-            const ratio = currentLikes / currentViews
-            
-            
-            // const Index = post.posts.findIndex(po => po.id === args.id)
-
-            post.views.push(viewer)
-            // user.posts[Index] = post
-            
-            post.avgRatio = ratio
-            user.avgRatio+=ratio
-
-
-            let updatedJson = JSON.stringify(posts, null, 2)
-            fs.writeFileSync(__dirname + "/../../POST_DATA.json", updatedJson)
-
-            updatedJson = JSON.stringify(users, null, 2)
-            fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
-            
-            return post
         }
     },
     postLiked: {
-        type: PostType,
+        type: LinkType,
         args: { post: { type: GraphQLInt }, id: { type: GraphQLInt }, secretkey: { type: GraphQLString }},
-        resolve(parent, args) {
-            const user = users.find(user => user.id === args.id ? user : null)
-            const secret = sensitive[user.id - 1]
-            
-            if(secret.id != args.id || secret.secretkey != args.secretkey) {
+        async resolve(parent, args) {
+
+            const exists = await prisma.userData.count({
+                where: { 
+                    AND: [
+                        {id: args.id},
+                        {secretkey: args.secretkey}
+                    ]
+                }
+            })
+    
+            if(!exists) {
                 return
             }
 
-            const post = posts.find(post => post.id === args.post ? post : null)
-            
-            
-            const liker = {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username
+            const post = await prisma.post.findFirst({
+                where: {
+                    id: args.post
+                },
+                select: {
+                    likedBy: {
+                        where: {
+                            userId: args.id
+                        }
+                    },
+                    avgRatio: true
+                }
+            })
+
+            if(!post.likedBy) {
+     
+                const inDepth = await prisma.post.findFirst({
+                    where: {
+                        id: args.post
+                    },
+                    select: {
+                        viewedBy: true,
+                        likedBy: true,
+                        avgRatio: true
+                    }
+                })
+
+                const ratio = (inDepth.likedBy.length + 1) / inDepth.viewedBy
+
+                await prisma.LikedPost.create({
+                    data: {
+                        postId: args.post,
+                        userId: args.id,
+                        avgRatio: ratio
+                    }
+                })
+
             }
 
-            const likerExists = post.likes.some(like => like.id === liker.id);
-
-            if(likerExists) {
-                console.log("EXISTS")
-                return
+            
+           
+            
+            return {
+                url: "#"
             }
-            
-            const currentViews = post.views.length
-            const currentLikes = post.likes.length + 1
-            const ratio = currentLikes / currentViews
-
-            post.likes.push(liker)
-            
-            post.avgRatio = ratio
-            user.avgRatio+=ratio
-
-            let updatedJson = JSON.stringify(posts, null, 2)
-            fs.writeFileSync(__dirname + "/../../POST_DATA.json", updatedJson)
-
-            updatedJson = JSON.stringify(users, null, 2)
-            fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
-            
-            return post
         }
     }
 }

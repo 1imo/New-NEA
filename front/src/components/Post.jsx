@@ -12,6 +12,8 @@ function Post(props) {
 
     const Ctx = useContext(Context)
 
+    console.log(props)
+
     const [ postViewed, { data, error, loading } ] = useMutation(VIEW_POST)
     const [ postLiked, { dataLike, errorLike, loadingLike } ] = useMutation(LIKE_POST)
 
@@ -62,8 +64,8 @@ function Post(props) {
                 <img src="/shoe_collective.jpg" height="80px" width="80px" style={{"borderRadius": "40px"}}/>
             </div>
             <div style={{"paddingBottom": "8px"}}>
-                <h3 style={{"textAlign": "left"}}>{props?.data?.author?.firstName} {props?.data?.author?.lastName}</h3>
-                <h5 style={{"textAlign": "left"}}>@{props?.data?.author?.username}</h5>
+                <h3 style={{"textAlign": "left"}}>{props?.data?.user?.name.split(" ")[0]} {props?.data?.user?.name.split(" ")[1]}</h3>
+                <h5 style={{"textAlign": "left"}}>@{props?.data?.user?.username}</h5>
                 <p style={{"textAlign": "left", "padding": "8px 0px"}}>{props?.data?.content}</p>
                 <img src="/render_image.jpg" height="auto" width="100%" style={styles.imagecontent}/>
             </div>

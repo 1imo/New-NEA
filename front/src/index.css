@@ -40,7 +40,7 @@ body {
 #root {
   /* min-height: 100svh; */
   box-sizing: border-box !important;
-  width: 100%;
+  width: calc(100vw - 32px) !important;
   overflow-x: hidden;
 }
 

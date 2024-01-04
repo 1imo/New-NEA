@@ -9,11 +9,12 @@ const PostType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLInt},
         content: { type: GraphQLString },
-        author: { type: AuthorType },
+        user: { type: AuthorType },
         date: { type: GraphQLString},
         views: { type: new GraphQLList(AuthorType) },
         likes: { type: new GraphQLList(AuthorType) },
-        avgRatio: { type: graphql.GraphQLFloat}
+        avgRatio: { type: graphql.GraphQLFloat},
+        multiplier: { type: graphql.GraphQLFloat},
     })
 })
 

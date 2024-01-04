@@ -61,7 +61,8 @@ function Settings() {
         <section>
             <h4>Pending</h4>
             {data?.getPending.map((info, index) => {
-                return <ProfileInsight reference={"pending"} key={index} firstName={info.firstName} lastName={info.lastName} username={info.username} id={info.id} />
+                console.log(info)
+                return <ProfileInsight reference={"pending"} key={index} firstName={info.name.split(" ")[0]} lastName={info.name.split(" ")[1]} username={info.username} id={info.pendingId} />
             })}
         </section>
         <section>

@@ -11,11 +11,10 @@ export const LOAD_USERS = gql`
 `
 
 export const GET_NAVINFO = gql`
-  query($id: Int!) {
+  query($id: String!) {
       navInfo(id: $id) {
           username,
-          firstName,
-          lastName
+          name
       }
   }
 `
@@ -25,9 +24,8 @@ export const LOAD_POST = gql`
     getPost(id: $id) {
       id,
       content,
-      author {
-        firstName,
-        lastName,
+      user {
+        name,
         username
       }
     }
@@ -35,7 +33,7 @@ export const LOAD_POST = gql`
 `;
 
 export const LOAD_NAV = gql`
-    query($id: Int!, $secretkey: String!) {
+    query($id: String!, $secretkey: String!) {
         navInfo(id: $id, secretkey: $secretkey) {
           firstName,
           lastName,
@@ -47,8 +45,7 @@ export const LOAD_NAV = gql`
 export const GET_PUBLICDATA = gql`
     query($username: String!) {
         getPublicInfo(username: $username) {
-          firstName,
-          lastName,
+          name
           username,
           friendCount,
           followerCount,
@@ -62,10 +59,9 @@ export const GET_USERPOSTS = gql`
         getAllPosts(username: $username) {
           id,
           content,
-          author {
+          user {
             id,
-            firstName,
-            lastName,
+            name,
             username
           }
         }
@@ -77,28 +73,25 @@ export const GET_USERPOSTS = gql`
 export const GET_SEARCH_INSIGHTDATA = gql`
     query($username: String!, $type: String!) {
         getUserSearchResults(username: $username, type: $type) {
-          firstName,
-          lastName,
+          name,
           username
         }
     }
 `
 
 export const GET_CHATROOM = gql`
-    query($chatId: Int!, $id: Int!, $secretkey: String!) {
+    query($chatId: String!, $id: String!, $secretkey: String!) {
         getUserSearchResults(chatId: $chatId, id: $id, secretkey: $secretkey) {
           id,
           chatters {
             id,
-            firstName,
-            lastName,
+            name,
             username
           },
           messages {
             id,
             sender {
-              firstName,
-              lastName,
+              name,
               username,
               id
             }
@@ -109,8 +102,7 @@ export const GET_CHATROOM = gql`
           lastMessage {
             id,
             sender {
-              firstName,
-              lastName,
+              name,
               username,
               id
             }
@@ -122,26 +114,26 @@ export const GET_CHATROOM = gql`
     }
 `
 
+
 export const GET_PENDING_REQUESTS = gql`
-    query($id: Int!, $secretkey: String!) {
+    query($id: String!, $secretkey: String!) {
         getPending(id: $id, secretkey: $secretkey) {
-          firstName,
-          lastName,
+          name
           username,
-          id
+          id,
+          pendingId
         }
     }
 `
 
 export const GET_FEED = gql`
-  query($id: Int!, $secretkey: String!, $type: String!) {
+  query($id: String!, $secretkey: String!, $type: String!) {
     getFeed(id: $id, secretkey: $secretkey, type: $type) {
       id,
       content,
-      author {
+      user {
         id,
-        firstName,
-        lastName,
+        name,
         username
       }
     }
@@ -149,7 +141,7 @@ export const GET_FEED = gql`
 `
 
 export const DISCOVER_PEOPLE = gql`
-  query($id: Int!) {
+  query($id: String!) {
     recommendedUsers(id: $id) {
       id,
       firstName,

@@ -35,7 +35,7 @@ export const ContextProvider = ({ children }) => {
 
 
     const contextValue = {
-        id: parseInt(id),
+        id: id,
         secretkey: secretkey,
         setId,
         setSecretKey,

@@ -20,16 +20,24 @@ import { useParams } from "react-router-dom";
 function PostView() {
     const { id } = useParams()
 
-    const [ author, setAuthor ] = useState({})
-    const [ content, setContent ] = useState("")
+    
+    const [ vars, setVars ] = useState(parseInt(id))
 
     const { loading, error, data } = useQuery(LOAD_POST, {
         variables: {
-            id: parseInt(id)
+            id: vars
         }
     })
 
-    console.log(data)
+
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
+    useEffect(() => {
+        setVars(parseInt(id))
+        console.log(id)
+    }, [id])
 
     
     

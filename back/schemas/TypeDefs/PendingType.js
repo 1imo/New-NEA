@@ -4,13 +4,14 @@ const { graphqlHTTP } = require("express-graphql")
 
 
 
-const AuthorType = new GraphQLObjectType({
-    name: "Author",
+const PendingType = new GraphQLObjectType({
+    name: "Pending",
     fields: () => ({
         id: { type: GraphQLString },
         name: { type: GraphQLString },
         username: { type: GraphQLString },
+        pendingId: { type: GraphQLString }
     })
 })
 
-module.exports = AuthorType
+module.exports = PendingType

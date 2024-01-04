@@ -39,9 +39,7 @@ function Nav(props) {
         })
     }, [])
 
-    
-
-    
+  
 
     
 
@@ -52,7 +50,7 @@ function Nav(props) {
                 <Link to={`/profile/${data?.navInfo?.username}`} style={styles.one}>
                     <img src="/profile.jpg" height="40px" width="40px" style={{"borderRadius": "40px"}} />
                     <div>
-                        <h3>{data?.navInfo?.firstName} {data?.navInfo?.lastName}</h3>
+                        <h3>{data?.navInfo?.name.split(" ")[0]} {data?.navInfo?.name.split(" ")[1]}</h3>
                         <h6>@{data?.navInfo?.username}</h6>
                     </div>
                 </Link>

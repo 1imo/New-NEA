@@ -10,11 +10,10 @@ const AuthorType = require("./AuthorType")
 const ChatroomType = new GraphQLObjectType({
     name: "Chatroom",
     fields: () => ({
-        id: { type: GraphQLInt},
+        id: { type: GraphQLString},
         chatters: { type: new GraphQLList(AuthorType) },
         messages: { type: new GraphQLList(MessageType) },
-        lastMessage: { type: MessageType },
-        connections: { type: new GraphQLList(GraphQLString)}
+        lastMessage: { type: MessageType }
     })
 })
 

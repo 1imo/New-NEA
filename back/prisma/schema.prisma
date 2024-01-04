@@ -24,6 +24,7 @@ model User {
   multiplier          Float          @default(1.0)
   socket              String?
   Message             Message[]
+  lastUpdated         DateTime       @default(now()) @updatedAt
 
   @@index([username])
 }
@@ -98,7 +99,8 @@ model Message {
 }
 
 model Chatroom {
-  id            String         @id @default(uuid())
+  id            String         @id
+  date          DateTime       @default(now())
   chatroomUsers ChatroomUser[]
   messages      Message[]      @relation("Chatroom_Messages")
 }

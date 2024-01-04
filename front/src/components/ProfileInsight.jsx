@@ -16,10 +16,7 @@ function ProfileInsight(props) {
 
     async function call() {
         if(props.reference == "message") {
-            console.log("MESSAGE")
-            console.log({id: Ctx.id,
-                secretkey: Ctx.secretkey,
-                username: props?.username})
+            
             const res = await get_chatroom({
                 variables: {
                     id: Ctx.id,
@@ -28,6 +25,7 @@ function ProfileInsight(props) {
                 }
             })
 
+            console.log(res)
 
             if(res?.data?.getLocation?.id) {
                 navigate("/messaging/id/" + res.data.getLocation.id)
@@ -54,13 +52,14 @@ function ProfileInsight(props) {
     }
 
 
+
     return <>
-        <section style={styles.section} onClick={() => call()} onDoubleClick={() => befriend()}>
+        <section style={styles.section} onClick={() => call()} onDoubleClick={() => befriend()} >
             <div>
                 <img src="/shoe_collective.jpg" height="80px" width="80px" style={{"borderRadius": "40px"}}/>
             </div>
             <div>
-                <h3 style={{"textAlign": "left"}}>{props?.firstName} {props?.lastName}</h3>
+                <h3 style={{"textAlign": "left"}}>{props?.name?.split(" ")[0]} {props?.name?.split(" ")[1]}</h3>
                 <h5 style={{"textAlign": "left"}}>@{props?.username}</h5>
             </div>
         </section>

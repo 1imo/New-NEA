@@ -6,33 +6,93 @@ const { graphqlHTTP } = require("express-graphql")
 const UserType = require("../TypeDefs/UserType")
 const PostType = require("../TypeDefs/PostType")
 const AuthorType = require("../TypeDefs/AuthorType")
+const { take, skip } = require('@prisma/client');
+const ProfileType = require("../TypeDefs/ProfileType")
+const PendingType = require("../TypeDefs/PendingType")
 
 
 const UserQuery = {
         navInfo: {
             type: UserType,
-            args: { id: { type: GraphQLInt}},
-            resolve(parent, args) {
-                const user = users.find(user => user.id === args.id ? user : null)
-                console.log(users[args.id])
+            args: { id: { type: GraphQLString}},
+            async resolve(parent, args, { prisma }) {
+                console.log(args)
+
+                const user = await prisma.user.findFirst({
+                    where: {
+                        id: args.id
+                    },
+                    select: {
+                        name: true,
+                        username: true
+                    }
+                })
+
+                console.log(user, "USER")
+                
 
                 return user
             }
         },
         getPublicInfo: {
-            type: UserType,
+            type: ProfileType,
             args: { username: { type: GraphQLString }},
-            resolve(parent, args) {
-                const user = users.find(user => user.username === args.username ? user : null)
+            async resolve(parent, args, { prisma }) {
 
-                return user
+                const { id, name, username,
+                    friends, friendshipsReceived,
+                    followers, following } = await prisma.user.findFirst({
+                    where: {
+                        username: args.username
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        username: true,
+                        friends: true,
+                        friendshipsReceived: true,
+                        followers: true,
+                        following: true
+                    }
+                })
+
+                return {
+                    name,
+                    username,
+                    friendCount: friends.length + friendshipsReceived.length,
+                    followerCount: followers.length,
+                    followingCount: following.length
+                }
             }
         },
         getAllPosts: {
             type: new GraphQLList(PostType),
             args: { username: { type: GraphQLString }}, 
-            resolve(parent, args) {
-                const user = users.find(user => user.username === args.username ? user : null)
+            async resolve(parent, args, { prisma }) {
+                // const user = users.find(user => user.username === args.username ? user : null)
+
+                console.log("hit", args)
+
+                const user = await prisma.user.findFirst({
+                    where: {
+                        username: args.username
+                    },
+                    select: {
+                        posts: {
+                            select: {
+                              content: true,
+                              id: true,
+                              user: {
+                                select: {
+                                  username: true,
+                                  name: true
+                                }
+                              }
+                            }
+                        }
+                    }
+                   
+                })
                 
                 return user.posts
             }
@@ -40,65 +100,293 @@ const UserQuery = {
         getUserSearchResults: {
             type: new GraphQLList(UserType),
             args: { username: { type: GraphQLString }, type: { type: GraphQLString }},
-            resolve(parent, args) {
-                const applicableUsernames = users.filter(user => user.username.includes(args.username));
-                const applicableNames = users.filter(user => user.firstName.includes(args.username));
-
-               
-                const raw = [ ... applicableUsernames, ...applicableNames ]
-
-                const res = raw.filter((val, index) => raw.indexOf(val) ===  index)
+            async resolve(parent, args, { prisma }) {
+                
+            
+                const names = await prisma.user.findMany({
+                    where: {
+                        OR: [{ username: { contains: args.username } },
+                             { name: { contains: args.username } }]
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        username: true
+                    }
+                })
 
                 
-                return res
+               
+    
+
+                
+                return names
             }
         },
         getPending: {
-            type: new GraphQLList(AuthorType),
-            args: { id: { type: GraphQLInt }, secretkey: { type: GraphQLString } },
-            resolve(parent, args) {
-                const user = users.find(user => user.id === args.id ? user : null)
-                const secret = sensitive[user.id - 1]
+            type: new GraphQLList(PendingType),
+            args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString } },
+            async resolve(parent, args, { prisma }) {
 
-                if(secret.id != args.id || secret.secretkey != args.secretkey) {
-                    return
+                const exists = await prisma.userData.count({
+                    where: { 
+                        AND: [
+                            {id: args.id},
+                            {secretkey: args.secretkey}
+                        ]
+                    }
+                })
+
+                
+
+                
+            
+                if (exists) {
+
+                    console.log("HITT")
+       
+                  const follows = await prisma.follow.findMany({
+                    where: { 
+                        AND: [ { followingId: args.id } ,
+                             { denial: false } ]
+                        },
+                    select: {
+                        id: true,
+                        follower: {
+                            select: {
+                                id: true,
+                                name: true,
+                                username: true
+                            }
+                        }
+                    }
+                  })
+
+                //   console.log(follows, "fff")
+                
+                  
+
+                  return follows.map(data => {
+                    return {
+                        pendingId: data.id,
+                        ...data.follower
+                    }
+                  })
                 }
 
 
-                return user.pending
             }
         },
         getFeed: {
             type: new GraphQLList(PostType),
-            args: { id: { type: GraphQLInt }, secretkey: { type: GraphQLString }, type: { type: GraphQLString } },
-            resolve(parent, args) {
-                console.log(args, "ARGS")
-                const user = users.find(user => user.id === args.id ? user : null)
-                const secret = sensitive[user.id - 1]
+            args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString }, type: { type: GraphQLString } },
+            async resolve(parent, args, { prisma }) {
 
-                if(secret.id != args.id || secret.secretkey != args.secretkey) {
+                console.log(args, "ARGS")
+
+                const exists = await prisma.userData.count({
+                    where: { 
+                        AND: [
+                            {id: args.id},
+                            {secretkey: args.secretkey}
+                        ]
+                    }
+                })
+
+                if(!exists) {
                     return
                 }
 
-                
+                // model User {
+                //     id                  String         @unique @default(uuid())
+                //     username            String         @unique
+                //     name                String
+                //     userData            UserData?
+                //     posts               Post[]
+                //     viewedPosts         ViewedPost[]
+                //     likedPosts          LikedPost[]
+                //     friends             Friendship[]   @relation("User_One")
+                //     friendshipsReceived Friendship[]   @relation("User_Two")
+                //     following           Follow[]       @relation("Following")
+                //     followers           Follow[]       @relation("Follower")
+                //     chatroomUsers       ChatroomUser[]
+                //     avgRatio            Float          @default(0.0)
+                //     multiplier          Float          @default(1.0)
+                //     socket              String?
+                //     Message             Message[]
+                //     lastUpdated         DateTime       @default(now()) @updatedAt
+                  
+                //     @@index([username])
+                //   }
+                  
+                //   model Friendship {
+                //     id        String @id @default(uuid())
+                //     userOne   User   @relation("User_One", fields: [userOneId], references: [id])
+                //     userOneId String
+                //     userTwo   User   @relation("User_Two", fields: [userTwoId], references: [id])
+                //     userTwoId String
+                  
+                //     @@unique([userOneId, userTwoId])
+                //   }
+                  
+                //   model Follow {
+                //     id          String  @id @default(uuid())
+                //     follower    User    @relation("Following", fields: [followerId], references: [id])
+                //     followerId  String
+                //     following   User    @relation("Follower", fields: [followingId], references: [id])
+                //     followingId String
+                //     denial      Boolean @default(false)
+                  
+                //     @@unique([followerId, followingId])
+                //   }
 
+                // model Post {
+                //     id         Int          @id @default(autoincrement())
+                //     content    String
+                //     user       User         @relation(fields: [userId], references: [id])
+                //     userId     String
+                //     date       DateTime     @default(now())
+                //     likedBy    LikedPost[]
+                //     viewedBy   ViewedPost[]
+                //     avgRatio   Float        @default(0.0)
+                //     multiplier Float        @default(1.0) // Ensure decimal point
+                //   }
+
+                const posts = await prisma.user.findFirst({
+                    where: {
+                        id: args.id
+                    },
+                    select: {
+                        following: {
+                            select: {
+                                following: {
+                                    select: {
+                                        posts: {
+                                            select: {
+                                                user: {
+                                                    select: {
+                                                        name: true,
+                                                        id: true,
+                                                        username: true
+                                                    }
+                                                },
+                                                content: true,
+                                                id: true,
+                                                avgRatio: true,
+                                                multiplier: true,
+                                                date: true
+                                            },
+                                        }
+                                    }
+                                },
+                            }
+                        },
+                        friends: {
+                            select: {
+                                userTwo: {
+                                    select: {
+                                        posts: {
+                                            select: {
+                                                user: {
+                                                    select: {
+                                                        name: true,
+                                                        id: true,
+                                                        username: true
+                                                    }
+                                                },
+                                                content: true,
+                                                id: true,
+                                                avgRatio: true,
+                                                multiplier: true,
+                                                date: true
+                                            },
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        friendshipsReceived: {
+                            select: {
+                                userOne: {
+                                    select: {
+                                        posts: {
+                                            select: {
+                                                user: {
+                                                    select: {
+                                                        name: true,
+                                                        id: true,
+                                                        username: true
+                                                    }
+                                                },
+                                                content: true,
+                                                id: true,
+                                                avgRatio: true,
+                                                multiplier: true,
+                                                date: true
+                                            },
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+
+                // id: { type: GraphQLInt},
+                // content: { type: GraphQLString },
+                // user: { type: AuthorType },
+                // date: { type: GraphQLString},
+                // views: { type: new GraphQLList(AuthorType) },
+                // likes: { type: new GraphQLList(AuthorType) },
+                // avgRatio: { type: graphql.GraphQLFloat},
+                // multiplier: { type: graphql.GraphQLFloat},
+
+                // console.log("POSTS", posts.following[0].following.posts)
+                // console.log("POSTSFRIENDS", posts.friends)
+                // console.log("POSTSFRIENDS", posts.friendshipsReceived[0].userOne.posts)
+
+                
+                
                 let followingPosts = []
                 let friendsPosts = []
 
+
                 if(args.type != "Friends") {
-                    for(let i = 0; i < user.following.length; i++) {
-                        const following = users.find(us => us.id === user.following[i].id ? us : null)
-                        following.posts.map(post => followingPosts.unshift(post))
+                    for(let i = 0; i < posts.following.length; i++) {
+                        for(let x = 0; x < posts.following[i]?.following?.posts.length; x++) {
+                            followingPosts.unshift(posts.following[i]?.following?.posts[x])
+                        }
                     }
                 }
+                
 
                 if(args.type != "Following") {
-                    for(let i = 0; i < user.friends.length; i++) {
-                        const friends = users.find(us => us.id === user.friends[i].id ? us : null)
-                        friends.posts.map(post => friendsPosts.unshift(post))
+                    for(let i = 0; i < posts.friends.length; i++) {
+                        for(let x = 0; x < posts.friends[i]?.userTwo?.posts.length; x++) {
+                            friendsPosts.unshift(posts.friends[i]?.userTwo?.posts[x])
+                        }
+                    }
+    
+                    for(let i = 0; i < posts.friendshipsReceived.length; i++) {
+                        for(let x = 0; x < posts.friendshipsReceived[i]?.userOne?.posts.length; x++) {
+                            friendsPosts.unshift(posts.friendshipsReceived[i]?.userOne?.posts[x])
+                        }
                     }
                 }
 
+
+
+                
+                
+                
+                
+                if(args.type == "Friends") {
+                    return friendsPosts
+                }
+
+                if(args.type == "Following") {
+                    return followingPosts
+                }
                 
                 
 
@@ -107,8 +395,6 @@ const UserQuery = {
                 
                 let followingAvgRatio = 0
                 let friendsAvgRatio = 0
-                console.log(followingAvgRatio)
-                console.log(friendsAvgRatio)
 
                 if(followingPosts) {
                     for(let i = 0; i < followingPosts.length; i++) {
@@ -129,27 +415,8 @@ const UserQuery = {
 
                 const multiplier = followingAvgRatio / friendsAvgRatio ? followingAvgRatio / friendsAvgRatio : 1
 
-                console.log(followingAvgRatio, friendsAvgRatio, multiplier, "RATIOS")
+                console.log("RATIOS", followingAvgRatio, friendsAvgRatio, multiplier)
 
-                let swaps = 0;
-
-                function swapDate(arr) {
-                    for(let i = 0; i < arr.length; i++) {
-                        if(i + 1 != arr.length) {
-                            if(arr[i].date < arr[i+1].date) {
-                                const temp = arr[i]
-                                arr[i] = arr[i+1]
-                                arr[i+1] = temp
-                                swaps+=1
-                            }
-                        }
-                    }
-
-                    if(swaps != 0) {
-                        swaps = 0
-                        swapDate(arr)
-                    }
-                }
 
                 function mergeSort(arr) {
                     if (arr.length <= 1) {
@@ -192,38 +459,38 @@ const UserQuery = {
                     return posts
                 }
 
-                if(args.type == "Friends") {
-                    console.log("FRIENDS")
-                    return friendsPosts
-                }
 
                 const raw = []
 
                 if(multiplier > 1) {
                     for(let i = 0; i < friendsPosts.length; i++) {
                         const copy = { ...friendsPosts[i] }
-                        copy.avgRatio = copy.avgRatio * multiplier / i
+                        copy.avgRatio = copy.avgRatio * multiplier / (i + 1) * copy.multiplier
                         raw.push(copy)
                     }
 
                     for(let i = 0; i < followingPosts.length; i++) {
                         const copy = { ...followingPosts[i] }
-                        copy.avgRatio = copy.avgRatio / i
+                        copy.avgRatio = copy.avgRatio / (i + 1) * copy.multiplier
                         raw.push(copy)
                     }
                 } else {
                     for(let i = 0; i < friendsPosts.length; i++) {
                         const copy = { ...friendsPosts[i] }
-                        copy.avgRatio = copy.avgRatio / i
+                        copy.avgRatio = copy.avgRatio / (i + 1) * copy.multiplier
                         raw.push(copy)
                     }
 
                     for(let i = 0; i < followingPosts.length; i++) {
                         const copy = { ...followingPosts[i] }
-                        copy.avgRatio = copy.avgRatio / i
+                        copy.avgRatio = copy.avgRatio / (i + 1) * copy.multiplier
                         raw.push(copy)
                     }
                 }
+
+                // console.log(raw)
+
+                let swaps = 0
 
                 function swapRatio(arr) {
                     for(let i = 0; i < arr.length; i++) {

@@ -14,28 +14,31 @@ import DiscoverProfile from "../components/DiscoverProfile";
 
 function Home() {
     const Ctx = useContext(Context)
-    // const [ vars, setVars ] = useState(Cookies.get('feed') )
+    const [ vars, setVars ] = useState(Cookies.get('feed') )
     const [ id, setId ] = useState(Ctx.id)
 
-    const { err, load, dat } = useQuery(DISCOVER_PEOPLE, {
-        fetchPolicy: 'network-only',
-        variables: {
-            id: id || 1
-        }
-    })
-
-    // const { error, loading, data } = useQuery(GET_FEED, {
+    // const { err, load, dat } = useQuery(DISCOVER_PEOPLE, {
+    //     fetchPolicy: 'network-only',
     //     variables: {
-    //         id: Ctx.id,
-    //         secretkey: Ctx.secretkey,
-    //         type: vars || "Recommended"
+    //         id: id || 1
     //     }
     // })
+
+    const { error, loading, data } = useQuery(GET_FEED, {
+        variables: {
+            id: Ctx.id,
+            secretkey: Ctx.secretkey,
+            type: vars || "Recommended"
+        }
+    })
 
     useEffect(() => {
         setId(Ctx.id)
     }, [Ctx.id])
 
+    useEffect(() => {
+        console.log(data)
+    }, [data])
 
 
     // const [ discPeople, { er, lo, da }] = useMutation(DISCOVER_USERS)
@@ -54,13 +57,13 @@ function Home() {
     //     discover()
     // }, [])
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        console.log(dat)
-    }, [dat])
+    //     console.log(dat)
+    // }, [dat])
 
 
-    console.log(dat?.recommendedUsers)
+    // console.log(dat?.recommendedUsers)
 
     
    
@@ -68,9 +71,9 @@ function Home() {
 
     return <>
         <Nav icons={true}/>
-        {/* { data?.getFeed.map((da, index) => {
+        { data?.getFeed.map((da, index) => {
             return <Post data={da} key={index} />
-        })} */}
+        })}
     </>
 }
 export default Home

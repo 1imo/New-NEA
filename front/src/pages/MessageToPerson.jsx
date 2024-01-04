@@ -39,7 +39,7 @@ function MessageToPerson() {
                 id: Ctx.id,
                 secretkey: Ctx.secretkey,
                 content: contentRef.current.value,
-                chatroom: parseInt(id)
+                chatroom: id
             }
         })
         contentRef.current.value = ""
@@ -74,7 +74,7 @@ function MessageToPerson() {
         setVars({
             id: Ctx.id,
             secretkey: Ctx.secretkey,
-            chatId: parseInt(id)
+            chatId: id
         })
 
         joinRoom(parseInt(id))
@@ -98,27 +98,9 @@ function MessageToPerson() {
 
     useEffect(() => {
         
-        const messageContainer = document.querySelector('.message-container');
-        messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to bottom
+        const messageContainer = document.querySelector('.message-container')
+        messageContainer.scrollTop = messageContainer.scrollHeight
     }, [messages])
-
-    // document.addEventListener("visibilitychange", () => {
-    //     if (document.visibilityState === "visible") {
-    //         if(messages[messages.length - 1]?.sender?.id !== Ctx.id) {
-    //             edit("read", messages[messages.length - 1].id)
-    //         }
-    //     }
-    // });
-
-
-    
-
-    
-    // useEffect(() => {
-    //     if(inView) {
-    //         console.log(props.data, "LAST")
-    //     }
-    // }, [inView])
 
 
     useEffect(() => {
@@ -129,9 +111,13 @@ function MessageToPerson() {
         }
     }, [inView])
 
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
     
  return <>
-        <section onFocus={() => setFocus(true)} style={{display: "flex", flexDirection: "column-reverse", height: "calc(100svh - 88px)", margin: "48px 0 40px", boxSizing: "border-box", overflowY: "scroll", overflowX: "hidden"}} className="message-container">
+        <section onFocus={() => setFocus(true)} style={{display: "flex", flexDirection: "column-reverse", height: "calc(100svh - 88px)", margin: "48px 0 40px", boxSizing: "border-box", overflowY: "scroll", overflowX: "hidden",}} className="message-container">
             <div style={styles.input}>
                 <img onClick={() => send()} src="/send.svg" />
                 <input ref={contentRef} type="text" placeholder="|Message" />

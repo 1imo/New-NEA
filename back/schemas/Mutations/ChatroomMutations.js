@@ -3,7 +3,7 @@ const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList
 const { graphqlHTTP } = require("express-graphql")
 const fs = require("fs")
 
-const update = require("../../index");
+const update = require("../../index.js");
 
 const UserType = require("../TypeDefs/UserType")
 const PostType = require("../TypeDefs/PostType")
@@ -13,144 +13,197 @@ const posts = require("../../POST_DATA.json")
 const chatrooms = require("../../CHATROOM_DATA.json")
 const sensitive = require("../../SENSITIVE_USER_DATA.json")
 const ChatroomType = require("../TypeDefs/ChatroomType")
-const MessageType = require("../TypeDefs/MessageType")
-
-// const ChatroomType = new GraphQLObjectType({
-//     name: "Chatroom",
-//     fields: () => ({
-//         id: { type: GraphQLInt},
-//         chatters: { type: new GraphQLList(UserType) },
-//         messages: { type: new GraphQLList(MessageType) },
-//         lastMessage: { type: MessageType }
-//     })
-// })
+const MessageType = require("../TypeDefs/MessageType");
+const LinkType = require("../TypeDefs/LinkType.js")
 
 
 const ChatroomMutations = {
     getLocation: {
         type: ChatroomType,
-        args: { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, username: { type: GraphQLString }},
-        resolve(parent, args) {
-            console.log(args)
-            const user = users.find(user => user.id === args.id ? user : null)
-            const secret = sensitive[user.id - 1]
+        args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString }, username: { type: GraphQLString }},
+        async resolve(parent, args, { prisma, io }) {
+            
+            const exists = await prisma.userData.count({
+                where: { 
+                    AND: [
+                        {id: args.id},
+                        {secretkey: args.secretkey}
+                    ]
+                }
+            })
 
-            console.log(user, secret)
-
-            if(secret.id != args.id || secret.secretkey != args.secretkey) {
+            if(!exists) {
                 return
             }
 
-            const recipient = users.find(user => user.username == args.username ? user : null)
-
-
-            const chatterOne = {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username
-            }
-
-            const chatterTwo = {
-                id: recipient.id,
-                firstName: recipient.firstName,
-                lastName: recipient.lastName,
-                username: recipient.username
-            }
-
-            const chatroom = {
-                id: chatrooms.length + 1,
-                chatters: [ chatterOne, chatterTwo ],
-                messages: [],
-                lastMessage: {},
-                connections: []
-            }
-
-            console.log(chatroom)
-
             
 
-            user.chatrooms.push(chatroom.id)
-            recipient.chatrooms.push(chatroom.id)
-            let updatedJson = JSON.stringify(users, null, 2)
-            fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
-
-            chatrooms.push(chatroom)
-            updatedJson = JSON.stringify(chatrooms, null, 2)
-            fs.writeFileSync(__dirname + "/../../CHATROOM_DATA.json", updatedJson)
-
-            io.to(recipient.socket).emit("updatedChat", chatroom)
-
-
-
             
-            return chatroom
+            const userOne = await prisma.user.findFirst({
+                where: {
+                    id: args.id
+                },
+                select: {
+                    id: true,
+                    socket: true
+                }
+            })
+
+            const userTwo = await prisma.user.findFirst({
+                where: {
+                    username: args.username
+                },
+                select: {
+                    id: true
+                }
+            })
+
+            console.log("BELOW")
+
+            const { nanoid } = await import('nanoid')
+            const id = nanoid()
+
+            try {
+                const chatroom = await prisma.chatroom.create({
+                    data: {
+                        id
+                    }
+                })
+
+                console.log(chatroom, "CHAT")
+    
+                await prisma.chatroomUser.create({
+                    data: {
+                      chatroomId: chatroom.id,
+                      userId: userOne.id,
+                    },
+                })
+                  
+                await prisma.chatroomUser.create({
+                    data: {
+                      chatroomId: chatroom.id,
+                      userId: userTwo.id,
+                    },
+                })
+    
+                const data = await prisma.chatroom.findFirst({
+                    where: {
+                        id: chatroom.id
+                    },
+                    select: { 
+                        id: true, 
+                        chatroomUsers: {
+                            select: {
+                                user: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        username: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+    
+                console.log(data)
+
+
+                const chat = {
+                    id: data.id,
+                    chatters: data.chatroomUsers,
+                    messages: [],
+                    lastMessage: {}
+                }
+    
+    
+    
+                io.to(userOne.socket).emit("updatedChat", chat)
+    
+    
+                return chat
+            } catch(e) {
+                console.log(e)
+            }
+
+
         }
     },
     sendMessage: {
         type: MessageType,
-        args: { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLInt }, content: { type: GraphQLString }},
-        resolve(parent, args, { io }) {
-            // console.log(args)
+        args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLString }, content: { type: GraphQLString }},
+        async resolve(parent, args, { io, prisma }) {
+            
+            console.log(args)
 
-            const user = users.find(user => user.id === args.id ? user : null)
-            const secret = sensitive[user.id - 1]
+            const exists = await prisma.userData.count({
+                where: { 
+                    AND: [
+                        {id: args.id},
+                        {secretkey: args.secretkey}
+                    ]
+                }
+            })
 
-            if(secret.id != args.id || secret.secretkey != args.secretkey) {
+            if(!exists) {
                 return
             }
 
-            const chatroom = chatrooms.find(chat => chat.id === args.chatroom)
-            const recipient = chatroom.chatters.find(rec => rec.id !== user.id)
-            const recipientFull = users.find(user => user.id === recipient.id)
 
-            
-            const message = {
-                id: chatroom.messages.length + 1,
-                sender: {
-                    id: user.id,
-                    username: user.username,
-                    firstName: user.firstName,
-                    lastName: user.lastName
+            const chatroom = await prisma.chatroom.findFirst({
+                where: {
+                    id: args.chatroom
                 },
-                content: args.content,
-                date: new Date(),
-                read: false
-            }
-
-            const msg = chatroom.messages.find(msg => msg.id == message.id)
-
-            console.log(msg)
-
-            if(msg) {
-                return
-            }
-
-            chatroom.messages.push(message)
-            chatroom.lastMessage = message
-
-            const userIndex = user.chatrooms.findIndex(chat => chat === chatroom.id)
-            user.chatrooms.splice(userIndex, 1)
-            user.chatrooms = [ chatroom.id, ...user.chatrooms ]
-            const recipientIndex = recipientFull.chatrooms.findIndex(chat => chat === chatroom.id)
-            recipientFull.chatrooms.splice(recipientIndex, 1)
-            recipientFull.chatrooms = [ chatroom.id, ...recipientFull.chatrooms ]
+                select: {
+                    id: true,
+                    chatroomUsers: {
+                        select: {
+                            user: {
+                                select: {
+                                    socket: true
+                                }
+                            }
+                        }
+                    }
+                }
+            })
 
 
+            const sender = await prisma.user.findFirst({
+                where: {
+                    id: args.id
+                },
+                select: {
+                    id: true
+                }
+            })
 
+            const message = await prisma.message.create({
+                data: {
+                    content: args.content,
+                    senderId: sender.id,
+                    chatroomId: chatroom.id
+                },
+                select: {
+                    id: true,
+                    sender: {
+                        select: {
+                            id: true,
+                            username: true,
+                            name: true
+                        }
+                    },
+                    content: true,
+                    date: true,
+                    read: true
+                }
+            })
             
-            const updatedJson = JSON.stringify(users)
-            fs.writeFileSync(__dirname + "/../../USER_DATA.json", updatedJson)
             
-            const updatedJso = JSON.stringify(chatrooms)
-            fs.writeFileSync(__dirname + "/../../CHATROOM_DATA.json", updatedJso)
-
-
-            // chatroom.connections.map(connection => io.to(connection).emit('chatroom', chatroom))
-
-            io.to(user.socket).emit("chatroom", chatroom)
-            io.to(recipientFull.socket).emit("chatroom", chatroom)
-            io.to(recipientFull.socket).emit("updatedChat", chatroom)
+            chatroom.chatroomUsers.map(user => {
+                io.to(user.socket).emit("chatroom", chatroom)
+                io.to(user.socket).emit("updatedChat", chatroom)
+            })
 
 
 
@@ -158,50 +211,82 @@ const ChatroomMutations = {
         }
     },
     editMessage: {
-        type: MessageType,
-        args: { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLInt }, message: { type: GraphQLInt }, edit: { type: GraphQLString }},
-        resolve(parent, args, { io }) {
+        type: LinkType,
+        args: { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLString }, message: { type: GraphQLString }, edit: { type: GraphQLString }},
+        async resolve(parent, args, { io, socket }) {
 
-            console.log(args)
+            const exists = await prisma.userData.count({
+                where: { 
+                    AND: [
+                        {id: args.id},
+                        {secretkey: args.secretkey}
+                    ] 
+                }
+            })
 
-            const user = users.find(user => user.id === args.id ? user : null)
-            const secret = sensitive[user.id - 1]
-
-            if(secret.id != args.id || secret.secretkey != args.secretkey) {
+            if(!exists) {
                 return
             }
-
-            const chatroom = chatrooms.find(chat => chat.id === args.chatroom ? chat : null)
-            const msg = chatroom.messages.find(msg => msg.id === args.message ? msg : null)
-
-            // console.log(chatroom, msg)
             
-            // id: { type: GraphQLInt},
-            // sender: { type: AuthorType },
-            // content: { type: GraphQLString },
-            // date: { type: GraphQLString},
-            // read: { type: GraphQLBoolean }
 
-            console.log(chatroom)
+            const chatroom = await prisma.chatroom.findFirst({
+                where: {
+                    id: args.chatroom
+                },
+                select: {
+                    chatroomUsers: {
+                        select: {
+                            user: {
+                                select: {
+                                    socket
+                                }
+                            }
+                        }
+                    }
+                }
+            })
 
             switch(args.edit) {
                 case "read":
-
-                    msg.read = true
-                    console.log("READING")
+                    await prisma.message.update({
+                        where: {
+                            id: args.message
+                        },
+                        data: {
+                            read: true
+                        }
+                    })
                 case "unread":
-                    msg.read === false
+                    await prisma.message.update({
+                        where: {
+                            id: args.message
+                        },
+                        data: {
+                            read: false
+                        }
+                    })
                 case "delete":
-                    msg.content === "Message has been deleted"
+                    await prisma.message.update({
+                        where: {
+                            id: args.message
+                        },
+                        data: {
+                            content: "This message has been deleted"
+                        }
+                    })
             }
 
-            const updatedJson = JSON.stringify(chatrooms, null, 2)
-            fs.writeFileSync(__dirname + "/../../CHATROOM_DATA.json", updatedJson)
+
+            chatroom.chatroomUsers.map(user => {
+                io.to(user.socket).emit("chatroom", chatroom)
+                io.to(user.socket).emit("updatedChat", chatroom)
+            })
 
 
-            chatroom.connections.map(connection => io.to(connection).emit('chatroom', chatroom))
 
-            return msg
+            return {
+                url: "#"
+            }
 
         }
     }

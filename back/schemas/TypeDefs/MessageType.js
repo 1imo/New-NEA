@@ -9,7 +9,7 @@ const AuthorType = require("./AuthorType")
 const MessageType = new GraphQLObjectType({
     name: "Message",
     fields: () => ({
-        id: { type: GraphQLInt},
+        id: { type: GraphQLString },
         sender: { type: AuthorType },
         content: { type: GraphQLString },
         date: { type: GraphQLString},

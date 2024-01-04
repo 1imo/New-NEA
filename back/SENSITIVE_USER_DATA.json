@@ -52,5 +52,23 @@
     "username": "followme",
     "password": "followme",
     "secretkey": "followme"
+  },
+  {
+    "id": 10,
+    "username": "mwah",
+    "password": "mwah",
+    "secretkey": "mwah"
+  },
+  {
+    "id": 11,
+    "username": "suud",
+    "password": "suud",
+    "secretkey": "suud"
+  },
+  {
+    "id": 12,
+    "username": "1imo",
+    "password": "mylongasspassword",
+    "secretkey": "1imo"
   }
 ]

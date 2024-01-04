@@ -81,7 +81,7 @@ function ProfileInfo() {
                 <div style={{display: "flex", columnGap: 8}}>
                     <img src="/profile.jpg" height="40px" width="40px" style={{"borderRadius": "40px"}} />
                     <div>
-                        <h3>{data?.getPublicInfo?.firstName} {data?.getPublicInfo?.lastName}</h3>
+                        <h3>{data?.getPublicInfo?.name.split(" ")[0]} {data?.getPublicInfo?.name.split(" ")[1]}</h3>
                         <h5>@{data?.getPublicInfo?.username}</h5>
                     </div>
                 </div>

@@ -12,31 +12,68 @@ const PostQuery = {
         getPost: {
             type: PostType,
             args: { id: { type: GraphQLInt}},
-            resolve(parent, args) {
-                const post = posts.find(post => post.id === args.id)
+            async resolve(parent, args, { prisma }) {
+                console.log(args, "ARGS")
+                
+                const post = await prisma.post.findFirst({
+                    where: {
+                        id: args.id
+                    },
+                    select: {
+                        id: true,
+                        content: true,
+                        user: {
+                            select: {
+                                name: true,
+                                username: true
+                            }
+                        }
+                    }
+                })
+
+                // console.log(post,)
+                
                 return post
             }
         },
         profileInfo: {
             type: UserType,
             args: { username: { type: GraphQLString }},
-            resolve(parent, args) {
-                const user = users.find(user => user.username === username ? user : null)
+            async resolve(parent, args, { prisma }) {
+
+                const user = await prisma.user.findFirst({
+                    where: {
+                        id: args.id
+                    }
+                })
+
+
                 return {
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    firstName: user.name.split(" ")[0],
+                    lastName: user.name.split(" ")[1],
                     username: user.username,
-                    followerCount: user.followerCount,
-                    followingCount: user.followingCount,
-                    friendCount: user.friendCount
+                    followerCount: user.followers.length,
+                    followingCount: user.following.length,
+                    friendCount: user.friends.length + user.friendshipsReceived.length
                 }
             }
         },
         getFriends: {
-            type: UserType,
+            type: new graphql.GraphQLList(UserType),
             args: { username: { type: GraphQLString }},
-            resolve(parent, args) {
-                const user = users.find(user => user.username === username ? user : null)
+            async resolve(parent, args) {
+            
+                const user = await prisma.user.findFirst({
+                    where: {
+                        id: args.id
+                    },
+                    select: {
+                        friends: true,
+                        friendshipsReceived: true
+                    }
+                })
+
+                return [ ...user.friends, ...user.friendshipsReceived ]
                 
             }
         }

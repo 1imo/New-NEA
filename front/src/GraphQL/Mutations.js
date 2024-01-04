@@ -22,7 +22,7 @@ export const CREATE_USER_MUTATION = gql`
 
 export const CREATE_NEWPOST = gql`
     mutation createPost(
-        $id: Int!,
+        $id: String!,
         $secretkey: String!,
         $content: String!
     ) {
@@ -31,14 +31,14 @@ export const CREATE_NEWPOST = gql`
             secretkey: $secretkey
             content: $content
         ) {
-            id
+            url
         }
     }
 `
 
 export const FOLLOW_UNFOLLOW = gql`
     mutation followUnfollowUser(
-        $id: Int!,
+        $id: String!,
         $secretkey: String!,
         $username: String!
     ) {
@@ -47,14 +47,14 @@ export const FOLLOW_UNFOLLOW = gql`
             secretkey: $secretkey
             username: $username
         ) {
-            username
+            url
         }
     }
 `
 
 export const GET_CHATROOM = gql`
     mutation getLocation(
-        $id: Int!,
+        $id: String!,
         $secretkey: String!,
         $username: String!
     ) {
@@ -66,15 +66,13 @@ export const GET_CHATROOM = gql`
             id,
             chatters {
               id,
-              firstName,
-              lastName,
+              name,
               username
             },
             lastMessage {
               id,
               sender {
-                firstName,
-                lastName,
+                name,
                 username,
                 id
               }
@@ -89,7 +87,7 @@ export const GET_CHATROOM = gql`
 export const VIEW_POST = gql`
     mutation postViewed(
         $post: Int!
-        $id: Int!,
+        $id: String!,
         $secretkey: String!,
     ) {
         postViewed (
@@ -109,7 +107,7 @@ export const VIEW_POST = gql`
 export const LIKE_POST = gql`
     mutation postLiked(
         $post: Int!
-        $id: Int!,
+        $id: String!,
         $secretkey: String!,
     ) {
         postLiked (
@@ -135,8 +133,8 @@ export const LIKE_POST = gql`
 
 export const SEND_MESSAGE = gql`
     mutation sendMessage(
-        $chatroom: Int!
-        $id: Int!,
+        $chatroom: String!
+        $id: String!,
         $secretkey: String!,
         $content: String!
     ) {
@@ -156,9 +154,9 @@ export const SEND_MESSAGE = gql`
 
 export const EDIT_MESSAGE = gql`
     mutation editMessage(
-        $chatroom: Int!
-        $id: Int!,
-        $message: Int!
+        $chatroom: String!
+        $id: String!,
+        $message: String!
         $secretkey: String!,
         $edit: String!
     ) {
@@ -177,8 +175,8 @@ export const EDIT_MESSAGE = gql`
 
 export const BEFRIEND_PENDING = gql`
     mutation pendingRequest(
-        $request: Int!
-        $id: Int!,
+        $request: String!
+        $id: String!,
         $secretkey: String!,
         $action: String!
     ) {

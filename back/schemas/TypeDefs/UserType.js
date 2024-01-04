@@ -10,10 +10,9 @@ const PostType = require("./PostType")
 const UserType = new GraphQLObjectType({
     name: "User",
     fields: () => ({
-        id: { type: GraphQLInt},
+        id: { type: GraphQLString},
         username: { type: GraphQLString},
-        firstName: { type: GraphQLString},
-        lastName: { type: GraphQLString},
+        name: { type: GraphQLString},
         posts: { type: new GraphQLList(PostType),
             resolve(parent, args) {
               // Retrieve the posts for the current user
