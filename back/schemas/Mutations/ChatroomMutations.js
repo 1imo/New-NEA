@@ -168,13 +168,15 @@ const ChatroomMutations = {
                 }
             })
 
+            
+
 
             const sender = await prisma.user.findFirst({
                 where: {
                     id: args.id
                 },
                 select: {
-                    id: true
+                    id: true,
                 }
             })
 
@@ -198,11 +200,11 @@ const ChatroomMutations = {
                     read: true
                 }
             })
-            
+
             
             chatroom.chatroomUsers.map(user => {
-                io.to(user.socket).emit("chatroom", chatroom)
-                io.to(user.socket).emit("updatedChat", chatroom)
+                io.to(user.user.socket).emit("chatroom", message)
+                io.to(user.user.socket).emit("updatedChat", message)
             })
 
 

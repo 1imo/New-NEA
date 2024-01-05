@@ -12,6 +12,8 @@ export const ContextProvider = ({ children }) => {
 
     const [ id, setId ] = useState(Cookies.get('id'))
     const [ secretkey, setSecretKey ] = useState(Cookies.get('secretkey'))
+
+    const [ msgStore, setMsgStore ] = useState([])
     
     useEffect(() => {
         setSecretKey(Cookies.get('secretkey'))
@@ -39,7 +41,9 @@ export const ContextProvider = ({ children }) => {
         secretkey: secretkey,
         setId,
         setSecretKey,
-        socket
+        socket,
+        msgStore,
+        setMsgStore
     }
   
     return (

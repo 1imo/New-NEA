@@ -114,6 +114,40 @@ export const GET_CHATROOM = gql`
     }
 `
 
+export const GET_CHATROOM_DATA = gql`
+    query($chatId: String!, $id: String!, $secretkey: String!) {
+        getChatroomData(chatId: $chatId, id: $id, secretkey: $secretkey) {
+          id,
+          chatters {
+            id,
+            name,
+            username
+          },
+          messages {
+            id,
+            sender {
+              name,
+              username,
+              id
+            }
+            content,
+            date,
+            read
+          },
+          lastMessage {
+            id,
+            sender {
+              name,
+              username,
+              id
+            }
+            content,
+            date,
+            read
+          }
+        }
+    }
+`
 
 export const GET_PENDING_REQUESTS = gql`
     query($id: String!, $secretkey: String!) {

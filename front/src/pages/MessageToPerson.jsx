@@ -1,6 +1,6 @@
 import { forwardRef, useContext, useEffect, useRef, useState } from "react"
 import { useQuery, useMutation } from "@apollo/client"
-import { GET_CHATROOM } from "../GraphQL/Queries"
+import { GET_CHATROOM, GET_CHATROOM_DATA } from "../GraphQL/Queries"
 import { EDIT_MESSAGE, SEND_MESSAGE } from "../GraphQL/Mutations"
 import { useParams } from "react-router-dom"
 import { Context } from "../context/Context"
@@ -12,25 +12,21 @@ function MessageToPerson() {
     const { ref, inView } = useInView()
     const { socket } = useContext(Context)
     const Ctx = useContext(Context)
-
+    const [ messages, setMessages ] = useState([])
     const [ contentHeight, setContentHeight ] = useState("calc(100svh)")
     const [ vars, setVars ] = useState({})
-    const [ messages, setMessages ] = useState([])
     const [ recipient, setRecipient ] = useState({})
     const [ focus, setFocus ] = useState(false)
     const contentRef = useRef()
     
-    const { loading, error, data } = useQuery(GET_CHATROOM, {
+    const { loading, error, data } = useQuery(GET_CHATROOM_DATA, {
         variables: vars
     })
     
     const [ sendMessage, { dataMain, errorMain, loadingMain } ] = useMutation(SEND_MESSAGE)
     const [ editMessage, { dataEdit, errorEdit, loadingEdit } ] = useMutation(EDIT_MESSAGE)
 
-    const joinRoom = (roomId) => {
-        socket.emit('joinRoom', roomId);
-        console.log(roomId, "ROOM")
-    }
+    
 
     async function send() {
         if(contentRef.current.value == "") return
@@ -69,6 +65,14 @@ function MessageToPerson() {
         console.log(res)
     }
 
+    useEffect(() => {
+        setVars({
+            id: Ctx.id,
+            secretkey: Ctx.secretkey,
+            chatId: id
+        })
+    }, [id])
+
 
     useEffect(() => {
         setVars({
@@ -77,24 +81,19 @@ function MessageToPerson() {
             chatId: id
         })
 
-        joinRoom(parseInt(id))
+        Ctx.setMsgStore([])
 
-        socket.on('chatroom', (data) => {
-            console.log(data, "PING")
-            if(data?.messages?.length > 0) {
-                setMessages(data.messages)
-                // console.log(messages)
-                setRecipient(data.chatters.find(user => user.id !== Ctx.id))
-                console.log(data)
 
-                
-            }
-
-            
-
-          });
-
+        
     }, [])
+    socket.on('chatroom', (data) => {
+    
+        Ctx.setMsgStore([...Ctx.msgStore, data])
+        setMessages([...Ctx.msgStore, data])
+            
+        
+      })
+
 
     useEffect(() => {
         
@@ -113,6 +112,13 @@ function MessageToPerson() {
 
     useEffect(() => {
         console.log(data)
+        if(data?.getChatroomData?.messages) {
+            Ctx.setMsgStore(data?.getChatroomData?.messages)
+            setMessages(data?.getChatroomData?.messages)
+        }
+        if(data?.getChatroomData?.chatters) {
+            setRecipient(data?.getChatroomData?.chatters.find(us => us.id !== Ctx.id))
+        }
     }, [data])
 
     
@@ -124,14 +130,14 @@ function MessageToPerson() {
             </div>
 
             {messages ? messages.map((cont, index) => {
-                return <div key={index} ref={index == 0 ? ref : null} style={ messages[messages.length - 1 - index].sender.id === Ctx.id ? {width: "100%", display: "flex", justifyContent: "flex-end"} : null}><div><p style={{...styles.msg}}>{messages[messages.length - 1 - index].content}</p><p>{index == 0 && messages[messages.length - 1 - index].read && messages[messages.length - 1 - index].sender.id == Ctx.id ? "Read" : null}</p></div></div>
+                return <div key={index} ref={index == 0 ? ref : null} style={ messages[messages.length - 1 - index]?.sender?.id === Ctx.id ? {width: "100%", display: "flex", justifyContent: "flex-end"} : null}><div><p style={{...styles.msg}}>{messages[messages.length - 1 - index]?.content}</p><p>{index == 0 && messages[messages.length - 1 - index]?.read && messages[messages.length - 1 - index]?.sender?.id == Ctx.id ? "Read" : null}</p></div></div>
                 } ) : null}
 
             <nav style={{display: "flex", columnGap: 8, position: "fixed", top: 0, background: "#fff", padding: "16px 0"}}>
                 <img src="/shoe_collective.jpg" height="40px" width="40px" style={{borderRadius: 80}} />
                 <div>
-                    <h3>{`${recipient.firstName} ${recipient.lastName}`}</h3>
-                    <h5>@{recipient.username}</h5>
+                    <h3>{`${recipient?.name?.split(" ")[0]} ${recipient?.name?.split(" ")[0]}`}</h3>
+                    <h5>@{recipient?.username}</h5>
                 </div>
             </nav>
         </section>

@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
     const Ctx = useContext(Context)
-    const [ vars, setVars ] = useState(Cookies.get('feed') )
+    const [ vars, setVars ] = useState(Cookies.get('feed'))
     const [ id, setId ] = useState(Ctx.id)
     const navigate = useNavigate("/")
     
@@ -34,7 +34,7 @@ function Home() {
 
         if(user && key) {
             Cookies.set("id", user)
-            Cookies.set("key", key)
+            Cookies.set("secretkey", key)
             navigate("/")
         }
     }, [])
@@ -51,9 +51,6 @@ function Home() {
         setId(Ctx.id)
     }, [Ctx.id])
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
 
     // const [ discPeople, { er, lo, da }] = useMutation(DISCOVER_USERS)

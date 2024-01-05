@@ -9,6 +9,7 @@ const AuthorType = require("../TypeDefs/AuthorType")
 const { take, skip } = require('@prisma/client');
 const ProfileType = require("../TypeDefs/ProfileType")
 const PendingType = require("../TypeDefs/PendingType")
+const ChatroomType = require("../TypeDefs/ChatroomType")
 
 
 const UserQuery = {
@@ -123,6 +124,133 @@ const UserQuery = {
                 return names
             }
         },
+        getChatroomData: {
+            type: ChatroomType,
+            args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString}, chatId: { type: GraphQLString }},
+            async resolve(parent, args, { prisma }) {
+
+                console.log("CHATROOM")
+
+                const exists = await prisma.userData.count({
+                    where: { 
+                        AND: [
+                            {id: args.id},
+                            {secretkey: args.secretkey}
+                        ]
+                    }
+                })
+
+                // model User {
+                //     id                  String         @unique @default(uuid())
+                //     username            String         @unique
+                //     name                String
+                //     userData            UserData?
+                //     posts               Post[]
+                //     viewedPosts         ViewedPost[]
+                //     likedPosts          LikedPost[]
+                //     friends             Friendship[]   @relation("User_One")
+                //     friendshipsReceived Friendship[]   @relation("User_Two")
+                //     following           Follow[]       @relation("Following")
+                //     followers           Follow[]       @relation("Follower")
+                //     chatroomUsers       ChatroomUser[]
+                //     avgRatio            Float          @default(0.0)
+                //     multiplier          Float          @default(1.0)
+                //     socket              String?
+                //     Message             Message[]
+                //     lastUpdated         DateTime       @default(now()) @updatedAt
+                  
+                //     @@index([username])
+                //   }
+                  
+                  
+                //   model Follow {
+                //     id          String  @id @default(uuid())
+                //     follower    User    @relation("Following", fields: [followerId], references: [id])
+                //     followerId  String
+                //     following   User    @relation("Follower", fields: [followingId], references: [id])
+                //     followingId String
+                //     denial      Boolean @default(false)
+                  
+                //     @@unique([followerId, followingId])
+                //   }
+                  
+                  
+                //   model Message {
+                //     id         String    @id @default(uuid())
+                //     content    String
+                //     sender     User      @relation(fields: [senderId], references: [id])
+                //     senderId   String
+                //     date       DateTime  @default(now())
+                //     read       Boolean   @default(false)
+                //     chatroom   Chatroom? @relation("Chatroom_Messages", fields: [chatroomId], references: [id])
+                //     chatroomId String?
+                //   }
+                  
+                //   model Chatroom {
+                //     id            String         @id
+                //     date          DateTime       @default(now())
+                //     chatroomUsers ChatroomUser[]
+                //     messages      Message[]      @relation("Chatroom_Messages")
+                //   }
+                  
+                //   model ChatroomUser {
+                //     chatroom   Chatroom @relation(fields: [chatroomId], references: [id])
+                //     chatroomId String
+                //     user       User     @relation(fields: [userId], references: [id])
+                //     userId     String
+                  
+                //     @@id([chatroomId, userId])
+                //   }
+
+
+                let chatroom = {}
+            
+                if (exists) {
+                    chatroom = await prisma.chatroom.findFirst({
+                        where: {
+                            id: args.chatId
+                        },
+                        select: {
+                            id: true,
+                            messages: {
+                                select: {
+                                    id: true,
+                                    content: true,
+                                    sender: {
+                                        select: {
+                                            id: true
+                                        }
+                                    },
+                                    read: true
+                                }
+                            },
+                            chatroomUsers: {
+                                select: {
+                                    user: {
+                                        select: {
+                                            id: true,
+                                            name: true,
+                                            username: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    })
+
+                    console.log(chatroom.chatroomUsers)
+
+                    chatroom = {
+                        id: chatroom.id,
+                        messages: chatroom.messages,
+                        chatters: chatroom.chatroomUsers.map(us => us.user)
+                    }
+
+                }
+
+                return chatroom
+            }
+        },
         getPending: {
             type: new GraphQLList(PendingType),
             args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString } },
@@ -181,7 +309,7 @@ const UserQuery = {
             type: new GraphQLList(PostType),
             args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString }, type: { type: GraphQLString } },
             async resolve(parent, args, { prisma }) {
-
+                console.log("FEED")
                 console.log(args, "ARGS")
 
                 const exists = await prisma.userData.count({
