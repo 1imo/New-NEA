@@ -10,12 +10,15 @@ import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import Cookies from "js-cookie";
 import DiscoverProfile from "../components/DiscoverProfile";
+import { useNavigate } from "react-router-dom";
 
 
 function Home() {
     const Ctx = useContext(Context)
     const [ vars, setVars ] = useState(Cookies.get('feed') )
     const [ id, setId ] = useState(Ctx.id)
+    const navigate = useNavigate("/")
+    
 
     // const { err, load, dat } = useQuery(DISCOVER_PEOPLE, {
     //     fetchPolicy: 'network-only',
@@ -23,6 +26,18 @@ function Home() {
     //         id: id || 1
     //     }
     // })
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = urlParams.get("u")
+        const key = urlParams.get("k")
+
+        if(user && key) {
+            Cookies.set("id", user)
+            Cookies.set("key", key)
+            navigate("/")
+        }
+    }, [])
 
     const { error, loading, data } = useQuery(GET_FEED, {
         variables: {

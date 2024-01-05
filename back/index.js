@@ -9,14 +9,80 @@ const cors = require('cors')
 const http = require('http');
 const fs = require("fs")
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient()
+require('dotenv').config();
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 
 const app = express()
+const prisma = new PrismaClient()
 
 app.use(cors({
-    origin: 'http://localhost:5173',
-    methods: '*',
+  origin: ['http://localhost:5173', "http://127.0.0.1:5173/"],
+  methods: '*',
 }))
+
+passport.use(
+  new GoogleStrategy({
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: '/auth/google/callback',
+    scope: ['profile', 'email'],
+  }, (accessToken, refreshToken, profile, done) => {
+    // You can store user profile in a database or return directly as needed,
+    // console.log(profile, done, accessToken, refreshToken)
+    done(null, profile);
+  })
+)
+
+app.use(passport.initialize());
+
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
+
+const memory = []
+
+app.get('/auth/google/callback', passport.authenticate('google', { session: false }), async (req, res) => {
+  if (req.user) {
+    const { profile, accessToken } = req.user
+
+    const exists = await prisma.user.count({
+      where: { id: req.user.id },
+    });
+
+    const { nanoid } = await import('nanoid')
+    const apiKey = nanoid()
+
+    let user;
+
+    if (exists) {
+      user = await prisma.userData.findFirst({
+        where: { id: req.user.id },
+        select: { id: true, secretkey: true },
+      })
+      res.redirect(`http://localhost:5173/?u=${user.id}&k=${user.secretkey}`)
+    } else {
+      user = await prisma.user.create({
+        data: {
+          name: req.user.displayName,
+          username: req.user.displayName.replace(/\s+/g, ""),
+          userData: {
+            create: {
+              secretkey: apiKey,
+              password: "",
+            },
+          },
+        }
+      })
+      res.redirect(`http://localhost:5173/?u=${user.id}&k=${apiKey}`)
+    }
+
+
+  } else {
+    res.status(401).json({ error: 'Authentication failed' });
+  }
+})
+
+
 
 
 const server = http.createServer(app);
@@ -27,12 +93,7 @@ const io = require('socket.io')(server, {
     reconnection: true,
     reconnectionAttempts: 5,
     reconnectionDelay: 1000, 
-});
-
-  
-  
-
-
+})
 
   
 io.on('connection', (socket) => {
