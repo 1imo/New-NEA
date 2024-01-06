@@ -17,6 +17,8 @@ function MessageToPerson() {
     const [ vars, setVars ] = useState({})
     const [ recipient, setRecipient ] = useState({})
     const [ focus, setFocus ] = useState(false)
+    const [ call, setCall ] = useState(false)
+    
     const contentRef = useRef()
     
     const { loading, error, data } = useQuery(GET_CHATROOM_DATA, {
@@ -133,14 +135,18 @@ function MessageToPerson() {
                 return <div key={index} ref={index == 0 ? ref : null} style={ messages[messages.length - 1 - index]?.sender?.id === Ctx.id ? {width: "100%", display: "flex", justifyContent: "flex-end"} : null}><div><p style={{...styles.msg}}>{messages[messages.length - 1 - index]?.content}</p><p>{index == 0 && messages[messages.length - 1 - index]?.read && messages[messages.length - 1 - index]?.sender?.id == Ctx.id ? "Read" : null}</p></div></div>
                 } ) : null}
 
-            <nav style={{display: "flex", columnGap: 8, position: "fixed", top: 0, background: "#fff", padding: "16px 0"}}>
-                <img src="/shoe_collective.jpg" height="40px" width="40px" style={{borderRadius: 80}} />
-                <div>
-                    <h3>{`${recipient?.name?.split(" ")[0]} ${recipient?.name?.split(" ")[0]}`}</h3>
-                    <h5>@{recipient?.username}</h5>
+            <nav style={{display: "flex", alignItems: "center", justifyContent: "space-between", position: "fixed", top: 0, background: "#fff", padding: "16px 0"}}>
+                <div style={{display: "flex", columnGap: 8}}>
+                    <img src="/shoe_collective.jpg" height="40px" width="40px" style={{borderRadius: 80}} />
+                    <div>
+                        <h3>{`${recipient?.name?.split(" ")[0]} ${recipient?.name?.split(" ")[1]}`}</h3>
+                        <h5>@{recipient?.username}</h5>
+                    </div>
                 </div>
+                <img onClick={() => setCall(true)} src="/phone.svg" alt={`Call ${recipient?.name?.split(" ")[0]}`} />
             </nav>
         </section>
+        <Call setCall={setCall} style={call ? null : { display: "none" }} />
     </>
 }
 const styles = {

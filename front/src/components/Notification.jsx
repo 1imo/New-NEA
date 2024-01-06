@@ -1,5 +1,10 @@
 function Notification(props) {
     return <section>
-        <h1>You got a new follower</h1>
+        <div>
+            <img src="/profile.jpg" height={40} width={40}/>
+            <p>yesss</p>
+        </div>
     </section>
 }
+
+export default Notification

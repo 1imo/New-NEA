@@ -22,11 +22,11 @@ function Portal() {
         </div>
         <div style={styles.inputCont}>
             <div style={styles.input}>
-                <h6 style={usernameFocus ? null : { display: "none" }}>Username</h6>
+                <img src="/circle-user-round.svg" alt="username" style={usernameFocus || username.current.value ? null : { display: "none" }} />
                 <input ref={username} onFocus={() => setUsernameFocus(true)} onBlur={() => setUsernameFocus(false)} style={styles.inputBox} placeholder="Username" />
             </div>
             <div style={styles.input}>
-                <h6 style={passFocus ? null : {display: "none"}}>Password</h6>
+                <img src="/lock.svg" alt="password" style={passFocus || pass.current.value ? null : {display: "none"}} />
                 <input ref={pass} onFocus={() => setPassFocus(true)} onBlur={() => setPassFocus(false)} style={styles.inputBox} placeholder="*********" />
             </div>
         </div>
@@ -82,8 +82,10 @@ const styles = {
         boxSizing: "borderBox",
         padding: "4px 16px",
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "center"
+        flexDirection: "row",
+        // justifyContent: "center",
+        alignItems: "center",
+        columnGap: 8
     },
     inputBox: {
         border: "none",
