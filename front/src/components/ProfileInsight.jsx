@@ -42,7 +42,7 @@ function ProfileInsight(props) {
                 variables: {
                     id: Ctx.id,
                     secretkey: Ctx.secretkey,
-                    request: props?.id,
+                    request: props.pendingId,
                     action: "add"
                 }
             })
@@ -51,15 +51,17 @@ function ProfileInsight(props) {
         }
     }
 
+    console.log(props)
+    console.log(props?.id)
 
 
     return <>
         <section style={styles.section} onClick={() => call()} onDoubleClick={() => befriend()} >
             <div>
-                <img src="/shoe_collective.jpg" height="80px" width="80px" style={{"borderRadius": "40px"}}/>
+            <div style={{borderRadius: 80, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${props?.id})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center"}}>&nbsp;</div>
             </div>
-            <div>
-                <h3 style={{"textAlign": "left"}}>{props?.name?.split(" ")[0]} {props?.name?.split(" ")[1]}</h3>
+            <div style={{paddingTop: 8}}>
+                <h3 style={{"textAlign": "left"}}>{props?.name}</h3>
                 <h5 style={{"textAlign": "left"}}>@{props?.username}</h5>
             </div>
         </section>
@@ -69,11 +71,11 @@ function ProfileInsight(props) {
 const styles = {
     section: {
         "display": "flex",
-        "alignItems": "center",
+        // "alignItems": "center",
         "width": "calc(100vw - 32px)",
         "boxSizing": "border-box",
         "maxWidth": "400px",
-        "columnGap": "8px",
+        "columnGap": "12px",
     },
     imagecontent: {
         "borderRadius": "8px",

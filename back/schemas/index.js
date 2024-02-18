@@ -11,7 +11,8 @@ const ChatroomMutations = require("./Mutations/ChatroomMutations")
 
 const PostQueries = require("./Queries/PostQueries")
 const UserQueries = require("./Queries/UserQuery")
-// const ChatroomQueries = require("./Queries/ChatroomQueries")
+const ChatroomQueries = require("./Queries/ChatroomQueries")
+const AuthQueries = require("./Queries/AuthQueries")
 
 const RootQuery = new GraphQLObjectType({
     name: "RootQueryType",
@@ -23,9 +24,10 @@ const RootQuery = new GraphQLObjectType({
                 return userData
             }
         },
+        ...AuthQueries,
         ...UserQueries,
         ...PostQueries,
-        // ...ChatroomQueries
+        ...ChatroomQueries
     }
 })
 

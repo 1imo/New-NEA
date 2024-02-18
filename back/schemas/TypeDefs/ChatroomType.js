@@ -11,7 +11,7 @@ const ChatroomType = new GraphQLObjectType({
     name: "Chatroom",
     fields: () => ({
         id: { type: GraphQLString},
-        chatters: { type: new GraphQLList(AuthorType) },
+        chatroomUsers: { type: new GraphQLList(AuthorType) },
         messages: { type: new GraphQLList(MessageType) },
         lastMessage: { type: MessageType }
     })

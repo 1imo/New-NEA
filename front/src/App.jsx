@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -20,9 +20,12 @@ import ResultList from './pages/ResultList';
 import Onboarding from './pages/Onboarding';
 import Cookies from 'js-cookie';
 import Settings from './pages/Settings';
+import { Context } from './context/Context';
+import NotFound from './pages/404';
 
 
 function App() {
+  const Ctx = useContext(Context)
   
 
   return (
@@ -31,15 +34,20 @@ function App() {
         <Routes>
           <Route path="/portal" element={<Portal />} />
           <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/messaging" element={<MessageList />} />
-          <Route path="/messaging/id/:id" element={<MessageToPerson />} />
-          <Route path="/post" element={<PostPost />} />
-          <Route path="/post/id/:id" element={<Post />} />
-          <Route path="/profile/:id" element={<Profile />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/search/:id" element={<ResultList />} />
-          <Route path="/settings" element={<Settings />} />
+          {Ctx.id && Ctx.secretkey && (
+            <>
+            <Route path="/" element={<Home />} />
+            <Route path="/messaging" element={<MessageList />} />
+            <Route path="/messaging/id/:id" element={<MessageToPerson />} />
+            <Route path="/post" element={<PostPost />} />
+            <Route path="/post/id/:id" element={<Post />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/search/:id" element={<ResultList />} />
+            <Route path="/settings" element={<Settings />} />
+            </>
+          )}
+          <Route path="*" element={<Portal />} />
         </Routes>
       </Router>
     </>

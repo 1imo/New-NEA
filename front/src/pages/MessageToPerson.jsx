@@ -51,7 +51,7 @@ function MessageToPerson() {
             id: Ctx.id,
             secretkey: Ctx.secretkey,
             edit: type,
-            chatroom: parseInt(id),
+            chatroom: id,
             msg
         })
         const res = await editMessage({
@@ -59,7 +59,7 @@ function MessageToPerson() {
                 id: Ctx.id,
                 secretkey: Ctx.secretkey,
                 edit: type,
-                chatroom: parseInt(id),
+                chatroom: id,
                 message: msg
             }
         })
@@ -88,17 +88,24 @@ function MessageToPerson() {
 
         
     }, [])
+
     socket.on('chatroom', (data) => {
-    
+        if(data.sender.id != Ctx.id) {
+            edit("read", data.id)
+        }
         Ctx.setMsgStore([...Ctx.msgStore, data])
         setMessages([...Ctx.msgStore, data])
-            
-        
-      })
+    })
 
+    socket.on('updatedChat', (data) => {
+        let array = messages
+        const r = array.slice(0, array.length - 1)
+        r.push(data)
+        Ctx.setMsgStore(r)
+        setMessages(r)
+    })
 
     useEffect(() => {
-        
         const messageContainer = document.querySelector('.message-container')
         messageContainer.scrollTop = messageContainer.scrollHeight
     }, [messages])
@@ -107,6 +114,7 @@ function MessageToPerson() {
     useEffect(() => {
         if(inView && messages[messages.length - 1]?.sender?.id !== Ctx.id) {
             console.log(messages[messages.length - 1])
+            console.log("IN VIEW")
             edit("read", messages[messages.length - 1].id)
             setFocus(false)
         }
@@ -119,6 +127,9 @@ function MessageToPerson() {
             setMessages(data?.getChatroomData?.messages)
         }
         if(data?.getChatroomData?.chatters) {
+            console.log(data)
+            console.log(data?.getChatroomData?.chatters)
+            console.log(data?.getChatroomData?.chatters.find(us => us.id !== Ctx.id))
             setRecipient(data?.getChatroomData?.chatters.find(us => us.id !== Ctx.id))
         }
     }, [data])
@@ -139,14 +150,14 @@ function MessageToPerson() {
                 <div style={{display: "flex", columnGap: 8}}>
                     <img src="/shoe_collective.jpg" height="40px" width="40px" style={{borderRadius: 80}} />
                     <div>
-                        <h3>{`${recipient?.name?.split(" ")[0]} ${recipient?.name?.split(" ")[1]}`}</h3>
+                        <h3>{recipient?.name}</h3>
                         <h5>@{recipient?.username}</h5>
                     </div>
                 </div>
-                <img onClick={() => setCall(true)} src="/phone.svg" alt={`Call ${recipient?.name?.split(" ")[0]}`} />
+                {/* <img onClick={() => setCall(true)} src="/phone.svg" alt={`Call ${recipient?.name?.split(" ")[0]}`} /> */}
             </nav>
         </section>
-        <Call setCall={setCall} style={call ? null : { display: "none" }} />
+        {/* <Call setCall={setCall} style={call ? null : { display: "none" }} /> */}
     </>
 }
 const styles = {

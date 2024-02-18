@@ -111,7 +111,7 @@ const ChatroomMutations = {
 
                 const chat = {
                     id: data.id,
-                    chatters: data.chatroomUsers,
+                    chatroomUsers: data.chatroomUsers,
                     messages: [],
                     lastMessage: {}
                 }
@@ -214,9 +214,10 @@ const ChatroomMutations = {
     },
     editMessage: {
         type: LinkType,
-        args: { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLString }, message: { type: GraphQLString }, edit: { type: GraphQLString }},
-        async resolve(parent, args, { io, socket }) {
-
+        args: { id: { type: GraphQLString}, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLString }, message: { type: GraphQLString }, edit: { type: GraphQLString }},
+        async resolve(parent, args, { prisma, io, socket }) {
+            console.log("HIT")
+            console.log(args)
             const exists = await prisma.userData.count({
                 where: { 
                     AND: [
@@ -240,7 +241,7 @@ const ChatroomMutations = {
                         select: {
                             user: {
                                 select: {
-                                    socket
+                                    socket: true
                                 }
                             }
                         }
@@ -248,47 +249,48 @@ const ChatroomMutations = {
                 }
             })
 
-            switch(args.edit) {
-                case "read":
-                    await prisma.message.update({
-                        where: {
-                            id: args.message
-                        },
-                        data: {
-                            read: true
-                        }
-                    })
-                case "unread":
-                    await prisma.message.update({
-                        where: {
-                            id: args.message
-                        },
-                        data: {
-                            read: false
-                        }
-                    })
-                case "delete":
-                    await prisma.message.update({
-                        where: {
-                            id: args.message
-                        },
-                        data: {
-                            content: "This message has been deleted"
-                        }
-                    })
+            console.log(chatroom)
+
+            console.log(args.edit)
+            let mes;
+
+            if(args.edit == "read") {
+                mes = await prisma.message.update({
+                    where: {
+                        id: args.message
+                    },
+                    data: {
+                        read: true
+                    }
+                })
+            } else if (args.edit == "unread") {
+                mes = await prisma.message.update({
+                    where: {
+                        id: args.message
+                    },
+                    data: {
+                        read: false
+                    }
+                })
+            } else if (args.edit == "delete") {
+                mes = await prisma.message.update({
+                    where: {
+                        id: args.message
+                    },
+                    data: {
+                        content: "This message has been deleted"
+                    }
+                })
             }
 
 
             chatroom.chatroomUsers.map(user => {
-                io.to(user.socket).emit("chatroom", chatroom)
-                io.to(user.socket).emit("updatedChat", chatroom)
+                io.to(user.socket).emit("updatedChat", mes)
             })
 
 
 
-            return {
-                url: "#"
-            }
+            return
 
         }
     }

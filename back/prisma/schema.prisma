@@ -60,6 +60,7 @@ model UserData {
 model Post {
   id         Int          @id @default(autoincrement())
   content    String
+  photo      Boolean      @default(false)
   user       User         @relation(fields: [userId], references: [id])
   userId     String
   date       DateTime     @default(now())

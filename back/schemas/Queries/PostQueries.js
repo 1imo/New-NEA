@@ -22,10 +22,12 @@ const PostQuery = {
                     select: {
                         id: true,
                         content: true,
+                        photo: true,
                         user: {
                             select: {
                                 name: true,
-                                username: true
+                                username: true,
+                                id: true
                             }
                         }
                     }

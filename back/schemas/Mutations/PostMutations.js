@@ -1,5 +1,5 @@
 const graphql = require("graphql")
-const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList } = require("graphql")
+const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList, GraphQLBoolean } = require("graphql")
 const { graphqlHTTP } = require("express-graphql")
 const fs = require("fs")
 
@@ -17,11 +17,10 @@ const PostMutations = {
         args: { 
             id: { type: GraphQLString},
             secretkey: { type: GraphQLString },
-            content: { type: GraphQLString }
+            content: { type: GraphQLString },
+            photo: { type: GraphQLBoolean }
         },
     async resolve(parent, args, { prisma }) {
-        console.log(args, "ARGS")
-
         const exists = await prisma.userData.count({
             where: { 
                 AND: [
@@ -35,13 +34,12 @@ const PostMutations = {
             return
         }
 
-        console.log(args, "ARGS")
-
 
         const post = await prisma.post.create({
             data: {
                 content: args.content,
                 userId: args.id,
+                photo: args.photo
             },
             select: {
                 id: true
@@ -51,7 +49,8 @@ const PostMutations = {
 
 
         return {
-            url: `/post/id/${post.id}`
+            url: `/post/id/${post.id}`,
+            id: post.id
         }
 
         }
@@ -126,64 +125,68 @@ const PostMutations = {
         args: { post: { type: GraphQLInt }, id: { type: GraphQLInt }, secretkey: { type: GraphQLString }},
         async resolve(parent, args) {
 
-            const exists = await prisma.userData.count({
-                where: { 
-                    AND: [
-                        {id: args.id},
-                        {secretkey: args.secretkey}
-                    ]
+            console.log("LIKE")
+
+            try {
+                const exists = await prisma.userData.count({
+                    where: { 
+                        AND: [
+                            {id: args.id},
+                            {secretkey: args.secretkey}
+                        ]
+                    }
+                })
+        
+                if(!exists) {
+                    return
                 }
-            })
     
-            if(!exists) {
-                return
-            }
-
-            const post = await prisma.post.findFirst({
-                where: {
-                    id: args.post
-                },
-                select: {
-                    likedBy: {
-                        where: {
-                            userId: args.id
-                        }
-                    },
-                    avgRatio: true
-                }
-            })
-
-            if(!post.likedBy) {
-     
-                const inDepth = await prisma.post.findFirst({
+                const post = await prisma.post.findFirst({
                     where: {
                         id: args.post
                     },
                     select: {
-                        viewedBy: true,
-                        likedBy: true,
+                        likedBy: {
+                            where: {
+                                userId: args.id
+                            }
+                        },
                         avgRatio: true
                     }
                 })
+    
+                if(!post.likedBy) {
+         
+                    const inDepth = await prisma.post.findFirst({
+                        where: {
+                            id: args.post
+                        },
+                        select: {
+                            viewedBy: true,
+                            likedBy: true,
+                            avgRatio: true
+                        }
+                    })
 
-                const ratio = (inDepth.likedBy.length + 1) / inDepth.viewedBy
-
-                await prisma.LikedPost.create({
-                    data: {
-                        postId: args.post,
-                        userId: args.id,
-                        avgRatio: ratio
-                    }
-                })
-
+                    
+                    const ratio = (inDepth.likedBy.length + 1) / inDepth.viewedBy
+    
+                    await prisma.LikedPost.create({
+                        data: {
+                            postId: args.post,
+                            userId: args.id,
+                            avgRatio: ratio
+                        }
+                    })
+    
+                }
+                
+                return 
+            } catch (e) {
+                console.log(e)
+                return
             }
 
-            
-           
-            
-            return {
-                url: "#"
-            }
         }
     }
 }

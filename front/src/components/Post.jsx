@@ -9,6 +9,7 @@ import { Context } from '../context/Context';
 function Post(props) {
     const { ref, inView } = useInView();
     const [ out, setOut ] = useState(true)
+    const [ liking, setLiking ] = useState(false)
 
     const Ctx = useContext(Context)
 
@@ -45,6 +46,7 @@ function Post(props) {
     }, [data])
 
     async function like() {
+        setLiking(true)
         const res = await postLiked({
             variables: {
                 id: Ctx.id,
@@ -53,6 +55,12 @@ function Post(props) {
             }
         })
 
+        console.log(res)
+
+        if(res) {
+            console.log(res)
+            setLiking(false)
+        }
         
     }
 
@@ -61,13 +69,14 @@ function Post(props) {
     return <>
         <section style={styles.section} ref={ref} onDoubleClick={() => like()}>
             <div>
-                <img src="/shoe_collective.jpg" height="80px" width="80px" style={{"borderRadius": "40px"}}/>
+                <div style={{borderRadius: 80, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${props?.data?.user?.id})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center"}}>&nbsp;</div>
             </div>
-            <div style={{"paddingBottom": "8px"}}>
-                <h3 style={{"textAlign": "left"}}>{props?.data?.user?.name.split(" ")[0]} {props?.data?.user?.name.split(" ")[1]}</h3>
+            <div style={{"paddingBottom": "8px", position: "relative", width: "100%"}}>
+                <h3 style={{"textAlign": "left"}}>{props?.data?.user?.name}</h3>
                 <h5 style={{"textAlign": "left"}}>@{props?.data?.user?.username}</h5>
-                <p style={{"textAlign": "left", "padding": "8px 0px"}}>{props?.data?.content}</p>
-                <img src="/render_image.jpg" height="auto" width="100%" style={styles.imagecontent}/>
+                <p style={{"textAlign": "left", "padding": "0px 0px"}}>{props?.data?.content}</p>
+                {liking ? <img src="/heart.svg" alt="Liked Post" style={{position: "absolute", top: "50%", left: "50%", transform: `translate(-50%, -50%)`}}/> : null}
+                <div style={{backgroundImage: `url(${Ctx.imageServer}/fetch/post/${props?.data?.id})`, backgroundSize: "cover", aspectRatio: "1/1", height: "100% !important", marginTop: 8, borderRadius: 8, display: !props?.data?.photo ? "none" : null}}>&nbsp;</div>
             </div>
         </section>
     </>
@@ -78,8 +87,9 @@ const styles = {
         "display": "flex",
         "width": "calc(100vw - 32px)",
         "boxSizing": "border-box",
-        "maxWidth": "400px",
-        "columnGap": "8px"
+        // "maxWidth": "400px",
+        "columnGap": "8px",
+        "marginBottom": "8px"
     },
     imagecontent: {
         "borderRadius": "8px",

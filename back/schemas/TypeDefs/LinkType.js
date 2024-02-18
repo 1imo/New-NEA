@@ -6,7 +6,8 @@ const { graphqlHTTP } = require("express-graphql")
 const LinkType = new GraphQLObjectType({
     name: "Link",
     fields: () => ({
-        url: { type: GraphQLString}
+        url: { type: GraphQLString},
+        id: { type: GraphQLString }
     })
 })
 

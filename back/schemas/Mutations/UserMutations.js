@@ -27,33 +27,95 @@ const UserMutations = {
         },
         async resolve(parent, args, { prisma }) {
 
-            const pass = await bcrypt.hash(args.password, 10)
-            const { nanoid } = await import('nanoid')
-            const apiKey = nanoid();
-
-
-            const user = await prisma.user.create({
-                data: {
-                    name: `${args.firstName} ${args.lastName}`,
-                    username: args.username,
-                    userData: {
-                        create: {
-                            password: pass,
-                            secretkey: apiKey
+            try {
+                const pass = await bcrypt.hash(args.password, 10)
+                const { nanoid } = await import('nanoid')
+                const apiKey = nanoid()
+                console.log(args)
+    
+    
+                const user = await prisma.user.create({
+                    data: {
+                        name: `${args.firstName} ${args.lastName}`,
+                        username: args.username,
+                        userData: {
+                            create: {
+                                password: pass,
+                                secretkey: apiKey
+                            }
                         }
                     }
+                })
+    
+    
+                return {
+                    id: user.id,
+                    secretkey: apiKey
                 }
-            })
-
-
-            
-
-            return {
-                id: user.id,
-                secretkey: apiKey
+            } catch (e) {
+                console.log(e)
+                return
             }
 
+
         }
+        },
+        signIn: {
+            type: SensitiveUserDataType,
+            args: { 
+                username: { type: GraphQLString },
+                pass: { type: GraphQLString}, 
+            },
+            async resolve(parent, args, { io, prisma }) {
+                const input = [ args.username.trim(), args.pass.trim() ]
+                for(let i = 0; i < input.length; i++) {
+                    const isValidLength = input[i].length > 0 && input[i].length <= 100
+                    if(!isValidLength) return
+                    input[i] = htmlSpecialChars(input[i])
+                }
+            
+                function htmlSpecialChars(text) {
+                  const map = {
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&apos;',
+                    '&': '&amp;',
+                  }
+              
+                  return text.replace(/[<>"&]/g, (char) => map[char])
+                }
+
+                try {
+                    const userData = await prisma.userData.findFirst({
+                        where: {
+                            user: {
+                                username: input[0]
+                            }
+                        },
+                        select: {
+                            id: true,
+                            secretkey: true,
+                            password: true
+                        }
+                    })
+
+                    const hash = await bcrypt.compare(input[1], userData.password)
+
+
+                    if(hash) {
+                        return {
+                            id: userData.id,
+                            secretkey: userData.secretkey
+                        }
+                    } else {
+                        return
+                    }
+                } catch(e) {
+                    console.log(e)
+                    return
+                }
+            }
         },
         followUnfollowUser: {
             type: LinkType,
@@ -64,68 +126,86 @@ const UserMutations = {
             },
             async resolve(parent, args, { io, prisma }) {
 
-                const exists = await prisma.userData.count({
-                    where: { 
-                        AND: [
-                            {id: args.id},
-                            {secretkey: args.secretkey}
-                        ]
+                try {
+                    
+                    const exists = await prisma.userData.count({
+                        where: { 
+                            AND: [
+                                {id: args.id},
+                                {secretkey: args.secretkey}
+                            ]
+                        }
+                    })
+    
+                    if(!exists) {
+                        return
                     }
-                })
-
-                if(!exists) {
-                    return
-                }
-            
-
-                const recipient = await prisma.user.findFirst({
-                    where: {
-                        username: args.username
-                    },
-                    select: {
-                        id: true
-                    }
-                })
-
-                const followExists = await prisma.follow.count({
-                    where: { 
-                        OR: [
-                            { AND: [ { followerId: args.id}, { followingId: recipient.id} ] },
-                            { AND: [ { followerId: recipient.id}, { followingId: args.id} ] }
-                        ]
-                    }
-                })
-
                 
-
-                if (followExists) {
-                    const follow = await prisma.follow.findFirst({
+    
+                    const recipient = await prisma.user.findFirst({
+                        where: {
+                            username: args.username
+                        },
+                        select: {
+                            id: true,
+                            socket: true
+                        }
+                    })
+    
+                    const followExists = await prisma.follow.count({
                         where: { 
                             OR: [
                                 { AND: [ { followerId: args.id}, { followingId: recipient.id} ] },
                                 { AND: [ { followerId: recipient.id}, { followingId: args.id} ] }
                             ]
-                        },
-                        select: {
-                            id: true
                         }
                     })
-                    await prisma.follow.delete({
-                      where: { id: follow.id },
-                    })
-                } else {
-                    await prisma.follow.create({
-                        data: {
-                          followerId: args.id,
-                          followingId: recipient.id
-                        },
-                    })
-                }
+    
+                    
+    
+                    if (followExists) {
+                        const follow = await prisma.follow.findFirst({
+                            where: { 
+                                OR: [
+                                    { AND: [ { followerId: args.id}, { followingId: recipient.id} ] },
+                                    { AND: [ { followerId: recipient.id}, { followingId: args.id} ] }
+                                ]
+                            },
+                            select: {
+                                id: true
+                            }
+                        })
+                        await prisma.follow.delete({
+                          where: { id: follow.id },
+                        })
+                    } else {
+                        let follow = await prisma.follow.create({
+                            data: {
+                              followerId: args.id,
+                              followingId: recipient.id
+                            },
+                            select: {
+                                id: true,
+                                follower: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        username: true
+                                    }
+                                }
+                            }
+                        })
 
-                
+                        io.to(recipient.socket).emit("followed", follow)
+                    }
+    
+                    
+    
+                    return 
 
-                return {
-                    url: "#"
+                } catch(e) {
+                    console.log(e)
+                    return
                 }
             }
         },
@@ -201,6 +281,75 @@ const UserMutations = {
 
 
                 return {}
+            }
+        },
+        editDetails: {
+            type: SensitiveUserDataType,
+            args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString }, request: { type: GraphQLString}, data: { type: GraphQLString } },
+            async resolve(parent, args, { io, prisma }) {
+                try {
+                    console.log(args)
+                    const exists = await prisma.userData.count({
+                        where: { 
+                            AND: [
+                                {id: args.id},
+                                {secretkey: args.secretkey}
+                            ]
+                        }
+                    })
+    
+                    if(!exists) {
+                        return
+                    }
+
+
+                    switch (args.request) {
+                        case "name" :
+                            await prisma.user.update({
+                                where: {
+                                    id: args.id
+                                },
+                                data: {
+                                    name: args.data
+                                }
+                            })
+                            return
+                        case "username":
+                            await prisma.user.update({
+                                where: {
+                                    id: args.id
+                                },
+                                data: {
+                                    username: args.data
+                                }
+                            })
+                            return
+                        case "password":
+                            const pass = await bcrypt.hash(args.data, 10)
+                            const { nanoid } = await import('nanoid')
+                            const apiKey = nanoid()
+
+                            console.log("apikey", apiKey)
+                            
+                            await prisma.userData.update({
+                                where: {
+                                    id: args.id
+                                },
+                                data: {
+                                    password: pass,
+                                    secretkey: apiKey
+                                }
+                            })
+                            return {
+                                secretkey: apiKey
+                            }
+                    }
+
+                    
+
+                } catch(e) {
+                    return
+                }
             }
         }
     }

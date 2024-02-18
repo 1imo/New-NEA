@@ -24,9 +24,11 @@ export const LOAD_POST = gql`
     getPost(id: $id) {
       id,
       content,
+      photo
       user {
         name,
-        username
+        username,
+        id
       }
     }
   }
@@ -45,7 +47,8 @@ export const LOAD_NAV = gql`
 export const GET_PUBLICDATA = gql`
     query($username: String!) {
         getPublicInfo(username: $username) {
-          name
+          id,
+          name,
           username,
           friendCount,
           followerCount,
@@ -59,6 +62,7 @@ export const GET_USERPOSTS = gql`
         getAllPosts(username: $username) {
           id,
           content,
+          photo
           user {
             id,
             name,
@@ -74,8 +78,26 @@ export const GET_SEARCH_INSIGHTDATA = gql`
     query($username: String!, $type: String!) {
         getUserSearchResults(username: $username, type: $type) {
           name,
+          username,
+          id
+        }
+    }
+`
+
+export const GET_CHATS = gql`
+    query($id: String!, $secretkey: String!) {
+      getChats(id: $id, secretkey: $secretkey) {
+        id,
+        lastMessage {
+          id,
+          content,
+        },
+        chatroomUsers {
+          id,
+          name,
           username
         }
+      }
     }
 `
 
@@ -83,7 +105,7 @@ export const GET_CHATROOM = gql`
     query($chatId: String!, $id: String!, $secretkey: String!) {
         getUserSearchResults(chatId: $chatId, id: $id, secretkey: $secretkey) {
           id,
-          chatters {
+          chatroomUsers {
             id,
             name,
             username
@@ -118,7 +140,7 @@ export const GET_CHATROOM_DATA = gql`
     query($chatId: String!, $id: String!, $secretkey: String!) {
         getChatroomData(chatId: $chatId, id: $id, secretkey: $secretkey) {
           id,
-          chatters {
+          chatroomUsers {
             id,
             name,
             username
@@ -164,6 +186,7 @@ export const GET_FEED = gql`
   query($id: String!, $secretkey: String!, $type: String!) {
     getFeed(id: $id, secretkey: $secretkey, type: $type) {
       id,
+      photo,
       content,
       user {
         id,

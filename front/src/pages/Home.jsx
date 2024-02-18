@@ -11,12 +11,14 @@ import { Context } from "../context/Context";
 import Cookies from "js-cookie";
 import DiscoverProfile from "../components/DiscoverProfile";
 import { useNavigate } from "react-router-dom";
+import PuffLoader from "react-spinners/PuffLoader";
 
 
 function Home() {
     const Ctx = useContext(Context)
     const [ vars, setVars ] = useState(Cookies.get('feed'))
     const [ id, setId ] = useState(Ctx.id)
+    const [ load, setLoading ] = useState(true)
     const navigate = useNavigate("/")
     
 
@@ -35,7 +37,6 @@ function Home() {
         if(user && key) {
             Cookies.set("id", user)
             Cookies.set("secretkey", key)
-            navigate("/")
         }
     }, [])
 
@@ -46,6 +47,10 @@ function Home() {
             type: vars || "Recommended"
         }
     })
+
+    if (error) {
+        navigate("/portal")
+    }
 
     useEffect(() => {
         setId(Ctx.id)
@@ -77,15 +82,30 @@ function Home() {
 
     // console.log(dat?.recommendedUsers)
 
-    
+    const Feed = () => {
+        console.log(data?.getFeed, data?.getFeed != [])
+        return data?.getFeed?.length > 0 ? data?.getFeed?.map((da, index) => {
+            return <Post data={da} key={da.id || index} />
+        }) : <h4 style={{position: "absolute", textAlign: "center", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "#CECECD"}}>Go Follow Someone Active</h4> 
+    }
    
 
 
-    return <>
-        <Nav icons={true}/>
-        { data?.getFeed.map((da, index) => {
-            return <Post data={da} key={index} />
-        })}
-    </>
+    return (
+        <>
+            <Nav icons={true} load={setLoading} style={load ? {opacity: 0} : null} />
+          {!load && (
+            <div>
+                <Feed />
+            </div>
+          )}
+          <PuffLoader
+            cssOverride={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+            color="#eeeeee"
+            loading={load}
+            size={160}
+          />
+        </>
+      );
 }
 export default Home

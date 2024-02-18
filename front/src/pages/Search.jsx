@@ -32,7 +32,7 @@ function Search() {
             {data && !loading ? data?.getUserSearchResults.map((res, index) => {
                 return <ProfileInsight 
                 username={res.username} 
-                name={res.name} key={index} reference={state.searchType || "main"}/>
+                name={res.name} id={res.id} key={index} reference={state.searchType || "main"}/>
             }) : null}
         </section>
     </>

@@ -1,5 +1,8 @@
-import { useState, useRef } from "react"
+import { useMutation, useQuery } from "@apollo/client"
+import { useState, useRef, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { SIGN_IN } from "../GraphQL/Mutations"
+import Cookies from "js-cookie"
 
 function Portal() {
 
@@ -9,11 +12,36 @@ function Portal() {
     const [ usernameFocus, setUsernameFocus ] = useState(false)
     const [ passFocus, setPassFocus ] = useState(false)
 
+    
     const navigate = useNavigate()
+
+    const [ SignIn, { loading, data, error } ] = useMutation(SIGN_IN)
+    
+    async function signIn() {
+
+        console.log(username.current.value, pass.current.value)
+
+        const res = await SignIn({
+            variables: {
+                username: username.current.value,
+                pass: pass.current.value
+            }
+        })
+
+        if(res?.data?.signIn === null) {
+            alert("Incorrect Info Enterered")
+        } else {
+            console.log(res)
+            Cookies.set('secretkey', res.data.signIn.secretkey, { expires: 7 })
+            Cookies.set('id', res.data.signIn.id, { expires: 7 })
+            window.location.href = "/"
+        }
+
+    }
 
     return <>
     <section style={styles.section} className="authScreen">
-        <div style={styles.heading}>
+        <div style={styles.heading} className="subheading">
             <h2>Hi There!</h2>
             <div style={styles.subheading}>
                 <p>On Point?</p>
@@ -22,12 +50,12 @@ function Portal() {
         </div>
         <div style={styles.inputCont}>
             <div style={styles.input}>
-                <img src="/circle-user-round.svg" alt="username" style={usernameFocus || username.current.value ? null : { display: "none" }} />
+                <img className="moveInImg" src="/circle-user-round.svg" alt="username" style={usernameFocus || username?.current?.value ? null : { display: "none" }} />
                 <input ref={username} onFocus={() => setUsernameFocus(true)} onBlur={() => setUsernameFocus(false)} style={styles.inputBox} placeholder="Username" />
             </div>
             <div style={styles.input}>
-                <img src="/lock.svg" alt="password" style={passFocus || pass.current.value ? null : {display: "none"}} />
-                <input ref={pass} onFocus={() => setPassFocus(true)} onBlur={() => setPassFocus(false)} style={styles.inputBox} placeholder="*********" />
+                <img className="moveInImg" src="/lock.svg" alt="password" style={passFocus || pass?.current?.value ? null : {display: "none"}} />
+                <input type="password" ref={pass} onFocus={() => setPassFocus(true)} onBlur={() => setPassFocus(false)} style={styles.inputBox} placeholder="*********" />
             </div>
         </div>
 
@@ -40,8 +68,8 @@ function Portal() {
             </div>
         </div>
 
-        <div style={styles.buttons}>
-            <button style={styles.button}>Sign In</button>
+        <div style={styles.buttons} className="buttons">
+            <button style={styles.button} onClick={() => signIn()}>Sign In</button>
             <a href="/onboarding">Sign Up</a>
         </div>
     </section>
@@ -50,13 +78,14 @@ function Portal() {
 
 const styles = {
     section: {
-        width: "100%",
-        height: "100%",
-        margin: "auto",
+        width: "100vw !important",
+        height: "100svh",
+        // margin: "auto",
         display: "flex",
         flexDirection: "column",
-        overflowY: "hidden",
-        padding: "80px 0"
+        // alignItems: "center",
+        justifyContent: "center",
+        overflowY: "hidden"
     },
     heading: {
         display: "flex",
@@ -67,7 +96,7 @@ const styles = {
         display: "flex",
         alignItems: "center",
         columnGap: 8,
-        marginBottom: 180
+        marginBottom: 176
     },
     inputCont: {
         display: "flex",

@@ -1,5 +1,20 @@
 import { gql } from "@apollo/client"
 
+export const SIGN_IN = gql`
+    mutation signIn(
+        $username: String!,
+        $pass: String!
+        ) { 
+        signIn(
+            username: $username
+            pass: $pass
+        ) {
+            id,
+            secretkey
+        }
+    }
+`
+
 export const CREATE_USER_MUTATION = gql`
     mutation createUser(
         $firstName: String! 
@@ -24,14 +39,17 @@ export const CREATE_NEWPOST = gql`
     mutation createPost(
         $id: String!,
         $secretkey: String!,
-        $content: String!
+        $content: String!,
+        $photo: Boolean!
     ) {
         createPost(
             id: $id
             secretkey: $secretkey
-            content: $content
+            content: $content,
+            photo: $photo
         ) {
-            url
+            url,
+            id
         }
     }
 `
@@ -64,7 +82,7 @@ export const GET_CHATROOM = gql`
             username: $username
         ) {
             id,
-            chatters {
+            chatroomUsers {
               id,
               name,
               username
@@ -150,11 +168,9 @@ export const SEND_MESSAGE = gql`
 
 `
 
-// { id: { type: GraphQLInt}, secretkey: { type: GraphQLString }, chatroom: { type: GraphQLInt }, message: { type: MessageType }, edit: { type: GraphQLString }},
-
 export const EDIT_MESSAGE = gql`
     mutation editMessage(
-        $chatroom: String!
+        $chatroom: String
         $id: String!,
         $message: String!
         $secretkey: String!,
@@ -167,7 +183,7 @@ export const EDIT_MESSAGE = gql`
             message: $message
             edit: $edit
         ) {
-            id
+            url
         }
     }
 
@@ -191,3 +207,21 @@ export const BEFRIEND_PENDING = gql`
     }
 `
 
+export const EDIT_DATA = gql`
+    mutation editDetails(
+        $id: String!,
+        $secretkey: String!,
+        $request: String!
+        $data: String!
+    ) {
+        editDetails (
+            id: $id,
+            secretkey: $secretkey,
+            request: $request,
+            data: $data
+        ) {
+            id,
+            secretkey
+        }
+    }
+`

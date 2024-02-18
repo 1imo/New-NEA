@@ -88,7 +88,7 @@ app.get('/auth/google/callback', passport.authenticate('google', { session: fals
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
     cors: {
-      origin: '*',
+      origin: "*"
     },
     reconnection: true,
     reconnectionAttempts: 5,
@@ -109,7 +109,7 @@ io.on('connection', (socket) => {
     })
 
     if(!exists) {
-
+        io.to(socket.id).emit("auth", false)
         return
 
     } else {
@@ -122,6 +122,9 @@ io.on('connection', (socket) => {
           socket: socket.id
         }
       })
+
+      io.to(socket.id).emit("auth", true)
+
 
     }
 
@@ -152,28 +155,67 @@ io.on('connection', (socket) => {
 
   // })
 
-  // socket.on("getChats", data => {
-  //   const user = users.find(user => user.id === data.id ? user : null)
-  //   const secret = sensitive[user.id - 1]
-  //   if(secret.id != data.id || secret.secretkey != data.secretkey) {
-  //       return
-  //   }
+  socket.on("getChats", async data => {
 
-  //   console.log(secret)
+    const exists = await prisma.userData.count({
+      where: { 
+          AND: [
+              {id: data.id},
+              {secretkey: data.secretkey}
+          ]
+      }
+    })
 
-    
-  //   const chats = chatrooms.map(chat => {
-  //     for(let i = 0; i < user.chatrooms.length; i++) {
-  //       if(user.chatrooms[i] == chat.id) {
-  //         return chat
-  //       }
-  //     }
-  //   })
+    if(!exists) {
+        return
+    }
 
-  //   io.to(socket.id).emit("getChats", chats)
+    console.log(data)
+
+    const chatrooms = await prisma.user.findFirst({
+        where: {
+            id: data.id
+        },
+        select: {
+            id: true,
+            chatroomUsers: {
+                select: {
+                    chatroom: {
+                        select: {
+                            id: true,
+                            chatroomUsers: {
+                              select: {
+                                user: true
+                              }
+                            },
+                            messages: {
+                                orderBy: {
+                                  date: 'desc',
+                                },
+                                take: 1,
+                                select: {
+                                  id: true,
+                                  content: true,
+                                  sender: {
+                                    select: {
+                                      name: true,
+                                      username: true,
+                                    },
+                                  },
+                                  date: true,
+                                },
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
 
 
-  // })
+    io.to(socket.id).emit("getChats", chatrooms.chatroomUsers)
+
+  })
 
   // socket.on("foll", data => {
   //   const user = users.find(user => user.id === data.id ? user : null)

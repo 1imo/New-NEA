@@ -2,7 +2,7 @@ import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client"
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import { GET_PUBLICDATA } from "../GraphQL/Queries";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { FOLLOW_UNFOLLOW } from "../GraphQL/Mutations";
 
         
@@ -19,6 +19,8 @@ function ProfileInfo() {
     const [ d, setD ] = useState("")
 
     const Ctx = useContext(Context)
+
+    const navigate = useNavigate()
 
     const { loading, error, data } = useQuery(GET_PUBLICDATA, {
         variables: {
@@ -41,7 +43,9 @@ function ProfileInfo() {
                             username: d
                         }
                     })
-        console.log(res)
+        if(res) {
+            window.location.reload()
+        }
 
         
     }
@@ -53,11 +57,15 @@ function ProfileInfo() {
     }, [id])
 
     useEffect(() => {
-        console.log(data)
+        console.log(data, d)
+        // setData(dat)
     }, [data])
    
 
-    if(error) console.log(error)
+    if(error) {
+        console.log(error)
+        navigate("/404")
+    }
     
 
     useEffect(() => {
@@ -79,7 +87,7 @@ function ProfileInfo() {
         <section style={{"display": "flex", "width": "100%", "columnGap": "16px", "justifyContent": "space-between", marginBottom: 32, paddingTop: 16}}>
             <div>
                 <div style={{display: "flex", columnGap: 8}}>
-                    <img src="/profile.jpg" height="40px" width="40px" style={{"borderRadius": "40px"}} />
+                    {/* <img src="/profile.jpg" height="40px" width="40px" style={{"borderRadius": "40px"}} /> */}
                     <div>
                         <h3>{data?.getPublicInfo?.name.split(" ")[0]} {data?.getPublicInfo?.name.split(" ")[1]}</h3>
                         <h5>@{data?.getPublicInfo?.username}</h5>
@@ -102,7 +110,8 @@ function ProfileInfo() {
                         data?.getPublicInfo?.friendCount}<br/><h5 style={{fontWeight: 500}}>Friends</h5>
                     </p>
                 </div>
-                <button className="followBtn" style={styles.btn} onClick={() => call()}>
+                <button className="followBtn" style={{width: "100%",
+                    maxWidth: 240, height: 40, backgroundColor: "#ffffff", borderRadius: 24, border: "1px solid #0B0A07", boxShadow: "0px 2px 0px 0px #0B0A07", position:"relative", overflow: "hidden", userSelect: "none"}} onClick={() => call()}>
                     <span style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", "zIndex": "10", color: "#0B0A07", fontWeight: 600, fontSize: 15, lineHeight: 24, userSelect: "none"}}>Follow</span>
                     <div style={styles.btnDecContainer}>
                         <div style={styles.btnDec}>&nbsp;</div>
@@ -113,7 +122,7 @@ function ProfileInfo() {
                     </div>
                 </button>
             </div>
-            <img src="/shoe_collective.jpg" height="160px" width="160px" style={{borderRadius: 800}} />
+            <div style={{borderRadius: 800, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${data?.getPublicInfo?.id})`, backgroundSize: "cover", height: 160, width: 160, backgroundPosition: "50% center"}}>&nbsp;</div>
         </section>
     </>
 }
@@ -124,18 +133,6 @@ const styles = {
         "columnGap": "16px",
         "margin": "16px 0px 24px"
     },
-    btn: {
-        width: "100%",
-        maxWidth: 240,
-        height: 40,
-        backgroundColor: "#ffffff",
-        borderRadius: 24,
-        border: "1px solid #0B0A07",
-        boxShadow: "0px 2px 0px 0px #0B0A07",
-        position:"relative",
-        overflow: "hidden",
-        userSelect: "none"
-    },
     btnDec: {
         width: 16,
         height: 80,
@@ -144,7 +141,6 @@ const styles = {
     },
     btnDecContainer: {
         position: "absolute",
-        // zIndex: -1,
         top: 0,
         left: 0,
         width: "100%",

@@ -1,0 +1,23 @@
+:root {
+    --progress: 0;
+}
+
+.moveInImg {
+    animation: appearImg 500ms ease-in-out;
+}
+
+@keyframes appearImg {
+    0% {
+        transform: translateX(-4px);
+        opacity: 0
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.sliderInner {
+    animation: 1000ms ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+}

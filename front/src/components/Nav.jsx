@@ -21,15 +21,14 @@ function Nav(props) {
     // const [ getNavInfo, { data, error, loading } ] = useMutation(GET_NAVINFO)
 
     const navigate = useNavigate()
-
-    const [ username, setUsername ] = useState("")
-    const [ firstName, setFirstName ] = useState("")
-    const [ lastName, setLastName ] = useState("")
     const [ vars, setVars ] = useState({})
+
+    const [ info, setInfo ] = useState(null)
 
     const Ctx = useContext(Context)
 
     const { loading, error, data } = useQuery(GET_NAVINFO, {
+        fetchPolicy: "cache-first",
         variables: vars
     })
 
@@ -37,7 +36,21 @@ function Nav(props) {
         setVars({
             id: Ctx.id
         })
+        setInfo(JSON.parse(localStorage.getItem('navData')))
     }, [])
+
+    useEffect(() => {
+        if(!loading && props?.load) {
+            props?.load(false)
+        }
+    }, [loading])
+
+    useEffect(() => {
+        if (data) {
+          localStorage.setItem('navData', JSON.stringify(data));
+          setInfo(data)
+        }
+    }, [data]);
 
   
 
@@ -47,11 +60,11 @@ function Nav(props) {
     return <>
         <nav style={styles.nav}>
             <div style={styles.one}>
-                <Link to={`/profile/${data?.navInfo?.username}`} style={styles.one}>
-                    <img src="/profile.jpg" height="40px" width="40px" style={{"borderRadius": "40px"}} />
+                <Link to={`/profile/${info?.navInfo?.username}`} style={styles.one}>
+                <div style={{borderRadius:56, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${Ctx?.id})`, backgroundSize: "cover", height:56, width:56, backgroundPosition: "50% center"}}>&nbsp;</div>
                     <div>
-                        <h3>{data?.navInfo?.name.split(" ")[0]} {data?.navInfo?.name.split(" ")[1]}</h3>
-                        <h6>@{data?.navInfo?.username}</h6>
+                        <h3>{info?.navInfo?.name.split(" ")[0]} {info?.navInfo?.name.split(" ")[1]}</h3>
+                        <h6>@{info?.navInfo?.username}</h6>
                     </div>
                 </Link>
             </div>
@@ -75,6 +88,8 @@ const styles = {
     },
     one: {
         "display": "flex",
+        "alignItems": "center",
+        // paddingTop: -16,
         "columnGap": "8px"
     },
     two: {

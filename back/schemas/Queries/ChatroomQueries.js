@@ -1,21 +1,23 @@
-const users = require("../../USER_DATA.json")
+// const users = require("../../USER_DATA.json")
 const graphql = require("graphql")
 const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList } = require("graphql")
 const { graphqlHTTP } = require("express-graphql")
 const ChatroomType = require("../TypeDefs/ChatroomType")
 const UserType = require("../TypeDefs/UserType")
 
-const users = require("../../USER_DATA.json")
-const posts = require("../../POST_DATA.json")
-const chatrooms = require("../../CHATROOM_DATA.json")
+// const users = require("../../USER_DATA.json")
+// const posts = require("../../POST_DATA.json")
+// const chatrooms = require("../../CHATROOM_DATA.json")
 
 
 
 const ChatroomQueries = {
         getChats: {
-            type: GraphQLList(ChatroomType),
+            type: new GraphQLList(ChatroomType),
             args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString }},
-            async resolve(parent, args, { io, socket }) {
+            async resolve(parent, args, { prisma, io, socket }) {
+                console.log("HIT")
+                console.log(args)
 
                 const exists = await prisma.userData.count({
                     where: { 
@@ -36,12 +38,22 @@ const ChatroomQueries = {
                         id: args.id
                     },
                     select: {
-                        id: true,
-                        chatroomUser: {
+                        chatroomUsers: {
                             select: {
                                 chatroom: {
                                     select: {
                                         id: true,
+                                        chatroomUsers: {
+                                            select: {
+                                                user: {
+                                                    select: {
+                                                        name: true,
+                                                        id: true,
+                                                        username: true
+                                                    }
+                                                }
+                                            }
+                                        },
                                         messages: {
                                             orderBy: {
                                               date: 'desc',
@@ -66,19 +78,30 @@ const ChatroomQueries = {
                     }
                 })
 
-                // hidden gem of idk what code lol
-                // const chats = user.chatrooms.map(chat => { return chat })
+                // console.log(chatrooms)
+                const insights = []
 
-                const insights = chatrooms.chatroomUser.map((chatroomUser) => {
+                chatrooms.chatroomUsers.map(chatroomUser => {
+                    // console.log(chatroomUser)
                     const chatroom = chatroomUser.chatroom
                     const lastMessage = chatroom.messages[0]
+
+                    
+                    const recipients = chatroom.chatroomUsers.map(author => author.user)
+                    
+                    // console.log(recipient)
+                    console.log(recipients)
                   
-                    return {
+                    insights.push({
                       id: chatroom.id,
-                      chatters: chatroom.chatroomUsers.map(user => user.user),
+                      chatroomUsers: recipients,
                       lastMessage
-                    }
-                  })
+                    })
+                })
+
+                
+
+                console.log(insights)
 
                 return insights
             }

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
+import { useNavigate } from "react-router-dom";
 
 
 const socket = io('http://localhost:8000/');
@@ -12,6 +13,7 @@ export const ContextProvider = ({ children }) => {
 
     const [ id, setId ] = useState(Cookies.get('id'))
     const [ secretkey, setSecretKey ] = useState(Cookies.get('secretkey'))
+    const imageServer = "http://localhost:3000"
 
     const [ msgStore, setMsgStore ] = useState([])
     
@@ -29,12 +31,17 @@ export const ContextProvider = ({ children }) => {
     useEffect(() => {
       if(id, secretkey) {
         socket.emit("initialConnection", {id, secretkey})
-
       }
     }, [socket])
 
-    
-   
+    socket.on("auth", data => {
+      console.log(data)
+      if(!data) {
+        Cookies.remove("id")
+        Cookies.remove("secretkey")
+        window.location.href = "/portal"
+      }
+    })
 
 
     const contextValue = {
@@ -44,7 +51,8 @@ export const ContextProvider = ({ children }) => {
         setSecretKey,
         socket,
         msgStore,
-        setMsgStore
+        setMsgStore,
+        imageServer
     }
   
     return (

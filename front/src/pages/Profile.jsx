@@ -3,7 +3,7 @@ import Post from "../components/Post"
 import ProfileInfo from "../components/ProfileInfo"
 import { useQuery, gql } from "@apollo/client"
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 function Profile() {
 
@@ -11,6 +11,7 @@ function Profile() {
     const [ d, setD ] = useState("")
 
     const [ reversed, setReversed ] = useState([])
+    const navigate = useNavigate()
 
     const { loading, error, data } = useQuery(GET_USERPOSTS, {
         variables: {
@@ -41,12 +42,15 @@ function Profile() {
     }, [data])
    
 
-    if(error) console.log(error)
+    if(error) {
+        console.log(error)
+        navigate()
+    }
 
 
     return <>
         <ProfileInfo />
-        {reversed?.map((vals, index) => {return vals})}
+        {reversed?.length > 0 ? reversed?.map((vals, index) => {console.log("VALS", vals);return vals}) : <h4 style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "#CECECD"}} >No Posts to Display</h4>}
     </>
 }
 export default Profile

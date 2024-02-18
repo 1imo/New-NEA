@@ -58,6 +58,7 @@ const UserQuery = {
                 })
 
                 return {
+                    id,
                     name,
                     username,
                     friendCount: friends.length + friendshipsReceived.length,
@@ -83,8 +84,10 @@ const UserQuery = {
                             select: {
                               content: true,
                               id: true,
+                              photo: true,
                               user: {
                                 select: {
+                                    id: true,
                                   username: true,
                                   name: true
                                 }
@@ -140,68 +143,6 @@ const UserQuery = {
                     }
                 })
 
-                // model User {
-                //     id                  String         @unique @default(uuid())
-                //     username            String         @unique
-                //     name                String
-                //     userData            UserData?
-                //     posts               Post[]
-                //     viewedPosts         ViewedPost[]
-                //     likedPosts          LikedPost[]
-                //     friends             Friendship[]   @relation("User_One")
-                //     friendshipsReceived Friendship[]   @relation("User_Two")
-                //     following           Follow[]       @relation("Following")
-                //     followers           Follow[]       @relation("Follower")
-                //     chatroomUsers       ChatroomUser[]
-                //     avgRatio            Float          @default(0.0)
-                //     multiplier          Float          @default(1.0)
-                //     socket              String?
-                //     Message             Message[]
-                //     lastUpdated         DateTime       @default(now()) @updatedAt
-                  
-                //     @@index([username])
-                //   }
-                  
-                  
-                //   model Follow {
-                //     id          String  @id @default(uuid())
-                //     follower    User    @relation("Following", fields: [followerId], references: [id])
-                //     followerId  String
-                //     following   User    @relation("Follower", fields: [followingId], references: [id])
-                //     followingId String
-                //     denial      Boolean @default(false)
-                  
-                //     @@unique([followerId, followingId])
-                //   }
-                  
-                  
-                //   model Message {
-                //     id         String    @id @default(uuid())
-                //     content    String
-                //     sender     User      @relation(fields: [senderId], references: [id])
-                //     senderId   String
-                //     date       DateTime  @default(now())
-                //     read       Boolean   @default(false)
-                //     chatroom   Chatroom? @relation("Chatroom_Messages", fields: [chatroomId], references: [id])
-                //     chatroomId String?
-                //   }
-                  
-                //   model Chatroom {
-                //     id            String         @id
-                //     date          DateTime       @default(now())
-                //     chatroomUsers ChatroomUser[]
-                //     messages      Message[]      @relation("Chatroom_Messages")
-                //   }
-                  
-                //   model ChatroomUser {
-                //     chatroom   Chatroom @relation(fields: [chatroomId], references: [id])
-                //     chatroomId String
-                //     user       User     @relation(fields: [userId], references: [id])
-                //     userId     String
-                  
-                //     @@id([chatroomId, userId])
-                //   }
-
 
                 let chatroom = {}
             
@@ -238,16 +179,21 @@ const UserQuery = {
                         }
                     })
 
-                    console.log(chatroom.chatroomUsers)
+                    const chatters = chatroom.chatroomUsers.map(user => user.user)
+                    console.log(chatters)
 
-                    chatroom = {
+                    return {
                         id: chatroom.id,
+                        chatroomUsers: chatters,
                         messages: chatroom.messages,
-                        chatters: chatroom.chatroomUsers.map(us => us.user)
+                        lastMessage: ""
                     }
+
+                    // console.log(chatroom)
 
                 }
 
+                // console.log(chatroom)
                 return chatroom
             }
         },
@@ -325,60 +271,6 @@ const UserQuery = {
                     return
                 }
 
-                // model User {
-                //     id                  String         @unique @default(uuid())
-                //     username            String         @unique
-                //     name                String
-                //     userData            UserData?
-                //     posts               Post[]
-                //     viewedPosts         ViewedPost[]
-                //     likedPosts          LikedPost[]
-                //     friends             Friendship[]   @relation("User_One")
-                //     friendshipsReceived Friendship[]   @relation("User_Two")
-                //     following           Follow[]       @relation("Following")
-                //     followers           Follow[]       @relation("Follower")
-                //     chatroomUsers       ChatroomUser[]
-                //     avgRatio            Float          @default(0.0)
-                //     multiplier          Float          @default(1.0)
-                //     socket              String?
-                //     Message             Message[]
-                //     lastUpdated         DateTime       @default(now()) @updatedAt
-                  
-                //     @@index([username])
-                //   }
-                  
-                //   model Friendship {
-                //     id        String @id @default(uuid())
-                //     userOne   User   @relation("User_One", fields: [userOneId], references: [id])
-                //     userOneId String
-                //     userTwo   User   @relation("User_Two", fields: [userTwoId], references: [id])
-                //     userTwoId String
-                  
-                //     @@unique([userOneId, userTwoId])
-                //   }
-                  
-                //   model Follow {
-                //     id          String  @id @default(uuid())
-                //     follower    User    @relation("Following", fields: [followerId], references: [id])
-                //     followerId  String
-                //     following   User    @relation("Follower", fields: [followingId], references: [id])
-                //     followingId String
-                //     denial      Boolean @default(false)
-                  
-                //     @@unique([followerId, followingId])
-                //   }
-
-                // model Post {
-                //     id         Int          @id @default(autoincrement())
-                //     content    String
-                //     user       User         @relation(fields: [userId], references: [id])
-                //     userId     String
-                //     date       DateTime     @default(now())
-                //     likedBy    LikedPost[]
-                //     viewedBy   ViewedPost[]
-                //     avgRatio   Float        @default(0.0)
-                //     multiplier Float        @default(1.0) // Ensure decimal point
-                //   }
 
                 const posts = await prisma.user.findFirst({
                     where: {
@@ -398,6 +290,7 @@ const UserQuery = {
                                                         username: true
                                                     }
                                                 },
+                                                photo: true,
                                                 content: true,
                                                 id: true,
                                                 avgRatio: true,
@@ -422,6 +315,7 @@ const UserQuery = {
                                                         username: true
                                                     }
                                                 },
+                                                photo: true,
                                                 content: true,
                                                 id: true,
                                                 avgRatio: true,
@@ -446,6 +340,7 @@ const UserQuery = {
                                                         username: true
                                                     }
                                                 },
+                                                photo: true,
                                                 content: true,
                                                 id: true,
                                                 avgRatio: true,
@@ -460,18 +355,6 @@ const UserQuery = {
                     }
                 })
 
-                // id: { type: GraphQLInt},
-                // content: { type: GraphQLString },
-                // user: { type: AuthorType },
-                // date: { type: GraphQLString},
-                // views: { type: new GraphQLList(AuthorType) },
-                // likes: { type: new GraphQLList(AuthorType) },
-                // avgRatio: { type: graphql.GraphQLFloat},
-                // multiplier: { type: graphql.GraphQLFloat},
-
-                // console.log("POSTS", posts.following[0].following.posts)
-                // console.log("POSTSFRIENDS", posts.friends)
-                // console.log("POSTSFRIENDS", posts.friendshipsReceived[0].userOne.posts)
 
                 
                 
@@ -485,6 +368,10 @@ const UserQuery = {
                             followingPosts.unshift(posts.following[i]?.following?.posts[x])
                         }
                     }
+                }
+
+                if(args.type == "Following") {
+                    return followingPosts
                 }
                 
 
@@ -503,22 +390,10 @@ const UserQuery = {
                 }
 
 
-
-                
-                
-                
-                
                 if(args.type == "Friends") {
                     return friendsPosts
                 }
 
-                if(args.type == "Following") {
-                    return followingPosts
-                }
-                
-                
-
-                
                 
                 
                 let followingAvgRatio = 0
@@ -526,17 +401,13 @@ const UserQuery = {
 
                 if(followingPosts) {
                     for(let i = 0; i < followingPosts.length; i++) {
- 
                         followingAvgRatio+=followingPosts[i].avgRatio
-                        
                     }
                 }
 
                 if(friendsPosts) {
                     for(let i = 0; i < friendsPosts.length; i++) {
-                        
                         friendsAvgRatio+=friendsPosts[i].avgRatio
-                        
                     }
                 }
 
@@ -546,7 +417,7 @@ const UserQuery = {
                 console.log("RATIOS", followingAvgRatio, friendsAvgRatio, multiplier)
 
 
-                function mergeSort(arr) {
+                function mergeSort(arr, type) {
                     if (arr.length <= 1) {
                       return arr
                     }
@@ -555,68 +426,46 @@ const UserQuery = {
                     const left = arr.slice(0, mid)
                     const right = arr.slice(mid)
                   
-                    return merge(mergeSort(left), mergeSort(right))
+                    return merge(mergeSort(left), mergeSort(right), type)
                 }
                   
-                function merge(left, right) {
-                  const result = []
-                  let leftIndex = 0
-                  let rightIndex = 0
-                
-                  while (leftIndex < left.length && rightIndex < right.length) {
-                    if (left[leftIndex].date >= right[rightIndex].date) {
-                      result.push(left[leftIndex])
-                      leftIndex++
-                    } else {
-                      result.push(right[rightIndex])
-                      rightIndex++
+                function merge(left, right, type) {
+                    const result = []
+                    let leftIndex = 0
+                    let rightIndex = 0
+                    
+                    while (leftIndex < left.length && rightIndex < right.length) {
+                        if (left[leftIndex].date >= right[rightIndex].date) {
+                            if(type) {
+                                left[leftIndex].avgRatio = left[leftIndex].avgRatio * multiplier / ((leftIndex + 1) * left[leftIndex].multiplier)
+                            } else {
+                                left[leftIndex].avgRatio = left[leftIndex].avgRatio / ((leftIndex + 1) * left[leftIndex].multiplier)
+                            }
+                            result.push(left[leftIndex])
+                            leftIndex++
+                        } else {
+                            if(type) {
+                                right[rightIndex].avgRatio = right[rightIndex].avgRatio * multiplier / ((rightIndex + 1) * right[rightIndex].multiplier)
+                            } else {
+                                right[rightIndex].avgRatio = right[rightIndex].avgRatio / ((rightIndex + 1) * right[rightIndex].multiplier)
+                            }
+                            result.push(right[rightIndex])
+                            rightIndex++
+                        }
                     }
-                  }
-                
-                  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex))
+                  
+                    return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex))
                 }
 
 
-                followingPosts = mergeSort(followingPosts)
-                friendsPosts = mergeSort(friendsPosts)
+                followingPosts = mergeSort(followingPosts, 0)
+                friendsPosts = mergeSort(friendsPosts, 1)
+                const raw = mergeSort([...followingPosts, ...friendsPosts])
 
                 if(args.type == "Date") {
-                    console.log("DATE")
-                    let posts = [].concat(followingPosts).concat(friendsPosts)
-                    posts = mergeSort(posts)
-                    return posts
+                    return raw
                 }
 
-
-                const raw = []
-
-                if(multiplier > 1) {
-                    for(let i = 0; i < friendsPosts.length; i++) {
-                        const copy = { ...friendsPosts[i] }
-                        copy.avgRatio = copy.avgRatio * multiplier / (i + 1) * copy.multiplier
-                        raw.push(copy)
-                    }
-
-                    for(let i = 0; i < followingPosts.length; i++) {
-                        const copy = { ...followingPosts[i] }
-                        copy.avgRatio = copy.avgRatio / (i + 1) * copy.multiplier
-                        raw.push(copy)
-                    }
-                } else {
-                    for(let i = 0; i < friendsPosts.length; i++) {
-                        const copy = { ...friendsPosts[i] }
-                        copy.avgRatio = copy.avgRatio / (i + 1) * copy.multiplier
-                        raw.push(copy)
-                    }
-
-                    for(let i = 0; i < followingPosts.length; i++) {
-                        const copy = { ...followingPosts[i] }
-                        copy.avgRatio = copy.avgRatio / (i + 1) * copy.multiplier
-                        raw.push(copy)
-                    }
-                }
-
-                // console.log(raw)
 
                 let swaps = 0
 
@@ -624,9 +473,7 @@ const UserQuery = {
                     for(let i = 0; i < arr.length; i++) {
                         if(i + 1 != arr.length) {
                             if(arr[i].avgRatio < arr[i+1].avgRatio) {
-                                const temp = arr[i]
-                                arr[i] = arr[i+1]
-                                arr[i+1] = temp
+                                [arr[i], arr[i+1]] = [arr[i+1], arr[i]]
                                 swaps+=1
                             }
                         }
