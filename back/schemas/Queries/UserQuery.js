@@ -394,6 +394,7 @@ const UserQuery = {
                     return friendsPosts
                 }
 
+
                 
                 
                 let followingAvgRatio = 0
