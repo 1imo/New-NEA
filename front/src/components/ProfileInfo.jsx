@@ -83,8 +83,7 @@ function ProfileInfo() {
     })
 
 
-    return <>
-        <section style={{"display": "flex", "width": "100%", "columnGap": "16px", "justifyContent": "space-between", marginBottom: 32, paddingTop: 16}}>
+    return <section style={{"display": "flex", "width": "100%", "columnGap": "16px", "justifyContent": "space-between", marginBottom: 32, paddingTop: 16}}>
             <div>
                 <div style={{display: "flex", columnGap: 8}}>
                     {/* <img src="/profile.jpg" height="40px" width="40px" style={{"borderRadius": "40px"}} /> */}
@@ -111,7 +110,7 @@ function ProfileInfo() {
                     </p>
                 </div>
                 <button className="followBtn" style={{width: "100%",
-                    maxWidth: 240, height: 40, backgroundColor: "#ffffff", borderRadius: 24, border: "1px solid #0B0A07", boxShadow: "0px 2px 0px 0px #0B0A07", position:"relative", overflow: "hidden", userSelect: "none"}} onClick={() => call()}>
+                    maxWidth: 240, height: 40, backgroundColor: "#ffffff", borderRadius: 24, border: "1px solid #0B0A07", boxShadow: "0px 2px 0px 0px #0B0A07", position:"relative", overflow: "hidden", userSelect: "none"}} onClick={() => call()} onTouchEnd={() => call()}>
                     <span style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", "zIndex": "10", color: "#0B0A07", fontWeight: 600, fontSize: 15, lineHeight: 24, userSelect: "none"}}>Follow</span>
                     <div style={styles.btnDecContainer}>
                         <div style={styles.btnDec}>&nbsp;</div>
@@ -123,8 +122,9 @@ function ProfileInfo() {
                 </button>
             </div>
             <div style={{borderRadius: 800, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${data?.getPublicInfo?.id})`, backgroundSize: "cover", height: 160, width: 160, backgroundPosition: "50% center"}}>&nbsp;</div>
+            
         </section>
-    </>
+
 }
 
 const styles = {

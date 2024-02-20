@@ -5,7 +5,7 @@ import {
     gql,
     useMutation
 } from "@apollo/client"
-import { DISCOVER_PEOPLE, GET_FEED, LOAD_USERS } from "../GraphQL/Queries";
+import { GET_FEED } from "../GraphQL/Queries";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import Cookies from "js-cookie";
@@ -22,17 +22,19 @@ function Home() {
     const navigate = useNavigate("/")
     
 
-    // const { err, load, dat } = useQuery(DISCOVER_PEOPLE, {
-    //     fetchPolicy: 'network-only',
-    //     variables: {
-    //         id: id || 1
-    //     }
-    // })
+    // // const { err, load, dat } = useQuery(DISCOVER_PEOPLE, {
+    // //     fetchPolicy: 'network-only',
+    // //     variables: {
+    // //         id: id || 1
+    // //     }
+    // // })
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const user = urlParams.get("u")
         const key = urlParams.get("k")
+
+        console.log(user, key)
 
         if(user && key) {
             Cookies.set("id", user)
@@ -85,7 +87,14 @@ function Home() {
     const Feed = () => {
         console.log(data?.getFeed, data?.getFeed != [])
         return data?.getFeed?.length > 0 ? data?.getFeed?.map((da, index) => {
-            return <Post data={da} key={da.id || index} />
+            if(index != 4) {
+                return <Post data={da} key={da.id || index} />
+            } else {
+                return <>
+                        <Post data={da} key={da.id || index} />
+                        <DiscoverProfile />
+                    </>
+            }
         }) : <h4 style={{position: "absolute", textAlign: "center", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "#CECECD"}}>Go Follow Someone Active</h4> 
     }
    

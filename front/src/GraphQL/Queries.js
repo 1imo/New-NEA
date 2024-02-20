@@ -198,12 +198,11 @@ export const GET_FEED = gql`
 `
 
 export const DISCOVER_PEOPLE = gql`
-  query($id: String!) {
-    recommendedUsers(id: $id) {
+  query($id: String!, $secretkey: String!) {
+    recommendedUsers(id: $id, secretkey: $secretkey) {
       id,
-      firstName,
-      lastName,
-      username
+      username,
+      name
     }
   }
 `

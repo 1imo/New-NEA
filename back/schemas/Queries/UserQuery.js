@@ -1,6 +1,6 @@
 const users = require("../../USER_DATA.json")
 const sensitive = require("../../SENSITIVE_USER_DATA.json")
-const graphql = require("graphql")
+const {graphql, buildSchema} = require("graphql")
 const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList } = require("graphql")
 const { graphqlHTTP } = require("express-graphql")
 const UserType = require("../TypeDefs/UserType")
@@ -10,6 +10,7 @@ const { take, skip } = require('@prisma/client');
 const ProfileType = require("../TypeDefs/ProfileType")
 const PendingType = require("../TypeDefs/PendingType")
 const ChatroomType = require("../TypeDefs/ChatroomType")
+const { inspect } = require("util")
 
 
 const UserQuery = {
@@ -33,6 +34,38 @@ const UserQuery = {
                 
 
                 return user
+            }
+        },
+        queryInfo: {
+            type: ProfileType,
+            args: { id: { type: GraphQLString }},
+            async resolve(parent, args, { prisma }) {
+
+                const { id, name, username,
+                    friends, friendshipsReceived,
+                    followers, following } = await prisma.user.findFirst({
+                    where: {
+                        id: args.id
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        username: true,
+                        friends: true,
+                        friendshipsReceived: true,
+                        followers: true,
+                        following: true
+                    }
+                })
+
+                return {
+                    id,
+                    name,
+                    username,
+                    friendCount: friends.length + friendshipsReceived.length,
+                    followerCount: followers.length,
+                    followingCount: following.length
+                }
             }
         },
         getPublicInfo: {
@@ -496,126 +529,231 @@ const UserQuery = {
         },
         recommendedUsers: {
             type: new GraphQLList(AuthorType),
-            args: { id: { type: GraphQLInt }},
-            resolve(parent, args) {
-                console.log(args, "DISCOVERTHISQUERY")
-                const user = users.find(user => user.id === args.id ? user : null)
+            args: { id: { type: GraphQLString }, secretkey: { type: GraphQLString } },
+            async resolve(parent, args, { prisma }) {
+                try {
+                    const exists = await prisma.userData.count({
+                        where: { 
+                            AND: [
+                                {id: args.id},
+                                {secretkey: args.secretkey}
+                            ]
+                        }
+                    })
+    
+                    if(!exists) {
+                        console.log("log out")
+                        return
+                    }
 
-                const obj = {
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    username: user.username
+                    const user = await prisma.user.findFirst({
+                        where: {
+                            id: args.id
+                        },
+                        select: {
+                            id: true,
+                            friends: {
+                                select: {
+                                    userTwo: {
+                                        select: {
+                                            id: true
+                                        }
+                                    }
+                                }
+                            },
+                            friendshipsReceived: {
+                                select: {
+                                    userOne: {
+                                        select: {
+                                            id: true
+                                        }
+                                    }
+                                }
+                            },
+                            following: {
+                                select: {
+                                    following: {
+                                        select: {
+                                            id: true
+                                        }
+                                    }
+                                }
+                            },
+                        }
+                    })
+
+
+                    let friends = user?.friendshipsReceived.map(i => i?.userOne?.id)
+                    friends = friends.concat(user?.friends.map(i => i?.userTwo?.id))
+
+                    let following = user?.following.map(i => i?.following?.id)
+
+                    const raw = []
+
+                    // class User {
+                    //     constructor(id, following, friends) {
+                    //         this.id = id
+                    //         this.following = following
+                    //         this.friends = friends
+                    //     }
+
+                    //     getFollowing() {
+                    //         return this.following
+                    //     }
+
+                    //     getFriends() {
+                    //         return this.friends
+                    //     }
+                    // }
+
+                    let main = {
+                        id: user.id,
+                        following,
+                        friends
+                    }
+
+                    // const main = new User(user.id, following, friends)
+
+                    raw.push(main)
+
+
+                    if(main?.following?.length > 0) {
+                        for(let i = 0; i < main?.following?.length; i++) {
+                            await fetchData(main.following[i])
+                        }
+                    }
+                    if(main?.friends?.length > 0) {
+                        for(const element of main.friends) {
+                            await fetchData(element)
+                        }
+                    }
+
+
+                    async function fetchData(id) {
+                        
+                        const user = await prisma.user.findFirst({
+                            where: {
+                                id
+                            },
+                            select: {
+                                id: true,
+                                friends: {
+                                    select: {
+                                        userTwo: {
+                                            select: {
+                                                id: true
+                                            }
+                                        }
+                                    }
+                                },
+                                friendshipsReceived: {
+                                    select: {
+                                        userOne: {
+                                            select: {
+                                                id: true
+                                            }
+                                        }
+                                    }
+                                },
+                                following: {
+                                    select: {
+                                        following: {
+                                            select: {
+                                                id: true
+                                            }
+                                        }
+                                    }
+                                },
+                            }
+                        })
+                            
+
+                            
+                       
+                            
+                        if(user?.friends?.length > 0 || user?.friendshipsReceived?.length > 0 || user?.following?.length > 0) {
+                            let friends = user?.friendshipsReceived.map(i => i?.userOne?.id)
+                            friends = friends.concat(user?.friends.map(i => i?.userTwo?.id))
+                            let following = user?.following.map(i => i?.following?.id)
+
+                            // const us = new User(user.id, following, friends)
+                            const us = {
+                                id: user.id,
+                                following,
+                                friends
+                            }
+
+                            if(raw.includes(us)) {
+                                return
+                            }
+
+                            raw.push(us)
+
+                        }
+                    }
+
+                    // struct User {
+                    //     id: String,
+                    //     friends: Option<Vec<User>>,
+                    //     following: Option<Vec<User>>,
+                    // }
+                  
+
+                    let d = JSON.stringify(raw)
+
+                    const res = await fetch("http://127.0.0.1:3001/recommend", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: d
+                    })
+
+                    if (!res.ok) {
+                        throw new Error(`${res.status}`);
+                    }
+
+
+                    
+                    let jsonData = await res.json();               
+
+                    async function queryPubInfo(id) {
+                        const u = await prisma.user.findFirst({
+                            where: {
+                                id: id
+                            },
+                            select: {
+                                id: true,
+                                username: true,
+                                name: true
+                            }
+                        })
+                        return u
+                    }
+
+                    if(jsonData.length < 10) {
+                        const highPerformers = await prisma.user.findMany({
+                            orderBy: {
+                                avgRatio: 'desc'
+                            },
+                            take: 10 ,
+                            select: {
+                                id: true
+                            }
+                        })
+                        console.log(highPerformers)
+
+                        jsonData = [ ...jsonData, ...highPerformers.map(u => u.id) ]
+                        console.log(jsonData, "JD")
+                    }
+
+                    
+                    return jsonData.map(async user => await queryPubInfo(user))
+                    
+                } catch(e) {
+                    console.log(e)
+                    return
                 }
-
-
-                return [ obj, obj ]
-
-                // const friends = []
-                // const following = []
-
-                // const friendsOfFriends = [[], []]
-                // const followingOfFriends = [[], []]
-
-
-                // for(let i = 0; i < user.friends.length; i++) {
-                //     const specified = users.find(us => us.id === user.friends[i].id)
-                //     friends.push(specified)
-                // }
-
-                // for(let i = 0; i < user.following.length; i++) {
-                //     const specified = users.find(us => us.id === user.following[i].id)
-                //     following.push(specified)
-                // }
-
-                // console.log([ ...friends, ...following ])
-
-                // return [ ...friends, ...following ]
-
-
-                // for(let i = 0; i < friends.length; i++) {
-
-                //     for(let x = 0; x < friends[i].friends.length; x++) {
-                //         const specified = users.find(us => us.id === friends[i].friends[x].id)
-                //         const copy = { ...specified }
-                //         copy.avgRatio = copy.avgRatio * ( x + 1 )
-                //         friendsOfFriends[0].push(copy)
-                //     }
-
-                //     for(let x = 0; x < friends[i].following.length; x++) {
-                //         const specified = users.find(us => us.id === friends[i].following[x].id)
-                //         const copy = { ...specified }
-                //         copy.avgRatio = copy.avgRatio * ( x + 1 )
-                //         friendsOfFriends[1].push(copy)
-                //     }
-                // }
-
-                // for(let i = 0; i < following.length; i++) {
-
-                //     for(let x = 0; x < following[i].friends.length; x++) {
-                //         const specified = users.find(us => us.id === following[i].friends[x].id)
-                //         const copy = { ...specified }
-                //         copy.avgRatio = copy.avgRatio * ( x + 1 )
-                //         followingOfFriends[0].push(copy)
-                //     }
-
-                //     for(let x = 0; x < following[i].following.length; x++) {
-                //         const specified = users.find(us => us.id === following[i].following[x].id)
-                //         const copy = { ...specified }
-                //         copy.avgRatio = copy.avgRatio * ( x + 1 )
-                //         followingOfFriends[1].push(copy)
-                //     }
-                // }
-
-                // console.log([ ...friendsOfFriends[0], ...friendsOfFriends[1], ...followingOfFriends[0], ...followingOfFriends[1] ])
-
-                // return [ ...friendsOfFriends[0], ...friendsOfFriends[1], ...followingOfFriends[0], ...followingOfFriends[1] ]
-
-
-                // function mergeSort(arr) {
-                //     if (arr.length <= 1) {
-                //       return arr
-                //     }
-                  
-                //     const mid = Math.floor(arr.length / 2)
-                //     const left = arr.slice(0, mid)
-                //     const right = arr.slice(mid)
-                  
-                //     return merge(mergeSort(left), mergeSort(right))
-                // }
-                  
-                // function merge(left, right) {
-                //   const result = []
-                //   let leftIndex = 0
-                //   let rightIndex = 0
-                
-                //   while (leftIndex < left.length && rightIndex < right.length) {
-                //     if (left[leftIndex].avgRatio >= right[rightIndex].avgRatio) {
-                //       result.push(left[leftIndex])
-                //       leftIndex++
-                //     } else {
-                //       result.push(right[rightIndex])
-                //       rightIndex++
-                //     }
-                //   }
-                
-                //   return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex))
-                // }
-
-                // const friendsFriendsSorted = mergeSort(friendsOfFriends[0])
-                // const followingFriendsSorted = mergeSort(friendsOfFriends[1])
-                // const friendsFollowingSorted = mergeSort(followingOfFriends[0])
-                // const followingFollowingSorted = mergeSort(followingOfFriends[1])
-                
-
-                // const formatted = [ ...friendsFriendsSorted, ...followingFollowingSorted, ...followingFriendsSorted, ...friendsFollowingSorted ]
-
-                // console.log(formatted)
-
-               
-
-                // return formatted
-                
 
 
             }
