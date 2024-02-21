@@ -42,13 +42,23 @@ function DiscoverProfile(props) {
                     console.log(user)
                     queue.current.enqueue(JSON.stringify(user))
                 })
+                let count = 0
                 const animationInterval = setInterval(() => {
                     setRemoveX((prevX) => prevX + 1);
-                }, 40);
-                const switchPlaces = setInterval(() => {
-                    queue.current.enqueue(queue.current.dequeue())
-                    setRemoveX((prevX) => prevX - 96);
-                }, 3840);
+                    count += 1
+                    console.log(count)
+                    if(count == 96) {
+                        queue.current.enqueue(queue.current.dequeue())
+                        count -= 96
+                        setRemoveX((prevX) => prevX - 96)
+                    }
+
+                }, 40)
+
+                return () => {
+                    clearInterval(animationInterval)
+                    clearInterval(switchPlaces)
+                }
             })
         }
 
