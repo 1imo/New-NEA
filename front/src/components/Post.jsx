@@ -3,6 +3,7 @@ import { useInView } from 'react-intersection-observer';
 import { useMutation } from '@apollo/client';
 import { LIKE_POST, VIEW_POST } from '../GraphQL/Mutations';
 import { Context } from '../context/Context';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -12,6 +13,7 @@ function Post(props) {
     const [ liking, setLiking ] = useState(false)
 
     const Ctx = useContext(Context)
+    const navigate = useNavigate()
 
     console.log(props)
 
@@ -66,8 +68,7 @@ function Post(props) {
 
 
 
-    return <>
-        <section style={styles.section} ref={ref} onDoubleClick={() => like()}>
+    return <section style={styles.section} ref={ref} onClick={() => navigate(`/post/id/${props?.username}`)} onDoubleClick={() => like()}>
             <div>
                 <div style={{borderRadius: 80, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${props?.data?.user?.id})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center"}}>&nbsp;</div>
             </div>
@@ -79,7 +80,8 @@ function Post(props) {
                 <div style={{backgroundImage: `url(${Ctx.imageServer}/fetch/post/${props?.data?.id})`, backgroundSize: "cover", aspectRatio: "1/1", height: "100% !important", marginTop: 8, borderRadius: 8, display: !props?.data?.photo ? "none" : null}}>&nbsp;</div>
             </div>
         </section>
-    </>
+    
+    
 }
 
 const styles = {
@@ -89,7 +91,7 @@ const styles = {
         "boxSizing": "border-box",
         // "maxWidth": "400px",
         "columnGap": "8px",
-        "marginBottom": "8px"
+        "margin": "0px 0 16px"
     },
     imagecontent: {
         "borderRadius": "8px",

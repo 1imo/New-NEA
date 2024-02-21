@@ -87,7 +87,7 @@ function Home() {
     const Feed = () => {
         console.log(data?.getFeed, data?.getFeed != [])
         return data?.getFeed?.length > 0 ? data?.getFeed?.map((da, index) => {
-            if(index != 4) {
+            if(index != 2) {
                 return <Post data={da} key={da.id || index} />
             } else {
                 return <>
@@ -95,7 +95,10 @@ function Home() {
                         <DiscoverProfile />
                     </>
             }
-        }) : <h4 style={{position: "absolute", textAlign: "center", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "#CECECD"}}>Go Follow Someone Active</h4> 
+        }) : <div style={{position: "absolute", textAlign: "center", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
+            <h4 style={{color: "#CECECD"}} >Go Follow Someone Active</h4> 
+            <DiscoverProfile animation={true} />
+        </div>
     }
    
 

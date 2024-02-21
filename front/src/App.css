@@ -16,8 +16,4 @@
     }
 }
 
-.sliderInner {
-    animation: 1000ms ease-in-out;
-    user-select: none;
-    -webkit-user-select: none;
-}
+
