@@ -1,79 +1,107 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { useState, useRef, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { SIGN_IN } from "../GraphQL/Mutations"
 import Cookies from "js-cookie"
+import init, { Queue } from "../../public/pkg/web_module"
+
 
 function Portal() {
 
-    const username = useRef()
-    const pass = useRef()
+    // const queue = useRef(null)
+    const images = useRef(["image14.jpg", "image31.jpg", "image15.jpg",  "image32.jpg",
+    "image16.jpg", "image34.jpg", "image17.jpg", "image19.jpg", "image20.jpg", "image21.jpg", 
+    "image22.jpg", "image25.jpg", "image28.jpg"])
+    const queueTop = useRef(images.current)
+    const queueBottom = useRef(images.current.map((im, ind) => images.current[images.current.length - ind - 1]))
 
-    const [ usernameFocus, setUsernameFocus ] = useState(false)
-    const [ passFocus, setPassFocus ] = useState(false)
+
+    const [ removeX, setRemoveX ] = useState(0)
 
     
     const navigate = useNavigate()
 
-    const [ SignIn, { loading, data, error } ] = useMutation(SIGN_IN)
+
+    useEffect(() => {
+        
     
-    async function signIn() {
-
-        console.log(username.current.value, pass.current.value)
-
-        const res = await SignIn({
-            variables: {
-                username: username.current.value,
-                pass: pass.current.value
+        let count = 0
+        const animationInterval = setInterval(() => {
+            setRemoveX((prevX) => prevX + 1);
+            count+=1
+            if(count == 96) {
+                let one = queueTop.current.shift()
+                queueTop.current = queueTop.current.concat(one)
+                let two = queueBottom.current.pop()
+                queueBottom.current = [two, ...queueBottom.current]
+                count -= 96
+                console.log(queueTop.current, queueBottom.current)
+                setRemoveX((prevX) => prevX - 96)
             }
-        })
+        }, 40);
+    
+        return () => {
+            clearInterval(animationInterval);
+        };
+    }, [])
 
-        if(res?.data?.signIn === null) {
-            alert("Incorrect Info Enterered")
-        } else {
-            console.log(res)
-            Cookies.set('secretkey', res.data.signIn.secretkey, { expires: 7 })
-            Cookies.set('id', res.data.signIn.id, { expires: 7 })
-            window.location.href = "/"
-        }
 
+
+
+
+    function ProfileTop(props) {
+        const { path } = props
+        return <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", borderRadius: 8, cursor: "pointer", textAlign: "center", transform: `translateX(-${removeX}px)`, transition: "transform 0.5s ease defer", 
+        }}>
+            <div style={{borderRadius: 800, backgroundColor: "#F3F3F3", backgroundImage: `url(/${path})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center", boxShadow: '2px 2px 16px 0 rgba(133, 132, 131, 0.5), -4px -2px 16px rgba(243, 243, 243)'}}>&nbsp;</div>
+        </div>
+    }
+    
+    function ProfileBottom(props) {
+        const { path } = props
+        return <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", borderRadius: 8, cursor: "pointer", textAlign: "center", transform: `translateX(${removeX}px)`, transition: "transform 0.5s ease defer", 
+        }}>
+            <div style={{borderRadius: 800, backgroundColor: "#F3F3F3", backgroundImage: `url(/${path})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center", boxShadow: '2px 2px 16px 0 rgba(133, 132, 131, 0.5), -4px -2px 16px rgba(243, 243, 243)'}}>&nbsp;</div>
+        </div>
     }
 
-    return <>
-    <section style={styles.section} className="authScreen">
-        <div style={styles.heading} className="subheading">
-            <h2>Hi There!</h2>
-            <div style={styles.subheading}>
-                <p>On Point?</p>
-                <img src="/smiley.jpg" alt=":)" height={20} width={20} />
-            </div>
-        </div>
-        <div style={styles.inputCont}>
-            <div style={styles.input}>
-                <img className="moveInImg" src="/circle-user-round.svg" alt="username" style={usernameFocus || username?.current?.value ? null : { display: "none" }} />
-                <input ref={username} onFocus={() => setUsernameFocus(true)} onBlur={() => setUsernameFocus(false)} style={styles.inputBox} placeholder="Username" />
-            </div>
-            <div style={styles.input}>
-                <img className="moveInImg" src="/lock.svg" alt="password" style={passFocus || pass?.current?.value ? null : {display: "none"}} />
-                <input type="password" ref={pass} onFocus={() => setPassFocus(true)} onBlur={() => setPassFocus(false)} style={styles.inputBox} placeholder="*********" />
-            </div>
-        </div>
+    
 
-        <div style={styles.providers}>
-            <div style={styles.provider} onClick={() => window.location.href="http://127.0.0.1:8000/auth/google"}>
-                <img src="/apple.png" alt="Sign In w Google" />
-            </div>
-            <div style={styles.provider}>
-                <img src="/google.png" alt="Sign In w Apple" />
-            </div>
-        </div>
 
-        <div style={styles.buttons} className="buttons">
-            <button style={styles.button} onClick={() => signIn()}>Sign In</button>
-            <a href="/onboarding">Sign Up</a>
-        </div>
-    </section>
-</>
+
+    return <section style={styles.section} className="authScreen">
+                    <div style={styles.options}>        
+                        <div style={styles.providers} onClick={() => window.location.href="http://127.0.0.1:8000/auth/google"}>
+                            <img height={24} width={24} src="/google.svg" alt="Sign In w Google" />
+                            <h5>Sign In with Google</h5>
+                        </div>
+                            
+                        <div style={styles.buttons} className="buttons">
+                            <Link to="/sign_in" style={styles.button}>Sign In</Link>
+                            <Link to="/onboarding" style={{textDecoration: "none"}}>Sign Up</Link>
+                        </div>
+                    </div>
+                <div style={styles.heading} className="subheading">
+                    <h2>Hi There!</h2>
+                    <div style={styles.subheading}>
+                        <p>Sign in below</p>
+                        <img src="/smiley.jpg" alt=":)" height={20} width={20} />
+                    </div>
+                    <div style={{display: "flex", justifyContent: "center", flexDirection: "column", position: "relative", marginTop: 80}}>
+                        <div style={{display: "flex", flexDirection: "row", alignItems: "center", columnGap: 16, marginBottom: 8, justifyContent: "center"}}>
+                            {queueTop.current?.length > 0 && queueTop?.current?.map((path, index) => {
+                                return <ProfileTop path={path} key={index} />
+                            })}
+                        </div>
+                        <div style={{display: "flex", flexDirection: "row", alignItems: "center", columnGap: 16, justifyContent: "center"}}>
+                            {queueBottom.current?.length > 0 && queueBottom?.current?.map((path, index) => {
+                                return <ProfileBottom path={path} key={index} />
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 }
 
 const styles = {
@@ -82,10 +110,13 @@ const styles = {
         height: "100svh",
         // margin: "auto",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "column-reverse",
         // alignItems: "center",
-        justifyContent: "center",
-        overflowY: "hidden"
+        boxSizing: "border-box",
+        padding: "160px 0 80px",
+        
+        justifyContent: "space-around",
+        overflow: "hidden"
     },
     heading: {
         display: "flex",
@@ -96,50 +127,19 @@ const styles = {
         display: "flex",
         alignItems: "center",
         columnGap: 8,
-        marginBottom: 176
-    },
-    inputCont: {
-        display: "flex",
-        flexDirection: "column",
-        rowGap: 16,
-        marginBottom: 64,
-    },
-    input: {
-        border: "1px solid #f7f7f7",
-        height: 40,
-        borderRadius: 8,
-        boxSizing: "borderBox",
-        padding: "4px 16px",
-        display: "flex",
-        flexDirection: "row",
-        // justifyContent: "center",
-        alignItems: "center",
-        columnGap: 8
-    },
-    inputBox: {
-        border: "none",
-        outline: "none",
-        width: "100%",
-        height: "100%",
-        padding: 0,
-        margin: 0,
-        height: 24
     },
     providers: {
         display: "flex",
         alignItems: "center",
         columnGap: 16,
+        background: "#4C9BF7",
+        width: "fit-content",
+        padding: "4px 40px",
+        color: "#fff",
+        borderRadius: 4,
+        justifyContent: "center",
+        boxSize: "border-box",
         margin: "0 auto",
-        marginBottom: 128,
-    },
-    provider: {
-        width: 32,
-        height: 32,
-        borderRadius: 24,
-        background: "#e7e7e6",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
     },
     buttons: {
         width: "100%",
@@ -147,7 +147,6 @@ const styles = {
         flexDirection: "column",
         rowGap: 24,
         alignItems: "center",
-        marginTop: 64,
         fontFamily: "'Poppins', sans-serif",
         fontSize: "15px",
         lineHeight: "24px"
@@ -161,7 +160,18 @@ const styles = {
         border: "none",
         fontFamily: "'Poppins', sans-serif",
         fontSize: 15,
-        lineHeight: "24px"
+        lineHeight: "24px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    options: {
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        marginTop: 80,
+        justifyContent: "space-between",
+        alignItems: "center",
     }
 }
 

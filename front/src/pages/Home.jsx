@@ -107,7 +107,7 @@ function Home() {
         <>
             <Nav icons={true} load={setLoading} style={load ? {opacity: 0} : null} />
           {!load && (
-            <div>
+            <div style={{boxSizing: "border-box", width: "100%", maxWidth: 640, overflowX: "hidden"}}>
                 <Feed />
             </div>
           )}

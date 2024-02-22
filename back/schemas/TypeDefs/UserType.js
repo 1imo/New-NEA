@@ -1,41 +1,30 @@
-const graphql = require("graphql")
-const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList } = require("graphql")
-const { graphqlHTTP } = require("express-graphql")
-const postData = require("../../POST_DATA.json")
-const PostType = require("./PostType")
-// const ChatroomType = require("./ChatroomType")
-
-
+const graphql = require('graphql')
+const {
+  GraphQLObjectType,
+  GraphQLInt,
+  GraphQLString,
+  GraphQLList,
+} = require('graphql')
+const PostType = require('./PostType')
 
 const UserType = new GraphQLObjectType({
-    name: "User",
-    fields: () => ({
-        id: { type: GraphQLString},
-        username: { type: GraphQLString},
-        name: { type: GraphQLString},
-        posts: { type: new GraphQLList(PostType),
-            resolve(parent, args) {
-              // Retrieve the posts for the current user
-              const posts = [];
-              for (const post of postData) {
-                if (post.author.id === parent.id) {
-                  posts.push(post);
-                }
-              }
-              return posts 
-            }
-        },
-        friends: { type: new GraphQLList(UserType) },
-        followers: { type: new GraphQLList(UserType) },
-        following: { type: new GraphQLList(UserType) },
-        friendCount: { type: GraphQLInt },
-        followerCount: { type: GraphQLInt },
-        followingCount: { type: GraphQLInt },
-        pending: { type: new GraphQLList(UserType) },
-        chatrooms: { type: new GraphQLList(GraphQLInt) },
-        avgRatio: { type: graphql.GraphQLFloat},
-        socket: { type: GraphQLString }
-    })
+  name: 'User',
+  fields: () => ({
+    id: {type: GraphQLString},
+    username: {type: GraphQLString},
+    name: {type: GraphQLString},
+    posts: {type: new GraphQLList(PostType)},
+    friends: {type: new GraphQLList(UserType)},
+    followers: {type: new GraphQLList(UserType)},
+    following: {type: new GraphQLList(UserType)},
+    friendCount: {type: GraphQLInt},
+    followerCount: {type: GraphQLInt},
+    followingCount: {type: GraphQLInt},
+    pending: {type: new GraphQLList(UserType)},
+    chatrooms: {type: new GraphQLList(GraphQLInt)},
+    avgRatio: {type: graphql.GraphQLFloat},
+    socket: {type: GraphQLString},
+  }),
 })
 
 module.exports = UserType

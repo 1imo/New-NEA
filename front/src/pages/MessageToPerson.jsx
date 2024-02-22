@@ -162,7 +162,8 @@ function MessageToPerson() {
 }
 const styles = {
     input: {
-        width: "calc(100vw - 32px)",
+        width: "100%",
+        maxWidth: 640,
         display: "flex",
         flexDirection: "row-reverse",
         columnGap: 8,

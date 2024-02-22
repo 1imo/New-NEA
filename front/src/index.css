@@ -30,18 +30,31 @@ body {
   /* display: flex; */
   /* place-items: center; */
   min-height: 100svh;
-  padding: 0px 16px 16px;
+  /* padding: 0px 16px 16px; */
   width: 100vw !important;
   box-sizing: border-box !important;
   overflow-x: hidden;
   overflow-y: scroll;
+  max-width: 640px !important;
+  margin: auto;
+  padding: 0 16px
 }
 
 #root {
   /* min-height: 100svh; */
   box-sizing: border-box !important;
-  width: calc(100vw - 32px) !important;
+  width: 100% !important;
   overflow-x: hidden;
+  max-width: 640px !important;
+  /* padding: 0 16px */
+  /* margin: auto; */
+}
+
+
+@media only screen and (min-width: 640px) {
+  body {
+    padding: 0
+  }
 }
 
 body::-webkit-scrollbar {
@@ -176,13 +189,10 @@ input:focus {
 @media only screen and (max-width: 500px) {
   .authScreen {
     width: 100% !important;
-    padding: 80px 0px !important;
+    padding: 80px 0px 40px !important;
     height: 100svh;
   }
 
-  .buttons {
-    transform: translateY(-80px);
-  }
 }
 
 @media only screen and (min-width: 500px) {
@@ -203,6 +213,8 @@ input:focus {
   line-height: 32;
   font-weight: 700
 }
+
+
 
 @media (prefers-color-scheme: light) {
   :root {

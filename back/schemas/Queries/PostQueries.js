@@ -1,84 +1,42 @@
-const graphql = require("graphql")
-const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString } = require("graphql")
-const { graphqlHTTP } = require("express-graphql")
+const graphql = require('graphql')
+const {GraphQLInt, GraphQLString} = require('graphql')
 
-const UserType = require("../TypeDefs/UserType")
-const PostType = require("../TypeDefs/PostType")
-
-const posts = require("../../POST_DATA.json")
-const users = require("../../USER_DATA.json")
+const UserType = require('../TypeDefs/UserType')
+const PostType = require('../TypeDefs/PostType')
 
 const PostQuery = {
-        getPost: {
-            type: PostType,
-            args: { id: { type: GraphQLInt}},
-            async resolve(parent, args, { prisma }) {
-                console.log(args, "ARGS")
-                
-                const post = await prisma.post.findFirst({
-                    where: {
-                        id: args.id
-                    },
-                    select: {
-                        id: true,
-                        content: true,
-                        photo: true,
-                        user: {
-                            select: {
-                                name: true,
-                                username: true,
-                                id: true
-                            }
-                        }
-                    }
-                })
+  getPost: {
+    type: PostType,
+    args: {id: {type: GraphQLInt}},
+    async resolve(parent, args, {prisma, sanitise, log}) {
+      try {
+        args = sanitise(args)
 
-                // console.log(post,)
-                
-                return post
-            }
-        },
-        profileInfo: {
-            type: UserType,
-            args: { username: { type: GraphQLString }},
-            async resolve(parent, args, { prisma }) {
+        const post = await prisma.post.findFirst({
+          where: {
+            id: args.id,
+          },
+          select: {
+            id: true,
+            content: true,
+            photo: true,
+            user: {
+              select: {
+                name: true,
+                username: true,
+                id: true,
+              },
+            },
+          },
+        })
 
-                const user = await prisma.user.findFirst({
-                    where: {
-                        id: args.id
-                    }
-                })
-
-
-                return {
-                    firstName: user.name.split(" ")[0],
-                    lastName: user.name.split(" ")[1],
-                    username: user.username,
-                    followerCount: user.followers.length,
-                    followingCount: user.following.length,
-                    friendCount: user.friends.length + user.friendshipsReceived.length
-                }
-            }
-        },
-        getFriends: {
-            type: new graphql.GraphQLList(UserType),
-            args: { username: { type: GraphQLString }},
-            async resolve(parent, args) {
-            
-                const user = await prisma.user.findFirst({
-                    where: {
-                        id: args.id
-                    },
-                    select: {
-                        friends: true,
-                        friendshipsReceived: true
-                    }
-                })
-
-                return [ ...user.friends, ...user.friendshipsReceived ]
-                
-            }
-        }
-    }
+        return post
+      } catch (e) {
+        log(e)
+        return
+      }
+    },
+  },
+}
 
 module.exports = PostQuery

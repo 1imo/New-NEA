@@ -56,7 +56,7 @@ function ProfileInsight(props) {
 
 
     return <>
-        <section style={styles.section} onClick={() => call()} onDoubleClick={() => befriend()} >
+        <div style={styles.section} onClick={() => call()} onDoubleClick={() => befriend()} >
             <div>
             <div style={{borderRadius: 80, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${props?.id})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center"}}>&nbsp;</div>
             </div>
@@ -64,7 +64,7 @@ function ProfileInsight(props) {
                 <h3 style={{"textAlign": "left"}}>{props?.name}</h3>
                 <h5 style={{"textAlign": "left"}}>@{props?.username}</h5>
             </div>
-        </section>
+        </div>
     </>
 }
 

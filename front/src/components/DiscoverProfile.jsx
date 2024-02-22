@@ -46,7 +46,6 @@ function DiscoverProfile(props) {
                 const animationInterval = setInterval(() => {
                     setRemoveX((prevX) => prevX + 1);
                     count += 1
-                    console.log(count)
                     if(count == 96) {
                         queue.current.enqueue(queue.current.dequeue())
                         count -= 96
@@ -87,7 +86,7 @@ function DiscoverProfile(props) {
 
     function Profile(props) {
         const { user } = props
-        return <div style={styles.card} onClick={() => navigate(`/profile/${user.username}`)} className="carousel" >
+        return <div style={styles.card} onTouchStart={() => navigate(`/profile/${user.username}`)} onMouseDown={() => navigate(`/profile/${user.username}`)} className="carousel" >
             <div style={{borderRadius: 800, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${user.id})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center"}}>&nbsp;</div>
             <h5 style={{marginTop: 4}}>{user?.name.split(" ")[0]}</h5>
             <h5 style={{opacity: "50%"}}>{user.username}</h5>
@@ -97,7 +96,7 @@ function DiscoverProfile(props) {
     
 
 
-    return <div style={{display: "flex", flexDirection: "row", alignItems: "center", columnGap: 16}}>
+    return <div style={{display: "flex", flexDirection: "row", alignItems: "center", columnGap: 16, width: "100%", maxWidth: 640, overflowX: "hidden"}}>
         {queue?.current?.get_current_items()?.map((user, i) => {
             // console.log(user)
             return <Profile key={i} user={JSON.parse(user)} />

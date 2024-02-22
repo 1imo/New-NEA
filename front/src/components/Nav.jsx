@@ -84,7 +84,11 @@ const styles = {
         "justifyContent": "space-between",
         "width": "calc(100vw - 32px)",
         "marginBottom": "32px",
-        paddingTop: 32
+        paddingTop: 32,
+        width: "100%",
+        maxWidth: 640,
+        alignItems: "center",
+        margin: "0 auto 32px"
     },
     one: {
         "display": "flex",

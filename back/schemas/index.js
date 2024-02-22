@@ -1,50 +1,34 @@
-const userData = require("../USER_DATA.json")
-const graphql = require("graphql")
-const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString } = require("graphql")
-const { graphqlHTTP } = require("express-graphql")
-const UserType = require("./TypeDefs/UserType")
-const fs = require("fs")
+const {GraphQLObjectType, GraphQLSchema} = require('graphql')
 
-const UserMutations = require("./Mutations/UserMutations")
-const PostMutations = require("./Mutations/PostMutations")
-const ChatroomMutations = require("./Mutations/ChatroomMutations")
+const UserMutations = require('./Mutations/UserMutations')
+const PostMutations = require('./Mutations/PostMutations')
+const ChatroomMutations = require('./Mutations/ChatroomMutations')
 
-const PostQueries = require("./Queries/PostQueries")
-const UserQueries = require("./Queries/UserQuery")
-const ChatroomQueries = require("./Queries/ChatroomQueries")
-const AuthQueries = require("./Queries/AuthQueries")
+const PostQueries = require('./Queries/PostQueries')
+const UserQueries = require('./Queries/UserQuery')
+const ChatroomQueries = require('./Queries/ChatroomQueries')
+const AuthQueries = require('./Queries/AuthQueries')
 
 const RootQuery = new GraphQLObjectType({
-    name: "RootQueryType",
-    fields: {
-        getAllUsers: {
-            type: new graphql.GraphQLList(UserType),
-            args: { id: { type: GraphQLInt}},
-            resolve(parent, args) {
-                return userData
-            }
-        },
-        ...AuthQueries,
-        ...UserQueries,
-        ...PostQueries,
-        ...ChatroomQueries
-    }
+  name: 'RootQueryType',
+  fields: {
+    ...AuthQueries,
+    ...UserQueries,
+    ...PostQueries,
+    ...ChatroomQueries,
+  },
 })
-
 
 const Mutation = new GraphQLObjectType({
-    name: "Mutation",
-    fields: {
-        ...UserMutations,
-        ...PostMutations,
-        ...ChatroomMutations
-    }
+  name: 'Mutation',
+  fields: {
+    ...UserMutations,
+    ...PostMutations,
+    ...ChatroomMutations,
+  },
 })
 
-
-
-
 module.exports = new GraphQLSchema({
-    query: RootQuery,
-    mutation: Mutation
+  query: RootQuery,
+  mutation: Mutation,
 })

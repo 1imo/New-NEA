@@ -22,6 +22,7 @@ import Cookies from 'js-cookie';
 import Settings from './pages/Settings';
 import { Context } from './context/Context';
 import NotFound from './pages/404';
+import SignIn from './pages/SignIn';
 
 
 function App() {
@@ -33,21 +34,22 @@ function App() {
       <Router>
         <Routes>
           <Route path="/portal" element={<Portal />} />
+          <Route path="/sign_in" element={<SignIn />} />
           <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/post/id/:id" element={<Post />} />
           {Ctx.id && Ctx.secretkey && (
             <>
             <Route path="/" element={<Home />} />
             <Route path="/messaging" element={<MessageList />} />
             <Route path="/messaging/id/:id" element={<MessageToPerson />} />
             <Route path="/post" element={<PostPost />} />
-            <Route path="/post/id/:id" element={<Post />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:id" element={<ResultList />} />
             <Route path="/settings" element={<Settings />} />
             </>
           )}
-          <Route path="*" element={<Portal />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>
