@@ -1,10 +1,6 @@
 const express = require('express')
-const userData = require('./USER_DATA.json')
 const {graphqlHTTP} = require('express-graphql')
 const schema = require('./schemas/index.js')
-const chatrooms = require('./CHATROOM_DATA.json')
-const users = require('./USER_DATA.json')
-const sensitive = require('./SENSITIVE_USER_DATA.json')
 const cors = require('cors')
 const http = require('http')
 const fs = require('fs')
@@ -103,26 +99,27 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
   socket.on('initialConnection', async (data) => {
-    const exists = await prisma.userData.count({
-      where: {
-        AND: [{id: data.id}, {secretkey: data.secretkey}],
-      },
-    })
-
-    if (!exists) {
-      io.to(socket.id).emit('auth', false)
-      return
-    } else {
-      await prisma.user.update({
-        where: {
-          id: data.id,
-        },
-        data: {
-          socket: socket.id,
-        },
-      })
-
-      io.to(socket.id).emit('auth', true)
+    try {
+      data = sanitise(data)
+      const exists = await auth(data.id, data.secretkey)
+  
+      if (!exists) {
+        io.to(socket.id).emit('auth', false)
+        return
+      } else {
+        await prisma.user.update({
+          where: {
+            id: data.id,
+          },
+          data: {
+            socket: socket.id,
+          },
+        })
+  
+        io.to(socket.id).emit('auth', true)
+      }
+    } catch(e) {
+      log(e)
     }
   })
 
@@ -152,59 +149,55 @@ io.on('connection', (socket) => {
   // })
 
   socket.on('getChats', async (data) => {
-    const exists = await prisma.userData.count({
-      where: {
-        AND: [{id: data.id}, {secretkey: data.secretkey}],
-      },
-    })
-
-    if (!exists) {
-      return
-    }
-
-    console.log(data)
-
-    const chatrooms = await prisma.user.findFirst({
-      where: {
-        id: data.id,
-      },
-      select: {
-        id: true,
-        chatroomUsers: {
-          select: {
-            chatroom: {
-              select: {
-                id: true,
-                chatroomUsers: {
-                  select: {
-                    user: true,
-                  },
-                },
-                messages: {
-                  orderBy: {
-                    date: 'desc',
-                  },
-                  take: 1,
-                  select: {
-                    id: true,
-                    content: true,
-                    sender: {
-                      select: {
-                        name: true,
-                        username: true,
-                      },
+    try {
+      data = sanitise(data)
+      await auth(data.id, data.secretkey)
+      
+      const chatrooms = await prisma.user.findFirst({
+        where: {
+          id: data.id,
+        },
+        select: {
+          id: true,
+          chatroomUsers: {
+            select: {
+              chatroom: {
+                select: {
+                  id: true,
+                  chatroomUsers: {
+                    select: {
+                      user: true,
                     },
-                    date: true,
+                  },
+                  messages: {
+                    orderBy: {
+                      date: 'desc',
+                    },
+                    take: 1,
+                    select: {
+                      id: true,
+                      content: true,
+                      sender: {
+                        select: {
+                          name: true,
+                          username: true,
+                        },
+                      },
+                      date: true,
+                    },
                   },
                 },
               },
             },
           },
         },
-      },
-    })
+      })
+  
+      io.to(socket.id).emit('getChats', chatrooms.chatroomUsers)
+    } catch (e) {
+      log(e)
+    }
 
-    io.to(socket.id).emit('getChats', chatrooms.chatroomUsers)
   })
 
   // socket.on("foll", data => {
@@ -253,9 +246,6 @@ function sanitise(input) {
     // Escape Characters
     sanitizedValue = sanitizedValue.replace(/['"\\]/g, '\\$&')
 
-    // Whitelisting
-    sanitizedValue = sanitizedValue.replace(/[^a-zA-Z0-9\s]/g, '')
-
     // Blacklisting
     const blacklistedChars = ['<', '>', '&', ';', '#', '{', '}'] // Example blacklist
     blacklistedChars.forEach((char) => {
@@ -265,9 +255,6 @@ function sanitise(input) {
     // Length Limitation
     const maxLength = 100 // Example maximum length
     sanitizedValue = sanitizedValue.slice(0, maxLength)
-
-    // Normalization (Convert to lowercase)
-    sanitizedValue = sanitizedValue.toLowerCase()
 
     // Canonicalization (Remove variations such as leading/trailing spaces)
     sanitizedValue = sanitizedValue.trim()

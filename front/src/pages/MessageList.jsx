@@ -1,18 +1,15 @@
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import MessageInsight from "../components/MessageInsight"
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import { useQuery } from "@apollo/client";
 import { GET_CHATS } from "../GraphQL/Queries";
-import PuffLoader from "react-spinners/PuffLoader";
+// import PuffLoader from "react-spinners/PuffLoader";
+import Loading from "../components/Loading";
 
 function MessageList() {
-
-    const { socket } = useContext(Context)
     const Ctx = useContext(Context)
-
     const navigate = useNavigate()
-
     const [ chats, setChats ] = useState([])
 
     const { loading, data, error } = useQuery(GET_CHATS, {
@@ -22,41 +19,41 @@ function MessageList() {
         }
     })
 
+    if(error) alert("Error Loading Chats")
+    if(loading) return <Loading />
+
     useEffect(() => {
-        console.log(data)
         setChats(data?.getChats)
     }, [data])
-
-    useEffect(() => {
-        console.log("CHANGE", chats)
-    }, [chats])
-
-   
+  
     function newChat() {
         navigate("/search", { state: { searchType: "message" }});
     }
 
     useEffect(() => {
-        // socket.emit("getChats", {
-        //     id: Ctx.id,
-        //     secretkey: Ctx.secretkey
-        // })
-
-        socket.on("getChats", (data) => {
-            console.log(data)
-
+        // Listen for "getChats" event
+        const getChatsListener = (data) => {
             setChats(data)
-            
-        })
-
-        socket.on("updatedChat", (data) => {
-            socket.emit("getChats", {
+        }
+    
+        // Listen for "updatedChat" event
+        const updatedChatListener = (data) => {
+            Ctx.socket.emit("getChats", {
                 id: Ctx.id,
                 secretkey: Ctx.secretkey
             })
-        })
-
+        }
     
+        // Add event listeners
+        Ctx.socket.on("getChats", getChatsListener)
+        Ctx.socket.on("updatedChat", updatedChatListener)
+    
+        // Cleanup function
+        return () => {
+            // Remove event listeners
+            Ctx.socket.off("getChats", getChatsListener)
+            Ctx.socket.off("updatedChat", updatedChatListener)
+        }
     }, [])
 
 
@@ -69,13 +66,6 @@ function MessageList() {
         { !loading && ( chats?.length > 0 ? chats.map((chat, index) => {
             return <MessageInsight key={index} data={chats[chats.length - index - 1]} />
         }) : <h4 style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "#CECECD"}}>No Messages</h4> )}
-
-        <PuffLoader
-            cssOverride={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-            color="#eeeeee"
-            loading={loading}
-            size={160}
-          />
     </>
 }
 export default MessageList

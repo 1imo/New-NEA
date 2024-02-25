@@ -1,0 +1,98 @@
+
+__Path__: /onboarding
+__Intention__: Guide users through creating a new account
+
+### External Components Used
+
+- [[Loading Component]]
+- [[Slider Component]]
+
+![[Pasted image 20240225004310.png]]
+
+![[Pasted image 20240225004049.png]]
+
+
+### Routing
+
+To make it easier for the user I decided to make a router for the user to interface between different [[Input Component]]s so that they only need to focus on one thing at a time. They also get to have fun playing with the [[Slider Component]].
+
+The routing works by passing a state to the child [[Input Component]] and on completion, a switch statement checks that the value isn't null (it shouldn't be due to sanitation) and proceeds to change to the next screen. On completion it calls the [[#call()]] to create a user.
+
+```
+Define a useEffect hook with dependencies fn, ln, username, pass, and profile:
+
+    Switch on the value change of the position variable:
+        Case 0:
+            Check if the fn variable is not an empty string:
+                If true, set the position to 1
+                Break out of the switch statement
+        Case 1:
+            Check if the ln variable is not an empty string:
+                If true, set the position to 2
+                Break out of the switch statement
+        Case 2:
+            Check if the username variable is not an empty string:
+                If true, set the position to 3
+                Break out of the switch statement
+        Case 3:
+            Check if the pass variable is not an empty string:
+                If true, set the position to 4
+                Break out of the switch statement
+        Case 4:
+            Check if the profile variable is not an empty string:
+                If true, call the call function
+                Break out of the switch statement
+
+Define an array named screens containing JSX elements:
+    Each element corresponds to a screen in the onboarding process
+    The value of each element is an Input component with specific properties based on the current screen
+
+Render the current screen based on the position variable:
+    If load is false, render the screen at the index position from the screens array
+```
+
+### call()
+
+The call function handles the call to the [[User Mutations#createUser]]. On successful response it creates the needed cookies to store the API key and the User ID. On successful response, if a user uploaded a profile picture, that will be uploaded to the [[Image Server]], then finally the user will be redirected to the [[PAGE - Home]].
+
+```
+Define an asynchronous function named call:
+
+    Set loading to true to indicate that the operation is in progress
+
+    Perform an API call to create a new user:
+        Use the createUser mutation with variables:
+            - firstName: value of fn variable
+            - lastName: value of ln variable
+            - username: value of username variable
+            - password: value of pass variable
+
+    Check if the API call is successful:
+        If successful:
+            Extract the secretkey and id from the response data
+            Set cookies for secretkey and id with an expiration of 7 days
+
+            If the profile is provided:
+                Perform an API call to upload the profile image:
+                    Use the fetch function with the imageServer URL + "/upload" endpoint, method POST, and JSON body containing:
+                        - id: user id from the response
+                        - image: profile image
+                        - correlation: "Profile"
+
+            Navigate to the home page ("/")
+```
+
+![[Pasted image 20240225010947.png]]
+
+
+### UI
+
+![[Pasted image 20240225014004.png]]
+
+![[Pasted image 20240225014113.png]]
+
+![[Pasted image 20240225014140.png]]
+![[Pasted image 20240225014152.png]]
+![[Pasted image 20240225014204.png]]
+
+I am aware that the profile image upload interface is not user friendly, however, for now it will ship like that.

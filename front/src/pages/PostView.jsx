@@ -7,19 +7,14 @@ import {
     gql
 } from "@apollo/client"
 import { LOAD_POST } from "../GraphQL/Queries";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Context } from "../context/Context";
 
-// function Home() {
-    
-    // useEffect(() => {
-        //     // if(data)
-        //     console.log(data)
-        // }, [data])
         
 function PostView() {
     const { id } = useParams()
-
+    const Ctx = useContext(Context)
     
     const [ vars, setVars ] = useState(parseInt(id))
 
@@ -29,24 +24,16 @@ function PostView() {
         }
     })
 
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
     useEffect(() => {
         setVars(parseInt(id))
-        console.log(id)
     }, [id])
 
     
-    
-    
     return <>
-        <Nav />
+        {Ctx?.id && <Nav />}
         {data?.getPost ? 
             <Post data={data?.getPost} />
-            : null}
+            : <h4>Post Not Found</h4>}
     </>
 }
 export default PostView

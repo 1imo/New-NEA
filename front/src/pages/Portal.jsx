@@ -1,53 +1,34 @@
-import { useMutation, useQuery } from "@apollo/client"
-import { useState, useRef, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { SIGN_IN } from "../GraphQL/Mutations"
-import Cookies from "js-cookie"
-import init, { Queue } from "../../public/pkg/web_module"
+import { useRef, useEffect } from "react"
+import { Link } from "react-router-dom"
 
 
 function Portal() {
-
-    // const queue = useRef(null)
     const images = useRef(["image14.jpg", "image31.jpg", "image15.jpg",  "image32.jpg",
     "image16.jpg", "image34.jpg", "image17.jpg", "image19.jpg", "image20.jpg", "image21.jpg", 
     "image22.jpg", "image25.jpg", "image28.jpg"])
     const queueTop = useRef(images.current)
+    const removeX = useRef(0)
     const queueBottom = useRef(images.current.map((im, ind) => images.current[images.current.length - ind - 1]))
 
-
-    const [ removeX, setRemoveX ] = useState(0)
-
-    
-    const navigate = useNavigate()
-
-
     useEffect(() => {
-        
-    
         let count = 0
         const animationInterval = setInterval(() => {
-            setRemoveX((prevX) => prevX + 1);
+            removeX.current = removeX.current + 1
             count+=1
-            if(count == 96) {
+            if(removeX.current == 96) {
                 let one = queueTop.current.shift()
                 queueTop.current = queueTop.current.concat(one)
                 let two = queueBottom.current.pop()
                 queueBottom.current = [two, ...queueBottom.current]
                 count -= 96
-                console.log(queueTop.current, queueBottom.current)
-                setRemoveX((prevX) => prevX - 96)
+                removeX.current = removeX.current - 96
             }
-        }, 40);
+        }, 40)
     
         return () => {
-            clearInterval(animationInterval);
-        };
+            clearInterval(animationInterval)
+        }
     }, [])
-
-
-
-
 
     function ProfileTop(props) {
         const { path } = props
@@ -64,9 +45,6 @@ function Portal() {
             <div style={{borderRadius: 800, backgroundColor: "#F3F3F3", backgroundImage: `url(/${path})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center", boxShadow: '2px 2px 16px 0 rgba(133, 132, 131, 0.5), -4px -2px 16px rgba(243, 243, 243)'}}>&nbsp;</div>
         </div>
     }
-
-    
-
 
 
     return <section style={styles.section} className="authScreen">

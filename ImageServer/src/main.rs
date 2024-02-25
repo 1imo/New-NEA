@@ -13,6 +13,7 @@ enum UploadType {
     Post
 }
 
+// Payload body of request to upload Data
 #[derive(Debug, Deserialize)]
 struct Payload {
     id: String,
@@ -20,6 +21,8 @@ struct Payload {
     correlation: UploadType
 }
 
+
+// Request to fetch Data
 #[derive(Debug, Deserialize)]
 struct Request {
     id: String,
@@ -34,17 +37,13 @@ async fn upload_image(Json(payload): Json<Payload>) -> String {
     match payload.correlation {
         UploadType::Post => {
             let file_path = format!("post/{}.jpg", payload.id);
-            println!("{:?}", file_path);
             let mut file = File::create(&file_path).expect("Error creating image file");
-            println!("{:?}", file);
             file.write_all(&image_bytes).expect("Error writing image data");
             "".to_owned()
         },
         UploadType::Profile => {
             let file_path = format!("profile/{}.jpg", payload.id);
-            println!("{:?}", file_path);
             let mut file = File::create(&file_path).expect("Error creating image file");
-            println!("{:?}", file);
             file.write_all(&image_bytes).expect("Error writing image data");
             "".to_owned()
         }

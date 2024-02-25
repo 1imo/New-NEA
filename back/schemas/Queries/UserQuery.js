@@ -266,6 +266,9 @@ const UserQuery = {
                         multiplier: true,
                         date: true,
                       },
+                      orderBy: {
+                        date: 'desc'
+                      }
                     },
                   },
                 },
@@ -291,6 +294,9 @@ const UserQuery = {
                         multiplier: true,
                         date: true,
                       },
+                      orderBy: {
+                        date: 'desc'
+                      }
                     },
                   },
                 },
@@ -316,6 +322,9 @@ const UserQuery = {
                         multiplier: true,
                         date: true,
                       },
+                      orderBy: {
+                        date: 'desc'
+                      }
                     },
                   },
                 },
@@ -339,6 +348,7 @@ const UserQuery = {
           }
         }
 
+        
         if (args.type == 'Following') {
           return followingPosts
         }
@@ -523,29 +533,11 @@ const UserQuery = {
 
         const raw = []
 
-        // class User {
-        //     constructor(id, following, friends) {
-        //         this.id = id
-        //         this.following = following
-        //         this.friends = friends
-        //     }
-
-        //     getFollowing() {
-        //         return this.following
-        //     }
-
-        //     getFriends() {
-        //         return this.friends
-        //     }
-        // }
-
         let main = {
           id: user.id,
           following,
           friends,
         }
-
-        // const main = new User(user.id, following, friends)
 
         raw.push(main)
 
@@ -620,12 +612,6 @@ const UserQuery = {
             raw.push(us)
           }
         }
-
-        // struct User {
-        //     id: String,
-        //     friends: Option<Vec<User>>,
-        //     following: Option<Vec<User>>,
-        // }
 
         let d = JSON.stringify(raw)
 

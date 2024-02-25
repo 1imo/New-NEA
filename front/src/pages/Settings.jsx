@@ -8,6 +8,7 @@ import ProfileInsight from "../components/ProfileInsight";
 import Cookies from "js-cookie";
 import Input from "../components/Input";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 function Settings() {
 
@@ -32,6 +33,9 @@ function Settings() {
         }
     })
 
+    if(loading) return <Loading />
+    if(err) alert("Error Loading Pending Requests")
+
     useEffect(() => {
         setRender(data?.getPending)
     }, [data])
@@ -49,29 +53,30 @@ function Settings() {
 
     }
 
-    
-
-
     useEffect(() => {
-        socket.on("followed", da => {
-            if(render?.length == 0 || render?.length >= 0 && render[0].id != da?.follower?.id) {
-
+        const followedHandler = (da) => {
+            if (!render.length || render[0].id !== da?.follower?.id) {
                 const f = da?.follower
-
                 const format = {
                     pendingId: da?.id,
                     ...f
                 }
-                setRender([ format, ...render ])
-                console.log(format)
+                setRender([format, ...render])
             }
-        })
+        }
+
+        socket.on("followed", followedHandler)
     
         const original = Cookies.get("feed")
         const index = feedOptns.findIndex(op => op == original)
-        setOptn(index)
+        setOptn(index || "Recommended")
+
+        return () => {
+            socket.off("followed", followedHandler);
+        }
       
     }, [])
+
 
     let content = [
         <>
@@ -81,7 +86,6 @@ function Settings() {
                 <section style={{marginBottom: 24}}>
                     <h4 style={{marginBottom: 16}}>Pending</h4>
                     {render?.map((info, index) => {
-                        console.log(info)
                         return <ProfileInsight reference={"pending"} key={index} name={info.name} username={info.username} pendingId={info?.pendingId} id={info?.id} />
                     })}
                 </section>
@@ -121,18 +125,15 @@ function Settings() {
         })
 
         if(res?.data?.editDetails?.secretkey) {
-            console.log("SECRET KEY", res?.data?.editDetails?.secretkey)
             Cookies.set("secretkey", res?.data?.editDetails?.secretkey, { expires: 7 })
         }
 
-        console.log(res?.data)
         return res
     }
 
     useEffect(() => {
         if(value) {
-            console.log(value, picked)
-            console.log(around())
+            around()
             setView(0)
         }
     }, [value])

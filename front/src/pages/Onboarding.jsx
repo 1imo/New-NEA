@@ -4,8 +4,8 @@ import { CREATE_USER_MUTATION } from "../GraphQL/Mutations"
 import { useMutation } from "@apollo/client"
 import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
-import PuffLoader from "react-spinners/PuffLoader";
 import { Context } from "../context/Context"
+import Loading from "../components/Loading";
 
 
 function Onboarding() {
@@ -22,11 +22,12 @@ function Onboarding() {
 
 
     const [ createUser, { data, error, loading } ] = useMutation(CREATE_USER_MUTATION)
+    if(loading) return <Loading />
+    if(error) alert("Error Creating Profile")
 
     const navigate = useNavigate()
 
     async function call() {
-        console.log("CALL")
         setLoading(true)
         const res = await createUser({
                         variables: {
@@ -36,66 +37,55 @@ function Onboarding() {
                             password: pass
                         }
                     })
-        console.log(res)
 
         if(res.data.createUser.secretkey && res.data.createUser.id) {
-            console.log("SET")
             Cookies.set('secretkey', res.data.createUser.secretkey, { expires: 7 })
             Cookies.set('id', res.data.createUser.id, { expires: 7 })
 
-            const r = await fetch(Ctx.imageServer + "/upload", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "id": res.data.createUser.id,
-                    "image": String(profile),
-                    "correlation": "Profile",
+            if(profile) {
+                await fetch(Ctx.imageServer + "/upload", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "id": res.data.createUser.id,
+                        "image": String(profile),
+                        "correlation": "Profile",
+                    })
                 })
-            })
+            }
 
-            console.log(r, "RRR")
             navigate("/")
         }
     }
 
 
     useEffect(() => {
-        console.log("HEARD")
         switch(position){
             case 0:
                 if(fn !== "") {
-                    console.log("reached")
                     setPosition(1)
                     break;
                 }
             case 1:
                 if(ln !== "") {
-                    console.log("reached")
                     setPosition(2)
                     break;
                 }
             case 2:
                 if(username !== "") {
-                    console.log("reached")
                     setPosition(3)
                     break;
                 }
             case 3:
                 if(pass !== "") {
-                    console.log("reached")
-                    console.log(fn, ln, username, pass)
                     setPosition(4)
                     break;
                 }
             case 4:
                 if(profile !== "") {
                     call()
-
-                    if(error) {
-                        console.log("error")
-                    }
                     break;
                 }
 
@@ -111,7 +101,6 @@ function Onboarding() {
     ]
     return <>
         {!load && (screens[position])}
-        <PuffLoader cssOverride={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}color="#eeeeee" loading={load} size={160} />
     </>
 }
 

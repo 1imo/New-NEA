@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
-import { useNavigate } from "react-router-dom";
 
 
 const socket = io('http://localhost:8000/');

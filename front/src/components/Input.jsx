@@ -67,7 +67,7 @@ function Input(props) {
 				return;
 			}
 
-			const encodedInput = htmlSpecialChars(rawInput);
+			const encodedInput = htmlSpecialChars(rawInput)
 
 			function htmlSpecialChars(text) {
 				const map = {
@@ -76,9 +76,9 @@ function Input(props) {
 					'"': "&quot;",
 					"'": "&apos;",
 					"&": "&amp;",
-				};
+				}
 
-				return text.replace(/[<>"&]/g, (char) => map[char]);
+				return text.replace(/[<>"&]/g, (char) => map[char])
 			}
 
 			if (props.type == "password") {
@@ -99,36 +99,31 @@ function Input(props) {
 				}
 				if (!hasDigit || !hasSpecial || !hasCapital) {
 					if (!hasDigit) {
-						alert("Password must have at least 1 digit");
+						alert("Password must have at least 1 digit")
 					} else if (!hasSpecial) {
-						alert(
-							"Password must have at least one special character"
-						);
+						alert("Password must have at least one special character")
 					} else if (!hasCapital) {
-						alert("Password must have at least one capital");
+						alert("Password must have at least one capital")
 					}
-					setVerify(false);
-					return;
+					setVerify(false)
+					return
 				}
 			}
 
 			props.value(encodedInput);
 		} else {
-			console.log("FILE");
 			const response = await fetch(val);
 			const imageBlob = await response.blob();
 			const reader = new FileReader();
 			reader.readAsArrayBuffer(imageBlob);
 			reader.onload = (event) => {
 				const uint8Array = new Uint8Array(event.target.result);
-				console.log(uint8Array);
 				props?.value(uint8Array);
 			};
 		}
 	}
 
 	useEffect(() => {
-		console.log(verify);
 		if (verify) {
 			setVerify(false);
 			completeInput();
@@ -139,7 +134,6 @@ function Input(props) {
 
 	function change(e) {
 		if (props?.type == "file") {
-			console.log(e.target.files);
 			if (validMimeTypes.includes(e.target.files[0].type)) {
 				const display = URL.createObjectURL(e.target.files[0]);
 				setVal(display);

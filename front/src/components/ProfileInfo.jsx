@@ -1,18 +1,12 @@
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client"
+import { useQuery, useMutation, useApolloClient } from "@apollo/client"
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import { GET_PUBLICDATA } from "../GraphQL/Queries";
 import { useNavigate, useParams } from "react-router-dom"
 import { FOLLOW_UNFOLLOW } from "../GraphQL/Mutations";
-
-        
-
-    
-
-
+import Loading from "./Loading";
 
 function ProfileInfo() {
-
     const client = useApolloClient();
 
     const { id } = useParams()
@@ -27,53 +21,34 @@ function ProfileInfo() {
             username: d
         }
     })
+    if(loading) return <Loading />
+    if(error) alert("Error Loading Profile")
 
     const [ followUnfollow, { dataMut, errorMut, loadingMut } ] = useMutation(FOLLOW_UNFOLLOW)
 
     async function call() {
-        console.log({
-            id: Ctx.id,
-            secretkey: Ctx.secretkey,
-            username: d
-        })
-        const res = await followUnfollow({
-                        variables: {
-                            id: Ctx.id,
-                            secretkey: Ctx.secretkey,
-                            username: d
-                        }
-                    })
-        if(res) {
-            window.location.reload()
-        }
-
-        
+        await followUnfollow({
+            variables: {
+                id: Ctx.id,
+                secretkey: Ctx.secretkey,
+                username: d
+            }
+        }).then(() => window.location.reload())
     }
-
-    
 
     useEffect(() => {
         setD(id)
     }, [id])
-
-    useEffect(() => {
-        console.log(data, d)
-        // setData(dat)
-    }, [data])
    
-
     if(error) {
-        console.log(error)
         navigate("/404")
     }
-    
 
     useEffect(() => {
         const followBtn = document.querySelector(".followBtn")
     
         followBtn.addEventListener('mousedown', e => {
             e.preventDefault()
-            console.log("CLICK")
         })
 
         followBtn.addEventListener('touchstart', e => {

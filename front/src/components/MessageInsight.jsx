@@ -3,29 +3,18 @@ import { Link } from "react-router-dom"
 import { Context } from "../context/Context"
 
 function MessageInsight(props) {
-    console.log(props.data)
-
     const Ctx = useContext(Context)
-
     const recipient = props?.data?.chatroomUsers?.find(chatter => chatter.id !== Ctx.id)
-
     if(!recipient) window.location.reload()
 
     const date = new Date(props?.data?.lastMessage?.date)
-
     const currentDate = new Date()
-
-
     const differenceInDays = Math.abs(currentDate.getDate() - date.getDate())
-
-
     const formattedDate = differenceInDays < 1 ?
     date.toLocaleTimeString('en-US', { minute: '2-digit', hour: '2-digit' }) :
     date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })
 
     const read = props?.data?.lastMessage?.read ? {display: "none"} : null
-
-    
 
     return <>
         <Link to={`id/${props?.data?.id}`}>

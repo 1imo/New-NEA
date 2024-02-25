@@ -33,6 +33,6 @@
   },
   "devDependencies": {
     "prettier": "3.2.5",
-    "prisma": "^5.7.1"
+    "prisma": "^5.10.2"
   }
 }

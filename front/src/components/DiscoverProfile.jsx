@@ -5,6 +5,7 @@ import { Context } from "../context/Context"
 import { useNavigate } from "react-router-dom"
 
 import init, { Queue } from "../../public/pkg/web_module"
+import Loading from "./Loading";
 
 
 function DiscoverProfile(props) {
@@ -13,7 +14,7 @@ function DiscoverProfile(props) {
     const navigate = useNavigate("/")
 
     const queue = useRef(null)
-    const [ removeX, setRemoveX ] = useState(0)
+    const removeX = useRef(0)
 
     const { loading, data, err } = useQuery(DISCOVER_PEOPLE, {
         variables: {
@@ -23,48 +24,40 @@ function DiscoverProfile(props) {
         fetchPolicy: "cache-first"
     })
 
+    if(loading) return <Loading />
+    if(err) alert("Error Loading Recommended Users")
     
     useEffect(() => {
-        setVars(JSON.parse(localStorage.getItem('recommendedUsers')))
+        setVars(JSON.parse(sessionStorage.getItem('recommendedUsers')))
     }, [])
-
-    
     
     useEffect(() => {
         setVars(data?.recommendedUsers.map(user => {JSON.stringify(user)}))
-        
-        console.log("DT")
-
-        if(data?.recommendedUsers) {
-            init().then((module) => {
-                queue.current = Queue.new(10)
-                data?.recommendedUsers.map(user => {
-                    console.log(user)
-                    queue.current.enqueue(JSON.stringify(user))
-                })
-                let count = 0
-                const animationInterval = setInterval(() => {
-                    setRemoveX((prevX) => prevX + 1);
-                    count += 1
-                    if(count == 96) {
-                        queue.current.enqueue(queue.current.dequeue())
-                        count -= 96
-                        setRemoveX((prevX) => prevX - 96)
-                    }
-
-                }, 40)
-
-                return () => {
-                    clearInterval(animationInterval)
-                    clearInterval(switchPlaces)
-                }
-            })
-        }
-
-        
     }, [data])
 
-    
+    useEffect(() => {
+        init().then((module) => {
+            queue.current = Queue.new(10)
+            data?.recommendedUsers.map(user => {
+                queue.current.enqueue(JSON.stringify(user))
+            })
+            let count = 0
+            const animationInterval = setInterval(() => {
+                removeX.current = removeX.current + 1
+                count += 1
+                if(count == 96) {
+                    queue.current.enqueue(queue.current.dequeue())
+                    count -= 96
+                    removeX.current = 0
+                }
+
+            }, 40)
+
+            return () => {
+                clearInterval(animationInterval)
+            }
+        })
+    }, [vars])
 
     const styles = {
         card: {
@@ -76,13 +69,10 @@ function DiscoverProfile(props) {
             padding: "24px 0 32px",
             cursor: "pointer",
             textAlign: "center",
-            transform: `translateX(-${removeX}px)`,
+            transform: `translateX(-${removeX.current}px)`,
             transition: "transform 0.5s ease defer",
-            // transform: `translateX(-${queue.current?.get_current_items()?.length * 100}px)`
         }
     }
-
-
 
     function Profile(props) {
         const { user } = props
@@ -93,17 +83,11 @@ function DiscoverProfile(props) {
         </div>
     }
 
-    
-
-
     return <div style={{display: "flex", flexDirection: "row", alignItems: "center", columnGap: 16, width: "100%", maxWidth: 640, overflowX: "hidden"}}>
         {queue?.current?.get_current_items()?.map((user, i) => {
-            // console.log(user)
             return <Profile key={i} user={JSON.parse(user)} />
         })}
     </div>
 }
-
-
 
 export default DiscoverProfile

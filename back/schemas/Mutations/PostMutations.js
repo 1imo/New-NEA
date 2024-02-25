@@ -1,4 +1,3 @@
-const graphql = require('graphql')
 const {GraphQLInt, GraphQLString, GraphQLBoolean} = require('graphql')
 const LinkType = require('../TypeDefs/LinkType')
 

@@ -7,12 +7,10 @@ const ChatroomMutations = require('./Mutations/ChatroomMutations')
 const PostQueries = require('./Queries/PostQueries')
 const UserQueries = require('./Queries/UserQuery')
 const ChatroomQueries = require('./Queries/ChatroomQueries')
-const AuthQueries = require('./Queries/AuthQueries')
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    ...AuthQueries,
     ...UserQueries,
     ...PostQueries,
     ...ChatroomQueries,

@@ -1,6 +1,9 @@
 {
 	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
 	"prettier.tabWidth": 4,
-	"prettier.useTabs": true
+	"prettier.useTabs": true,
+	"vs-code-prettier-eslint.prettierLast": true,
+	"javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+	"javascript.format.semicolons": "insert"
 }

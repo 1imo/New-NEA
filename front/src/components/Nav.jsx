@@ -9,6 +9,7 @@ import Cookies from "js-cookie"
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import { GET_NAVINFO } from "../GraphQL/Queries";
+import Loading from "./Loading";
 
         
 
@@ -17,12 +18,8 @@ import { GET_NAVINFO } from "../GraphQL/Queries";
 
 
 function Nav(props) {
-
-    // const [ getNavInfo, { data, error, loading } ] = useMutation(GET_NAVINFO)
-
     const navigate = useNavigate()
     const [ vars, setVars ] = useState({})
-
     const [ info, setInfo ] = useState(null)
 
     const Ctx = useContext(Context)
@@ -31,6 +28,8 @@ function Nav(props) {
         fetchPolicy: "cache-first",
         variables: vars
     })
+    if(loading) return <Loading />
+    if(error) alert("Error Loading Nav Info")
 
     useEffect(() => {
         setVars({
@@ -39,23 +38,13 @@ function Nav(props) {
         setInfo(JSON.parse(localStorage.getItem('navData')))
     }, [])
 
-    useEffect(() => {
-        if(!loading && props?.load) {
-            props?.load(false)
-        }
-    }, [loading])
 
     useEffect(() => {
         if (data) {
-          localStorage.setItem('navData', JSON.stringify(data));
+          localStorage.setItem('navData', JSON.stringify(data))
           setInfo(data)
         }
-    }, [data]);
-
-  
-
-    
-
+    }, [data])
 
     return <>
         <nav style={styles.nav}>

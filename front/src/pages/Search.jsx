@@ -7,10 +7,8 @@ import ProfileInsight from "../components/ProfileInsight"
 
 function Search() {
     const [ searchTerm, setSearchTerm ] = useState("")
-    const navigate = useNavigate()
-
-    const location = useLocation();
-    const state = location.state;
+    const location = useLocation()
+    const state = location.state
 
     const { loading, error, data } = useQuery(GET_SEARCH_INSIGHTDATA, {
         variables: {
@@ -19,12 +17,7 @@ function Search() {
         }
     })
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
-
-    
+    if(error) alert("Error Loading Search Results")
 
     return <>
         <input type="text" className="normInputScreen" placeholder={`|Search`} onChange={(e) => setSearchTerm(e.target.value)}/>

@@ -1,0 +1,198 @@
+{
+  "main": {
+    "id": "6b8380c39535c778",
+    "type": "split",
+    "children": [
+      {
+        "id": "53443b5d358fd781",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f5c9747e9d7b24f3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Analysis/User Interviews.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d23b4ee823a1f272",
+    "type": "split",
+    "children": [
+      {
+        "id": "f894de9347975827",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "637c5d39ac5a82b2",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "162bcf9a0215e5a0",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "1bb41c101184c82d",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "66eb1678043e3124",
+    "type": "split",
+    "children": [
+      {
+        "id": "3201776d35c61893",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9da796106d7e335a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Analysis/User Interviews.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "087ede73def069ce",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Analysis/User Interviews.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "5a503d8e57be61eb",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "78d3a743d46e9afd",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Analysis/User Interviews.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "637c5d39ac5a82b2",
+  "lastOpenFiles": [
+    "Images/Pasted image 20240225195048.png",
+    "Images/Pasted image 20240225195031.png",
+    "Images/Pasted image 20240225195931.png",
+    "Images/Pasted image 20240225195421.png",
+    "Images/Pasted image 20240225195242.png",
+    "Images/Pasted image 20240225195221.png",
+    "Images/Pasted image 20240225195156.png",
+    "Images/Pasted image 20240225195137.png",
+    "Images/Pasted image 20240225195119.png",
+    "Analysis/Problem.md",
+    "Analysis/Observation of the Current System.md",
+    "Analysis/Mission.md",
+    "Analysis/User Interviews.md",
+    "Analysis/Functionality.md",
+    "Back-End/Database/INDEX - Database.md",
+    "Back-End/Database/Models/Chatroom Model.md",
+    "Front-End/Components/ProfileInsight Component.md",
+    "Front-End/Custom Modules/Queue.md",
+    "Front-End/Context/INDEX - Context.md",
+    "Front-End/Components/Slider Component.md",
+    "Front-End/Components/ProfileInfo Component.md",
+    "Pasted image 20240225195931.png",
+    "Pasted image 20240225195421.png",
+    "Back-End/Database/Models/ChatroomUser Model.md",
+    "Back-End/Database/Models/Follow Model.md",
+    "Back-End/Database/Models/Friendship Model.md",
+    "Back-End/Database/Models/LikedPost Model.md",
+    "Back-End/Database/Models/Message Model.md",
+    "Back-End/Database/Models/Post Model.md",
+    "Back-End/Database/Models/User Model.md",
+    "Back-End/Database/Models/UserData Model.md",
+    "Back-End/Database/Models/ViewedPost Model.md",
+    "Back-End/Micro-service Web APIs/Image Server.md",
+    "Back-End/Micro-service Web APIs/INDEX - Micro-service Web APIs.md",
+    "Back-End/Micro-service Web APIs/Recommendation Server.md",
+    "Back-End/Monolith API/GraphQL Server/Mutations/Chatroom Mutations.md",
+    "Front-End/Custom Modules",
+    "Front-End/API Communications",
+    "Images",
+    "Back-End/Micro-service Web APIs/Untitled",
+    "Front-End/Workflows",
+    "Database/Models",
+    "Database/INDEX - The Database",
+    "Database",
+    "Back-End/Monolith API/GraphQL Server/Type Definitions",
+    "Back-End/Monolith API/GraphQL Server/Mutations"
+  ]
+}

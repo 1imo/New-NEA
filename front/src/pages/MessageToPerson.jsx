@@ -1,10 +1,11 @@
-import { forwardRef, useContext, useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { useQuery, useMutation } from "@apollo/client"
-import { GET_CHATROOM, GET_CHATROOM_DATA } from "../GraphQL/Queries"
+import { GET_CHATROOM_DATA } from "../GraphQL/Queries"
 import { EDIT_MESSAGE, SEND_MESSAGE } from "../GraphQL/Mutations"
 import { useParams } from "react-router-dom"
 import { Context } from "../context/Context"
 import { useInView } from "react-intersection-observer"
+import Loading from "../components/Loading";
 
 
 function MessageToPerson() {
@@ -13,20 +14,22 @@ function MessageToPerson() {
     const { socket } = useContext(Context)
     const Ctx = useContext(Context)
     const [ messages, setMessages ] = useState([])
-    const [ contentHeight, setContentHeight ] = useState("calc(100svh)")
     const [ vars, setVars ] = useState({})
     const [ recipient, setRecipient ] = useState({})
     const [ focus, setFocus ] = useState(false)
-    const [ call, setCall ] = useState(false)
     
     const contentRef = useRef()
     
     const { loading, error, data } = useQuery(GET_CHATROOM_DATA, {
         variables: vars
     })
-    
     const [ sendMessage, { dataMain, errorMain, loadingMain } ] = useMutation(SEND_MESSAGE)
     const [ editMessage, { dataEdit, errorEdit, loadingEdit } ] = useMutation(EDIT_MESSAGE)
+
+    if(loading) return <Loading />
+    if(error) alert("Error Loading Chatroom Data")
+    if(errorMain) alert("Error Editing Chat")
+    
 
     
 
@@ -41,19 +44,9 @@ function MessageToPerson() {
             }
         })
         contentRef.current.value = ""
-
-
-        if(errorMain) console.log(errorMain)
     }
 
     async function edit(type, msg) {
-        console.log({
-            id: Ctx.id,
-            secretkey: Ctx.secretkey,
-            edit: type,
-            chatroom: id,
-            msg
-        })
         const res = await editMessage({
             variables: {
                 id: Ctx.id,
@@ -63,8 +56,6 @@ function MessageToPerson() {
                 message: msg
             }
         })
-
-        console.log(res)
     }
 
     useEffect(() => {
@@ -73,8 +64,34 @@ function MessageToPerson() {
             secretkey: Ctx.secretkey,
             chatId: id
         })
-    }, [id])
 
+        // I should have used a ref to store data persistently across rerenders
+        Ctx.setMsgStore([])
+
+        const handleChatroom = (data) => {
+            if (data.sender.id !== Ctx.id) {
+                edit("read", data.id);
+            }
+            Ctx.setMsgStore(prevMsgStore => [...prevMsgStore, data])
+            setMessages(prevMessages => [...prevMessages, data])
+        }
+    
+        const handleUpdatedChat = (data) => {
+            setMessages(prevMessages => {
+                const newArray = [...prevMessages.slice(0, prevMessages.length - 1), data];
+                Ctx.setMsgStore(newArray)
+                return newArray;
+            })
+        }
+    
+        socket.on('chatroom', handleChatroom)
+        socket.on('updatedChat', handleUpdatedChat)
+    
+        return () => {
+            socket.off('chatroom', handleChatroom)
+            socket.off('updatedChat', handleUpdatedChat)
+        }
+    }, [])
 
     useEffect(() => {
         setVars({
@@ -82,30 +99,10 @@ function MessageToPerson() {
             secretkey: Ctx.secretkey,
             chatId: id
         })
-
-        Ctx.setMsgStore([])
-
-
-        
-    }, [])
-
-    socket.on('chatroom', (data) => {
-        if(data.sender.id != Ctx.id) {
-            edit("read", data.id)
-        }
-        Ctx.setMsgStore([...Ctx.msgStore, data])
-        setMessages([...Ctx.msgStore, data])
-    })
-
-    socket.on('updatedChat', (data) => {
-        let array = messages
-        const r = array.slice(0, array.length - 1)
-        r.push(data)
-        Ctx.setMsgStore(r)
-        setMessages(r)
-    })
+    }, [id]) 
 
     useEffect(() => {
+        // Scroll to bottom of message container
         const messageContainer = document.querySelector('.message-container')
         messageContainer.scrollTop = messageContainer.scrollHeight
     }, [messages])
@@ -113,23 +110,17 @@ function MessageToPerson() {
 
     useEffect(() => {
         if(inView && messages[messages.length - 1]?.sender?.id !== Ctx.id) {
-            console.log(messages[messages.length - 1])
-            console.log("IN VIEW")
             edit("read", messages[messages.length - 1].id)
             setFocus(false)
         }
     }, [inView])
 
     useEffect(() => {
-        console.log(data)
         if(data?.getChatroomData?.messages) {
             Ctx.setMsgStore(data?.getChatroomData?.messages)
             setMessages(data?.getChatroomData?.messages)
         }
         if(data?.getChatroomData?.chatters) {
-            console.log(data)
-            console.log(data?.getChatroomData?.chatters)
-            console.log(data?.getChatroomData?.chatters.find(us => us.id !== Ctx.id))
             setRecipient(data?.getChatroomData?.chatters.find(us => us.id !== Ctx.id))
         }
     }, [data])
@@ -154,10 +145,8 @@ function MessageToPerson() {
                         <h5>@{recipient?.username}</h5>
                     </div>
                 </div>
-                {/* <img onClick={() => setCall(true)} src="/phone.svg" alt={`Call ${recipient?.name?.split(" ")[0]}`} /> */}
             </nav>
         </section>
-        {/* <Call setCall={setCall} style={call ? null : { display: "none" }} /> */}
     </>
 }
 const styles = {

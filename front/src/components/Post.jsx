@@ -8,44 +8,30 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Post(props) {
-    const { ref, inView } = useInView();
-    const [ out, setOut ] = useState(true)
+    const { ref, inView } = useInView()
     const [ liking, setLiking ] = useState(false)
 
     const Ctx = useContext(Context)
     const navigate = useNavigate()
 
-    console.log(props)
-
     const [ postViewed, { data, error, loading } ] = useMutation(VIEW_POST)
     const [ postLiked, { dataLike, errorLike, loadingLike } ] = useMutation(LIKE_POST)
-
     
     async function call(id, secretkey, post) {
-        const res = await postViewed({
+        await postViewed({
             variables: {
                 post,
                 secretkey,
                 id,
             }
         })
-
-       
     }
   
     useEffect(() => {
         if(inView) {
             call(Ctx.id, Ctx.secretkey, props.data.id)
         }
-           
-    }, [inView]);
-   
-
-    if(error) console.log(error)
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
+    }, [inView])
 
     async function like() {
         setLiking(true)
@@ -57,18 +43,13 @@ function Post(props) {
             }
         })
 
-        console.log(res)
-
         if(res) {
-            console.log(res)
             setLiking(false)
         }
         
     }
 
-
-
-    return <section style={styles.section} ref={ref} onClick={() => navigate(`/post/id/${props?.username}`)} onDoubleClick={() => like()}>
+    return <section style={styles.section} ref={ref} onClick={() => navigate(`/post/id/${props?.data?.id}`)} onDoubleClick={() => like()}>
             <div>
                 <div style={{borderRadius: 80, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${props?.data?.user?.id})`, backgroundSize: "cover", height: 80, width: 80, backgroundPosition: "50% center"}}>&nbsp;</div>
             </div>

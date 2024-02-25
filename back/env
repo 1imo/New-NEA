@@ -1,0 +1,10 @@
+DATABASE_URL="postgresql://sm:password@localhost:5432/sm_db?schema=public"
+
+#OAUTH CREDS
+CLIENT_ID="566992055951-3v1amq0c89rh9usq0qc5s3kf1e0l77fs.apps.googleusercontent.com"
+PROJECT_ID="point-410312"
+AUTH_URI="https://accounts.google.com/o/oauth2/auth"
+TOKEN_URI="https://oauth2.googleapis.com/token"
+AUTH_PROVIDER="https://www.googleapis.com/oauth2/v1/certs"
+CLIENT_SECRET="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"
+

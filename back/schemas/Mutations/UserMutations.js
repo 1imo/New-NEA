@@ -76,9 +76,21 @@ const UserMutations = {
         const hash = await bcrypt.compare(args.pass, userData.password)
 
         if (hash) {
+          const nano = await import('nanoid')
+          const apiKey = nano.nanoid()
+
+          await prisma.userData.update({
+            where: {
+              id: userData.id,
+            },
+            data: {
+              secretkey: apiKey,
+            },
+          })
+
           return {
             id: userData.id,
-            secretkey: userData.secretkey,
+            secretkey: apiKey,
           }
         } else throw new Error('Password is incorrect')
       } catch (e) {

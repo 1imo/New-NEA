@@ -1,7 +1,6 @@
 import { CREATE_NEWPOST } from "../GraphQL/Mutations"
 import { useMutation } from "@apollo/client"
-import Cookies from "js-cookie"
-import { useEffect, useState, useRef, useContext } from "react";
+import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
 import Nav from "../components/Nav";
@@ -9,21 +8,15 @@ import Nav from "../components/Nav";
 function PostPost() {
 
     const [ createPost, { dataMain, errorMain, loadingMain } ] = useMutation(CREATE_NEWPOST)
-
-
+    if(errorMain) alert("Error Posting")
 
     const postRef = useRef()
     const [ photo, setPhoto ] = useState(null)
     const navigate = useNavigate()
-
     const Ctx = useContext(Context)
 
 
-    
-
     async function post() {
-        console.log("PHOTO", photo)
-        
         const res = await createPost({
             variables: {
                 id: Ctx.id,
@@ -58,8 +51,6 @@ function PostPost() {
         if(res?.data?.createPost?.url) {
             navigate(res?.data?.createPost?.url)
         }
-
-        if(errorMain) console.log(errorMain)
     }
 
     function addPhoto() {

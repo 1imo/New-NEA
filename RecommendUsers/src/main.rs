@@ -34,7 +34,6 @@ impl User {
                 graph.entry(follow_id.clone()).or_insert(HashSet::new()).insert(self.id.clone());
             }
         }
-        // println!("{:#?}", graph);
     }
 
     fn find_mutual_connections(&self, graph: &HashMap<String, HashSet<String>>) -> HashMap<String, usize> {
