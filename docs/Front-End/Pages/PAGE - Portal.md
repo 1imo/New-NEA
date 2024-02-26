@@ -4,7 +4,7 @@ __Intention__: Gives users options to sign up and sign in
 
 Users are given the option to sign in with the [[Auth System]] through Google SignIn with Oauth, however, right now it isn't exactly secure due to the transmission of credentials through URL addresses which is why the button has been disabled temporarily. Users can also [[#sign in]] with their platform credentials and [[#sign up.]]
 
-After making the [[DiscoverProfile Component]], I was inspired to make an [[#animation ]]for the portal too, however, instead of interfacing with the [[Queue]] package I wrote in Rust, I opted to do the same in React so as to not link the page to anything that is hidden behind authentication [[INDEX - Front-End]].
+After making the [[DiscoverProfile Component]], I was inspired to make an [[#animation ]]for the portal too, however, instead of interfacing with the [[Circular Queue]] package I wrote in Rust, I opted to do the same in React so as to not link the page to anything that is hidden behind authentication [[INDEX - Front-End]].
 
 
 ### Links To
@@ -17,7 +17,7 @@ After making the [[DiscoverProfile Component]], I was inspired to make an [[#ani
 
 ### On First Render
 
-We create a function that will run periodically, every 40ms, in order to create animation frames. This interval aims to adjust the X position of elements to move them horizontally. Every time the function is ran, the elements move by 1px. Every 96th time, they have moved forward by an entire position and pop the first one to the rear of the queue creating a circular queue like the [[Queue]] module.
+We create a function that will run periodically, every 40ms, in order to create animation frames. This interval aims to adjust the X position of elements to move them horizontally. Every time the function is ran, the elements move by 1px. Every 96th time, they have moved forward by an entire position and pop the first one to the rear of the queue creating a circular queue like the [[Circular Queue]] module.
 
 ```
 Define a Portal component:

@@ -8,7 +8,27 @@ My naming conventions are excellent in my opinion. This resolvers is called afte
 
 Returns: [[SensitiveUserData Type]]
 
-```plaintext
+
+#### Analysis
+
+To help users sign in and manage the process programatically, ie keeping their sessions persistent, we must generate API keys securely on the server side, store them and transmit it back across to them securely with HTTPS.
+
+
+#### Design
+
+```
+Hash password
+Generate unique API key
+Create user:
+    Set name as concatenation of firstName and lastName
+    Set username from args
+    Store hashed password and generated API key
+Return user id and generated API key
+```
+
+![[Pasted image 20240226174810.png]]
+
+```
 Define createUser:
     Type: SensitiveUserDataType
     Arguments:
@@ -35,7 +55,26 @@ Define createUser:
             Return
 ```
 
-![[Pasted image 20240223221846.png]]
+![[Pasted image 20240226175245.png]]
+
+
+#### Tests
+
+##### Test Case 1: Create a New User with First Name, Last Name, Username, and Password
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Hash the password using bcrypt with salt rounds of 10.
+3. Generate a unique API key using the nanoid library.
+4. Create a new user in Prisma with the provided first name, last name, username, hashed password, and generated API key.
+5. Return the user ID and generated API key.
+
+**Expected Result:**
+1. Arguments are successfully sanitized.
+2. Password is successfully hashed.
+3. A unique API key is generated.
+4. A new user is successfully created in Prisma with the provided information.
+5. The user ID and generated API key are returned.
 
 
 ### signIn
@@ -44,9 +83,15 @@ The signIn resolver is called when a user would like to sign in with their platf
 
 Returns: [[SensitiveUserData Type]]
 
-![[Pasted image 20240223192728.png]]
 
-```plaintext
+#### Analysis
+
+Users might have multiple devices, or whilst the server-side session management isn't up and running, they might have been logged out therefore users must be provided with a way to log into the platform.
+
+
+#### Design
+
+```
 Define signIn:
     Type: SensitiveUserDataType
     Arguments:
@@ -74,6 +119,68 @@ Define signIn:
             Return
 ```
 
+![[Pasted image 20240223192728.png]]
+
+
+#### Tests
+
+##### Test Case 1: Sign In with Correct Username and Password
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Fetch user data from Prisma using the provided username.
+3. If user data is found:
+    - Compare the hashed password with the provided password using bcrypt.
+    - If passwords match:
+        - Generate a unique API key using the nanoid library.
+        - Update the user's secret key in Prisma with the generated API key.
+        - Return the user ID and generated API key.
+    - If passwords do not match, throw an error 'Password is incorrect'.
+4. If user data is not found, throw an error 'User not found'.
+
+**Expected Result:**
+- User is successfully authenticated.
+- A unique API key is generated and updated in the user's record in Prisma.
+- The user ID and generated API key are returned.
+
+
+##### Test Case 2: Sign In with Incorrect Password
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Fetch user data from Prisma using the provided username.
+3. If user data is found:
+    - Compare the hashed password with the provided password using bcrypt.
+    - If passwords match:
+        - Generate a unique API key using the nanoid library.
+        - Update the user's secret key in Prisma with the generated API key.
+        - Return the user ID and generated API key.
+    - If passwords do not match, throw an error 'Password is incorrect'.
+4. If user data is not found, throw an error 'User not found'.
+
+**Expected Result:**
+- Error 'Password is incorrect' is thrown.
+- User authentication fails.
+
+
+##### Test Case 3: Sign In with Nonexistent Username
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Fetch user data from Prisma using the provided username.
+3. If user data is found:
+    - Compare the hashed password with the provided password using bcrypt.
+    - If passwords match:
+        - Generate a unique API key using the nanoid library.
+        - Update the user's secret key in Prisma with the generated API key.
+        - Return the user ID and generated API key.
+    - If passwords do not match, throw an error 'Password is incorrect'.
+4. If user data is not found, throw an error 'User not found'.
+
+**Expected Result:**
+- Error 'User not found' is thrown.
+- User authentication fails.
+
 
 ### followUnfollowUser
 
@@ -83,9 +190,26 @@ If a new relationship is created, the other user is made aware through the use o
 
 Returns: [[Link Type]]
 
+
+#### Analysis
+
+As a social media platform, users will want to create, maintain and prune connections they have among each other. This requires an endpoint that can satisfy follow and friendship states as well as returning feedback to the user.
+
+
+#### Design
+
+```
+Check if a follow relationship already exists between the two users:
+    If exists:
+        Delete the follow relationship
+    Else:
+        Create a new follow relationship
+Emit 'followed' event to recipient's socket using socket.io
+```
+
 ![[Pasted image 20240223201448.png]]
 
-```plaintext
+```
 Define followUnfollowUser:
     Type: LinkType
     Arguments:
@@ -102,6 +226,7 @@ Define followUnfollowUser:
             Fetch recipient user from Prisma:
                 Where username matches args.username
                 Select id and socket
+            If recipient doesn't exist: throw Error
             Check if a follow relationship already exists between the two users:
                 If exists:
                     Fetch the follow relationship from Prisma
@@ -117,32 +242,91 @@ Define followUnfollowUser:
 ```
 
 
+#### Tests
+
+##### Test Case 1: Follow a User
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Fetch the recipient user from Prisma using the provided username.
+4. Check if a follow relationship already exists between the two users:
+    - If it exists:
+        - Fetch the follow relationship from Prisma.
+        - Delete the follow relationship.
+    - If it does not exist:
+        - Create a new follow relationship in Prisma with the follower ID and recipient ID.
+        - Emit a 'followed' event to the recipient's socket using socket.io.
+
+**Expected Result:**
+- A new follow relationship is created between the users if it did not exist.
+- If a follow relationship already existed, it is deleted.
+- The appropriate 'followed' event is emitted to the recipient's socket.
+
+
+##### Test Case 2: Unfollow a User
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Fetch the recipient user from Prisma using the provided username.
+4. Check if a follow relationship already exists between the two users:
+    - If it exists:
+        - Fetch the follow relationship from Prisma.
+        - Delete the follow relationship.
+    - If it does not exist:
+        - Create a new follow relationship in Prisma with the follower ID and recipient ID.
+        - Emit a 'followed' event to the recipient's socket using socket.io.
+
+**Expected Result:**
+- The existing follow relationship between the users is deleted.
+- No 'followed' event is emitted to the recipient's socket.
+
+
+##### Test Case 3: Invalid Username
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Fetch the recipient user from Prisma using the provided username.
+4. Check if a follow relationship already exists between the two users:
+    - If it exists:
+        - Fetch the follow relationship from Prisma.
+        - Delete the follow relationship.
+    - If it does not exist:
+        - Create a new follow relationship in Prisma with the follower ID and recipient ID.
+        - Emit a 'followed' event to the recipient's socket using socket.io.
+
+**Expected Result:**
+- Error is logged indicating that the recipient user does not exist.
+- No follow relationship is created.
+- No 'followed' event is emitted.
+
 ### pendingRequest
 
-When a user decided to interact with their pending requests/ new follows, they have 3 options to pick. If this route has had to be utilized 2, but they could just don nothing. Anyway they can decline or accept the friendship silently without letting the other party know.
+When a user decided to interact with their pending requests/ new follows, they have 3 options to pick. If this route has had to be utilized 2, but they could just do nothing. Anyway they can decline or accept the friendship silently without letting the other party know.
 
 Returns: [[User Type]]
 
+
+#### Analysis
+
+A separate route for easing the complexity between the follow/ unfollow route and friendships was necessary. It must forge new friendships or remove the follow from the list so as to not see it.
+
+
+#### Design
+
 ```
-@startuml
-start
-:Sanitise args;
-if (Authenticate user) then (yes)
-    :Fetch recipient user;
-    if (Follow relationship exists) then (yes)
-        :Delete follow relationship;
-    else (no)
-        :Create follow relationship;
-    endif
-else (no)
-    :Log error;
-endif
-:Return;
-stop
-@enduml
+Switch on action:
+    Case 'add':
+        Create a new friendship
+    Case 'remove':
+        Deny relationship
 ```
 
-```plaintext
+![[Pasted image 20240226181645.png]]
+
+```
 Define pendingRequest:
     Type: UserType
     Arguments:
@@ -176,23 +360,74 @@ Define pendingRequest:
 ```
 
 
+#### Tests
+
+##### Test Case 1: Accept Friendship Request
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Fetch the follow relationship from Prisma using the request ID.
+4. Create a new friendship in Prisma with userOneId set to the follower's ID and userTwoId set to the following's ID.
+5. Delete the follow relationship from Prisma using the request ID.
+
+**Expected Result:**
+- A new friendship is created between the users.
+- The follow relationship is deleted.
+
+
+##### Test Case 2: Deny Friendship Request
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Fetch the follow relationship from Prisma using the request ID.
+4. Update the follow relationship in Prisma using the request ID, setting denial to true.
+
+**Expected Result:**
+- The denial flag is set to true for the follow relationship.
+
+
+##### Test Case 3: Invalid Action
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Fetch the follow relationship from Prisma using the request ID.
+
+**Expected Result:**
+- No changes are made to the database.
+
 ### editDetails
 
 Called from the settings page if a user would like to change their name, username or password. Username locking is still not created. Type of change is passed through and if password is changed a new API key is passed through maintaining the user's current session.
 
 Returns: [[SensitiveUserData Type]]
 
-```plantuml
-@startuml
-actor User
-boundary System {
-    editDetails
-}
-User --> editDetails
-@enduml
+
+#### Analysis
+
+Users might periodically want to update their information such as their password to make sure their account is secure. They might change their name afk or they might want to freshen up their username. Therefore functionality needs to be created to accommodate such needs.
+
+
+#### Design
+
+```
+Switch on request:
+	Case 'name':
+        Update user's name
+    Case 'username':
+        Update user's username
+    Case 'password':
+        Hash the provided data
+        Generate a new secret key using nanoid
+        Update user's password and secret key
+        Return a new secret key
 ```
 
-```plaintext
+![[Pasted image 20240226182620.png]]
+
+```
 Define editDetails:
     Type: SensitiveUserDataType
     Arguments:
@@ -228,3 +463,39 @@ Define editDetails:
             Log error
             Return
 ```
+
+
+#### Tests
+
+##### Test Case 1: Edit Name
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Call the `editDetails` resolver with `request` set to 'name' and `data` containing the new name.
+
+**Expected Result:**
+- The user's name is updated in the database to the provided new name.
+
+
+##### Test Case 2: Edit Username
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Call the `editDetails` resolver with `request` set to 'username' and `data` containing the new username.
+
+**Expected Result:**
+- The user's username is updated in the database to the provided new username.
+
+
+##### Test Case 3: Change Password
+
+**Procedure:**
+1. Sanitize the arguments.
+2. Authenticate the user using the provided ID and secret key.
+3. Call the `editDetails` resolver with `request` set to 'password' and `data` containing the new password.
+
+**Expected Result:**
+- The user's password is updated in the database to the provided new password.
+- A new secret key is generated and returned.

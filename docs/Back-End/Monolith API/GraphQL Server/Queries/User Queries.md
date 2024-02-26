@@ -11,9 +11,17 @@ This Resolver returns a user's name and username based on the id alone. It is de
 
 Returns: [[User Type]]
 
+
+#### Analysis
+
+Initially I wanted to run the auth system through the request of data with this component but it didn't end up on every screen so instead I opted for an endpoint to provide information to the nav and to reduce strain it is cached client-side every session.
+
+
+#### Design
+
 ![[Pasted image 20240223141810.png]]
 
-```plaintext
+```
 Define navInfo:
     Type: UserType
     Arguments:
@@ -32,15 +40,62 @@ Define navInfo:
 ```
 
 
+#### Tests
+
+##### Test Case 1: Retrieve User Navigation Info
+
+**Procedure:**
+1. Provide a valid user ID as an argument.
+2. Call the `navInfo` resolver with the provided user ID.
+
+**Expected Result:**
+- The resolver should return the navigation information for the user corresponding to the provided ID.
+- The returned user data should include the user's name and username.
+
+
+##### Test Case 2: User Not Found
+
+**Procedure:**
+1. Provide a non-existent user ID as an argument.
+2. Call the `navInfo` resolver with the provided user ID.
+
+**Expected Result:**
+- The resolver should return null or an empty response since the user with the provided ID does not exist.
+
+
+##### Test Case 3: Invalid User ID Format
+
+**Procedure:**
+1. Provide an invalid format for the user ID (e.g., an integer instead of a string).
+2. Call the `navInfo` resolver with the invalid user ID.
+
+**Expected Result:**
+- The resolver should throw an error or return null since the provided user ID format is invalid.
+
+
 ### getPublicInfo
 
 Used to query a user's profile data when their profile page is accessed from the client.
 
 Returns: [[Profile Type]]
 
+
+#### Analysis
+
+An open endpoint to facilitate in open data sharing which helps in the freedom of information available on the platform and for fetching user profile info. Should be query-able by username.
+
+
+#### Design
+
+```
+Fetch user
+Calculate friend count: friends.length + friendshipsReceived.length
+Return user info with calculated counts
+```
+
 ![[Pasted image 20240223141933.png]]
 
-```plaintext
+```
 Define getPublicInfo:
     Type: ProfileType
     Arguments:
@@ -60,15 +115,56 @@ Define getPublicInfo:
 ```
 
 
+#### Tests
+
+##### Test Case 1: Retrieve User Profile Info
+
+**Procedure:**
+1. Provide a valid user ID as an argument.
+2. Call the `navInfo` resolver with the provided user ID.
+
+**Expected Result:**
+- The resolver should return the navigation information for the user corresponding to the provided ID.
+- The returned user data should include the user's name, username and values for their social networks.
+
+
+##### Test Case 2: User Not Found
+
+**Procedure:**
+1. Provide a non-existent user ID as an argument.
+2. Call the `navInfo` resolver with the provided user ID.
+
+**Expected Result:**
+- The resolver should return null or an empty response since the user with the provided ID does not exist.
+
+
+##### Test Case 3: Invalid User ID Format
+
+**Procedure:**
+1. Provide an invalid format for the user ID (e.g., an integer instead of a string).
+2. Call the `navInfo` resolver with the invalid user ID.
+
+**Expected Result:**
+- The resolver should throw an error or return null since the provided user ID format is invalid.
+
+
 ### getAllPosts
 
 Also for use on a user's profile page. It aims to return all posts by a specific user to then be displayed under their profile.
 
 Returns: List of [[Post Type]]
 
+
+#### Analysis
+
+For the profile UI, a user's feed needs to be queried in full. I made this a separate resolver as this can be rather large. In future lazy loading and requesting may be implemented with pagination so that huge amounts of data are not in transit or being processed at any one time.
+
+
+#### Design
+
 ![[Pasted image 20240223142008.png]]
 
-```plaintext
+```
 Define getAllPosts:
     Type: List of PostType
     Arguments:
@@ -87,15 +183,56 @@ Define getAllPosts:
 ```
 
 
+#### Tests
+
+##### Test Case 1: Retrieve All Posts for a User
+
+**Procedure:**
+1. Provide a valid username as an argument.
+2. Call the `getAllPosts` resolver with the provided username.
+
+**Expected Result:**
+- The resolver should return a list of posts made by the user corresponding to the provided username.
+- Each post in the list should include the post's ID, content, whether it has a photo attached, and user information (ID, username, and name).
+
+
+##### Test Case 2: User Not Found
+
+**Procedure:**
+1. Provide a non-existent username as an argument.
+2. Call the `getAllPosts` resolver with the provided username.
+
+**Expected Result:**
+- The resolver should return null or an empty response since the user with the provided username does not exist.
+
+
+##### Test Case 3: Invalid Username Format
+
+**Procedure:**
+1. Provide an invalid format for the username (e.g., special characters or spaces).
+2. Call the `getAllPosts` resolver with the invalid username.
+
+**Expected Result:**
+- The resolver should throw an error or return null since the provided username format is invalid.
+
+
 ### getUserSearchResults
 
 A query for discovering users for messaging and profile discovery purposes. SQL filtering is used to return results where either the name, or username of a given user return a string. At the start, a list of all users is returned because an empty string satisfies all conditions - for scalability purposes I will not be implementing the recommendation algorithm here yet.
 
 Returns: List of [[User Type]]
 
+
+#### Analysis
+
+To enable content and user discover on the platform there must be a search function that returns data that has been queried with the user's inputted parameters.
+
+
+#### Design
+
 ![[Pasted image 20240223142809.png]]
 
-```plaintext
+```
 Define getUserSearchResults:
     Type: New List of UserType
     Arguments:
@@ -116,15 +253,57 @@ Define getUserSearchResults:
 ```
 
 
+#### Tests
+
+##### Test Case 1: Search Users by Username
+
+**Procedure:**
+1. Provide a valid username as an argument.
+2. Call the `getUserSearchResults` resolver with the provided username.
+
+**Expected Result:**
+- The resolver should return a list of user objects matching the provided username.
+- Each user object should include the user's ID, name, and username.
+
+
+##### Test Case 2: Search Users by Name
+
+**Procedure:**
+1. Provide a valid name (full name or partial name) as an argument.
+2. Call the `getUserSearchResults` resolver with the provided name.
+
+**Expected Result:**
+- The resolver should return a list of user objects whose names match the provided name (full or partial).
+- Each user object should include the user's ID, name, and username.
+
+
+##### Test Case 3: No Matching Results
+
+**Procedure:**
+1. Provide a username or name that does not match any users in the database.
+2. Call the `getUserSearchResults` resolver with the provided username or name.
+
+**Expected Result:**
+- The resolver should return an empty list since there are no users matching the provided username or name.
+
+
 ### getChatroomData
 
 Returns all the data relating to a chatroom of requested chat ID.
 
 Returns: [[Chatroom Type]]
 
+
+#### Analysis
+
+An endpoint is required to get the necessary information about a chatroom when a user enters the UI for the chatroom. 
+
+
+#### Design
+
 ![[Pasted image 20240223143156.png]]
 
-```plaintext
+```
 Query getChatroomData:
     Type: ChatroomType
     Arguments:
@@ -153,15 +332,64 @@ Query getChatroomData:
 ```
 
 
+#### Tests
+
+##### Test Case 1: Retrieve Chatroom Data with Valid Credentials
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Provide a valid `chatId`.
+3. Call the `getChatroomData` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should fetch the chatroom data corresponding to the provided `chatId`.
+- The resolver should return the chatroom details, including the chatroom ID, chatroom users' details (IDs, names, usernames), messages (IDs, content, sender IDs, read status), and an empty last message.
+
+
+##### Test Case 2: Retrieve Chatroom Data with Invalid Credentials
+
+**Procedure:**
+1. Provide an invalid `id` or `secretkey`.
+2. Provide a valid `chatId`.
+3. Call the `getChatroomData` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should fail to authenticate the user due to invalid credentials.
+- The resolver should not fetch any chatroom data.
+- The resolver should return null or undefined, indicating an error or lack of authorization.
+
+
+##### Test Case 3: Retrieve Chatroom Data with Invalid Chat ID
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Provide an invalid or non-existent `chatId`.
+3. Call the `getChatroomData` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should not find any chatroom data corresponding to the provided `chatId`.
+- The resolver should return null or an empty object for the chatroom details.
+
+
 ### getPending
 
 Returns a list of pending requests that a user has received and not yet declined or accepted. In essence a new follow.
 
 Returns: List of [[Pending Type]]
 
+
+#### Analysis
+
+There needs to be an initial request for friendships on page load
+
+
+#### Design
+
 ![[Pasted image 20240223144426.png]]
 
-```plaintext
+```
 GetPending:
     Type: List of PendingType
     Arguments:
@@ -180,6 +408,45 @@ GetPending:
             Log error
             Return
 ```
+
+
+#### Tests
+
+##### Test Case 1: Retrieve Pending Follow Requests with Valid Credentials
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Call the `getPending` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should fetch pending follow requests where the user is the recipient (`followingId`) and denial is false.
+- The resolver should return a list of pending follow requests, each containing the pending ID and details of the follower (ID, name, username).
+
+
+##### Test Case 2: Retrieve Pending Follow Requests with Invalid Credentials
+
+**Procedure:**
+1. Provide an invalid `id` or `secretkey`.
+2. Call the `getPending` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should fail to authenticate the user due to invalid credentials.
+- The resolver should not fetch any pending follow requests.
+- The resolver should return null or undefined, indicating an error or lack of authorization.
+
+
+##### Test Case 3: Retrieve Pending Follow Requests with No Pending Requests
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Ensure that there are no pending follow requests for the user.
+3. Call the `getPending` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should not find any pending follow requests.
+- The resolver should return an empty list, indicating that there are no pending follow requests for the user.
 
 
 ### getFeed
@@ -339,6 +606,63 @@ Return raw array
 ![[Pasted image 20240223221041.png]]
 
 
+#### Tests
+
+##### Test Case 1: Retrieve Following Posts Sorted by Date
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Set the `type` argument to `'Following'`.
+3. Call the `getFeed` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should fetch posts from users followed by the specified user.
+- The resolver should sort the retrieved posts by date in descending order.
+- The resolver should return a list of posts from followed users sorted by date.
+
+
+##### Test Case 2: Retrieve Friends' and Received Friendships' Posts Sorted by Date
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Set the `type` argument to `'Friends'`.
+3. Call the `getFeed` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should fetch posts from friends and users with whom friendships were received.
+- The resolver should sort the retrieved posts by date in descending order.
+- The resolver should return a list of posts from friends and users with received friendships sorted by date.
+
+
+##### Test Case 3: Retrieve All Posts Sorted by Date
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Set the `type` argument to `'Date'`.
+3. Call the `getFeed` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should fetch all posts from followed users, friends, and users with received friendships.
+- The resolver should sort the retrieved posts by date in descending order.
+- The resolver should return a list of all posts sorted by date.
+
+
+##### Test Case 4: Retrieve Following Posts with Custom Sorting
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Call the `getFeed` resolver with the provided arguments without specifying the `type`.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should fetch posts from users followed by the specified user.
+- The resolver should sort the retrieved posts by a custom algorithm considering the average ratio and multiplier.
+- The resolver should return a list of posts from followed users sorted by the custom algorithm.
+
+
 ### recommendedUsers
 
 recommendedUsers is the interface which you can query for discovering new profiles in the same network as you. Whilst this sounds like the definition of an echo chamber, it is always great to get to know more people around you. It works by sending the user's ID along with the friends and following's ID of each of the user's friends and following to a separate micro service I wrote in Rust. Looking at it now it would have been better to write it as a WASM module or connect the Db to Rust and use threads in parallel for an even greater performance boost, however, we can do that in the future if we need.
@@ -374,4 +698,21 @@ activityDiagram
 
 ![[Pasted image 20240223180608.png]]
 
-![[Pasted image 20240223221212.png]]
+
+#### Tests
+
+##### Test Case 1: Retrieve Recommended Users
+
+**Procedure:**
+1. Provide a valid `id` and `secretkey`.
+2. Call the `recommendedUsers` resolver with the provided arguments.
+
+**Expected Result:**
+- The resolver should authenticate the user successfully.
+- The resolver should fetch the user's friends, received friendships, and following users.
+- The resolver should fetch additional users based on the user's network to provide recommendations.
+- The resolver should send a request to an external API for additional recommendations.
+- The resolver should format the recommendations and return them.
+- If the number of recommendations is less than 10, the resolver should fetch top high-performing users from the database sorted by average ratio and add them to the recommendations.
+- The resolver should log any errors encountered during the process.
+- The resolver should return a list of recommended users with their public information (id, username, name).

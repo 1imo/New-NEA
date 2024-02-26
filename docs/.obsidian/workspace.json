@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Analysis/User Interviews.md",
+                "file": "Front-End/INDEX - Front-End.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Analysis/User Interviews.md",
+                "file": "Front-End/INDEX - Front-End.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Analysis/User Interviews.md",
+                "file": "Front-End/INDEX - Front-End.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Analysis/User Interviews.md"
+                "file": "Front-End/INDEX - Front-End.md"
               }
             }
           }
@@ -146,44 +146,44 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "637c5d39ac5a82b2",
+  "active": "f5c9747e9d7b24f3",
   "lastOpenFiles": [
-    "Images/Pasted image 20240225195048.png",
-    "Images/Pasted image 20240225195031.png",
-    "Images/Pasted image 20240225195931.png",
-    "Images/Pasted image 20240225195421.png",
-    "Images/Pasted image 20240225195242.png",
-    "Images/Pasted image 20240225195221.png",
-    "Images/Pasted image 20240225195156.png",
-    "Images/Pasted image 20240225195137.png",
-    "Images/Pasted image 20240225195119.png",
-    "Analysis/Problem.md",
-    "Analysis/Observation of the Current System.md",
-    "Analysis/Mission.md",
-    "Analysis/User Interviews.md",
-    "Analysis/Functionality.md",
-    "Back-End/Database/INDEX - Database.md",
-    "Back-End/Database/Models/Chatroom Model.md",
-    "Front-End/Components/ProfileInsight Component.md",
-    "Front-End/Custom Modules/Queue.md",
+    "Images/Pasted image 20240226154615.png",
+    "Images/Pasted image 20240226154303.png",
+    "Images/Pasted image 20240226182620.png",
+    "Images/Pasted image 20240226181645.png",
+    "Images/Pasted image 20240226175245.png",
+    "Images/Pasted image 20240226174810.png",
+    "Images/Pasted image 20240226173826.png",
+    "Images/Pasted image 20240226171537.png",
+    "Images/Pasted image 20240226171532.png",
+    "Images/Pasted image 20240226170102.png",
+    "Images/Pasted image 20240226165337.png",
+    "Front-End/Pages/PAGE - SignIn.md",
+    "Front-End/Pages/PAGE - Settings.md",
+    "Front-End/Pages/PAGE - Search.md",
+    "Front-End/Pages/PAGE - Profile.md",
+    "Front-End/Pages/PAGE - PostView.md",
+    "Front-End/Pages/PAGE - PostPost.md",
+    "Front-End/Pages/PAGE - Portal.md",
+    "Front-End/Pages/PAGE - Onboarding.md",
+    "Front-End/Pages/PAGE - MessageToPerson.md",
+    "Front-End/Pages/PAGE - MessageList.md",
+    "Front-End/Pages/PAGE - Home.md",
+    "Front-End/Pages/PAGE - 404.md",
+    "Front-End/Custom Modules/Circular Queue.md",
     "Front-End/Context/INDEX - Context.md",
     "Front-End/Components/Slider Component.md",
+    "Front-End/Components/ProfileInsight Component.md",
     "Front-End/Components/ProfileInfo Component.md",
-    "Pasted image 20240225195931.png",
-    "Pasted image 20240225195421.png",
-    "Back-End/Database/Models/ChatroomUser Model.md",
-    "Back-End/Database/Models/Follow Model.md",
-    "Back-End/Database/Models/Friendship Model.md",
-    "Back-End/Database/Models/LikedPost Model.md",
-    "Back-End/Database/Models/Message Model.md",
-    "Back-End/Database/Models/Post Model.md",
-    "Back-End/Database/Models/User Model.md",
-    "Back-End/Database/Models/UserData Model.md",
-    "Back-End/Database/Models/ViewedPost Model.md",
-    "Back-End/Micro-service Web APIs/Image Server.md",
-    "Back-End/Micro-service Web APIs/INDEX - Micro-service Web APIs.md",
-    "Back-End/Micro-service Web APIs/Recommendation Server.md",
-    "Back-End/Monolith API/GraphQL Server/Mutations/Chatroom Mutations.md",
+    "Front-End/Components/Post Component.md",
+    "Front-End/Components/Nav Component.md",
+    "Front-End/Components/MessageInsight Component.md",
+    "Front-End/Components/Loading Component.md",
+    "Front-End/Components/Input Component.md",
+    "Front-End/Components/DiscoverProfile Component.md",
+    "Back-End/INDEX - The Back-End.md",
+    "Back-End/env.md",
     "Front-End/Custom Modules",
     "Front-End/API Communications",
     "Images",
