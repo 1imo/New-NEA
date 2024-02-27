@@ -14,12 +14,19 @@ It works by accepting a state as a props from a parent component. The component 
 The user can also navigate back to the previous page by pressing the return button to the left of the slider.
 
 
-### Props
+### Analyse
+
+To interface with the platform, collect data and for the aire of customization akin to original MySpace, there needs to be an input component which is responsive, intuitive and guides the user into data entry in an interactive way which at the same time removes stress on the API sanitation checks by doing the work client-side too.
+
+
+### Design
+
+#### Props
 
 ![[Pasted image 20240225170346.png]]
 
 
-### Sanitiation & Validation
+#### Sanitiation & Validation
 
 ##### Text
 
@@ -85,12 +92,12 @@ if (props?.type == "file") {
 ```
 
 
-### Submission
+#### Submission
 
 After [[#Sanitiation & Validation]], if the input type is a file, the file is converted into an unsigned array of 8 bit values for easy transmission, then the input is passed back to the parent.
 
 
-### UI
+#### UI
 
 ##### Mobile
 
@@ -99,3 +106,35 @@ After [[#Sanitiation & Validation]], if the input type is a file, the file is co
 ##### Desktop
 
 ![[Pasted image 20240225164630.png]]
+
+
+### Tests
+
+#### Test Case 1: Rendering Input Component
+
+Procedure:
+
+1. Render the `Input` component with various props, including different types (text, password, file), placeholders, and referers.
+2. Verify that the input field renders correctly based on the provided props.
+3. Check if the back button is displayed and functions correctly.
+4. If the input type is file, verify that the file input accepts valid image files and displays them correctly.
+
+Expected Result:
+
+- The `Input` component should render correctly with the provided props.
+- The input field should display the appropriate type and placeholder text.
+- The back button should be displayed and should navigate to the specified referer when clicked or touched.
+- If the input type is file, it should accept valid image files and display them correctly.
+
+#### Test Case 2: Completing Input
+
+Procedure:
+
+1. Enter valid input into the input field.
+2. Verify that the input is successfully processed and passed to the parent component.
+3. If the input type is file, upload a valid image file and verify that it is processed correctly.
+
+Expected Result:
+
+- The entered input should be successfully processed and passed to the parent component.
+- If the input type is file, the uploaded image file should be processed correctly and passed to the parent component.

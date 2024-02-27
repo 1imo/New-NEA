@@ -9,10 +9,16 @@ __Intention__: Interface to chatrooms between users
 
 ![[Pasted image 20240225001605.png]]
 
+
+### Analyse
+
+To accomodate communication between users, users must have an interface where they can converse with one another in the form of chatrooms. It should allow for the displaying of messages in realtime aswell as who they are talking with.
+
+
+### Design
+
 ![[Pasted image 20240225001759.png]]
-
-
-### On First Render
+#### On First Render
 
 Data is fetched from [[User Queries#getChatroomData]]
 
@@ -71,7 +77,7 @@ Cleanup:
 ![[Pasted image 20240224234651.png]]
 
 
-### Code Body
+#### Code Body
 
 ##### Rendering Bottom-Up
 Because the latest messages are at the bottom of the list, the message container has to be shown from the bottom first.
@@ -134,7 +140,7 @@ Define an asynchronous function named send:
 ![[Pasted image 20240225001933.png]]
 
 
-### UI
+#### UI
 
 ##### Mobile
 
@@ -144,3 +150,72 @@ Define an asynchronous function named send:
 ##### Desktop
 
 ![[Pasted image 20240225002543.png]]
+
+
+### Tests
+
+#### Test Case 1: Rendering and Display
+
+**Procedure:**
+1. Render the `MessageToPerson` component.
+2. Observe the displayed content.
+
+**Expected Result:**
+- The component should render without crashing.
+- The component should display a section containing a message container and an input box for sending messages.
+- The message container should display messages exchanged between the user and the recipient.
+- The recipient's name and username should be displayed in the navigation bar.
+
+#### Test Case 2: Sending Message
+
+**Procedure:**
+1. Render the `MessageToPerson` component.
+2. Type a message in the input box.
+3. Click or tap the send button.
+
+**Expected Result:**
+- Upon sending a message, the message should appear in the message container.
+- The message container should automatically scroll to display the new message.
+- The message should be sent to the recipient.
+
+#### Test Case 3: Editing Message
+
+**Procedure:**
+1. Render the `MessageToPerson` component.
+2. Identify a message to edit.
+3. Trigger the edit function on the message.
+
+**Expected Result:**
+- Upon editing a message, the edited message should replace the original message in the message container.
+- The recipient should receive the edited message.
+
+#### Test Case 4: Reading Message
+
+**Procedure:**
+1. Render the `MessageToPerson` component.
+2. Ensure that there are unread messages from the recipient.
+3. Scroll to the bottom of the message container.
+
+**Expected Result:**
+- Upon scrolling to the bottom of the message container, the unread messages from the recipient should be marked as read.
+- The sender of the unread messages should be notified that the messages have been read.
+
+#### Test Case 5: Loading Chatroom Data
+
+**Procedure:**
+1. Render the `MessageToPerson` component.
+2. Observe the loading process.
+
+**Expected Result:**
+- The component should display a loading indicator while loading chatroom data.
+- Once the chatroom data is loaded, the messages between the user and the recipient should be displayed in the message container.
+
+#### Test Case 6: Handling Errors
+
+**Procedure:**
+1. Render the `MessageToPerson` component.
+2. Simulate an error during the loading or sending of messages.
+
+**Expected Result:**
+- If an error occurs during the loading or sending of messages, an error alert should be displayed.
+- The component should gracefully handle errors without crashing.

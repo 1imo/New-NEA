@@ -7,7 +7,14 @@ Users are given the option to sign in with the [[Auth System]] through Google Si
 After making the [[DiscoverProfile Component]], I was inspired to make an [[#animation ]]for the portal too, however, instead of interfacing with the [[Circular Queue]] package I wrote in Rust, I opted to do the same in React so as to not link the page to anything that is hidden behind authentication [[INDEX - Front-End]].
 
 
-### Links To
+### Analyse
+
+To abstract complexity away from the sign in page, make it look less cluttered and provide a nicer first impression overall all, I think that sign up and sign in processes should be linked to from an initial `portal` page. This portal should accept input events from multiple device types, be accessible and this is the only part that can be indexed by search engines except for the posts. Therefore it should aim to be accessible to search engines in the future too with good links and content structure.
+
+
+### Design
+
+#### Links To
 
 - [[PAGE - SignIn]]
 - [[PAGE - Onboarding]]
@@ -15,7 +22,7 @@ After making the [[DiscoverProfile Component]], I was inspired to make an [[#ani
 ![[Pasted image 20240225021339.png]]
 
 
-### On First Render
+#### On First Render
 
 We create a function that will run periodically, every 40ms, in order to create animation frames. This interval aims to adjust the X position of elements to move them horizontally. Every time the function is ran, the elements move by 1px. Every 96th time, they have moved forward by an entire position and pop the first one to the rear of the queue creating a circular queue like the [[Circular Queue]] module.
 
@@ -40,7 +47,7 @@ Define a Portal component:
 ```
 
 
-### UI
+#### UI
 
 ##### Initial 
 
@@ -57,3 +64,46 @@ The font proved to be to small.
 ![[Pasted image 20240225020801.png]]
 
 ![[Pasted image 20240225020905.png]]
+
+
+### Tests
+
+#### Test Case 1: Rendering and Display
+
+**Procedure:**
+1. Render the `Portal` component.
+2. Observe the displayed content.
+
+**Expected Result:**
+- The component should render without crashing.
+- The component should display a section containing sign-in options, a greeting message, and profile images.
+- The profile images should be displayed in a carousel-like manner, transitioning smoothly.
+- The sign-in options should include "Sign In with Google", "Sign In" button, and "Sign Up" link.
+- The greeting message should include a welcoming heading, a subheading, and a smiling emoticon.
+
+#### Test Case 2: Sign In with Google Option
+
+**Procedure:**
+1. Render the `Portal` component.
+2. Click on the "Sign In with Google" button.
+
+**Expected Result:**
+- Upon clicking the "Sign In with Google" button, the user should be redirected to the Google authentication page.
+
+#### Test Case 3: Sign In Button
+
+**Procedure:**
+1. Render the `Portal` component.
+2. Click on the "Sign In" button.
+
+**Expected Result:**
+- Upon clicking the "Sign In" button, the user should be redirected to the sign-in page.
+
+#### Test Case 4: Sign Up Link
+
+**Procedure:**
+1. Render the `Portal` component.
+2. Click on the "Sign Up" link.
+
+**Expected Result:**
+- Upon clicking the "Sign Up" link, the user should be redirected to the sign-up page.

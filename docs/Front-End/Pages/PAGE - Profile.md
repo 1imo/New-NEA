@@ -7,6 +7,14 @@ __Intention__: Render User Profile
 - [[Loading Component]]
 - [[ProfileInfo Component]]
 
+
+### Analysis
+
+To keep an identity on the platform users should be able to have a profile which displays their information and posts they have posted. It must allow users to follow, unfollow and befriend one another and in the future the UI might be updated if users would like to see changes.
+
+
+### Design
+
 ```
 Define a function named Profile:
     Retrieve the 'id' parameter from the URL using useParams().
@@ -42,12 +50,59 @@ Export the Profile function.
 
 ##### Mobile
 
-![[Pasted image 20240225033209.png]]
-
-![[Pasted image 20240225033748.png]]
+![[Pasted image 20240226212414.png]]
 
 ##### Desktop
 
 ![[Pasted image 20240225033908.png]]
 
 ![[Pasted image 20240225033931.png]]
+
+
+### Tests
+
+#### Test Case 1: Load Profile Successfully
+
+**Procedure:**
+1. Render the `Profile` component.
+2. Provide a valid profile ID through the URL parameters.
+3. Allow the component to load.
+
+**Expected Result:**
+- The component should successfully load the profile page for the specified user.
+- The profile information should be displayed, including username, name, bio, profile picture, etc.
+- If the user has posted content, it should be fetched and displayed on the profile page.
+- Each post should be rendered properly with all relevant details.
+
+#### Test Case 2: Display Loading Indicator
+
+**Procedure:**
+1. Render the `Profile` component.
+2. Provide a valid profile ID through the URL parameters.
+3. Simulate the component loading.
+
+**Expected Result:**
+- While the component is loading, a loading indicator should be displayed to indicate that data is being fetched.
+- Users should be informed that the page content is being loaded.
+
+#### Test Case 3: Handle Error Loading Profile
+
+**Procedure:**
+1. Render the `Profile` component.
+2. Provide an invalid profile ID through the URL parameters.
+3. Simulate an error while fetching the profile data.
+
+**Expected Result:**
+- The component should display an alert message indicating an error occurred while loading the profile.
+- Users should be informed about the error and may try accessing the profile again later.
+
+#### Test Case 4: Display No Posts Message
+
+**Procedure:**
+1. Render the `Profile` component for a user who has not posted any content.
+2. Provide a valid profile ID through the URL parameters.
+3. Allow the component to load.
+
+**Expected Result:**
+- The component should display a message indicating that the user has not posted any content yet.
+- Users should be informed that there are no posts to display for the profile.

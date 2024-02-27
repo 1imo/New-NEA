@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Front-End/INDEX - Front-End.md",
+                "file": "Front-End/Context/INDEX - Context.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Front-End/INDEX - Front-End.md",
+                "file": "Front-End/Context/INDEX - Context.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Front-End/INDEX - Front-End.md",
+                "file": "Front-End/Context/INDEX - Context.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Front-End/INDEX - Front-End.md"
+                "file": "Front-End/Context/INDEX - Context.md"
               }
             }
           }
@@ -148,42 +148,42 @@
   },
   "active": "f5c9747e9d7b24f3",
   "lastOpenFiles": [
-    "Images/Pasted image 20240226154615.png",
-    "Images/Pasted image 20240226154303.png",
-    "Images/Pasted image 20240226182620.png",
-    "Images/Pasted image 20240226181645.png",
-    "Images/Pasted image 20240226175245.png",
-    "Images/Pasted image 20240226174810.png",
-    "Images/Pasted image 20240226173826.png",
-    "Images/Pasted image 20240226171537.png",
-    "Images/Pasted image 20240226171532.png",
-    "Images/Pasted image 20240226170102.png",
-    "Images/Pasted image 20240226165337.png",
-    "Front-End/Pages/PAGE - SignIn.md",
-    "Front-End/Pages/PAGE - Settings.md",
-    "Front-End/Pages/PAGE - Search.md",
-    "Front-End/Pages/PAGE - Profile.md",
-    "Front-End/Pages/PAGE - PostView.md",
-    "Front-End/Pages/PAGE - PostPost.md",
-    "Front-End/Pages/PAGE - Portal.md",
-    "Front-End/Pages/PAGE - Onboarding.md",
-    "Front-End/Pages/PAGE - MessageToPerson.md",
-    "Front-End/Pages/PAGE - MessageList.md",
-    "Front-End/Pages/PAGE - Home.md",
+    "Images/Pasted image 20240226213121.png",
+    "Images/Pasted image 20240226212414.png",
+    "Images/Pasted image 20240226221105.png",
+    "Images/Pasted image 20240226220702.png",
+    "Images/Pasted image 20240226213204.png",
+    "Front-End/Components/DiscoverProfile Component.md",
+    "Front-End/Components/Input Component.md",
+    "Front-End/Components/Loading Component.md",
+    "Front-End/Components/MessageInsight Component.md",
+    "Front-End/Components/Nav Component.md",
+    "Front-End/Components/Post Component.md",
+    "Front-End/Components/ProfileInfo Component.md",
+    "Front-End/Components/ProfileInsight Component.md",
+    "Front-End/Components/Slider Component.md",
     "Front-End/Pages/PAGE - 404.md",
+    "Front-End/Pages/PAGE - Home.md",
+    "Pasted image 20240226221105.png",
+    "Front-End/Pages/PAGE - MessageList.md",
+    "Pasted image 20240226220702.png",
+    "Front-End/Pages/PAGE - MessageToPerson.md",
+    "Front-End/Pages/PAGE - Onboarding.md",
+    "Front-End/Pages/PAGE - Portal.md",
+    "Front-End/Pages/PAGE - PostPost.md",
+    "Front-End/Pages/PAGE - PostView.md",
+    "Pasted image 20240226213204.png",
+    "Pasted image 20240226213121.png",
+    "Front-End/Pages/PAGE - Profile.md",
+    "Pasted image 20240226212414.png",
+    "Front-End/Pages/PAGE - Search.md",
+    "Front-End/Pages/PAGE - Settings.md",
+    "Front-End/Pages/PAGE - SignIn.md",
+    "Front-End/INDEX - Front-End.md",
+    "Images/Pasted image 20240226154615.png",
     "Front-End/Custom Modules/Circular Queue.md",
     "Front-End/Context/INDEX - Context.md",
-    "Front-End/Components/Slider Component.md",
-    "Front-End/Components/ProfileInsight Component.md",
-    "Front-End/Components/ProfileInfo Component.md",
-    "Front-End/Components/Post Component.md",
-    "Front-End/Components/Nav Component.md",
-    "Front-End/Components/MessageInsight Component.md",
-    "Front-End/Components/Loading Component.md",
-    "Front-End/Components/Input Component.md",
-    "Front-End/Components/DiscoverProfile Component.md",
     "Back-End/INDEX - The Back-End.md",
-    "Back-End/env.md",
     "Front-End/Custom Modules",
     "Front-End/API Communications",
     "Images",

@@ -5,6 +5,16 @@ When I first started to think about this component, I knew I would need a queue 
 
 It wasn't the nicest thing I had every done, however, I converted the Rust queue into a WASM package and then communicated with the package from JavaScript. 
 
+
+### Analysis
+
+Users need a way to organically find new profiles without foreign recommendations. They must be able to relate with the image and potentially username and or name. In this first version users might be left dissatisfied with the fact that they do not have free will to cycle through the options therefore this might be  changed in the future.
+
+
+### Design
+
+#### On First Render
+
 On initial render, it checks the session storage to see whether any recommendations are stored for this session so as to prevent needles API calls. If not a request is made to fetch them.
 
 ```
@@ -51,11 +61,42 @@ Within the callback function:
 
 ![[Pasted image 20240225154528.png]]
 
-### Use Cases
+#### Use Cases
 
 The component can be seen in action on the user's home page where it appears below the third post in the feed if there are any posts, and in the scenario that there are no posts too.
 
 
-### UI
+#### UI
 
 ![[Pasted image 20240225154805.png]]
+
+
+### Tests
+
+#### Test Case 1: Rendering DiscoverProfile Component
+
+Procedure:
+
+1. Render the `DiscoverProfile` component.
+2. Verify that the loading state is displayed while data is being fetched.
+3. Check if the recommended users are displayed once the data is loaded.
+4. Ensure that clicking or touching a user card navigates to their profile page.
+
+Expected Result:
+
+- The `DiscoverProfile` component should render correctly.
+- While data is being fetched, a loading indicator should be displayed.
+- Once the data is loaded, the recommended users should be displayed.
+- Clicking or touching a user card should navigate to their profile page.
+
+Test Case 2: Error Handling
+
+Procedure:
+
+1. Simulate an error condition, such as a failed request to load recommended users.
+2. Check if the component handles the error gracefully, displaying an error message or retrying the action.
+
+Expected Result:
+
+- The component should handle errors gracefully, displaying an error message if the request to load recommended users fails.
+- It should provide users with options to retry the action or navigate elsewhere for assistance.

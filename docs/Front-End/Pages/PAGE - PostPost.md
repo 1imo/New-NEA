@@ -11,9 +11,15 @@ User can create a message and submit an image for use in the post. The UI should
 - [[Nav Component]] (no icons)
 
 
-### Adding Photos
+### Analysis
+
+Because this is a social network platform, a place where users share information in the form of posts among each other, they must be given a UI which accepts input from them no matter their device, which is clean, simple and easy to understand and use.
+
+#### Adding Photos
 
 By clicking the image upload SVG, a hidden input of file is programatically clicked so as to bring up the File Browser API. After selection it is then displayed to the user for feedback and stored in state to be used if the user decides to [[#post]].
+
+The user, for now, is not made aware of the selection of their media and video uploads have not been tested. Content length is 100 chars max for now [[INDEX - Security]].
 
 ```
 Define an image element:
@@ -39,7 +45,7 @@ Initialize photo state variable and setPhoto function using useState, initially 
 ```
 
 
-### Post
+#### Post
 
 The post function handles the process of creating a post, including attaching and uploading an image if available.
 
@@ -75,4 +81,52 @@ Define an asynchronous function named post:
 ![[Pasted image 20240225024011.png]]
 ![[Pasted image 20240225024022.png]]
 
-The user, for now, is not made aware of the selection of their media and video uploads have not been tested. Content length is 100 chars max for now [[INDEX - Security]].
+
+### Test
+
+#### Test Case 1: Post Content Successfully
+
+**Procedure:**
+1. Render the `PostPost` component.
+2. Enter valid post content into the input field.
+3. Simulate posting the content by clicking the send button.
+
+**Expected Result:**
+- The post should be successfully created with the entered content.
+- If no errors occur during the posting process, the user should be navigated to the post view page.
+- The post should contain the entered content.
+
+#### Test Case 2: Upload Photo with Post
+
+**Procedure:**
+1. Render the `PostPost` component.
+2. Select a valid image file using the file input.
+3. Enter valid post content into the input field.
+4. Simulate posting the content by clicking the send button.
+
+**Expected Result:**
+- The post should be successfully created with the entered content and uploaded photo.
+- If no errors occur during the posting process, the user should be navigated to the post view page.
+- The post should contain the entered content and the uploaded photo.
+
+#### Test Case 3: Display Loading Indicator
+
+**Procedure:**
+1. Render the `PostPost` component.
+2. Enter valid post content into the input field.
+3. Simulate the loading state while posting.
+
+**Expected Result:**
+- While the post is being created, a loading indicator should be displayed to indicate that the action is in progress.
+- Users should be informed that the post is being processed.
+
+#### Test Case 4: Handle Error Posting
+
+**Procedure:**
+1. Render the `PostPost` component.
+2. Enter valid post content into the input field.
+3. Simulate an error while posting the content.
+
+**Expected Result:**
+- If an error occurs during the posting process, an alert message should be displayed to notify the user about the error.
+- The user should be able to retry posting or take appropriate action based on the error message.

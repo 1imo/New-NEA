@@ -7,6 +7,7 @@ Simple text-based page. Designed like this so as to not waste many resources in 
 
 To improve the user experience, they could also be presented with a couple options in the form of links such as a back button or home button.
 
+
 ### UI
 
 ##### Mobile

@@ -9,10 +9,12 @@ __Intention__: Guide users through creating a new account
 
 ![[Pasted image 20240225004310.png]]
 
-![[Pasted image 20240225004049.png]]
 
+### Analyse
 
-### Routing
+To be able to collect user information, necessary to sign them up for the platform, there needs to be an onboarding process which requests multiple inputs seamlessly without interruption whilst also keeping the user entertained.
+
+#### Routing
 
 To make it easier for the user I decided to make a router for the user to interface between different [[Input Component]]s so that they only need to focus on one thing at a time. They also get to have fun playing with the [[Slider Component]].
 
@@ -51,7 +53,10 @@ Render the current screen based on the position variable:
     If load is false, render the screen at the index position from the screens array
 ```
 
-### call()
+![[Pasted image 20240225004049.png]]
+
+
+#### call()
 
 The call function handles the call to the [[User Mutations#createUser]]. On successful response it creates the needed cookies to store the API key and the User ID. On successful response, if a user uploaded a profile picture, that will be uploaded to the [[Image Server]], then finally the user will be redirected to the [[PAGE - Home]].
 
@@ -85,7 +90,7 @@ Define an asynchronous function named call:
 ![[Pasted image 20240225010947.png]]
 
 
-### UI
+#### UI
 
 ![[Pasted image 20240225014004.png]]
 
@@ -96,3 +101,69 @@ Define an asynchronous function named call:
 ![[Pasted image 20240225014204.png]]
 
 I am aware that the profile image upload interface is not user friendly, however, for now it will ship like that.
+
+
+### Tests
+
+#### Test Case 1: Rendering and Display
+
+**Procedure:**
+1. Render the `Onboarding` component.
+2. Observe the displayed content.
+
+**Expected Result:**
+- The component should render without crashing.
+- The component should display a series of input screens for user onboarding.
+- Each input screen should prompt the user for specific information such as first name, last name, username, password, and profile picture.
+
+#### Test Case 2: Providing First Name
+
+**Procedure:**
+1. Render the `Onboarding` component.
+2. Provide a valid first name.
+3. Proceed to the next input screen.
+
+**Expected Result:**
+- Upon providing a valid first name and proceeding, the component should transition to the next input screen for the last name.
+
+#### Test Case 3: Providing Last Name
+
+**Procedure:**
+1. Render the `Onboarding` component.
+2. Provide a valid last name.
+3. Proceed to the next input screen.
+
+**Expected Result:**
+- Upon providing a valid last name and proceeding, the component should transition to the next input screen for the username.
+
+#### Test Case 4: Providing Username
+
+**Procedure:**
+1. Render the `Onboarding` component.
+2. Provide a valid username.
+3. Proceed to the next input screen.
+
+**Expected Result:**
+- Upon providing a valid username and proceeding, the component should transition to the next input screen for the password.
+
+#### Test Case 5: Providing Password
+
+**Procedure:**
+1. Render the `Onboarding` component.
+2. Provide a valid password.
+3. Proceed to the next input screen.
+
+**Expected Result:**
+- A password entry box is shown instead of a standard text input.
+- Upon providing a valid password and proceeding, the component should transition to the next input screen for uploading a profile picture.
+
+#### Test Case 6: Uploading Profile Picture
+
+**Procedure:**
+1. Render the `Onboarding` component.
+2. Upload a valid profile picture.
+3. Complete the onboarding process.
+
+**Expected Result:**
+- Upon uploading a valid profile picture and completing the onboarding process, the component should create a user profile with the provided information.
+- The user should be redirected to the home page (/).

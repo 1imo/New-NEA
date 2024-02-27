@@ -10,7 +10,16 @@ __Intention__: Place for a user to change their settings and accept friend reque
 - [[Loading Component]]
 
 
-### On First Render
+### Analysis
+
+The user should have a settings page to manage and update their data. It must contain easily selectable UI elements as well as being extremely responsive across multiple device screen sizes due to the nature of the platform. 
+
+The friendship requests also don't have anywhere dedicated to be displayed right now so they should be rendered here too.
+
+
+### Design
+
+#### On First Render
 
 On the first render a socket listener is opened to show follows in real-time if the User is followed whilst on the page. The [[#Feed Change Option]] is also fetched from the user's cookies to display the last chosen type, or `Recommended` by default.
 
@@ -36,7 +45,7 @@ Use effect:
 ![[Pasted image 20240225050529.png]]
 
 
-### Functionality 
+#### Functionality 
 
 The are only a few things that can be changed for now such as the user's name, username and password. They can also [[#log out]] here. All of these changes are done through the [[INDEX - Monolith API]] except for the feed type.
 
@@ -109,7 +118,7 @@ Function: call()
 Finally the view is changed back to normal
 
 
-### Fetching Friend Requests
+#### Fetching Friend Requests
 
 Whilst loading, display [[Loading Component]], if error fetching request show alert() to user.
 
@@ -132,3 +141,69 @@ For more information on how Friend Requests are accepted and declined, see [[Fol
 
 ##### Desktop
 ![[Pasted image 20240225061246.png]]
+
+
+#### Test Case 1: Display Pending Requests Successfully
+
+**Procedure:**
+1. Render the `Settings` component.
+2. Wait for the pending requests data to load.
+
+**Expected Result:**
+- The component should display the list of pending requests successfully.
+
+#### Test Case 2: Change Feed Option Successfully
+
+**Procedure:**
+1. Render the `Settings` component.
+2. Tap on the option to change the feed.
+
+**Expected Result:**
+- The component should change the feed option to the next available option.
+- If the current feed option is the last one, it should cycle back to the first option.
+
+#### Test Case 3: Change Name Successfully
+
+**Procedure:**
+1. Render the `Settings` component.
+2. Tap on the option to change the name.
+3. Enter a new name in the input field.
+4. Submit the form.
+
+**Expected Result:**
+- The component should successfully update the user's name.
+- If the operation is successful, the secret key cookie should be updated with a new value.
+
+#### Test Case 4: Change Username Successfully
+
+**Procedure:**
+1. Render the `Settings` component.
+2. Tap on the option to change the username.
+3. Enter a new username in the input field.
+4. Submit the form.
+
+**Expected Result:**
+- The component should successfully update the user's username.
+- If the operation is successful, the secret key cookie should be updated with a new value.
+
+#### Test Case 5: Change Password Successfully
+
+**Procedure:**
+1. Render the `Settings` component.
+2. Tap on the option to change the password.
+3. Enter a new password in the input field.
+4. Submit the form.
+
+**Expected Result:**
+- The component should successfully update the user's password.
+- If the operation is successful, the secret key cookie should be updated with a new value.
+
+#### Test Case 6: Log Out Successfully
+
+**Procedure:**
+1. Render the `Settings` component.
+2. Tap on the log out option.
+
+**Expected Result:**
+- The component should remove the user's ID and secret key cookies.
+- The component should redirect the user to the portal page ("/portal").

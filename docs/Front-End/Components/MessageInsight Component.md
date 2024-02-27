@@ -1,7 +1,15 @@
 
 The MessageInsight Components provides high-level insights into a chatroom. It can be found on the [[PAGE - MessageList]] and has potential to be reused in a notification system.
 
-### Props
+
+### Analysis
+
+Messaging is a crucial part of communication, especially on the platform. One of the benefits of messaging is that it is an asynchronous action where the sender has to wait for the recipient's response. Users should be able to see the last message, whether they have read the last message and information about the other party in a chatroom without even entering the chat.
+
+
+### Design
+
+#### Props
 
 ![[Pasted image 20240225170839.png]]
 
@@ -33,7 +41,20 @@ const read = props?.data?.lastMessage?.read ? {display: "none"} : null
 
 ![[Pasted image 20240225171558.png]]
 
-
-### UI
+#### UI
 
 ![[Pasted image 20240225171747.png]]
+
+
+### Tests
+
+#### Test Case 1: Rendering Message Insight
+
+Procedure:
+1. Render the `MessageInsight` component with props containing relevant data.
+2. Verify that the recipient's name, last message content, and timestamp are displayed correctly.
+3. Check if clicking on the message insight navigates to the corresponding chatroom or user profile page.
+
+Expected Result:
+- The recipient's name, last message content, and timestamp should be displayed accurately.
+- Clicking on the message insight should navigate to the corresponding chatroom or user profile page.
