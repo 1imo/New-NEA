@@ -58,7 +58,7 @@ Render the current screen based on the position variable:
 
 #### call()
 
-The call function handles the call to the [[User Mutations#createUser]]. On successful response it creates the needed cookies to store the API key and the User ID. On successful response, if a user uploaded a profile picture, that will be uploaded to the [[Image Server]], then finally the user will be redirected to the [[PAGE - Home]].
+The call function handles the call to the [[User Mutations#createUser]]. On successful response it creates the needed cookies to store the API key and the User ID. On successful response, if a user uploaded a profile picture, that will be uploaded to the [[Image Server]], then finally the user will be redirected to the [[PAGE - Home]]. If anything happens such as a username which is already used, an error will be displayed and the onboarding process restarted.
 
 ```
 Define an asynchronous function named call:
@@ -85,6 +85,9 @@ Define an asynchronous function named call:
                         - correlation: "Profile"
 
             Navigate to the home page ("/")
+        Else:
+	        Alert user
+	        Then restart the process
 ```
 
 ![[Pasted image 20240225010947.png]]

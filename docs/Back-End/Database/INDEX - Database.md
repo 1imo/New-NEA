@@ -14,6 +14,11 @@ Security is also paramount, given the sensitivity of user data in social media a
 Overall, by considering factors such as relational model, ACID compliance, scalability, community support, performance, and security, PostgreSQL is well-suited for a social media database, providing the necessary foundation for reliability, scalability, and data integrity.
 
 
+### Location
+
+I broke my OS so I had to fresh install a new one, I am so lucky I use version control. I did lose some progress but not too much. Anyway, I broke Postgres permanently I think on the fresh install (I deleted the files, purged them, restarted, downloaded from different places, made the files manually, updated cache, checked running services etc etc) so to circumvent this I have decided to push the DB up to the cloud where I also have the benefits of seeing latency-wise how the app is performing in almost real-world conditions. It is currently hosted on Azure.
+
+
 ### Interacting with PostgreSQL
 
 Integrating Prisma with PostgreSQL offers several advantages. Firstly, Prisma simplifies the process of interacting with databases by providing a type-safe and intuitive ORM (Object-Relational Mapping) layer. This abstraction allows developers to work with databases using familiar programming constructs, such as classes and methods, rather than dealing directly with SQL queries. This can significantly reduce development time and complexity, especially for complex data models common in social media applications.

@@ -22,7 +22,7 @@ function Onboarding() {
 
 
     const [ createUser, { data, error, loading } ] = useMutation(CREATE_USER_MUTATION)
-    if(loading) return <Loading />
+    // if(loading) return <Loading />
     if(error) alert("Error Creating Profile")
 
     const navigate = useNavigate()
@@ -57,6 +57,9 @@ function Onboarding() {
             }
 
             navigate("/")
+        } else {
+            alert("Error Occurred")
+            window.location.href = "/onboarding"
         }
     }
 

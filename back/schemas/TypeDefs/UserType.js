@@ -3,6 +3,7 @@ const {
   GraphQLInt,
   GraphQLString,
   GraphQLList,
+  GraphQLFloat
 } = require('graphql')
 const PostType = require('./PostType')
 
@@ -21,7 +22,7 @@ const UserType = new GraphQLObjectType({
     followingCount: {type: GraphQLInt},
     pending: {type: new GraphQLList(UserType)},
     chatrooms: {type: new GraphQLList(GraphQLInt)},
-    avgRatio: {type: graphql.GraphQLFloat},
+    avgRatio: {type: GraphQLFloat},
     socket: {type: GraphQLString},
   }),
 })

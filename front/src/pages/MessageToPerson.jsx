@@ -13,20 +13,24 @@ function MessageToPerson() {
     const { ref, inView } = useInView()
     const { socket } = useContext(Context)
     const Ctx = useContext(Context)
-    const [ messages, setMessages ] = useState([])
-    const [ vars, setVars ] = useState({})
-    const [ recipient, setRecipient ] = useState({})
-    const [ focus, setFocus ] = useState(false)
-    
+    // const [ msgStore.current, setmsgStore.current ] = useState([])
+    const [ rerender, setRerender ] = useState(false)
+    const recipient = useRef()
     const contentRef = useRef()
+    const msgStore = useRef([])
+    const [ msgState, setMsgState ] = useState(msgStore.current)
     
     const { loading, error, data } = useQuery(GET_CHATROOM_DATA, {
-        variables: vars
+        variables: {
+            id: Ctx.id,
+            secretkey: Ctx.secretkey,
+            chatId: id
+        }
     })
     const [ sendMessage, { dataMain, errorMain, loadingMain } ] = useMutation(SEND_MESSAGE)
     const [ editMessage, { dataEdit, errorEdit, loadingEdit } ] = useMutation(EDIT_MESSAGE)
 
-    if(loading) return <Loading />
+    // if(loading) return <Loading />
     if(error) alert("Error Loading Chatroom Data")
     if(errorMain) alert("Error Editing Chat")
     
@@ -59,90 +63,123 @@ function MessageToPerson() {
     }
 
     useEffect(() => {
-        setVars({
-            id: Ctx.id,
-            secretkey: Ctx.secretkey,
-            chatId: id
-        })
-
         // I should have used a ref to store data persistently across rerenders
-        Ctx.setMsgStore([])
-
-        const handleChatroom = (data) => {
-            if (data.sender.id !== Ctx.id) {
-                edit("read", data.id);
-            }
-            Ctx.setMsgStore(prevMsgStore => [...prevMsgStore, data])
-            setMessages(prevMessages => [...prevMessages, data])
-        }
-    
+        
         const handleUpdatedChat = (data) => {
-            setMessages(prevMessages => {
-                const newArray = [...prevMessages.slice(0, prevMessages.length - 1), data];
-                Ctx.setMsgStore(newArray)
-                return newArray;
-            })
+            if(msgStore.current.length > 0 && msgStore.current[msgStore.current.length - 1]?.id == data?.id) {
+                return
+            } else {
+                msgStore.current = [...msgStore.current, data]
+                setMsgState(msgStore.current)
+            }
         }
     
-        socket.on('chatroom', handleChatroom)
+        socket.on('chatroom', handleUpdatedChat)
         socket.on('updatedChat', handleUpdatedChat)
     
         return () => {
-            socket.off('chatroom', handleChatroom)
+            socket.off('chatroom', handleUpdatedChat)
             socket.off('updatedChat', handleUpdatedChat)
         }
     }, [])
 
     useEffect(() => {
-        setVars({
-            id: Ctx.id,
-            secretkey: Ctx.secretkey,
-            chatId: id
-        })
-    }, [id]) 
-
-    useEffect(() => {
         // Scroll to bottom of message container
-        const messageContainer = document.querySelector('.message-container')
+        const messageContainer = document.querySelector('.msgContainer')
         messageContainer.scrollTop = messageContainer.scrollHeight
-    }, [messages])
+        // console.log(msgStore.current)
+    }, [msgStore.current])
 
 
     useEffect(() => {
-        if(inView && messages[messages.length - 1]?.sender?.id !== Ctx.id) {
-            edit("read", messages[messages.length - 1].id)
-            setFocus(false)
+        if(inView && msgStore.current[msgStore.current.length - 1]?.sender?.id !== Ctx.id) {
+            edit("read", msgStore.current[msgStore.current.length - 1].id)
+            // setFocus(false)
         }
     }, [inView])
 
+        
     useEffect(() => {
         if(data?.getChatroomData?.messages) {
-            Ctx.setMsgStore(data?.getChatroomData?.messages)
-            setMessages(data?.getChatroomData?.messages)
+            msgStore.current = data?.getChatroomData?.messages.map((msg, i) => data?.getChatroomData?.messages[data?.getChatroomData?.messages.length - 1 - i])
+            recipient.current = data?.getChatroomData?.chatroomUsers.find(us => us.id !== Ctx.id && us.name)
+            setMsgState(msgStore.current)
         }
-        if(data?.getChatroomData?.chatters) {
-            setRecipient(data?.getChatroomData?.chatters.find(us => us.id !== Ctx.id))
-        }
-    }, [data])
+    }, [loading])
 
     
  return <>
-        <section onFocus={() => setFocus(true)} style={{display: "flex", flexDirection: "column-reverse", height: "calc(100svh - 88px)", margin: "48px 0 40px", boxSizing: "border-box", overflowY: "scroll", overflowX: "hidden",}} className="message-container">
+        <section style={{display: "flex", flexDirection: "column-reverse", height: "calc(100svh - 144px)", margin: "72px 0 40px", boxSizing: "border-box", overflowY: "scroll", overflowX: "hidden",}} className="message-container">
             <div style={styles.input}>
                 <img onClick={() => send()} src="/send.svg" />
                 <input ref={contentRef} type="text" placeholder="|Message" />
             </div>
 
-            {messages ? messages.map((cont, index) => {
-                return <div key={index} ref={index == 0 ? ref : null} style={ messages[messages.length - 1 - index]?.sender?.id === Ctx.id ? {width: "100%", display: "flex", justifyContent: "flex-end"} : null}><div><p style={{...styles.msg}}>{messages[messages.length - 1 - index]?.content}</p><p>{index == 0 && messages[messages.length - 1 - index]?.read && messages[messages.length - 1 - index]?.sender?.id == Ctx.id ? "Read" : null}</p></div></div>
-                } ) : null}
+            {/* <div key={index} ref={index == 0 ? ref : null} style={ msgStore.current[msgStore.current.length - 1 - index]?.sender?.id === Ctx.id ? {width: "100%", display: "flex", justifyContent: "flex-end"} : null}><div><p style={{...styles.msg}}>{msgStore.current[msgStore.current.length - 1 - index]?.content}</p><p>{index == 0 && msgStore.current[msgStore.current.length - 1 - index]?.read && msgStore.current[msgStore.current.length - 1 - index]?.sender?.id == Ctx.id ? "Read" : null}</p></div></div> */}
+            <div className="msgContainer">
+            {msgState.length > 0 && msgState.map((cont, index) => {
+                if(index !== msgState.length - 1 && index !== 0) {
+                    if(cont.sender.id !== Ctx.id) {
+                        if(index + 1 < msgStore.current.length && msgStore.current[index + 1].sender.id != cont.sender.id && msgStore.current[index - 1].sender.id != cont.sender.id) {
+                            return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-start"}}><div><p style={{...styles.msg, ...{borderRadius: "4px 8px 8px 4px"}}}>{cont?.content}</p></div></div>
+                        } else if(index + 1 < msgStore.current.length && cont.sender.id === msgStore.current[index + 1].sender.id && cont.sender.id == msgStore.current[index - 1].sender.id) {
+                            return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-start"}}><div><p style={{...styles.msg, ...{borderRadius: "8px 4px 4px 8px"}}}>{cont?.content}</p></div></div>
+                        } else if(index + 1 < msgStore.current.length && cont.sender.id !== msgStore.current[index - 1].sender.id) {
+                            return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-start"}}><div><p style={{...styles.msg, ...{borderRadius: "16px 16px 4px 4px", marginTop: 8}}}>{cont?.content}</p></div></div>
+                        } else {
+                            return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-start"}}><div><p style={{...styles.msg, ...{borderRadius: "4px 4px 16px 16px"}}}>{cont?.content}</p></div></div>
+                        }
+                    } else {
+                        if(index + 1 < msgStore.current.length && msgStore.current[index + 1].sender.id != Ctx.id && msgStore.current[index - 1].sender.id != Ctx.id) {
+                            return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-end"}}><div><p style={{...styles.msg, ...{borderRadius: "8px 4px 4px 8px"}}}>{cont?.content}</p></div></div>
+                        } else if(index + 1 < msgStore.current.length && cont.sender.id === msgStore.current[index + 1].sender.id && cont.sender.id == msgStore.current[index - 1].sender.id) {
+                            return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-end"}}><div><p style={{...styles.msg, ...{borderRadius: "8px 4px 4px 8px"}}}>{cont?.content}</p></div></div>
+                        } else if(index + 1 < msgStore.current.length && cont.sender.id !== msgStore.current[index - 1].sender.id) {
+                            return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-end"}}><div><p style={{...styles.msg, ...{borderRadius: "16px 16px 4px 4px", marginTop: 8}}}>{cont?.content}</p></div></div>
+                        } else {
+                            return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-end"}}><div><p style={{...styles.msg, ...{borderRadius: "4px 4px 16px 16px"}}}>{cont?.content}</p></div></div>
+                        }
+                    }
+                } else {
+                    if(index == 0) {
+                        if(cont.sender.id !== Ctx.id) {
+                            if(index + 1 < msgStore.current.length && msgStore.current[index + 1].sender.id != cont.sender.id) {
+                                return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-start"}}><div><p style={{...styles.msg, ...{borderRadius: "4px 8px 8px 4px"}}}>{cont?.content}</p></div></div>
+                            } else if(index + 1 < msgStore.current.length && cont.sender.id === msgStore.current[index + 1].sender.id) {
+                                return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-start"}}><div><p style={{...styles.msg, ...{borderRadius: "8px 4px 4px 8px"}}}>{cont?.content}</p></div></div>
+                            }
+                        } else {
+                            if(index + 1 < msgStore.current.length && msgStore.current[index + 1].sender.id != cont.sender.id) {
+                                return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-end"}}><div><p style={{...styles.msg, ...{borderRadius: "4px 8px 8px 4px"}}}>{cont?.content}</p></div></div>
+                            } else if(index + 1 < msgStore.current.length && cont.sender.id === msgStore.current[index + 1].sender.id) {
+                                return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-end"}}><div><p style={{...styles.msg, ...{borderRadius: "8px 4px 4px 8px"}}}>{cont?.content}</p></div></div>
+                            }
+                        }
+                    } else {
+                        if(cont.sender.id !== Ctx.id) {
+                            if(index - 1 < msgStore.current.length && msgStore.current[index - 1].sender.id != cont.sender.id) {
+                                return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-start"}}><div><p className="bottomMsg" style={{...styles.msg, ...{borderRadius: "4px 8px 8px 4px"}}}>{cont?.content}</p></div></div>
+                            } else if(index - 1 < msgStore.current.length && cont.sender.id === msgStore.current[index - 1].sender.id) {
+                                return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-start"}}><div><p className="bottomMsg" style={{...styles.msg, ...{borderRadius: "4px 8px 8px 4px"}}}>{cont?.content}</p></div></div>
+                            }
+                        } else {
+                            if(index - 1 < msgStore.current.length && msgStore.current[index - 1].sender.id != cont.sender.id) {
+                                return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-end"}}><div><p className="bottomMsg" style={{...styles.msg, ...{borderRadius: "8px 4px 4px 8px"}}}>{cont?.content}</p></div></div>
+                            } else if(index - 1 < msgStore.current.length && cont.sender.id === msgStore.current[index - 1].sender.id) {
+                                return <div key={index} style={{width: "100%", display: "flex", justifyContent: "flex-end"}}><div><p className="bottomMsg" style={{...styles.msg, ...{borderRadius: "8px 4px 4px 8px"}}}>{cont?.content}</p></div></div>
+                            }
+                        }
+                    }
+                }
+            })}
+            </div>
 
-            <nav style={{display: "flex", alignItems: "center", justifyContent: "space-between", position: "fixed", top: 0, background: "#fff", padding: "16px 0"}}>
+            <nav style={{display: "flex", alignItems: "center", justifyContent: "space-between", position: "fixed", top: 40, background: "#fff", padding: "16px 0", width: "100%"}}>
                 <div style={{display: "flex", columnGap: 8}}>
                     <img src="/shoe_collective.jpg" height="40px" width="40px" style={{borderRadius: 80}} />
                     <div>
-                        <h3>{recipient?.name}</h3>
-                        <h5>@{recipient?.username}</h5>
+                        <h3>{recipient.current?.name}</h3>
+                        <h5>@{recipient.current?.username}</h5>
                     </div>
                 </div>
             </nav>
@@ -151,7 +188,8 @@ function MessageToPerson() {
 }
 const styles = {
     input: {
-        width: "100%",
+        width: "calc(100vw - 32px)",
+        marginBottom: 16,
         maxWidth: 640,
         display: "flex",
         flexDirection: "row-reverse",
@@ -162,15 +200,24 @@ const styles = {
         // transform: "translateY(calc(-100% - 8px)"
     },
     msg: {
-        color: "#fff",
+        color: "#454542",
         padding: "8px 16px", 
-        background: "#4C9BF7", 
+        background: "#f9f9f9", 
         display: "inline-block",
-        borderRadius: 24,
-        marginTop: 8,
         wordWrap: "break-wrord",
         overflowWrap: "break-word",
-        width: "fit-content"
+        width: "fit-content",
+        maxWidth: "calc((100vw - 32px) / 12 * 8)",
+        borderRadius: "50px",
+        marginBottom: 4
+    },
+    middleMsg: {
+        borderRadius: "4px 8px 8px 4px",
+        marginBottom: 4
+    },
+    standaloneMsg: {
+        borderRadius: "16px",
+        marginBottom: 8
     },
     view: {
         display: "flex", 

@@ -84,6 +84,7 @@ function PostPost() {
 const styles = {
     input: {
         width: "calc(100vw - 32px)",
+        maxWidth: 640,
         display: "flex",
         flexDirection: "row-reverse",
         columnGap: 8,

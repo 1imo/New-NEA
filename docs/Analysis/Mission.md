@@ -19,9 +19,7 @@ True innovation could emerge through radical openness and user-owned experiences
 The core vision is to create a holistic ecosystem that gives individuals full autonomy, privacy and self-determination over their entire online experience - from identity management to content governance, economic empowerment and knowledge sharing. This stands in stark contrast to today's extractive, centrally-controlled social media platforms.
 
 
-
-
-### Goals
+### Goals Set by Client
 
 ##### Goal 1: Algorithmic Transparency and User Control
 

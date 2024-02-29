@@ -28,12 +28,11 @@ function Settings() {
 
     const { data, err, loading } = useQuery(GET_PENDING_REQUESTS, {
         variables: {
-            id:Ctx.id,
+            id: Ctx.id,
             secretkey: Ctx.secretkey
         }
     })
 
-    if(loading) return <Loading />
     if(err) alert("Error Loading Pending Requests")
 
     useEffect(() => {

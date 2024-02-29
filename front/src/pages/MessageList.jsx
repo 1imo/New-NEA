@@ -20,7 +20,7 @@ function MessageList() {
     })
 
     if(error) alert("Error Loading Chats")
-    if(loading) return <Loading />
+    // if(loading) return <Loading />
 
     useEffect(() => {
         setChats(data?.getChats)

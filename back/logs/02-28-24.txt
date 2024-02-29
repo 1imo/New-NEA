@@ -1,0 +1,8 @@
+22:30:16    Cannot read properties of undefined (reading 'trim') 
+22:31:39    Cannot read properties of undefined (reading 'trim') 
+22:31:39    Cannot read properties of undefined (reading 'trim') 
+22:31:39    Cannot read properties of undefined (reading 'trim') 
+22:31:39    Cannot read properties of undefined (reading 'trim') 
+22:31:39    Cannot read properties of undefined (reading 'trim') 
+22:31:46    Cannot read properties of undefined (reading 'trim') 
+22:31:58    Cannot read properties of undefined (reading 'trim') 

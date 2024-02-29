@@ -16,7 +16,6 @@ import PostPost from './pages/PostPost';
 import Post from './pages/PostView';
 import Profile from './pages/Profile';
 import Search from './pages/Search';
-import ResultList from './pages/ResultList';
 import Onboarding from './pages/Onboarding';
 import Cookies from 'js-cookie';
 import Settings from './pages/Settings';
@@ -45,7 +44,7 @@ function App() {
             <Route path="/post" element={<PostPost />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/search" element={<Search />} />
-            <Route path="/search/:id" element={<ResultList />} />
+            {/* <Route path="/search/:id" element={<ResultList />} /> */}
             <Route path="/settings" element={<Settings />} />
             </>
           )}

@@ -12,6 +12,7 @@ const UserQuery = {
     args: {id: {type: GraphQLString}},
     async resolve(parent, args, {prisma, sanitise, log}) {
       try {
+        console.log("NAV")
         args = sanitise(args)
         const user = await prisma.user.findFirst({
           where: {
@@ -22,6 +23,8 @@ const UserQuery = {
             username: true,
           },
         })
+
+        console.log(user, "USER")
 
         return user
       } catch (e) {
@@ -155,12 +158,18 @@ const UserQuery = {
           select: {
             id: true,
             messages: {
+              orderBy: {
+                date: 'desc',
+              },
               select: {
                 id: true,
                 content: true,
+                date: true,
                 sender: {
                   select: {
                     id: true,
+                    name: true,
+                    username: true
                   },
                 },
                 read: true,
@@ -239,6 +248,7 @@ const UserQuery = {
     },
     async resolve(parent, args, {prisma, sanitise, auth, log}) {
       try {
+        console.log("FEED")
         args = sanitise(args)
         const exists = auth(args.id, args.secretkey)
         const posts = await prisma.user.findFirst({
@@ -332,6 +342,8 @@ const UserQuery = {
             },
           },
         })
+
+        // console.log(posts, "POSTS")
 
         let followingPosts = []
         let friendsPosts = []

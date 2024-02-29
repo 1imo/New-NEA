@@ -1,0 +1,679 @@
+08:20:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:20:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:20:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:20:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:28:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:28:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:28:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:28:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:28:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:28:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:28:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:28:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:09    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:17:40
+
+  14 try {
+  15   console.log("NAV")
+  16   args = sanitise(args)
+→ 17   const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:09    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:09    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:09    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:09    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:09    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+08:47:18    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+09:33:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+09:33:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+09:33:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+09:33:04    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:07    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:07    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:07    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:07    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:49:41    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+10:49:41    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+10:49:41    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+10:49:41    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+10:50:08    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:50:08    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:50:13    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+10:50:13    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+10:54:36    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:55:46    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:44    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:17:40
+
+  14 try {
+  15   console.log("NAV")
+  16   args = sanitise(args)
+→ 17   const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:17:55    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:226:40
+
+  223 })
+  224 
+  225 async function auth(id, key) {
+→ 226   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:19:07    
+Invalid `prisma.user.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:120:41
+
+  117 async resolve(parent, args, {prisma, sanitise, log}) {
+  118   try {
+  119     args = sanitise(args)
+→ 120     const names = await prisma.user.findMany(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+17:53:13    
+Invalid `prisma.user.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/UserMutations.js:26:40
+
+  23 const {nanoid} = await import('nanoid')
+  24 const apiKey = nanoid()
+  25 
+→ 26 const user = await prisma.user.create(
+Unique constraint failed on the fields: (`username`) 

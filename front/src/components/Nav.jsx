@@ -3,38 +3,28 @@ import {
   } from "react-router-dom";
 import {
     useQuery,
-    gql
 } from "@apollo/client"
-import Cookies from "js-cookie"
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import { GET_NAVINFO } from "../GraphQL/Queries";
 import Loading from "./Loading";
 
-        
-
-    
-
-
-
 function Nav(props) {
     const navigate = useNavigate()
-    const [ vars, setVars ] = useState({})
     const [ info, setInfo ] = useState(null)
 
     const Ctx = useContext(Context)
 
     const { loading, error, data } = useQuery(GET_NAVINFO, {
         fetchPolicy: "cache-first",
-        variables: vars
+        variables: {
+            id: Ctx.id
+        }
     })
-    if(loading) return <Loading />
-    if(error) alert("Error Loading Nav Info")
+    
+    // if(error) {console.log(error);alert("Error Loading Nav Info", error)}
 
     useEffect(() => {
-        setVars({
-            id: Ctx.id
-        })
         setInfo(JSON.parse(localStorage.getItem('navData')))
     }, [])
 
@@ -46,25 +36,23 @@ function Nav(props) {
         }
     }, [data])
 
-    return <>
-        <nav style={styles.nav}>
-            <div style={styles.one}>
-                <Link to={`/profile/${info?.navInfo?.username}`} style={styles.one}>
-                <div style={{borderRadius:56, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${Ctx?.id})`, backgroundSize: "cover", height:56, width:56, backgroundPosition: "50% center"}}>&nbsp;</div>
-                    <div>
-                        <h3>{info?.navInfo?.name.split(" ")[0]} {info?.navInfo?.name.split(" ")[1]}</h3>
-                        <h6>@{info?.navInfo?.username}</h6>
-                    </div>
-                </Link>
-            </div>
-            {props.icons === true ? <div style={styles.two}>
-                <Link to="/post"><img src="/post.svg" /></Link>
-                <Link to="#" onClick={(e) => {e.preventDefault();navigate("/search", { state: "main" })}}><img src="/search.svg" /></Link>
-                <Link to="/messaging"><img src="/message.svg" /></Link>
-                <Link to="/settings"><img src="/more.svg" /></Link>
-            </div> : null}
-        </nav>
-    </>
+    return  <nav style={styles.nav}>
+                <div style={styles.one}>
+                    <Link to={`/profile/${info?.navInfo?.username}`} style={styles.one}>
+                    <div style={{borderRadius:56, backgroundColor: "#F3F3F3", backgroundImage: `url(${Ctx.imageServer}/fetch/profile/${Ctx?.id})`, backgroundSize: "cover", height:56, width:56, backgroundPosition: "50% center"}}>&nbsp;</div>
+                        <div>
+                            <h3>{info?.navInfo?.name.split(" ")[0]} {info?.navInfo?.name.split(" ")[1]}</h3>
+                            <h6>@{info?.navInfo?.username}</h6>
+                        </div>
+                    </Link>
+                </div>
+                {props.icons === true ? <div style={styles.two}>
+                    <Link to="/post"><img src="/post.svg" /></Link>
+                    <Link to="#" onClick={(e) => {e.preventDefault();navigate("/search", { state: "main" })}}><img src="/search.svg" /></Link>
+                    <Link to="/messaging"><img src="/message.svg" /></Link>
+                    <Link to="/settings"><img src="/more.svg" /></Link>
+                </div> : null}
+            </nav>
 }
 
 const styles = {

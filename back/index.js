@@ -4,7 +4,7 @@ const schema = require('./schemas/index.js')
 const cors = require('cors')
 const http = require('http')
 const fs = require('fs')
-const {PrismaClient} = require('@prisma/client')
+const { PrismaClient } = require('@prisma/client')
 require('dotenv').config()
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
@@ -244,21 +244,33 @@ function sanitise(input) {
     let sanitizedValue = value
 
     // Escape Characters
-    sanitizedValue = sanitizedValue.replace(/['"\\]/g, '\\$&')
+    const sanitisedValue = htmlSpecialChars(sanitizedValue)
 
-    // Blacklisting
-    const blacklistedChars = ['<', '>', '&', ';', '#', '{', '}'] // Example blacklist
-    blacklistedChars.forEach((char) => {
-      sanitizedValue = sanitizedValue.replace(new RegExp(char, 'g'), '')
-    })
+		function htmlSpecialChars(text) {
+      if (typeof text !== 'string') {
+        return text; // Return as is if not a string
+      }
+
+			const map = {
+				"<": "&lt;",
+				">": "&gt;",
+				'"': "&quot;",
+				"'": "&apos;",
+				"&": "&amp;",
+			}
+			return text.replace(/[<>"&]/g, (char) => map[char])
+		}
+
 
     // Length Limitation
-    const maxLength = 100 // Example maximum length
-    sanitizedValue = sanitizedValue.slice(0, maxLength)
-
-    // Canonicalization (Remove variations such as leading/trailing spaces)
-    sanitizedValue = sanitizedValue.trim()
-
+    if (typeof data === 'string') {
+      sanitisedValue = sanitisedValue.slice(0, maxLength);
+      // Canonicalization (Remove variations such as leading/trailing spaces)
+      sanitizedValue = sanitizedValue.trim()
+    } else if (typeof data === 'number') {
+      sanitisedValue = parseFloat(sanitisedValue.toString().slice(0, maxLength));
+    }
+    
     // Assign sanitized value to the corresponding key
     sanitizedObj[key] = sanitizedValue
   })
@@ -290,10 +302,14 @@ function log(e) {
   const formattedDate = currentDate.toLocaleString('en-US', day)
   const formattedTime = currentDate.toLocaleString('en-US', time)
 
-  fs.appendFileSync(
-    `/logs/${formattedDate}.txt`,
-    `${formattedTime}    ${e.message}`,
-  )
+  try {
+    fs.appendFile(
+      __dirname + `/logs/${formattedDate.replace(/\//g, '-')}.txt`,
+      `${formattedTime}    ${e.message} \n`, err => console.log(err)
+    )
+  } catch(e) {
+    console.log(e, "ERROR LOGGING")
+  }
 }
 
 app.use(

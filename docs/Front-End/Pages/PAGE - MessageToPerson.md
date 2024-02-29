@@ -140,6 +140,13 @@ Define an asynchronous function named send:
 ![[Pasted image 20240225001933.png]]
 
 
+### Updates
+
+I have decided to redesign the interface and user interactions around the chatting features as this is supposed to be a social media platform. New features include better time stamps, dragging to see time across all messages, file and image uploads as well as potential for likes etc. The latter coming down to more UI UX work. For now I have implemented animations with regards to incoming messages that are smooth and woke. I have also removed the needless context store as I had originally used, swapping it out for a reference in order to maintain persistence over re-renders.
+
+![[Pasted image 20240229185805.png]]
+![[Pasted image 20240229185848.png]]
+
 #### UI
 
 ##### Mobile

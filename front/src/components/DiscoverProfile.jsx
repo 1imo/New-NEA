@@ -4,7 +4,7 @@ import { useContext, useEffect, useState, useRef } from "react"
 import { Context } from "../context/Context"
 import { useNavigate } from "react-router-dom"
 
-import init, { Queue } from "../../public/pkg/web_module"
+// import init, { Queue } from "../../public/pkg/web_module"
 import Loading from "./Loading";
 
 
@@ -35,29 +35,29 @@ function DiscoverProfile(props) {
         setVars(data?.recommendedUsers.map(user => {JSON.stringify(user)}))
     }, [data])
 
-    useEffect(() => {
-        init().then((module) => {
-            queue.current = Queue.new(10)
-            data?.recommendedUsers.map(user => {
-                queue.current.enqueue(JSON.stringify(user))
-            })
-            let count = 0
-            const animationInterval = setInterval(() => {
-                removeX.current = removeX.current + 1
-                count += 1
-                if(count == 96) {
-                    queue.current.enqueue(queue.current.dequeue())
-                    count -= 96
-                    removeX.current = 0
-                }
+    // useEffect(() => {
+    //     init().then((module) => {
+    //         queue.current = Queue.new(10)
+    //         data?.recommendedUsers.map(user => {
+    //             queue.current.enqueue(JSON.stringify(user))
+    //         })
+    //         let count = 0
+    //         const animationInterval = setInterval(() => {
+    //             removeX.current = removeX.current + 1
+    //             count += 1
+    //             if(count == 96) {
+    //                 queue.current.enqueue(queue.current.dequeue())
+    //                 count -= 96
+    //                 removeX.current = 0
+    //             }
 
-            }, 40)
+    //         }, 40)
 
-            return () => {
-                clearInterval(animationInterval)
-            }
-        })
-    }, [vars])
+    //         return () => {
+    //             clearInterval(animationInterval)
+    //         }
+    //     })
+    // }, [vars])
 
     const styles = {
         card: {

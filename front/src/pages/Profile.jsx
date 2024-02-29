@@ -18,7 +18,7 @@ function Profile() {
         }
     })
     if(error) alert("Error Loading Profile")
-    if(loading) return <Loading />
+    // if(loading) return <Loading />
 
     useEffect(() => {
         setD(id)
