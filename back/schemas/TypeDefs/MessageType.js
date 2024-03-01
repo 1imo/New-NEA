@@ -8,6 +8,7 @@ const MessageType = new GraphQLObjectType({
     sender: {type: AuthorType},
     content: {type: GraphQLString},
     date: {type: GraphQLString},
+    type: {type: GraphQLString},
     read: {type: GraphQLBoolean},
   }),
 })

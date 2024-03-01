@@ -10,7 +10,8 @@ use mime_guess::guess_mime_type;
 #[derive(Debug, Deserialize)]
 enum UploadType {
     Profile,
-    Post
+    Post,
+    Chat
 }
 
 // Payload body of request to upload Data
@@ -34,6 +35,8 @@ async fn upload_image(Json(payload): Json<Payload>) -> String {
     let image_data = payload.image;
     let image_bytes: Vec<u8> = image_data.split(',').map(|num| num.parse::<u8>().expect("Invalid number in string")).collect();
 
+    println!("{:?}", payload.correlation);
+
     match payload.correlation {
         UploadType::Post => {
             let file_path = format!("post/{}.jpg", payload.id);
@@ -46,6 +49,12 @@ async fn upload_image(Json(payload): Json<Payload>) -> String {
             let mut file = File::create(&file_path).expect("Error creating image file");
             file.write_all(&image_bytes).expect("Error writing image data");
             "".to_owned()
+        },
+        UploadType::Chat => {
+            let file_path = format!("chat/{}.jpg", payload.id);
+            let mut file = File::create(&file_path).expect("Error creating image file");
+            file.write_all(&image_bytes).expect("Error writing image data");
+            "".to_owned()
         }
     }
 
@@ -53,10 +62,9 @@ async fn upload_image(Json(payload): Json<Payload>) -> String {
 }
 
 async fn send_image(Path((type_id, id)): Path<(String, String)>) -> Response<Body> {
-    println!("hi {} {}", type_id, id);
-
     let mut file_path = PathBuf::from("");
     let type_id = type_id.as_str();
+    println!("{:?}", type_id);
 
     match type_id {
         "post" => {
@@ -64,6 +72,9 @@ async fn send_image(Path((type_id, id)): Path<(String, String)>) -> Response<Bod
         },
         "profile" => {
             file_path.push("profile");
+        },
+        "chats" => {
+            file_path.push("chat");
         },
         _ => {
             return Response::builder()

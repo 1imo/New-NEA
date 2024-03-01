@@ -102,6 +102,7 @@ const ChatroomMutations = {
       secretkey: {type: GraphQLString},
       chatroom: {type: GraphQLString},
       content: {type: GraphQLString},
+      type: {type: GraphQLString},
     },
     async resolve(parent, args, {io, prisma, auth}) {
       try {
@@ -129,6 +130,7 @@ const ChatroomMutations = {
             content: args.content,
             senderId: sender.id,
             chatroomId: chatroom.id,
+            type: args.type,
           },
           select: {
             id: true,
@@ -140,6 +142,7 @@ const ChatroomMutations = {
               },
             },
             content: true,
+            type: true,
             date: true,
             read: true,
           },

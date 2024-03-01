@@ -144,6 +144,8 @@ Define an asynchronous function named send:
 
 I have decided to redesign the interface and user interactions around the chatting features as this is supposed to be a social media platform. New features include better time stamps, dragging to see time across all messages, file and image uploads as well as potential for likes etc. The latter coming down to more UI UX work. For now I have implemented animations with regards to incoming messages that are smooth and woke. I have also removed the needless context store as I had originally used, swapping it out for a reference in order to maintain persistence over re-renders.
 
+Right now, after sending a message, it takes a few seconds to update the senders UI wit the message which can be a source of confusion. I initially tried to get around the problem by creating the message type on the client but realized that each message has a unique id for potential further actions. After all, a user is most likely to edit a message through actions such as deleting straight after sending the message. Therefore, I for now, have left the id assignment process to the API.
+
 ![[Pasted image 20240229185805.png]]
 ![[Pasted image 20240229185848.png]]
 

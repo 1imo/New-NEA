@@ -12,7 +12,7 @@ const UserQuery = {
     args: {id: {type: GraphQLString}},
     async resolve(parent, args, {prisma, sanitise, log}) {
       try {
-        console.log("NAV")
+        console.log('NAV')
         args = sanitise(args)
         const user = await prisma.user.findFirst({
           where: {
@@ -24,7 +24,7 @@ const UserQuery = {
           },
         })
 
-        console.log(user, "USER")
+        console.log(user, 'USER')
 
         return user
       } catch (e) {
@@ -165,11 +165,12 @@ const UserQuery = {
                 id: true,
                 content: true,
                 date: true,
+                type: true,
                 sender: {
                   select: {
                     id: true,
                     name: true,
-                    username: true
+                    username: true,
                   },
                 },
                 read: true,
@@ -248,7 +249,7 @@ const UserQuery = {
     },
     async resolve(parent, args, {prisma, sanitise, auth, log}) {
       try {
-        console.log("FEED")
+        console.log('FEED')
         args = sanitise(args)
         const exists = auth(args.id, args.secretkey)
         const posts = await prisma.user.findFirst({
@@ -277,8 +278,8 @@ const UserQuery = {
                         date: true,
                       },
                       orderBy: {
-                        date: 'desc'
-                      }
+                        date: 'desc',
+                      },
                     },
                   },
                 },
@@ -305,8 +306,8 @@ const UserQuery = {
                         date: true,
                       },
                       orderBy: {
-                        date: 'desc'
-                      }
+                        date: 'desc',
+                      },
                     },
                   },
                 },
@@ -333,8 +334,8 @@ const UserQuery = {
                         date: true,
                       },
                       orderBy: {
-                        date: 'desc'
-                      }
+                        date: 'desc',
+                      },
                     },
                   },
                 },
@@ -360,7 +361,6 @@ const UserQuery = {
           }
         }
 
-        
         if (args.type == 'Following') {
           return followingPosts
         }

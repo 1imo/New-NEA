@@ -89,12 +89,13 @@ model ViewedPost {
 }
 
 model Message {
-  id         String    @id @default(uuid())
+  id         String    @id @default(uuid()) @unique
   content    String
   sender     User      @relation(fields: [senderId], references: [id])
   senderId   String
   date       DateTime  @default(now())
   read       Boolean   @default(false)
+  type       String    @default("message")
   chatroom   Chatroom? @relation("Chatroom_Messages", fields: [chatroomId], references: [id])
   chatroomId String?
 }

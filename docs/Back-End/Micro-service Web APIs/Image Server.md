@@ -1,6 +1,12 @@
 
 To secure the [[INDEX - Monolith API]], I offloaded media functionality to a smaller service which I made in Rust for it's speed. It's a simple API which allows for uploading and storing files and then makes them publicly available through an endpoint with a HTTP GET request.
 
+
+### Analysis
+
+Images are a core part of communication especially through digital means such as social media. I recognise that images will be used a lot in production and if the current method of cold storage through directories cannot cope with the load, a better means of storing and serving images would be through the use of a hashmap. A hashmap is a key value store which works on the hashing of the value, creating a key based on the hash value and moduloing the value. If there is an item already there, it'll create a linked list with all the values. This creates an algorithm with a time complexity of log(1) and in the worst-case scenario log(n). This is more efficient than retrieval of files from directories and further conversion from files into arrays of bits and offer caching mechanisms for retrieval of frequently fetched images. In development, however, I am constantly turning of the image API and for now I do not want to permanently host this API in fear of large data retrieval charges from cloud providers. This is why I will stick with this means of data sharing for the time being.
+
+
 ##### Upload Type
 
 Upload type is defined in the [[#Payload]] of the request to upload.
