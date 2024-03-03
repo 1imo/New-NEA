@@ -1,0 +1,12 @@
+back/node_modules/
+front/node_modules/
+ImageServer/target/
+RecommendUsers/target/
+.vscode/
+back/.vscode/
+back/.gitignore
+back/.prettierrc
+front/.eslintrc.cjs
+front/.gitignore
+front/vite.config.js
+
