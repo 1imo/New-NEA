@@ -23,6 +23,8 @@ const UserMutations = {
         const {nanoid} = await import('nanoid')
         const apiKey = nanoid()
 
+        console.log(args)
+
         const user = await prisma.user.create({
           data: {
             name: `${args.firstName} ${args.lastName}`,
@@ -35,6 +37,8 @@ const UserMutations = {
             },
           },
         })
+
+        console.log(user, 'USER')
 
         return {
           id: user.id,
@@ -106,10 +110,10 @@ const UserMutations = {
       secretkey: {type: GraphQLString},
       username: {type: GraphQLString},
     },
-    async resolve(parent, args, {io, prisma, sanitise, auth, log}) {
+    async resolve(parent, args, {io, prisma, sanitise, auth, log, req}) {
       try {
         args = sanitise(args)
-        const exists = await auth(args.id, args.secretkey)
+        const exists = await auth(args.id, args.secretkey, req)
 
         const recipient = await prisma.user.findFirst({
           where: {
@@ -120,6 +124,8 @@ const UserMutations = {
             socket: true,
           },
         })
+
+        if (!recipient) throw new Error('User not found')
 
         const followExists = await prisma.follow.count({
           where: {
@@ -181,10 +187,10 @@ const UserMutations = {
       request: {type: GraphQLString},
       action: {type: GraphQLString},
     },
-    async resolve(parent, args, {io, prisma, auth, sanitise, log}) {
+    async resolve(parent, args, {io, prisma, auth, sanitise, log, req}) {
       try {
         args = sanitise(args)
-        const exists = await auth(args.id, args.secretkey)
+        const exists = await auth(args.id, args.secretkey, req)
 
         const follow = await prisma.follow.findFirst({
           where: {id: args.request},
@@ -247,10 +253,10 @@ const UserMutations = {
       request: {type: GraphQLString},
       data: {type: GraphQLString},
     },
-    async resolve(parent, args, {io, prisma, sanitise, auth, log}) {
+    async resolve(parent, args, {io, prisma, sanitise, auth, log, req}) {
       try {
         args = sanitise(args)
-        const exists = await auth(args.id, args.secretkey)
+        const exists = await auth(args.id, args.secretkey, req)
 
         switch (args.request) {
           case 'name':

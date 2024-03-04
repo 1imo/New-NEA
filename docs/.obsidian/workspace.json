@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Back-End/Micro-service Web APIs/Image Server.md",
+                "file": "Back-End/Monolith API/Security/INDEX - Security.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Back-End/Micro-service Web APIs/Image Server.md",
+                "file": "Back-End/Monolith API/Security/INDEX - Security.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Back-End/Micro-service Web APIs/Image Server.md",
+                "file": "Back-End/Monolith API/Security/INDEX - Security.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Back-End/Micro-service Web APIs/Image Server.md"
+                "file": "Back-End/Monolith API/Security/INDEX - Security.md"
               }
             }
           }
@@ -148,13 +148,15 @@
   },
   "active": "f1b78b88ace9e56f",
   "lastOpenFiles": [
+    "Front-End/Workflows/Chatting.md",
+    "Analysis/User Interviews.md",
+    "Back-End/Micro-service Web APIs/Image Server.md",
     "Front-End/Pages/PAGE - MessageToPerson.md",
     "Pasted image 20240229185848.png",
     "Pasted image 20240229185829.png",
     "Pasted image 20240229185805.png",
     "Pasted image 20240229185751.png",
     "Back-End/Database/INDEX - Database.md",
-    "Front-End/Workflows/Chatting.md",
     "Back-End/Monolith API/Security/INDEX - Security.md",
     "Back-End/Monolith API/Web Socket Server/INDEX - Web Socket Server.md",
     "Back-End/Monolith API/INDEX - Monolith API.md",
@@ -176,8 +178,6 @@
     "Front-End/Workflows/Auth System.md",
     "Front-End/Pages/PAGE - SignIn.md",
     "Front-End/Pages/PAGE - Settings.md",
-    "Front-End/Pages/PAGE - Search.md",
-    "Front-End/Pages/PAGE - Profile.md",
     "Images/Pasted image 20240224155747.png",
     "Images/Pasted image 20240226213121.png",
     "Images/Pasted image 20240226212414.png",

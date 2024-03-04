@@ -10,9 +10,9 @@ const UserQuery = {
   navInfo: {
     type: UserType,
     args: {id: {type: GraphQLString}},
-    async resolve(parent, args, {prisma, sanitise, log}) {
+    async resolve(parent, args, {prisma, sanitise, log, req}) {
       try {
-        console.log('NAV')
+        // console.log('NAV', req)
         args = sanitise(args)
         const user = await prisma.user.findFirst({
           where: {
@@ -138,80 +138,13 @@ const UserQuery = {
       }
     },
   },
-  getChatroomData: {
-    type: ChatroomType,
-    args: {
-      id: {type: GraphQLString},
-      secretkey: {type: GraphQLString},
-      chatId: {type: GraphQLString},
-    },
-    async resolve(parent, args, {prisma, sanitise, auth, log}) {
-      try {
-        args = sanitise(args)
-        const exists = auth(args.id, args.secretkey)
-        let chatroom = {}
-
-        chatroom = await prisma.chatroom.findFirst({
-          where: {
-            id: args.chatId,
-          },
-          select: {
-            id: true,
-            messages: {
-              orderBy: {
-                date: 'desc',
-              },
-              select: {
-                id: true,
-                content: true,
-                date: true,
-                type: true,
-                sender: {
-                  select: {
-                    id: true,
-                    name: true,
-                    username: true,
-                  },
-                },
-                read: true,
-              },
-            },
-            chatroomUsers: {
-              select: {
-                user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    username: true,
-                  },
-                },
-              },
-            },
-          },
-        })
-
-        const chatters = chatroom.chatroomUsers.map((user) => user.user)
-        console.log(chatters)
-
-        return {
-          id: chatroom.id,
-          chatroomUsers: chatters,
-          messages: chatroom.messages,
-          lastMessage: '',
-        }
-      } catch (e) {
-        log(e)
-        return
-      }
-    },
-  },
   getPending: {
     type: new GraphQLList(PendingType),
     args: {id: {type: GraphQLString}, secretkey: {type: GraphQLString}},
-    async resolve(parent, args, {prisma, sanitise, auth, log}) {
+    async resolve(parent, args, {prisma, sanitise, auth, log, req}) {
       try {
         args = sanitise(args)
-        const exists = auth(args.id, args.secretkey)
+        const exists = auth(args.id, args.secretkey, req)
         const follows = await prisma.follow.findMany({
           where: {
             AND: [{followingId: args.id}, {denial: false}],
@@ -247,11 +180,10 @@ const UserQuery = {
       secretkey: {type: GraphQLString},
       type: {type: GraphQLString},
     },
-    async resolve(parent, args, {prisma, sanitise, auth, log}) {
+    async resolve(parent, args, {prisma, sanitise, auth, log, req}) {
       try {
-        console.log('FEED')
         args = sanitise(args)
-        const exists = auth(args.id, args.secretkey)
+        const exists = auth(args.id, args.secretkey, req)
         const posts = await prisma.user.findFirst({
           where: {
             id: args.id,
@@ -497,10 +429,10 @@ const UserQuery = {
   recommendedUsers: {
     type: new GraphQLList(AuthorType),
     args: {id: {type: GraphQLString}, secretkey: {type: GraphQLString}},
-    async resolve(parent, args, {prisma, sanitise, auth, log}) {
+    async resolve(parent, args, {prisma, sanitise, auth, log, req}) {
       try {
         args = sanitise(args)
-        const exists = auth(args.id, args.secretkey)
+        const exists = auth(args.id, args.secretkey, req)
 
         const user = await prisma.user.findFirst({
           where: {

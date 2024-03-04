@@ -10,10 +10,10 @@ const PostMutations = {
       content: {type: GraphQLString},
       photo: {type: GraphQLBoolean},
     },
-    async resolve(parent, args, {prisma, auth, sanitise, log}) {
+    async resolve(parent, args, {prisma, auth, sanitise, log, req}) {
       try {
         args = sanitise(args)
-        const exists = await auth(args.id, args.secretkey)
+        const exists = await auth(args.id, args.secretkey, req)
 
         const post = await prisma.post.create({
           data: {
@@ -44,10 +44,10 @@ const PostMutations = {
       id: {type: GraphQLString},
       secretkey: {type: GraphQLString},
     },
-    async resolve(parent, args, {auth, sanitise, log}) {
+    async resolve(parent, args, {auth, sanitise, log, req}) {
       try {
         args = sanitise(args)
-        const exists = await auth(args.id, args.secretkey)
+        const exists = await auth(args.id, args.secretkey, req)
 
         const post = await prisma.post.findFirst({
           where: {
@@ -100,10 +100,10 @@ const PostMutations = {
       id: {type: GraphQLString},
       secretkey: {type: GraphQLString},
     },
-    async resolve(parent, args, {auth, sanitise, log}) {
+    async resolve(parent, args, {auth, sanitise, log, req}) {
       try {
         args = sanitise(args)
-        const exists = await auth(args.id, args.secretkey)
+        const exists = await auth(args.id, args.secretkey, req)
 
         const post = await prisma.post.findFirst({
           where: {

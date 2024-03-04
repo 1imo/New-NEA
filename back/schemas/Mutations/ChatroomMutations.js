@@ -13,10 +13,10 @@ const ChatroomMutations = {
       secretkey: {type: GraphQLString},
       username: {type: GraphQLString},
     },
-    async resolve(parent, args, {prisma, io, auth, log}) {
+    async resolve(parent, args, {prisma, io, auth, log, req}) {
       try {
         const [exists, userOne, userTwo] = await Promise.all([
-          auth(args.id, args.secretkey),
+          auth(args.id, args.secretkey, req),
           prisma.user.findFirst({
             where: {
               id: args.id,
@@ -104,10 +104,10 @@ const ChatroomMutations = {
       content: {type: GraphQLString},
       type: {type: GraphQLString},
     },
-    async resolve(parent, args, {io, prisma, auth}) {
+    async resolve(parent, args, {io, prisma, auth, req}) {
       try {
         const [exists, chatroom, sender] = await Promise.all([
-          auth(args.id, args.secretkey),
+          auth(args.id, args.secretkey, req),
           prisma.chatroom.findFirst({
             where: {id: args.chatroom},
             include: {
@@ -169,9 +169,9 @@ const ChatroomMutations = {
       message: {type: GraphQLString},
       edit: {type: GraphQLString},
     },
-    async resolve(parent, args, {prisma, io, socket}) {
+    async resolve(parent, args, {prisma, io, socket, req}) {
       try {
-        const exists = await auth(args.id, args.secretkey)
+        const exists = await auth(args.id, args.secretkey, req)
 
         const chatroom = await prisma.chatroom.findFirst({
           where: {

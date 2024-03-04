@@ -2,13 +2,79 @@ const {GraphQLString, GraphQLList} = require('graphql')
 const ChatroomType = require('../TypeDefs/ChatroomType')
 
 const ChatroomQueries = {
+  getChatroomData: {
+    type: ChatroomType,
+    args: {
+      id: {type: GraphQLString},
+      secretkey: {type: GraphQLString},
+      chatId: {type: GraphQLString},
+    },
+    async resolve(parent, args, {prisma, sanitise, auth, log, req}) {
+      try {
+        args = sanitise(args)
+        const exists = auth(args.id, args.secretkey, req)
+        let chatroom = {}
+
+        chatroom = await prisma.chatroom.findFirst({
+          where: {
+            id: args.chatId,
+          },
+          select: {
+            id: true,
+            messages: {
+              orderBy: {
+                date: 'desc',
+              },
+              select: {
+                id: true,
+                content: true,
+                date: true,
+                type: true,
+                sender: {
+                  select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                  },
+                },
+                read: true,
+              },
+            },
+            chatroomUsers: {
+              select: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                  },
+                },
+              },
+            },
+          },
+        })
+
+        const chatters = chatroom.chatroomUsers.map((user) => user.user)
+
+        return {
+          id: chatroom.id,
+          chatroomUsers: chatters,
+          messages: chatroom.messages,
+          lastMessage: '',
+        }
+      } catch (e) {
+        log(e)
+        return
+      }
+    },
+  },
   getChats: {
     type: new GraphQLList(ChatroomType),
     args: {id: {type: GraphQLString}, secretkey: {type: GraphQLString}},
-    async resolve(parent, args, {prisma, auth, sanitise, log}) {
+    async resolve(parent, args, {prisma, auth, sanitise, log, req}) {
       try {
         args = sanitise(args)
-        const exists = await auth(args.id, args.secretkey)
+        const exists = await auth(args.id, args.secretkey, req)
 
         const chatrooms = await prisma.user.findFirst({
           where: {

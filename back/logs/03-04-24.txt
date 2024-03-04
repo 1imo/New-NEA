@@ -1,0 +1,107 @@
+15:09:20    
+Invalid `prisma.user.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/UserMutations.js:26:40
+
+  23 const {nanoid} = await import('nanoid')
+  24 const apiKey = nanoid()
+  25 
+→ 26 const user = await prisma.user.create(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:10:19    
+Invalid `prisma.user.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/UserMutations.js:26:40
+
+  23 const {nanoid} = await import('nanoid')
+  24 const apiKey = nanoid()
+  25 
+→ 26 const user = await prisma.user.create(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:12:51    id is not defined 
+15:12:51    id is not defined 
+15:12:51    id is not defined 
+15:12:51    id is not defined 
+15:13:06    id is not defined 
+15:13:06    id is not defined 
+15:13:06    id is not defined 
+15:13:06    id is not defined 
+15:14:16    id is not defined 
+15:14:16    id is not defined 
+15:14:16    id is not defined 
+15:14:16    id is not defined 
+15:14:31    id is not defined 
+15:14:31    id is not defined 
+15:14:31    id is not defined 
+15:14:31    id is not defined 
+15:15:28    id is not defined 
+15:15:28    id is not defined 
+15:15:28    id is not defined 
+15:15:28    id is not defined 
+15:15:34    id is not defined 
+15:15:34    id is not defined 
+15:15:34    id is not defined 
+15:15:34    id is not defined 
+15:16:01    id is not defined 
+15:16:01    id is not defined 
+15:16:01    id is not defined 
+15:16:01    id is not defined 
+15:16:08    id is not defined 
+15:16:08    id is not defined 
+15:16:08    id is not defined 
+15:16:08    id is not defined 
+15:16:49    id is not defined 
+15:16:49    id is not defined 
+15:16:49    id is not defined 
+15:16:49    id is not defined 
+15:16:57    id is not defined 
+15:16:57    id is not defined 
+15:16:57    id is not defined 
+15:16:57    id is not defined 
+15:17:11    id is not defined 
+15:17:11    id is not defined 
+15:17:11    id is not defined 
+15:17:11    id is not defined 
+15:18:12    id is not defined 
+15:18:12    id is not defined 
+15:18:12    id is not defined 
+15:18:12    id is not defined 
+15:18:18    id is not defined 
+15:18:18    id is not defined 
+15:18:18    id is not defined 
+15:18:18    id is not defined 
+15:18:45    Cannot destructure property 'id' of '(intermediate value)' as it is null. 
+15:18:58    id is not defined 
+15:18:58    Cannot destructure property 'id' of '(intermediate value)' as it is null. 
+15:18:58    id is not defined 
+15:18:58    id is not defined 
+15:18:58    id is not defined 
+15:19:56    id is not defined 
+15:19:56    id is not defined 
+15:19:56    id is not defined 
+15:19:56    id is not defined 
+15:19:56    Cannot read properties of null (reading 'posts') 
+15:20:01    id is not defined 
+15:20:01    id is not defined 
+15:20:01    id is not defined 
+15:20:01    id is not defined 
+15:20:02    id is not defined 
+15:20:16    id is not defined 
+15:20:16    id is not defined 
+15:20:16    id is not defined 
+15:20:16    id is not defined 
+15:20:22    id is not defined 
+15:20:22    id is not defined 
+15:20:22    id is not defined 
+15:20:22    id is not defined 
+15:20:56    id is not defined 
+15:20:56    id is not defined 
+15:20:56    id is not defined 
+15:20:56    id is not defined 
+15:20:57    Cannot read properties of null (reading 'posts') 
+15:20:59    id is not defined 
+15:21:00    id is not defined 
+15:21:00    id is not defined 
+15:21:00    id is not defined 

@@ -43,6 +43,7 @@ function MessageToPerson() {
 				secretkey: Ctx.secretkey,
 				content: contentRef.current.value,
 				chatroom: id,
+				type: "message",
 			},
 		});
 		contentRef.current.value = "";

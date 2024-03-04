@@ -149,6 +149,8 @@ Function auth(id, key):
 
 As per recommendations, the secretkey (apikey) and password are stored in a separate table to normal user data [[UserData Model]] [[Back-End/Database/Models/User Model]]. 
 
+I have come back to the auth system because I enjoyed making it and I thought that we can make sessions through the use of a hashmap or set
+
 
 ### Logging
 

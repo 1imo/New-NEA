@@ -4,7 +4,7 @@ const schema = require('./schemas/index.js')
 const cors = require('cors')
 const http = require('http')
 const fs = require('fs')
-const { PrismaClient } = require('@prisma/client')
+const {PrismaClient} = require('@prisma/client')
 require('dotenv').config()
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
@@ -36,6 +36,8 @@ passport.use(
 )
 
 app.use(passport.initialize())
+
+const sessions = new Map()
 
 app.get(
   '/auth/google',
@@ -101,24 +103,29 @@ io.on('connection', (socket) => {
   socket.on('initialConnection', async (data) => {
     try {
       data = sanitise(data)
-      const exists = await auth(data.id, data.secretkey)
-  
+
+      const exists = await prisma.userData.count({
+        where: {
+          AND: [{id: id}, {secretkey: key}],
+        },
+      })
+
       if (!exists) {
         io.to(socket.id).emit('auth', false)
         return
-      } else {
-        await prisma.user.update({
-          where: {
-            id: data.id,
-          },
-          data: {
-            socket: socket.id,
-          },
-        })
-  
-        io.to(socket.id).emit('auth', true)
       }
-    } catch(e) {
+
+      await prisma.user.update({
+        where: {
+          id: data.id,
+        },
+        data: {
+          socket: socket.id,
+        },
+      })
+
+      io.to(socket.id).emit('auth', true)
+    } catch (e) {
       log(e)
     }
   })
@@ -152,7 +159,7 @@ io.on('connection', (socket) => {
     try {
       data = sanitise(data)
       await auth(data.id, data.secretkey)
-      
+
       const chatrooms = await prisma.user.findFirst({
         where: {
           id: data.id,
@@ -192,12 +199,11 @@ io.on('connection', (socket) => {
           },
         },
       })
-  
+
       io.to(socket.id).emit('getChats', chatrooms.chatroomUsers)
     } catch (e) {
       log(e)
     }
-
   })
 
   // socket.on("foll", data => {
@@ -222,17 +228,44 @@ io.on('connect_error', (err) => {
   console.error(`Socket.IO connection error: ${err.message}`)
 })
 
-async function auth(id, key) {
-  const exists = await prisma.userData.count({
-    where: {
-      AND: [{id: id}, {secretkey: key}],
-    },
-  })
+async function auth(id, key, req) {
+  console.log(sessions)
+  let session = sessions.has(id)
+  console.log(session, 'CURRENT')
+  if (session && req) {
+    const current = sessions.get(id)
+    console.log(current, 'CURRENTSESSION')
 
-  if (!exists) {
-    throw new Error('Invalid Credentials')
-  } else {
-    return true
+    if (
+      current.ip !== req.ip ||
+      current.userAgent !== req.headers['user-agent']
+    ) {
+      console.log('DIFFERENT SESSION')
+      session = false
+    } else {
+      console.log('SAME SESSION')
+      return true
+    }
+  }
+  if (!session || req) {
+    const exists = await prisma.userData.count({
+      where: {
+        AND: [{id: id}, {secretkey: key}],
+      },
+    })
+
+    if (!exists) {
+      throw new Error('Invalid Credentials')
+    } else {
+      if (req != null) {
+        sessions.delete(id)
+        sessions.set(id, {
+          ip: req.ip,
+          userAgent: req.headers['user-agent'],
+        })
+      }
+      return true
+    }
   }
 }
 
@@ -246,31 +279,30 @@ function sanitise(input) {
     // Escape Characters
     const sanitisedValue = htmlSpecialChars(sanitizedValue)
 
-		function htmlSpecialChars(text) {
+    function htmlSpecialChars(text) {
       if (typeof text !== 'string') {
-        return text; // Return as is if not a string
+        return text // Return as is if not a string
       }
 
-			const map = {
-				"<": "&lt;",
-				">": "&gt;",
-				'"': "&quot;",
-				"'": "&apos;",
-				"&": "&amp;",
-			}
-			return text.replace(/[<>"&]/g, (char) => map[char])
-		}
-
+      const map = {
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&apos;',
+        '&': '&amp;',
+      }
+      return text.replace(/[<>"&]/g, (char) => map[char])
+    }
 
     // Length Limitation
     if (typeof data === 'string') {
-      sanitisedValue = sanitisedValue.slice(0, maxLength);
+      sanitisedValue = sanitisedValue.slice(0, maxLength)
       // Canonicalization (Remove variations such as leading/trailing spaces)
       sanitizedValue = sanitizedValue.trim()
     } else if (typeof data === 'number') {
-      sanitisedValue = parseFloat(sanitisedValue.toString().slice(0, maxLength));
+      sanitisedValue = parseFloat(sanitisedValue.toString().slice(0, maxLength))
     }
-    
+
     // Assign sanitized value to the corresponding key
     sanitizedObj[key] = sanitizedValue
   })
@@ -305,20 +337,27 @@ function log(e) {
   try {
     fs.appendFile(
       __dirname + `/logs/${formattedDate.replace(/\//g, '-')}.txt`,
-      `${formattedTime}    ${e.message} \n`, err => console.log(err)
+      `${formattedTime}    ${e.message} \n`,
+      (err) => console.log(err),
     )
-  } catch(e) {
-    console.log(e, "ERROR LOGGING")
+  } catch (e) {
+    console.log(e, 'ERROR LOGGING')
   }
+}
+
+function addRequestToContext(req, res, next) {
+  req = {req} // Add 'req' object to context
+  next()
 }
 
 app.use(
   '/graphql',
-  graphqlHTTP({
+  addRequestToContext,
+  graphqlHTTP((req) => ({
     schema,
     graphiql: true,
-    context: {io, prisma, auth, sanitise, log},
-  }),
+    context: {io, prisma, auth, sanitise, log, req},
+  })),
 )
 
 server.listen(8000)
