@@ -55,6 +55,7 @@ model UserData {
   user      User    @relation(fields: [id], references: [id])
   password  String
   secretkey String?
+  expiry    DateTime @default(now())
 }
 
 model Post {

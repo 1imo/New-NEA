@@ -1,62 +1,52 @@
 import { createContext, useEffect, useState } from "react";
-import Cookies from 'js-cookie';
-import io from 'socket.io-client';
+import Cookies from "js-cookie";
+import io from "socket.io-client";
 
+const socket = io("http://localhost:8000/");
 
-const socket = io('http://localhost:8000/');
-
-
-export const Context = createContext()
+export const Context = createContext();
 
 export const ContextProvider = ({ children }) => {
+	const [id, setId] = useState(Cookies.get("id"));
+	const [secretkey, setSecretKey] = useState(Cookies.get("secretkey"));
+	const imageServer = "http://localhost:3000";
 
-    const [ id, setId ] = useState(Cookies.get('id'))
-    const [ secretkey, setSecretKey ] = useState(Cookies.get('secretkey'))
-    const imageServer = "http://localhost:3000"
+	const [msgStore, setMsgStore] = useState([]);
 
-    const [ msgStore, setMsgStore ] = useState([])
-    
-    useEffect(() => {
-        setSecretKey(Cookies.get('secretkey'))
-        setId(Cookies.get('id'))
+	useEffect(() => {
+		setSecretKey(Cookies.get("secretkey"));
+		setId(Cookies.get("id"));
 
-        if(id, secretkey) {
-          socket.emit("initialConnection", {id, secretkey})
-    
-        }
+		if ((id, secretkey)) {
+			socket.emit("initialConnection", { id, secretkey });
+		}
+	}, [id, secretkey]);
 
-    }, [id, secretkey])
+	useEffect(() => {
+		if ((id, secretkey)) {
+			socket.emit("initialConnection", { id, secretkey });
+		}
+	}, [socket]);
 
-    useEffect(() => {
-      if(id, secretkey) {
-        socket.emit("initialConnection", {id, secretkey})
-      }
-    }, [socket])
+	socket.on("auth", (data) => {
+		console.log(data);
+		if (!data) {
+			Cookies.remove("id");
+			Cookies.remove("secretkey");
+			window.location.href = "/portal";
+		}
+	});
 
-    socket.on("auth", data => {
-      console.log(data)
-      if(!data) {
-        Cookies.remove("id")
-        Cookies.remove("secretkey")
-        window.location.href = "/portal"
-      }
-    })
+	const contextValue = {
+		id: id,
+		secretkey: secretkey,
+		setId,
+		setSecretKey,
+		socket,
+		msgStore,
+		setMsgStore,
+		imageServer,
+	};
 
-
-    const contextValue = {
-        id: id,
-        secretkey: secretkey,
-        setId,
-        setSecretKey,
-        socket,
-        msgStore,
-        setMsgStore,
-        imageServer
-    }
-  
-    return (
-      <Context.Provider value={contextValue}>
-        {children}
-      </Context.Provider>
-    );
-  };
+	return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+};

@@ -117,6 +117,7 @@ const UserQuery = {
     async resolve(parent, args, {prisma, sanitise, log}) {
       try {
         args = sanitise(args)
+        console.log(args)
         const names = await prisma.user.findMany({
           where: {
             OR: [
@@ -130,6 +131,8 @@ const UserQuery = {
             username: true,
           },
         })
+
+        console.log(names)
 
         return names
       } catch (e) {

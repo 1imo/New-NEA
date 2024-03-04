@@ -100,31 +100,38 @@ const io = require('socket.io')(server, {
 })
 
 io.on('connection', (socket) => {
+  console.log(socket.id)
   socket.on('initialConnection', async (data) => {
     try {
       data = sanitise(data)
 
       const exists = await prisma.userData.count({
         where: {
-          AND: [{id: id}, {secretkey: key}],
+          AND: [
+            {id: data.id},
+            {secretkey: data.key},
+            {expiry: {gt: new Date(Date.now())}},
+          ],
         },
       })
 
       if (!exists) {
         io.to(socket.id).emit('auth', false)
         return
+      } else {
+        await prisma.user
+          .update({
+            where: {
+              id: data.id,
+            },
+            data: {
+              socket: socket.id,
+            },
+          })
+          .then(() => {
+            io.to(socket.id).emit('auth', true)
+          })
       }
-
-      await prisma.user.update({
-        where: {
-          id: data.id,
-        },
-        data: {
-          socket: socket.id,
-        },
-      })
-
-      io.to(socket.id).emit('auth', true)
     } catch (e) {
       log(e)
     }
@@ -231,26 +238,22 @@ io.on('connect_error', (err) => {
 async function auth(id, key, req) {
   console.log(sessions)
   let session = sessions.has(id)
-  console.log(session, 'CURRENT')
   if (session && req) {
     const current = sessions.get(id)
-    console.log(current, 'CURRENTSESSION')
-
     if (
       current.ip !== req.ip ||
-      current.userAgent !== req.headers['user-agent']
+      current.userAgent !== req.headers['user-agent'] ||
+      current.expiry < new Date(Date.now())
     ) {
-      console.log('DIFFERENT SESSION')
       session = false
     } else {
-      console.log('SAME SESSION')
       return true
     }
   }
   if (!session || req) {
     const exists = await prisma.userData.count({
       where: {
-        AND: [{id: id}, {secretkey: key}],
+        AND: [{id: id}, {secretkey: key}, {expiry: {gt: new Date(Date.now())}}],
       },
     })
 
@@ -262,6 +265,7 @@ async function auth(id, key, req) {
         sessions.set(id, {
           ip: req.ip,
           userAgent: req.headers['user-agent'],
+          expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
         })
       }
       return true

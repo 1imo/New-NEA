@@ -33,6 +33,7 @@ const UserMutations = {
               create: {
                 password: pass,
                 secretkey: apiKey,
+                expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
               },
             },
           },
@@ -89,6 +90,7 @@ const UserMutations = {
             },
             data: {
               secretkey: apiKey,
+              expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
             },
           })
 
@@ -291,6 +293,7 @@ const UserMutations = {
               data: {
                 password: pass,
                 secretkey: apiKey,
+                expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
               },
             })
             return {

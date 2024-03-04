@@ -63,6 +63,7 @@ function MessageToPerson() {
 
 	useEffect(() => {
 		const handleUpdatedChat = (data) => {
+			console.log("UPDATE", data);
 			if (
 				msgStore.current.length > 0 &&
 				msgStore.current[msgStore.current.length - 1]?.id == data?.id
@@ -217,6 +218,42 @@ function MessageToPerson() {
 		};
 	}
 
+	function sendAttatchment() {
+		const input = document.createElement("input");
+		input.type = "file";
+		input.click();
+
+		input.onchange = async () => {
+			const file = input.files[0];
+			const reader = new FileReader();
+			reader.readAsArrayBuffer(file);
+			reader.onload = async (e) => {
+				const res = await sendMessage({
+					variables: {
+						id: Ctx.id,
+						secretkey: Ctx.secretkey,
+						content: file.name,
+						chatroom: id,
+						type: "file",
+					},
+				});
+				const uint8Array = new Uint8Array(e.target.result);
+
+				fetch(Ctx.imageServer + "/upload", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						id: res?.data?.sendMessage?.id,
+						image: String(uint8Array),
+						correlation: "Chat",
+					}),
+				}).then(() => window.location.reload());
+			};
+		};
+	}
+
 	return (
 		<>
 			<section
@@ -247,7 +284,11 @@ function MessageToPerson() {
 						onClick={() => postImage()}
 						alt="Send Image"
 					/>
-					<img src="/attach.svg" alt="Send File" />
+					<img
+						onClick={() => sendAttatchment()}
+						src="/attach.svg"
+						alt="Send File"
+					/>
 				</div>
 
 				{/* <div key={index} ref={index == 0 ? ref : null} style={ msgStore.current[msgStore.current.length - 1 - index]?.sender?.id === Ctx.id ? {width: "100%", display: "flex", justifyContent: "flex-end"} : null}><div><p style={{...styles.msg}}>{msgStore.current[msgStore.current.length - 1 - index]?.content}</p><p>{index == 0 && msgStore.current[msgStore.current.length - 1 - index]?.read && msgStore.current[msgStore.current.length - 1 - index]?.sender?.id == Ctx.id ? "Read" : null}</p></div></div> */}

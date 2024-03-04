@@ -149,6 +149,7 @@ const ChatroomMutations = {
         })
 
         chatroom.chatroomUsers.map((user) => {
+          console.log(user.user.socket, 'SOCKETS EMITTING TO')
           io.to(user.user.socket).emit('chatroom', message)
           io.to(user.user.socket).emit('updatedChat', message)
         })
