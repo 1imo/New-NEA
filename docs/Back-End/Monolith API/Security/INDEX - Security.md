@@ -149,7 +149,7 @@ Function auth(id, key):
 
 As per recommendations, the secretkey (apikey) and password are stored in a separate table to normal user data [[UserData Model]] [[Back-End/Database/Models/User Model]]. 
 
-I have come back to the auth system because I enjoyed making it and I thought that we can make sessions through the use of a hashmap or set
+I have come back to the auth system because I enjoyed making it and I thought that we can make sessions through the use of a hashmap or set. I have created a session-based system with the use of a hashmap which stores the user's IP and user agent. This are not true unique device identifiers, however, they are additional checks on top of an initial credentials check (the id and API key have to be verified first before the IP and user agent are added to the hashmap). The drawback of this would be seen in an office for instance where devices and browsers used are likely to be the same resulting in the same IP and user agent. This means that anyone requesting authorization to the API with a user ID would be able to gain access if the actual user had last logged in on the same network and similar and/ or same browser. If I would have to redo this in the future I would not use the user ID as the session ID which sticking additional features atop has created.
 
 
 ### Logging

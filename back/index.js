@@ -261,11 +261,19 @@ async function auth(id, key, req) {
       throw new Error('Invalid Credentials')
     } else {
       if (req != null) {
+        const userData = await prisma.userData.findFirst({
+          where: {
+            AND: [{id: id}, {secretkey: key}],
+          },
+          select: {
+            expiry: true,
+          },
+        })
         sessions.delete(id)
         sessions.set(id, {
           ip: req.ip,
           userAgent: req.headers['user-agent'],
-          expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+          expiry: new Date(userData.expiry),
         })
       }
       return true

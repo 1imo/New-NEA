@@ -1,54 +1,51 @@
 :root {
-    --progress: 0;
+	--progress: 0;
 }
 
 .moveInImg {
-    animation: appearImg 500ms ease-in-out;
-   
-
+	animation: appearImg 500ms ease-in-out;
 }
 
 @keyframes appearImg {
-    0% {
-        transform: translateX(-4px);
-        opacity: 0
-    }
-    100% {
-        opacity: 1;
-    }
+	0% {
+		transform: translateX(-4px);
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
 .msgContainer {
-    animation: msgs 500ms ease-in-out forwards;
-    -webkit-animation: msgs 500ms ease-in-out forwards;
-    height: calc(100% - 48px);
-    overflow-y: scroll;
+	animation: msgs 500ms ease-in-out forwards;
+	-webkit-animation: msgs 500ms ease-in-out forwards;
+	height: calc(100% - 48px);
+	overflow-y: scroll;
 }
 
 @keyframes msgs {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
 .bottomMsg {
-    animation: msg 750ms ease-in-out forwards;
-    -webkit-animation: msg 750ms ease-in-out forwards;
-    /* animation-delay: 1s */
+	animation: msg 750ms ease-in-out forwards;
+	-webkit-animation: msg 750ms ease-in-out forwards;
+	/* animation-delay: 1s */
 }
 
 @keyframes msg {
-    0% {
-        /* position: absolute; */
-        transform: translateY(4px);
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-        /* background-color: blueviolet; */
-    }
+	0% {
+		/* position: absolute; */
+		transform: translateY(4px);
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+		/* background-color: blueviolet; */
+	}
 }
-
