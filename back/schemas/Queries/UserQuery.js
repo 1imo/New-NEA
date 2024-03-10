@@ -12,7 +12,6 @@ const UserQuery = {
     args: {id: {type: GraphQLString}},
     async resolve(parent, args, {prisma, sanitise, log, req}) {
       try {
-        // console.log('NAV', req)
         args = sanitise(args)
         const user = await prisma.user.findFirst({
           where: {
@@ -23,8 +22,6 @@ const UserQuery = {
             username: true,
           },
         })
-
-        console.log(user, 'USER')
 
         return user
       } catch (e) {

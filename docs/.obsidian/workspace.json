@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Front-End/Components/MessageInsight Component.md",
+                "file": "Front-End/Workflows/Auth System.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Front-End/Components/MessageInsight Component.md",
+                "file": "Front-End/Workflows/Auth System.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Front-End/Components/MessageInsight Component.md",
+                "file": "Front-End/Workflows/Auth System.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Front-End/Components/MessageInsight Component.md"
+                "file": "Front-End/Workflows/Auth System.md"
               }
             }
           }
@@ -148,8 +148,8 @@
   },
   "active": "f1b78b88ace9e56f",
   "lastOpenFiles": [
-    "Front-End/Components/DiscoverProfile Component.md",
     "Front-End/Components/MessageInsight Component.md",
+    "Front-End/Components/DiscoverProfile Component.md",
     "Front-End/Components/ProfileInfo Component.md",
     "Front-End/Components/Slider Component.md",
     "Front-End/Components/ProfileInsight Component.md",
