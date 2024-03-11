@@ -1,71 +1,111 @@
-import { useNavigate } from "react-router-dom"
-import MessageInsight from "../components/MessageInsight"
+// Imports
+import { useNavigate } from "react-router-dom";
+import MessageInsight from "../components/MessageInsight";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import { useQuery } from "@apollo/client";
 import { GET_CHATS } from "../GraphQL/Queries";
-// import PuffLoader from "react-spinners/PuffLoader";
 import Loading from "../components/Loading";
 
 function MessageList() {
-    const Ctx = useContext(Context)
-    const navigate = useNavigate()
-    const [ chats, setChats ] = useState([])
+	// Accessing the Context object
+	const Ctx = useContext(Context);
 
-    const { loading, data, error } = useQuery(GET_CHATS, {
-        variables: {
-            id: Ctx.id,
-            secretkey: Ctx.secretkey
-        }
-    })
+	// Initializing the navigate function
+	const navigate = useNavigate();
 
-    if(error) alert("Error Loading Chats")
-    // if(loading) return <Loading />
+	// State to store chats
+	const [chats, setChats] = useState([]);
 
-    useEffect(() => {
-        setChats(data?.getChats)
-    }, [data])
-  
-    function newChat() {
-        navigate("/search", { state: { searchType: "message" }});
-    }
+	// Executing the GET_CHATS query
+	const { loading, data, error } = useQuery(GET_CHATS, {
+		variables: {
+			id: Ctx.id,
+			secretkey: Ctx.secretkey,
+		},
+	});
 
-    useEffect(() => {
-        // Listen for "getChats" event
-        const getChatsListener = (data) => {
-            setChats(data)
-        }
-    
-        // Listen for "updatedChat" event
-        const updatedChatListener = (data) => {
-            Ctx.socket.emit("getChats", {
-                id: Ctx.id,
-                secretkey: Ctx.secretkey
-            })
-        }
-    
-        // Add event listeners
-        Ctx.socket.on("getChats", getChatsListener)
-        Ctx.socket.on("updatedChat", updatedChatListener)
-    
-        // Cleanup function
-        return () => {
-            // Remove event listeners
-            Ctx.socket.off("getChats", getChatsListener)
-            Ctx.socket.off("updatedChat", updatedChatListener)
-        }
-    }, [])
+	// Showing an alert if there's an error loading chats
+	if (error) alert("Error Loading Chats");
 
+	// Updating the chats state when data changes
+	useEffect(() => {
+		setChats(data?.getChats);
+	}, [data]);
 
-    return <>
-        <nav style={{display: "flex", justifyContent: "space-between", marginBottom: 16, marginTop: 32}}>
-            <h3>Messages</h3>
-            <img onClick={ () => newChat() }src="/new-message.svg" />
-        </nav>
+	// Function to navigate to the search page for creating a new chat
+	function newChat() {
+		navigate("/search", { state: { searchType: "message" } });
+	}
 
-        { !loading && ( chats?.length > 0 ? chats.map((chat, index) => {
-            return <MessageInsight key={index} data={chats[chats.length - index - 1]} />
-        }) : <h4 style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "#CECECD"}}>No Messages</h4> )}
-    </>
+	// Handling Socket.IO events
+	useEffect(() => {
+		// Listen for "getChats" event
+		const getChatsListener = (data) => {
+			setChats(data);
+		};
+
+		// Listen for "updatedChat" event
+		const updatedChatListener = (data) => {
+			Ctx.socket.emit("getChats", {
+				id: Ctx.id,
+				secretkey: Ctx.secretkey,
+			});
+		};
+
+		// Add event listeners
+		Ctx.socket.on("getChats", getChatsListener);
+		Ctx.socket.on("updatedChat", updatedChatListener);
+
+		// Cleanup function
+		return () => {
+			// Remove event listeners
+			Ctx.socket.off("getChats", getChatsListener);
+			Ctx.socket.off("updatedChat", updatedChatListener);
+		};
+	}, []);
+
+	return (
+		<>
+			{/* Navigation bar */}
+			<nav
+				style={{
+					display: "flex",
+					justifyContent: "space-between",
+					marginBottom: 16,
+					marginTop: 32,
+				}}
+			>
+				<h3>Messages</h3>
+				<img onClick={() => newChat()} src="/new-message.svg" />
+			</nav>
+
+			{/* Rendering chats or a message if no chats are available */}
+			{!loading &&
+				(chats?.length > 0 ? (
+					chats.map((chat, index) => {
+						return (
+							<MessageInsight
+								key={index}
+								data={chats[chats.length - index - 1]}
+							/>
+						);
+					})
+				) : (
+					<h4
+						style={{
+							position: "absolute",
+							top: "50%",
+							left: "50%",
+							transform: "translate(-50%, -50%)",
+							color: "#CECECD",
+						}}
+					>
+						No Messages
+					</h4>
+				))}
+		</>
+	);
 }
-export default MessageList
+
+export default MessageList;

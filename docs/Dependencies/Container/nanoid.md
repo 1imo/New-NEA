@@ -1,4 +1,0 @@
-
-In order to save development time and keep the code base clean, I utilized the nanoid library to create the API keys used for client API authentication. 
-
-The nanoid package provides a solution for generating unique identifiers that are collision-resistant and highly unique, achieved through a combination of random characters, making them difficult to predict or duplicate. Additionally, nanoid() utilizes a cryptographically strong random number generator (RNG), ensuring that the generated IDs are resistant to cryptographic attacks and not easily guessable. Furthermore, nanoid() is known for its lightweight and efficient design, making it ideal for performance-sensitive applications where generating IDs quickly with minimal overhead is essential.

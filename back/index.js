@@ -1,3 +1,4 @@
+// Importing external modules and libraries
 const express = require('express')
 const {graphqlHTTP} = require('express-graphql')
 const schema = require('./schemas/index.js')
@@ -9,9 +10,12 @@ require('dotenv').config()
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 
+// Creating an Express application instance
 const app = express()
+// Initializing the Prisma client
 const prisma = new PrismaClient()
 
+// Configuring CORS options
 app.use(
   cors({
     origin: ['http://localhost:5173', 'http://127.0.0.1:5173/'],
@@ -19,49 +23,55 @@ app.use(
   }),
 )
 
+// Configuring the Google OAuth strategy
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: '/auth/google/callback',
-      scope: ['profile', 'email'],
+      clientID: process.env.CLIENT_ID, // Retrieving the client ID from environment variables
+      clientSecret: process.env.CLIENT_SECRET, // Retrieving the client secret from environment variables
+      callbackURL: '/auth/google/callback', // Specifying the callback URL for Google OAuth
+      scope: ['profile', 'email'], // Requesting access to user's profile and email
     },
     (accessToken, refreshToken, profile, done) => {
-      // You can store user profile in a database or return directly as needed,
-      // console.log(profile, done, accessToken, refreshToken)
-      done(null, profile)
+      done(null, profile) // Callback function to handle the user profile data
     },
   ),
 )
 
+// Initializing the Passport middleware
 app.use(passport.initialize())
 
+// Creating a Map to store user sessions
 const sessions = new Map()
 
+// Defining the Google OAuth route
 app.get(
   '/auth/google',
   passport.authenticate('google', {scope: ['profile', 'email']}),
 )
 
+// Creating an array to store memory data
 const memory = []
 
+// Defining the Google OAuth callback route
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {session: false}),
   async (req, res) => {
+    // Handling the authentication callback
     if (req.user) {
       const {profile, accessToken} = req.user
 
-      const exists = await prisma.user.count({
-        where: {id: req.user.id},
-      })
+      // Checking if the user exists in the database
+      const exists = await prisma.user.count({where: {id: req.user.id}})
 
+      // Generating a new API key
       const {nanoid} = await import('nanoid')
       const apiKey = nanoid()
 
       let user
 
+      // If the user exists, find their data and redirect with their ID and secret key
       if (exists) {
         user = await prisma.userData.findFirst({
           where: {id: req.user.id},
@@ -69,42 +79,42 @@ app.get(
         })
         res.redirect(`http://localhost:5173/?u=${user.id}&k=${user.secretkey}`)
       } else {
+        // If the user doesn't exist, create a new user and redirect with their ID and API key
         user = await prisma.user.create({
           data: {
             name: req.user.displayName,
             username: req.user.displayName.replace(/\s+/g, ''),
-            userData: {
-              create: {
-                secretkey: apiKey,
-                password: '',
-              },
-            },
+            userData: {create: {secretkey: apiKey, password: ''}},
           },
         })
         res.redirect(`http://localhost:5173/?u=${user.id}&k=${apiKey}`)
       }
     } else {
+      // If authentication fails, return an error response
       res.status(401).json({error: 'Authentication failed'})
     }
   },
 )
 
+// Creating an HTTP server from the Express app
 const server = http.createServer(app)
+// Configuring Socket.IO with options
 const io = require('socket.io')(server, {
-  cors: {
-    origin: '*',
-  },
+  cors: {origin: '*'},
   reconnection: true,
   reconnectionAttempts: 5,
   reconnectionDelay: 1000,
 })
 
+// Handling Socket.IO connections
 io.on('connection', (socket) => {
-  console.log(socket.id)
+  console.log(socket.id) // Logging the connected socket ID
   socket.on('initialConnection', async (data) => {
     try {
+      // Sanitizing the incoming data
       data = sanitise(data)
 
+      // Checking if the user data exists and is valid
       const exists = await prisma.userData.count({
         where: {
           AND: [
@@ -116,61 +126,33 @@ io.on('connection', (socket) => {
       })
 
       if (!exists) {
+        // If the user data is invalid, emit an 'auth' event with false
         io.to(socket.id).emit('auth', false)
         return
       } else {
+        // If the user data is valid, update the user's socket ID and emit an 'auth' event with true
         await prisma.user
-          .update({
-            where: {
-              id: data.id,
-            },
-            data: {
-              socket: socket.id,
-            },
-          })
+          .update({where: {id: data.id}, data: {socket: socket.id}})
           .then(() => {
             io.to(socket.id).emit('auth', true)
           })
       }
     } catch (e) {
+      // Logging any errors that occur
       log(e)
     }
   })
 
-  // socket.on('joinRoom', (roomId) => {
-  //   const chatroom = chatrooms.find(chat => chat.id === roomId)
-  //   if(!chatroom?.connections.includes(socket.id)) {
-  //       chatroom?.connections.push(socket.id)
-  //       const updatedJSON = JSON.stringify(chatrooms, null, 2)
-  //       fs.writeFileSync(__dirname + "/CHATROOM_DATA.json", updatedJSON)
-  //   }
-  //   console.log(socket.conn.id)
-  //   console.log(socket.id)
-  //   // rooms[roomId].users.push(socket.id)
-
-  //   socket.join(roomId)
-
-  //   io.in(roomId).emit("chatroom", chatrooms[roomId - 1])
-
-  //   chatroom?.connections.map(connection => io.to(connection).emit("chatroom", chatroom))
-  // });
-
-  // socket.on('chatroom', (roomId) => {
-  //   const chatroom = chatrooms.find(chat => chat.id === roomId)
-  //   io.in(roomId).emit("chatroom", chatrooms[roomId - 1])
-  //   chatroom?.connections.map(connection => io.to(connection).emit("chatroom", chatroom))
-
-  // })
-
   socket.on('getChats', async (data) => {
     try {
+      // Sanitizing the incoming data
       data = sanitise(data)
+      // Authenticating the user
       await auth(data.id, data.secretkey)
 
+      // Fetching the user's chatrooms and messages
       const chatrooms = await prisma.user.findFirst({
-        where: {
-          id: data.id,
-        },
+        where: {id: data.id},
         select: {
           id: true,
           chatroomUsers: {
@@ -178,25 +160,14 @@ io.on('connection', (socket) => {
               chatroom: {
                 select: {
                   id: true,
-                  chatroomUsers: {
-                    select: {
-                      user: true,
-                    },
-                  },
+                  chatroomUsers: {select: {user: true}},
                   messages: {
-                    orderBy: {
-                      date: 'desc',
-                    },
+                    orderBy: {date: 'desc'},
                     take: 1,
                     select: {
                       id: true,
                       content: true,
-                      sender: {
-                        select: {
-                          name: true,
-                          username: true,
-                        },
-                      },
+                      sender: {select: {name: true, username: true}},
                       date: true,
                     },
                   },
@@ -207,50 +178,41 @@ io.on('connection', (socket) => {
         },
       })
 
+      // Emitting the 'getChats' event with the user's chatrooms and messages
       io.to(socket.id).emit('getChats', chatrooms.chatroomUsers)
     } catch (e) {
+      // Logging any errors that occur
       log(e)
     }
   })
-
-  // socket.on("foll", data => {
-  //   const user = users.find(user => user.id === data.id ? user : null)
-  //   const secret = sensitive[user.id - 1]
-  //   if(secret.id != data.id || secret.secretkey != data.secretkey) {
-  //       return
-  //   }
-  //   io.to(socket.id).emit("foll", user.pending)
-  // })
-
-  // // On leave room event
-  // socket.on('leaveRoom', (roomId) => {
-  //   const room = rooms[roomId];
-  //   const index = room.indexOf(socket.user.id);
-  //   if (index !== -1) room.splice(index, 1);
-  //   socket.leave(roomId);
-  // });
 })
 
+// Handling Socket.IO connection errors
 io.on('connect_error', (err) => {
   console.error(`Socket.IO connection error: ${err.message}`)
 })
 
+// Authentication function
 async function auth(id, key, req) {
-  console.log(sessions)
-  let session = sessions.has(id)
+  console.log(sessions) // Logging the current sessions
+  let session = sessions.has(id) // Checking if a session exists for the given ID
   if (session && req) {
+    // If a session exists and a request is provided
     const current = sessions.get(id)
+    // Checking if the session is valid based on IP, user agent, and expiry
     if (
       current.ip !== req.ip ||
       current.userAgent !== req.headers['user-agent'] ||
       current.expiry < new Date(Date.now())
     ) {
-      session = false
+      session = false // If the session is invalid, set session to false
     } else {
-      return true
+      return true // If the session is valid, return true
     }
   }
   if (!session || req) {
+    // If no session exists or a request is provided
+    // Checking if the user data exists and is valid
     const exists = await prisma.userData.count({
       where: {
         AND: [{id: id}, {secretkey: key}, {expiry: {gt: new Date(Date.now())}}],
@@ -258,16 +220,15 @@ async function auth(id, key, req) {
     })
 
     if (!exists) {
+      // If the user data is invalid, throw an error
       throw new Error('Invalid Credentials')
     } else {
       if (req != null) {
+        // If a request is provided
+        // Fetching the user data and creating a new session
         const userData = await prisma.userData.findFirst({
-          where: {
-            AND: [{id: id}, {secretkey: key}],
-          },
-          select: {
-            expiry: true,
-          },
+          where: {AND: [{id: id}, {secretkey: key}]},
+          select: {expiry: true},
         })
         sessions.delete(id)
         sessions.set(id, {
@@ -276,19 +237,21 @@ async function auth(id, key, req) {
           expiry: new Date(userData.expiry),
         })
       }
-      return true
+      return true // If the user data is valid, return true
     }
   }
 }
 
+// Sanitization function
 function sanitise(input) {
   const sanitizedObj = {}
 
+  // Iterating over the keys in the input object
   Object.keys(input).forEach((key) => {
     const value = input[key]
     let sanitizedValue = value
 
-    // Escape Characters
+    // Escaping special characters
     const sanitisedValue = htmlSpecialChars(sanitizedValue)
 
     function htmlSpecialChars(text) {
@@ -306,49 +269,50 @@ function sanitise(input) {
       return text.replace(/[<>"&]/g, (char) => map[char])
     }
 
-    // Length Limitation
+    // Length limitation and canonicalization
     if (typeof data === 'string') {
       sanitisedValue = sanitisedValue.slice(0, maxLength)
-      // Canonicalization (Remove variations such as leading/trailing spaces)
       sanitizedValue = sanitizedValue.trim()
     } else if (typeof data === 'number') {
       sanitisedValue = parseFloat(sanitisedValue.toString().slice(0, maxLength))
     }
 
-    // Assign sanitized value to the corresponding key
+    // Assigning the sanitized value to the corresponding key
     sanitizedObj[key] = sanitizedValue
   })
 
   return sanitizedObj
 }
 
-// Store Error Logs
+// Error logging function
 function log(e) {
   const timestamp = Date.now()
 
   const currentDate = new Date(timestamp)
 
-  // Define options for formatting the date and time
+  // Options for formatting the date
   const day = {
-    day: '2-digit', // Day (dd)
-    month: '2-digit', // Month (mm)
-    year: '2-digit', // Year (yy)
-    hour12: false, // Use 24-hour format
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+    hour12: false,
   }
 
+  // Options for formatting the time
   const time = {
-    hour: '2-digit', // Hours (hh)
-    minute: '2-digit', // Minutes (mm)
-    second: '2-digit', // Seconds (ss)
-    hour12: false, // Use 24-hour format
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
   }
 
   const formattedDate = currentDate.toLocaleString('en-US', day)
   const formattedTime = currentDate.toLocaleString('en-US', time)
 
   try {
+    // Appending the error message to a log file
     fs.appendFile(
-      __dirname + `/logs/${formattedDate.replace(/\//g, '-')}.txt`,
+      `${__dirname}/logs/${formattedDate.replace(/\//g, '-')}.txt`,
       `${formattedTime}    ${e.message} \n`,
       (err) => console.log(err),
     )
@@ -357,11 +321,13 @@ function log(e) {
   }
 }
 
+// Middleware function to add the request object to the context
 function addRequestToContext(req, res, next) {
-  req = {req} // Add 'req' object to context
+  req = {req}
   next()
 }
 
+// Defining the GraphQL endpoint
 app.use(
   '/graphql',
   addRequestToContext,
@@ -372,4 +338,5 @@ app.use(
   })),
 )
 
+// Starting the server on port 8000
 server.listen(8000)

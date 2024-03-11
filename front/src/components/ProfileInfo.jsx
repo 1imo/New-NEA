@@ -1,3 +1,4 @@
+// Imports
 import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
@@ -7,26 +8,36 @@ import { FOLLOW_UNFOLLOW } from "../GraphQL/Mutations";
 import Loading from "./Loading";
 
 function ProfileInfo() {
+	// Initializing Apollo client
 	const client = useApolloClient();
 
+	// Getting the username parameter from the URL
 	const { id } = useParams();
+	// State to store the username
 	const [d, setD] = useState("");
 
+	// Accessing the Context object
 	const Ctx = useContext(Context);
 
+	// Initializing the navigate function from react-router-dom
 	const navigate = useNavigate();
 
+	// Executing the GET_PUBLICDATA query and destructuring the loading, error, and data
 	const { loading, error, data } = useQuery(GET_PUBLICDATA, {
 		variables: {
 			username: id,
 		},
 	});
+	// Rendering the Loading component if data is loading (commented out)
 	// if (loading) return <Loading />;
+	// Showing an alert if there's an error while loading the profile
 	if (error) alert("Error Loading Profile");
 
+	// Initializing the FOLLOW_UNFOLLOW mutation
 	const [followUnfollow, { dataMut, errorMut, loadingMut }] =
 		useMutation(FOLLOW_UNFOLLOW);
 
+	// Function to call the FOLLOW_UNFOLLOW mutation
 	async function call() {
 		await followUnfollow({
 			variables: {
@@ -37,14 +48,17 @@ function ProfileInfo() {
 		}).then(() => window.location.reload());
 	}
 
+	// Setting the 'd' state with the username parameter when it changes
 	useEffect(() => {
 		setD(id);
 	}, [id]);
 
+	// Navigating to the 404 page if there's an error
 	if (error) {
 		navigate("/404");
 	}
 
+	// Adding event listeners to the follow button
 	useEffect(() => {
 		const followBtn = document.querySelector(".followBtn");
 
@@ -69,8 +83,8 @@ function ProfileInfo() {
 			}}
 		>
 			<div>
+				{/* User information */}
 				<div style={{ display: "flex", columnGap: 8 }}>
-					{/* <img src="/profile.jpg" height="40px" width="40px" style={{"borderRadius": "40px"}} /> */}
 					<div>
 						<h3>
 							{data?.getPublicInfo?.name.split(" ")[0]}{" "}
@@ -79,6 +93,7 @@ function ProfileInfo() {
 						<h5>@{data?.getPublicInfo?.username}</h5>
 					</div>
 				</div>
+				{/* User stats */}
 				<div style={styles.info}>
 					<p style={{ fontWeight: 600 }}>
 						{data?.getPublicInfo?.followerCount > 1000
@@ -102,6 +117,7 @@ function ProfileInfo() {
 						<h5 style={{ fontWeight: 500 }}>Friends</h5>
 					</p>
 				</div>
+				{/* Follow button */}
 				<button
 					className="followBtn"
 					style={{
@@ -140,10 +156,10 @@ function ProfileInfo() {
 						<div style={styles.btnDec}>&nbsp;</div>
 						<div style={styles.btnDec}>&nbsp;</div>
 						<div style={styles.btnDec}>&nbsp;</div>
-						{/* <div style={styles.btnDec}>&nbsp;</div> */}
 					</div>
 				</button>
 			</div>
+			{/* User avatar */}
 			<div
 				style={{
 					borderRadius: 800,
@@ -161,6 +177,7 @@ function ProfileInfo() {
 	);
 }
 
+// Defining styles
 const styles = {
 	info: {
 		display: "flex",

@@ -1,3 +1,4 @@
+// Imports
 import { useState, useEffect, useContext } from "react";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "@apollo/client";
@@ -6,16 +7,18 @@ import { Context } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 
 function Post(props) {
+	// Initializing hooks and state
 	const { ref, inView } = useInView();
 	const [liking, setLiking] = useState(false);
-
 	const Ctx = useContext(Context);
 	const navigate = useNavigate();
 
+	// Initializing mutations
 	const [postViewed, { data, error, loading }] = useMutation(VIEW_POST);
 	const [postLiked, { dataLike, errorLike, loadingLike }] =
 		useMutation(LIKE_POST);
 
+	// Function to call the VIEW_POST mutation
 	async function call(id, secretkey, post) {
 		await postViewed({
 			variables: {
@@ -26,12 +29,14 @@ function Post(props) {
 		});
 	}
 
+	// Calling the 'call' function when the post comes into view
 	useEffect(() => {
 		if (inView) {
 			call(Ctx.id, Ctx.secretkey, props.data.id);
 		}
 	}, [inView]);
 
+	// Function to handle post like
 	async function like() {
 		setLiking(true);
 		const res = await postLiked({
@@ -41,7 +46,6 @@ function Post(props) {
 				post: props.data.id,
 			},
 		});
-
 		if (res) {
 			setLiking(false);
 		}
@@ -54,6 +58,7 @@ function Post(props) {
 			onClick={() => navigate(`/post/id/${props?.data?.id}`)}
 			onDoubleClick={() => like()}
 		>
+			{/* User avatar */}
 			<div>
 				<div
 					style={{
@@ -69,6 +74,8 @@ function Post(props) {
 					&nbsp;
 				</div>
 			</div>
+
+			{/* Post content */}
 			<div
 				style={{
 					paddingBottom: "8px",
@@ -83,6 +90,8 @@ function Post(props) {
 				<p style={{ textAlign: "left", padding: "0px 0px" }}>
 					{props?.data?.content}
 				</p>
+
+				{/* Rendering 'liked' animation */}
 				{liking ? (
 					<img
 						src="/heart.svg"
@@ -95,6 +104,8 @@ function Post(props) {
 						}}
 					/>
 				) : null}
+
+				{/* Rendering post image */}
 				<div
 					style={{
 						width: "100%",
@@ -115,12 +126,12 @@ function Post(props) {
 	);
 }
 
+// Defining styles
 const styles = {
 	section: {
 		display: "flex",
 		width: "calc(100vw - 32px)",
 		boxSizing: "border-box",
-		// "maxWidth": "400px",
 		columnGap: "8px",
 		margin: "0px 0 16px",
 	},
@@ -129,4 +140,5 @@ const styles = {
 		marginBottom: "8px",
 	},
 };
+
 export default Post;

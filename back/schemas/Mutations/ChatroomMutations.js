@@ -1,20 +1,22 @@
+// Importing required modules and types
 const {GraphQLString} = require('graphql')
 const ChatroomType = require('../TypeDefs/ChatroomType')
 const MessageType = require('../TypeDefs/MessageType')
 const LinkType = require('../TypeDefs/LinkType.js')
 
-// Changing Chatroom Data
+// Chatroom Mutations for creating, sending, and editing messages
 const ChatroomMutations = {
-  // Create Chatroom and return path to user
+  // Mutation to get location (create a new chatroom) and return its data
   getLocation: {
     type: ChatroomType,
     args: {
-      id: {type: GraphQLString},
-      secretkey: {type: GraphQLString},
-      username: {type: GraphQLString},
+      id: {type: GraphQLString}, // User ID
+      secretkey: {type: GraphQLString}, // User secret key for authentication
+      username: {type: GraphQLString}, // Username of the other user to create chatroom with
     },
     async resolve(parent, args, {prisma, io, auth, log, req}) {
       try {
+        // Authenticate the user and fetch user data
         const [exists, userOne, userTwo] = await Promise.all([
           auth(args.id, args.secretkey, req),
           prisma.user.findFirst({
@@ -36,15 +38,18 @@ const ChatroomMutations = {
           }),
         ])
 
+        // Generate a unique chatroom ID
         const {nanoid} = await import('nanoid')
         const id = nanoid()
 
+        // Create a new chatroom
         const chatroom = await prisma.chatroom.create({
           data: {
             id,
           },
         })
 
+        // Associate the two users with the newly created chatroom
         await prisma.chatroomUser.create({
           data: {
             chatroomId: chatroom.id,
@@ -59,6 +64,7 @@ const ChatroomMutations = {
           },
         })
 
+        // Fetch the chatroom data with associated users
         const data = await prisma.chatroom.findFirst({
           where: {
             id: chatroom.id,
@@ -79,6 +85,7 @@ const ChatroomMutations = {
           },
         })
 
+        // Prepare the chatroom data to be sent to the client
         const chat = {
           id: data.id,
           chatroomUsers: data.chatroomUsers,
@@ -86,6 +93,7 @@ const ChatroomMutations = {
           lastMessage: {},
         }
 
+        // Emit the updated chat data to the first user
         io.to(userOne.socket).emit('updatedChat', chat)
 
         return chat
@@ -95,17 +103,20 @@ const ChatroomMutations = {
       }
     },
   },
+
+  // Mutation to send a message in a chatroom
   sendMessage: {
     type: MessageType,
     args: {
-      id: {type: GraphQLString},
-      secretkey: {type: GraphQLString},
-      chatroom: {type: GraphQLString},
-      content: {type: GraphQLString},
-      type: {type: GraphQLString},
+      id: {type: GraphQLString}, // User ID
+      secretkey: {type: GraphQLString}, // User secret key for authentication
+      chatroom: {type: GraphQLString}, // Chatroom ID
+      content: {type: GraphQLString}, // Message content
+      type: {type: GraphQLString}, // Message type (e.g., text, image, etc.)
     },
     async resolve(parent, args, {io, prisma, auth, req}) {
       try {
+        // Authenticate the user, fetch chatroom data, and sender data
         const [exists, chatroom, sender] = await Promise.all([
           auth(args.id, args.secretkey, req),
           prisma.chatroom.findFirst({
@@ -125,6 +136,7 @@ const ChatroomMutations = {
           prisma.user.findFirst({where: {id: args.id}, select: {id: true}}),
         ])
 
+        // Create a new message
         const message = await prisma.message.create({
           data: {
             content: args.content,
@@ -148,6 +160,7 @@ const ChatroomMutations = {
           },
         })
 
+        // Emit the new message to all users in the chatroom
         chatroom.chatroomUsers.map((user) => {
           console.log(user.user.socket, 'SOCKETS EMITTING TO')
           io.to(user.user.socket).emit('chatroom', message)
@@ -161,19 +174,23 @@ const ChatroomMutations = {
       }
     },
   },
+
+  // Mutation to edit a message in a chatroom
   editMessage: {
     type: LinkType,
     args: {
-      id: {type: GraphQLString},
-      secretkey: {type: GraphQLString},
-      chatroom: {type: GraphQLString},
-      message: {type: GraphQLString},
-      edit: {type: GraphQLString},
+      id: {type: GraphQLString}, // User ID
+      secretkey: {type: GraphQLString}, // User secret key for authentication
+      chatroom: {type: GraphQLString}, // Chatroom ID
+      message: {type: GraphQLString}, // Message ID
+      edit: {type: GraphQLString}, // Edit action (read, unread, delete)
     },
     async resolve(parent, args, {prisma, io, socket, req}) {
       try {
+        // Authenticate the user
         const exists = await auth(args.id, args.secretkey, req)
 
+        // Fetch the chatroom data with associated users' sockets
         const chatroom = await prisma.chatroom.findFirst({
           where: {
             id: args.chatroom,
@@ -211,6 +228,8 @@ const ChatroomMutations = {
             data: updateData,
           })
         }
+
+        // Emit the updated chat data to all users in the chatroom
         chatroom.chatroomUsers.map((user) => {
           io.to(user.socket).emit('updatedChat', updateData)
         })

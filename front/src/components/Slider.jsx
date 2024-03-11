@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 
 function Slider(props) {
+	// State variables
 	const [x, setX] = useState(0);
 	const [perc, setPerc] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
 	const [initialX, setInitialX] = useState(0);
-
 	const [intervalId, setIntervalId] = useState(null);
 
+	// Styles
 	const styles = {
 		outer: {
 			width: "100%",
@@ -28,17 +29,20 @@ function Slider(props) {
 		},
 	};
 
+	// Mouse down event handler
 	const handleMouseDown = (e) => {
 		setIsDragging(true);
 		setInitialX(e.clientX);
 	};
 
+	// Touch start event handler
 	const handleTouchStart = (e) => {
 		e.preventDefault();
 		setIsDragging(true);
 		setInitialX(e.touches[0].clientX);
 	};
 
+	// Mouse up event handler
 	const handleMouseUp = (e) => {
 		setIsDragging(false);
 		clearInterval(intervalId);
@@ -48,21 +52,22 @@ function Slider(props) {
 		if (x >= Math.min(((window.innerWidth - 200) / 3) * 2)) {
 			const remainingDistance = Math.min(window.innerWidth - 200) - x;
 			setX(x + remainingDistance);
+
 			setTimeout(() => {
 				props?.verify(true);
-				console.log("TIME");
 			}, 250);
+
 			setTimeout(() => {
 				setPerc(0);
 				setX(0);
 				setInitialX(0);
 			}, 251);
-			// props?.verify(true)
 		} else {
 			setX(0);
 		}
 	};
 
+	// Touch end event handler
 	const handleTouchEnd = (e) => {
 		e.preventDefault();
 		setIsDragging(false);
@@ -73,10 +78,11 @@ function Slider(props) {
 		if (x >= Math.min((window.innerWidth - 200) / 2)) {
 			const remainingDistance = Math.min(window.innerWidth - 200) - x;
 			setX(x + remainingDistance);
+
 			setTimeout(() => {
 				props?.verify(true);
-				console.log("TIME");
 			}, 250);
+
 			setTimeout(() => {
 				setPerc(0);
 				setX(0);
@@ -87,6 +93,7 @@ function Slider(props) {
 		}
 	};
 
+	// Mouse move event listener
 	useEffect(() => {
 		if (isDragging) {
 			window.addEventListener("mousemove", handleMouseMove);
@@ -97,6 +104,7 @@ function Slider(props) {
 		};
 	}, [isDragging]);
 
+	// Mouse move event handler
 	const handleMouseMove = (e) => {
 		const deltaX = e.clientX - initialX;
 		setX(
@@ -111,6 +119,7 @@ function Slider(props) {
 		setPerc(x / (window.innerWidth - styles.inner.width - 200));
 	};
 
+	// Touch move event handler
 	const handleTouchMove = (e) => {
 		const deltaX = e.touches[0].clientX - initialX;
 		setX(
@@ -122,11 +131,12 @@ function Slider(props) {
 		setPerc(x / (window.innerWidth - styles.inner.width - 200));
 	};
 
+	// Cleanup interval on component unmount
 	useEffect(() => {
-		console.log(props);
 		return () => clearInterval(intervalId);
 	}, []);
 
+	// Reset slider when props.verify changes
 	useEffect(() => {
 		if (props?.verify) {
 			setInitialX(0);
