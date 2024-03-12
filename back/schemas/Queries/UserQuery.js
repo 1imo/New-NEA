@@ -1,3 +1,4 @@
+// Imports
 const {GraphQLString, GraphQLList} = require('graphql')
 const UserType = require('../TypeDefs/UserType')
 const PostType = require('../TypeDefs/PostType')
@@ -7,6 +8,7 @@ const PendingType = require('../TypeDefs/PendingType')
 const ChatroomType = require('../TypeDefs/ChatroomType')
 
 const UserQuery = {
+  // Retrieves navigation information for a user
   navInfo: {
     type: UserType,
     args: {id: {type: GraphQLString}},
@@ -30,6 +32,8 @@ const UserQuery = {
       }
     },
   },
+
+  // Retrieves public profile information for a user
   getPublicInfo: {
     type: ProfileType,
     args: {username: {type: GraphQLString}},
@@ -73,6 +77,8 @@ const UserQuery = {
       }
     },
   },
+
+  // Retrieves all posts for a user
   getAllPosts: {
     type: new GraphQLList(PostType),
     args: {username: {type: GraphQLString}},
@@ -108,6 +114,8 @@ const UserQuery = {
       }
     },
   },
+
+  // Retrieves user search results based on username or name
   getUserSearchResults: {
     type: new GraphQLList(UserType),
     args: {username: {type: GraphQLString}, type: {type: GraphQLString}},
@@ -138,6 +146,8 @@ const UserQuery = {
       }
     },
   },
+
+  // Retrieves pending follow requests for a user
   getPending: {
     type: new GraphQLList(PendingType),
     args: {id: {type: GraphQLString}, secretkey: {type: GraphQLString}},
@@ -173,6 +183,8 @@ const UserQuery = {
       }
     },
   },
+
+  // Retrieves the user's feed based on their friends and following
   getFeed: {
     type: new GraphQLList(PostType),
     args: {
@@ -276,11 +288,10 @@ const UserQuery = {
           },
         })
 
-        // console.log(posts, "POSTS")
-
         let followingPosts = []
         let friendsPosts = []
 
+        // Collect posts from users the user is following
         if (args.type != 'Friends') {
           for (let i = 0; i < posts.following.length; i++) {
             for (
@@ -293,10 +304,12 @@ const UserQuery = {
           }
         }
 
+        // Return only posts from users the user is following
         if (args.type == 'Following') {
           return followingPosts
         }
 
+        // Collect posts from the user's friends
         if (args.type != 'Following') {
           for (let i = 0; i < posts.friends.length; i++) {
             for (let x = 0; x < posts.friends[i]?.userTwo?.posts.length; x++) {
@@ -317,10 +330,12 @@ const UserQuery = {
           }
         }
 
+        // Return only posts from the user's friends
         if (args.type == 'Friends') {
           return friendsPosts
         }
 
+        // Calculate average ratios for following and friends posts
         let followingAvgRatio = 0
         let friendsAvgRatio = 0
 
@@ -336,11 +351,13 @@ const UserQuery = {
           }
         }
 
+        // Calculate multiplier based on average ratios
         const multiplier =
           followingAvgRatio / friendsAvgRatio
             ? followingAvgRatio / friendsAvgRatio
             : 1
 
+        // Merge sort function to sort posts by date
         function mergeSort(arr, type) {
           if (arr.length <= 1) {
             return arr
@@ -353,6 +370,7 @@ const UserQuery = {
           return merge(mergeSort(left), mergeSort(right), type)
         }
 
+        // Merge function used by merge sort
         function merge(left, right, type) {
           const result = []
           let leftIndex = 0
@@ -391,14 +409,17 @@ const UserQuery = {
             .concat(right.slice(rightIndex))
         }
 
+        // Sort posts using merge sort
         followingPosts = mergeSort(followingPosts, 0)
         friendsPosts = mergeSort(friendsPosts, 1)
         const raw = mergeSort([...followingPosts, ...friendsPosts])
 
+        // Return posts sorted by date
         if (args.type == 'Date') {
           return raw
         }
 
+        // Swap function to sort posts by average ratio
         let swaps = 0
 
         function swapRatio(arr) {
@@ -417,6 +438,7 @@ const UserQuery = {
           }
         }
 
+        // Sort posts by average ratio
         swapRatio(raw)
 
         return raw
@@ -426,6 +448,8 @@ const UserQuery = {
       }
     },
   },
+
+  // Retrieves recommended users for the user
   recommendedUsers: {
     type: new GraphQLList(AuthorType),
     args: {id: {type: GraphQLString}, secretkey: {type: GraphQLString}},
@@ -475,6 +499,7 @@ const UserQuery = {
 
         let following = user?.following.map((i) => i?.following?.id)
 
+        // Build raw data for recommendation algorithm
         const raw = []
 
         let main = {
@@ -496,6 +521,7 @@ const UserQuery = {
           }
         }
 
+        // Fetch data for each user in the recommendation network
         async function fetchData(id) {
           const user = await prisma.user.findFirst({
             where: {
@@ -542,13 +568,13 @@ const UserQuery = {
             friends = friends.concat(user?.friends.map((i) => i?.userTwo?.id))
             let following = user?.following.map((i) => i?.following?.id)
 
-            // const us = new User(user.id, following, friends)
             const us = {
               id: user.id,
               following,
               friends,
             }
 
+            // Check if the user is already in the raw data
             if (raw.includes(us)) {
               return
             }
@@ -559,6 +585,7 @@ const UserQuery = {
 
         let d = JSON.stringify(raw)
 
+        // Send raw data to the recommendation algorithm API
         const res = await fetch('http://127.0.0.1:3001/recommend', {
           method: 'POST',
           headers: {
@@ -573,6 +600,7 @@ const UserQuery = {
 
         let jsonData = await res.json()
 
+        // Query public information for each recommended user
         async function queryPubInfo(id) {
           const u = await prisma.user.findFirst({
             where: {
@@ -587,6 +615,7 @@ const UserQuery = {
           return u
         }
 
+        // If the number of recommended users is less than 10, add high-performing users
         if (jsonData.length < 10) {
           const highPerformers = await prisma.user.findMany({
             orderBy: {
@@ -603,6 +632,7 @@ const UserQuery = {
           console.log(jsonData, 'JD')
         }
 
+        // Return recommended users with their public information
         return jsonData.map(async (user) => await queryPubInfo(user))
       } catch (e) {
         log(e)

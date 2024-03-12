@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-
+// GraphQL mutation to sign in a user
 export const SIGN_IN = gql`
 	mutation signIn($username: String!, $pass: String!) {
 		signIn(username: $username, pass: $pass) {
@@ -9,6 +8,7 @@ export const SIGN_IN = gql`
 	}
 `;
 
+// GraphQL mutation to create a new user
 export const CREATE_USER_MUTATION = gql`
 	mutation createUser(
 		$firstName: String!
@@ -28,6 +28,7 @@ export const CREATE_USER_MUTATION = gql`
 	}
 `;
 
+// GraphQL mutation to create a new post
 export const CREATE_NEWPOST = gql`
 	mutation createPost(
 		$id: String!
@@ -47,6 +48,7 @@ export const CREATE_NEWPOST = gql`
 	}
 `;
 
+// GraphQL mutation to follow or unfollow a user
 export const FOLLOW_UNFOLLOW = gql`
 	mutation followUnfollowUser(
 		$id: String!
@@ -63,6 +65,7 @@ export const FOLLOW_UNFOLLOW = gql`
 	}
 `;
 
+// GraphQL mutation to get a chatroom location
 export const GET_CHATROOM = gql`
 	mutation getLocation(
 		$id: String!
@@ -91,6 +94,7 @@ export const GET_CHATROOM = gql`
 	}
 `;
 
+// GraphQL mutation to mark a post as viewed
 export const VIEW_POST = gql`
 	mutation postViewed($post: Int!, $id: String!, $secretkey: String!) {
 		postViewed(post: $post, id: $id, secretkey: $secretkey) {
@@ -102,6 +106,7 @@ export const VIEW_POST = gql`
 	}
 `;
 
+// GraphQL mutation to like a post
 export const LIKE_POST = gql`
 	mutation postLiked($post: Int!, $id: String!, $secretkey: String!) {
 		postLiked(post: $post, id: $id, secretkey: $secretkey) {
@@ -113,12 +118,7 @@ export const LIKE_POST = gql`
 	}
 `;
 
-// mutation {
-//     sendMessage(id: 1 secretkey: "1imo" content: "hii", chatroom: 1) {
-//       id
-//     }
-//   }
-
+// GraphQL mutation to send a message
 export const SEND_MESSAGE = gql`
 	mutation sendMessage(
 		$chatroom: String!
@@ -139,6 +139,7 @@ export const SEND_MESSAGE = gql`
 	}
 `;
 
+// GraphQL mutation to edit a message
 export const EDIT_MESSAGE = gql`
 	mutation editMessage(
 		$chatroom: String
@@ -159,6 +160,7 @@ export const EDIT_MESSAGE = gql`
 	}
 `;
 
+// GraphQL mutation to send a friend request
 export const BEFRIEND_PENDING = gql`
 	mutation pendingRequest(
 		$request: String!
@@ -177,6 +179,7 @@ export const BEFRIEND_PENDING = gql`
 	}
 `;
 
+// GraphQL mutation to edit user details
 export const EDIT_DATA = gql`
 	mutation editDetails(
 		$id: String!

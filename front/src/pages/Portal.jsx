@@ -1,7 +1,9 @@
+// Import dependencies
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Portal() {
+	// Declare references for images and queues
 	const images = useRef([
 		"image14.jpg",
 		"image31.jpg",
@@ -26,6 +28,7 @@ function Portal() {
 	);
 	const [val, setVal] = useState(0);
 
+	// Use useEffect to start an animation interval
 	useEffect(() => {
 		let count = 0;
 		const animationInterval = setInterval(() => {
@@ -43,11 +46,13 @@ function Portal() {
 			}
 		}, 40);
 
+		// Clean up the interval when the component unmounts
 		return () => {
 			clearInterval(animationInterval);
 		};
 	}, []);
 
+	// ProfileTop component for rendering the top row of profile images
 	function ProfileTop(props) {
 		const { path } = props;
 		return (
@@ -83,6 +88,7 @@ function Portal() {
 		);
 	}
 
+	// ProfileBottom component for rendering the bottom row of profile images
 	function ProfileBottom(props) {
 		const { path } = props;
 		return (
@@ -118,6 +124,7 @@ function Portal() {
 		);
 	}
 
+	// Render the Portal component
 	return (
 		<section style={styles.section} className="authScreen">
 			<div style={styles.options}>
@@ -198,6 +205,7 @@ function Portal() {
 	);
 }
 
+// Styles object for component styling
 const styles = {
 	section: {
 		width: "100vw !important",

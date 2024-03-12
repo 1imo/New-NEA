@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-
+// GraphQL query to load all users
 export const LOAD_USERS = gql`
 	query {
 		getAllUsers {
@@ -10,6 +9,7 @@ export const LOAD_USERS = gql`
 	}
 `;
 
+// GraphQL query to get navigation information for a user
 export const GET_NAVINFO = gql`
 	query ($id: String!) {
 		navInfo(id: $id) {
@@ -19,6 +19,7 @@ export const GET_NAVINFO = gql`
 	}
 `;
 
+// GraphQL query to load a specific post
 export const LOAD_POST = gql`
 	query ($id: Int!) {
 		getPost(id: $id) {
@@ -34,6 +35,7 @@ export const LOAD_POST = gql`
 	}
 `;
 
+// GraphQL query to load navigation information with authentication
 export const LOAD_NAV = gql`
 	query ($id: String!, $secretkey: String!) {
 		navInfo(id: $id, secretkey: $secretkey) {
@@ -44,6 +46,7 @@ export const LOAD_NAV = gql`
 	}
 `;
 
+// GraphQL query to get public data of a user
 export const GET_PUBLICDATA = gql`
 	query ($username: String!) {
 		getPublicInfo(username: $username) {
@@ -57,6 +60,7 @@ export const GET_PUBLICDATA = gql`
 	}
 `;
 
+// GraphQL query to get all posts of a user
 export const GET_USERPOSTS = gql`
 	query ($username: String!) {
 		getAllPosts(username: $username) {
@@ -72,6 +76,7 @@ export const GET_USERPOSTS = gql`
 	}
 `;
 
+// GraphQL query to get search results for users
 export const GET_SEARCH_INSIGHTDATA = gql`
 	query ($username: String!, $type: String!) {
 		getUserSearchResults(username: $username, type: $type) {
@@ -82,6 +87,7 @@ export const GET_SEARCH_INSIGHTDATA = gql`
 	}
 `;
 
+// GraphQL query to get chats of a user
 export const GET_CHATS = gql`
 	query ($id: String!, $secretkey: String!) {
 		getChats(id: $id, secretkey: $secretkey) {
@@ -99,6 +105,7 @@ export const GET_CHATS = gql`
 	}
 `;
 
+// GraphQL query to get chatroom data (incorrect query name)
 export const GET_CHATROOM = gql`
 	query ($chatId: String!, $id: String!, $secretkey: String!) {
 		getUserSearchResults(chatId: $chatId, id: $id, secretkey: $secretkey) {
@@ -134,6 +141,7 @@ export const GET_CHATROOM = gql`
 	}
 `;
 
+// GraphQL query to get chatroom data
 export const GET_CHATROOM_DATA = gql`
 	query ($chatId: String!, $id: String!, $secretkey: String!) {
 		getChatroomData(chatId: $chatId, id: $id, secretkey: $secretkey) {
@@ -171,6 +179,7 @@ export const GET_CHATROOM_DATA = gql`
 	}
 `;
 
+// GraphQL query to get pending friend requests
 export const GET_PENDING_REQUESTS = gql`
 	query ($id: String!, $secretkey: String!) {
 		getPending(id: $id, secretkey: $secretkey) {
@@ -182,6 +191,7 @@ export const GET_PENDING_REQUESTS = gql`
 	}
 `;
 
+// GraphQL query to get user's feed
 export const GET_FEED = gql`
 	query ($id: String!, $secretkey: String!, $type: String!) {
 		getFeed(id: $id, secretkey: $secretkey, type: $type) {
@@ -197,6 +207,7 @@ export const GET_FEED = gql`
 	}
 `;
 
+// GraphQL query to discover recommended users
 export const DISCOVER_PEOPLE = gql`
 	query ($id: String!, $secretkey: String!) {
 		recommendedUsers(id: $id, secretkey: $secretkey) {
@@ -205,4 +216,14 @@ export const DISCOVER_PEOPLE = gql`
 			name
 		}
 	}
+`;
+
+// GraphQL query to get a file (upload not supported in GraphQL)
+export const GET_FILE = gql`
+  query ($id: String!, $secretkey: String!, file: Upload!) {
+    getFile(id: $id, secretkey: $secretkey, file: $file) {
+      sucess
+      error
+    }
+  }
 `;

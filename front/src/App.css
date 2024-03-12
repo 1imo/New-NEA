@@ -35,17 +35,14 @@
 .bottomMsg {
 	animation: msg 750ms ease-in-out forwards;
 	-webkit-animation: msg 750ms ease-in-out forwards;
-	/* animation-delay: 1s */
 }
 
 @keyframes msg {
 	0% {
-		/* position: absolute; */
 		transform: translateY(4px);
 		opacity: 0;
 	}
 	100% {
 		opacity: 1;
-		/* background-color: blueviolet; */
 	}
 }

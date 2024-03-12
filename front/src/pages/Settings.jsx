@@ -1,3 +1,4 @@
+// Import dependencies
 import { useContext, useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import { Context } from "../context/Context";
@@ -11,134 +12,180 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 
 function Settings() {
+	// Get the socket and context from the Context
+	const { socket } = useContext(Context);
+	const Ctx = useContext(Context);
 
-    const { socket } = useContext(Context)
-    const Ctx = useContext(Context)
+	// State variables
+	const [optn, setOptn] = useState(0);
+	const [value, setValue] = useState(null);
+	const [view, setView] = useState(0);
+	const [picked, setPicked] = useState("");
+	const [placeholder, setPlaceholder] = useState("");
+	const [render, setRender] = useState([]);
 
-    const [ optn, setOptn ] = useState(0)
-    const [ value, setValue ] = useState(null)
-    const [ view, setView ] = useState(0)
-    const [ picked, setPicked ] = useState("")
-    const [ placeholder, setPlaceholder ] = useState("")
-    const [ render, setRender ] = useState([])
+	// Get the navigate function from react-router-dom
+	const navigate = useNavigate();
 
-    const navigate = useNavigate()
+	// Array of feed options
+	const feedOptns = ["Recommended", "Date", "Friends", "Following"];
 
-    const feedOptns = ["Recommended", "Date", "Friends", "Following"]
+	// Query to get pending requests
+	const { data, err, loading } = useQuery(GET_PENDING_REQUESTS, {
+		variables: {
+			id: Ctx.id,
+			secretkey: Ctx.secretkey,
+		},
+	});
 
-    const { data, err, loading } = useQuery(GET_PENDING_REQUESTS, {
-        variables: {
-            id: Ctx.id,
-            secretkey: Ctx.secretkey
-        }
-    })
+	// Handle error
+	if (err) alert("Error Loading Pending Requests");
 
-    if(err) alert("Error Loading Pending Requests")
+	// Update the render state when data changes
+	useEffect(() => {
+		setRender(data?.getPending);
+	}, [data]);
 
-    useEffect(() => {
-        setRender(data?.getPending)
-    }, [data])
+	// Mutation to edit user data
+	const [createEdit, { d, e, l }] = useMutation(EDIT_DATA);
 
-    const [ createEdit, { d, e, l } ] = useMutation(EDIT_DATA)
+	// Function to change the feed option
+	function changeFeed() {
+		if (optn !== feedOptns.length - 1) {
+			setOptn(optn + 1);
+			Cookies.set("feed", feedOptns[optn + 1]);
+		} else {
+			setOptn(0);
+			Cookies.set("feed", feedOptns[0]);
+		}
+	}
 
-    function changeFeed() {
-        if(optn != feedOptns.length - 1) {
-            setOptn(optn + 1)
-            Cookies.set("feed", feedOptns[optn + 1])
-        } else {
-            setOptn(0)
-            Cookies.set("feed", feedOptns[0])
-        }
+	// Set up socket event listeners and initialize feed option
+	useEffect(() => {
+		const followedHandler = (da) => {
+			if (!render.length || render[0].id !== da?.follower?.id) {
+				const f = da?.follower;
+				const format = {
+					pendingId: da?.id,
+					...f,
+				};
+				setRender([format, ...render]);
+			}
+		};
 
-    }
+		socket.on("followed", followedHandler);
 
-    useEffect(() => {
-        const followedHandler = (da) => {
-            if (!render.length || render[0].id !== da?.follower?.id) {
-                const f = da?.follower
-                const format = {
-                    pendingId: da?.id,
-                    ...f
-                }
-                setRender([format, ...render])
-            }
-        }
+		const original = Cookies.get("feed");
+		const index = feedOptns.findIndex((op) => op === original);
+		setOptn(index || "Recommended");
 
-        socket.on("followed", followedHandler)
-    
-        const original = Cookies.get("feed")
-        const index = feedOptns.findIndex(op => op == original)
-        setOptn(index || "Recommended")
+		return () => {
+			socket.off("followed", followedHandler);
+		};
+	}, []);
 
-        return () => {
-            socket.off("followed", followedHandler);
-        }
-      
-    }, [])
+	// Array of content views
+	let content = [
+		<>
+			<Nav icons={true} />
 
+			{render && (
+				<section style={{ marginBottom: 24 }}>
+					<h4 style={{ marginBottom: 16 }}>Pending</h4>
+					{render?.map((info, index) => {
+						return (
+							<ProfileInsight
+								reference={"pending"}
+								key={index}
+								name={info.name}
+								username={info.username}
+								pendingId={info?.pendingId}
+								id={info?.id}
+							/>
+						);
+					})}
+				</section>
+			)}
+			<section>
+				<h4 style={{ marginBottom: 16 }}>Settings</h4>
+				<p style={{ marginBottom: 8 }} onClick={() => changeFeed()}>
+					Tap to change feed: {feedOptns[optn]}
+				</p>
+				<p
+					style={{ marginBottom: 8 }}
+					onClick={() => edit("New Name..", "name")}
+				>
+					Change Name
+				</p>
+				<p
+					style={{ marginBottom: 8 }}
+					onClick={() => edit("New Username..", "username")}
+				>
+					Change Username
+				</p>
+				<p
+					style={{ marginBottom: 8 }}
+					onClick={() => edit("New Password..", "password")}
+				>
+					Change Password
+				</p>
+				<p style={{ marginBottom: 8 }} onClick={() => logout()}>
+					Log Out
+				</p>
+			</section>
+		</>,
+		<Input
+			type={picked !== "password" ? "text" : "password"}
+			placeholder={placeholder}
+			value={setValue}
+			referer="/settings"
+		/>,
+	];
 
-    let content = [
-        <>
-            <Nav icons={true} />
+	// Function to edit user data
+	function edit(placeholder, type) {
+		setPlaceholder(placeholder);
+		setPicked(type);
+		setView(1);
+	}
 
-            {render && (
-                <section style={{marginBottom: 24}}>
-                    <h4 style={{marginBottom: 16}}>Pending</h4>
-                    {render?.map((info, index) => {
-                        return <ProfileInsight reference={"pending"} key={index} name={info.name} username={info.username} pendingId={info?.pendingId} id={info?.id} />
-                    })}
-                </section>
-            )}
-            <section>
-                <h4 style={{marginBottom: 16}}>Settings</h4>
-                <p style={{marginBottom: 8}} onClick={() =>  changeFeed()}>Tap to change feed: {feedOptns[optn]}</p>
-                <p style={{marginBottom: 8}} onClick={() => edit("New Name..", "name")}>Change Name</p>
-                <p style={{marginBottom: 8}} onClick={() => edit("New Username..", "username")}>Change Username</p>
-                <p style={{marginBottom: 8}} onClick={() => edit("New Password..", "password")}>Change Password</p>
-                <p style={{marginBottom: 8}} onClick={() => logout()}>Log Out</p>
-            </section>
-        </>,
-        <Input type={picked != "password" ? "text" : "password"} placeholder={placeholder} value={setValue} referer="/settings" />
-    ]
+	// Function to log out the user
+	function logout() {
+		Cookies.remove("id");
+		Cookies.remove("secretkey");
+		navigate("/portal");
+	}
 
-    function edit(placeholder, type) {
-        setPlaceholder(placeholder)
-        setPicked(type)
-        setView(1)
-    }
+	// Function to make the edit mutation
+	async function around() {
+		let res = await createEdit({
+			variables: {
+				id: Ctx.id,
+				secretkey: Ctx.secretkey,
+				request: picked,
+				data: value,
+			},
+		});
 
-    function logout() {
-        Cookies.remove("id")
-        Cookies.remove("secretkey")
-        navigate("/portal")
-    }
+		if (res?.data?.editDetails?.secretkey) {
+			Cookies.set("secretkey", res?.data?.editDetails?.secretkey, {
+				expires: 7,
+			});
+		}
 
-    async function around() {
-        let res = await createEdit({
-            variables: {
-                id: Ctx.id,
-                secretkey: Ctx.secretkey,
-                request: picked,
-                data: value
-            }
-        })
+		return res;
+	}
 
-        if(res?.data?.editDetails?.secretkey) {
-            Cookies.set("secretkey", res?.data?.editDetails?.secretkey, { expires: 7 })
-        }
+	// Update the view and make the edit mutation when value changes
+	useEffect(() => {
+		if (value) {
+			around();
+			setView(0);
+		}
+	}, [value]);
 
-        return res
-    }
-
-    useEffect(() => {
-        if(value) {
-            around()
-            setView(0)
-        }
-    }, [value])
-
-
-    return content[view]
+	// Render the current content view
+	return content[view];
 }
 
-export default Settings
+export default Settings;
