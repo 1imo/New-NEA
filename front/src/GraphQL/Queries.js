@@ -1,3 +1,4 @@
+import { gql } from "@apollo/client";
 // GraphQL query to load all users
 export const LOAD_USERS = gql`
 	query {
@@ -220,10 +221,10 @@ export const DISCOVER_PEOPLE = gql`
 
 // GraphQL query to get a file (upload not supported in GraphQL)
 export const GET_FILE = gql`
-  query ($id: String!, $secretkey: String!, file: Upload!) {
-    getFile(id: $id, secretkey: $secretkey, file: $file) {
-      sucess
-      error
-    }
-  }
+	query ($id: String!, $secretkey: String!, $file: Upload!) {
+		getFile(id: $id, secretkey: $secretkey, file: $file) {
+			sucess
+			error
+		}
+	}
 `;

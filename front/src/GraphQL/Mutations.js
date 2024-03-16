@@ -1,3 +1,4 @@
+import { gql } from "@apollo/client";
 // GraphQL mutation to sign in a user
 export const SIGN_IN = gql`
 	mutation signIn($username: String!, $pass: String!) {

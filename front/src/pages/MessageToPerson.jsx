@@ -1341,7 +1341,6 @@ function MessageToPerson() {
 		</>
 	);
 }
-jsx;
 
 // Define styles object
 const styles = {
