@@ -108,7 +108,6 @@ const io = require('socket.io')(server, {
 
 // Handling Socket.IO connections
 io.on('connection', (socket) => {
-  console.log(socket.id) // Logging the connected socket ID
   socket.on('initialConnection', async (data) => {
     try {
       // Sanitizing the incoming data
@@ -221,6 +220,7 @@ async function auth(id, key, req) {
 
     if (!exists) {
       // If the user data is invalid, throw an error
+      // throw new Error('Invalid Credentials')
       throw new Error('Invalid Credentials')
     } else {
       if (req != null) {

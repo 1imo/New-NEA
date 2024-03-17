@@ -1,0 +1,281 @@
+18:13:14    Cannot destructure property 'id' of '(intermediate value)' as it is null. 
+18:14:38    Cannot destructure property 'id' of '(intermediate value)' as it is null. 
+18:39:48    
+Invalid `prisma.user.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:126:41
+
+  123 try {
+  124   args = sanitise(args)
+  125   console.log(args)
+→ 126   const names = await prisma.user.findMany(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:39:49    Cannot read properties of null (reading 'posts') 
+18:39:53    Cannot read properties of null (reading 'posts') 
+18:45:17    Invalid Credentials 
+18:45:23    Invalid Credentials 
+18:45:24    Invalid Credentials 
+18:45:25    Invalid Credentials 
+18:45:27    Invalid Credentials 
+18:46:08    Invalid Credentials 
+18:46:11    Invalid Credentials 
+18:46:28    Invalid Credentials 
+18:52:20    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:52:37    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:52:55    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:53:06    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:53:57    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:54:11    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:54:23    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:89:40
+
+  86 try {
+  87   args = sanitise(args)
+  88   console.log(args)
+→ 89   const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:54:35    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:89:40
+
+  86 try {
+  87   args = sanitise(args)
+  88   console.log(args)
+→ 89   const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:54:51    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:89:40
+
+  86 try {
+  87   args = sanitise(args)
+  88   console.log(args)
+→ 89   const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:56:44    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:89:40
+
+  86 try {
+  87   args = sanitise(args)
+  88   console.log(args)
+→ 89   const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:57:57    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:58:13    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:58:45    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+18:58:56    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+19:02:15    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+19:02:35    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+19:02:46    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+19:06:11    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Unknown nested field 'likes' for operation posts does not match any query. 
+19:06:40    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst({
+           where: {
+             username: "johnnydoe"
+           },
+           select: {
+             posts: {
+               select: {
+                 content: true,
+                 id: true,
+                 photo: true,
+                 date: true,
+                 avgRatio: true,
+                 multiplier: true,
+                 user: {
+                   select: {
+                     id: true,
+                     username: true,
+                     name: true
+                   }
+                 },
+                 likedBy: {
+                   alias: "likes",
+                   ~~~~~
+                   select: true,
+         ?         where?: LikedPostWhereInput,
+         ?         orderBy?: LikedPostOrderByWithRelationInput[] | LikedPostOrderByWithRelationInput,
+         ?         cursor?: LikedPostWhereUniqueInput,
+         ?         take?: Int,
+         ?         skip?: Int,
+         ?         distinct?: LikedPostScalarFieldEnum | LikedPostScalarFieldEnum[]
+                 },
+                 viewedBy: {
+                   alias: "views",
+                   select: true
+                 }
+               }
+             }
+           }
+         })
+
+Unknown argument `alias`. Available options are marked with ?. 
+19:10:23    Cannot read properties of null (reading 'posts') 
+19:10:34    Cannot read properties of null (reading 'posts') 
+19:10:36    Cannot read properties of null (reading 'posts') 
+19:10:37    Cannot read properties of null (reading 'posts') 
+19:10:38    Cannot read properties of null (reading 'posts') 
+20:06:18    Cannot read properties of null (reading 'posts') 
+20:10:31    Cannot read properties of null (reading 'posts') 
+20:10:34    Cannot read properties of null (reading 'posts') 
+20:37:02    Invalid Credentials 
+20:37:30    Invalid Credentials 
+20:40:14    Invalid Credentials 
+20:40:22    Invalid Credentials 
+20:41:02    Invalid Credentials 
+20:44:23    Cannot read properties of null (reading 'chatroomUsers') 

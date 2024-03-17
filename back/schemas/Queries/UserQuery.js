@@ -95,6 +95,9 @@ const UserQuery = {
                 content: true,
                 id: true,
                 photo: true,
+                date: true,
+                avgRatio: true,
+                multiplier: true,
                 user: {
                   select: {
                     id: true,
@@ -102,10 +105,21 @@ const UserQuery = {
                     name: true,
                   },
                 },
+                likedBy: true,
+                viewedBy: true,
               },
             },
           },
         })
+
+        if (user) {
+          user.posts.forEach((post) => {
+            post.likes = post.likedBy
+            post.views = post.viewedBy
+            delete post.likedBy
+            delete post.viewedBy
+          })
+        }
 
         return user.posts
       } catch (e) {
