@@ -98,7 +98,7 @@ function Home() {
 				style={load ? { opacity: 0 } : null}
 			/>
 			{/* Rendering the Feed component within a container */}
-			{!load && (
+			{!loading && (
 				<div
 					style={{
 						boxSizing: "border-box",
