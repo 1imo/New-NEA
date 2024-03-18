@@ -279,3 +279,10 @@ Unknown argument `alias`. Available options are marked with ?.
 20:40:22    Invalid Credentials 
 20:41:02    Invalid Credentials 
 20:44:23    Cannot read properties of null (reading 'chatroomUsers') 
+21:12:28    Invalid Credentials 
+21:13:05    Invalid Credentials 
+21:13:16    Invalid Credentials 
+21:13:44    Invalid Credentials 
+21:13:56    Invalid Credentials 
+21:33:49    Password is incorrect 
+21:34:18    User not found 

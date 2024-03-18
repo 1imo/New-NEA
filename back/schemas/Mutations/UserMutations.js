@@ -182,6 +182,11 @@ const UserMutations = {
           await prisma.follow.delete({
             where: {id: follow.id},
           })
+
+          // Testing purposes otherwise return null
+          return {
+            url: 'unfollowed',
+          }
         } else {
           // Create a new follow relationship
           let follow = await prisma.follow.create({
@@ -203,9 +208,12 @@ const UserMutations = {
 
           // Emit a "followed" event to the recipient's socket
           io.to(recipient.socket).emit('followed', follow)
-        }
 
-        return
+          // Testing purposes otherwise return null
+          return {
+            url: 'followed',
+          }
+        }
       } catch (e) {
         // Log any errors
         log(e)
@@ -216,7 +224,7 @@ const UserMutations = {
 
   // Mutation to accept or reject a follow request
   pendingRequest: {
-    type: UserType,
+    type: LinkType,
     args: {
       id: {type: GraphQLString}, // User ID
       secretkey: {type: GraphQLString}, // User's API key
@@ -256,7 +264,7 @@ const UserMutations = {
         switch (args.action) {
           case 'add':
             // Create a new friendship between the two users
-            await prisma.friendship.create({
+            const c = await prisma.friendship.create({
               data: {
                 userOneId: follow.follower.id,
                 userTwoId: follow.following.id,
@@ -264,14 +272,18 @@ const UserMutations = {
             })
 
             // Delete the follow request
-            await prisma.follow.delete({
+            const r = await prisma.follow.delete({
               where: {id: follow.id},
             })
-            break
+
+            // Return State
+            return {
+              url: 'befriended',
+            }
 
           case 'remove':
             // Mark the follow request as denied
-            await prisma.follow.update({
+            const u = await prisma.follow.update({
               where: {
                 id: args.request,
               },
@@ -279,10 +291,12 @@ const UserMutations = {
                 denial: true,
               },
             })
-            break
-        }
 
-        return
+            // Return State
+            return {
+              url: 'denied',
+            }
+        }
       } catch (e) {
         // Log any errors
         log(e)
@@ -319,6 +333,7 @@ const UserMutations = {
                 name: args.data,
               },
             })
+            console.log('Name Updated: ', args)
             return
 
           case 'username':
@@ -331,6 +346,7 @@ const UserMutations = {
                 username: args.data,
               },
             })
+            console.log('Username Updated: ', args)
             return
 
           case 'password':

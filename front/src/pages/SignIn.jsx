@@ -27,13 +27,15 @@ export default function SignIn() {
 	async function call() {
 		const res = await signIn({ variables: { username, pass } });
 
-		if (res.data.signIn.secretkey && res.data.signIn.id) {
+		if (res?.data?.signIn?.secretkey && res?.data?.signIn?.id) {
 			// Set cookies for secretkey and id with an expiration of 7 days
 			Cookies.set("secretkey", res.data.signIn.secretkey, { expires: 7 });
 			Cookies.set("id", res.data.signIn.id, { expires: 7 });
 
 			// Navigate to the home page after successful sign-in
 			navigate("/");
+		} else {
+			alert("An error has occurred");
 		}
 	}
 

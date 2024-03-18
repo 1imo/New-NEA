@@ -112,7 +112,7 @@ io.on('connection', (socket) => {
     try {
       // Sanitizing the incoming data
       data = sanitise(data)
-
+      console.log(data)
       // Checking if the user data exists and is valid
       const exists = await prisma.userData.count({
         where: {
@@ -221,6 +221,7 @@ async function auth(id, key, req) {
     if (!exists) {
       // If the user data is invalid, throw an error
       // throw new Error('Invalid Credentials')
+      console.log('INVALID')
       throw new Error('Invalid Credentials')
     } else {
       if (req != null) {

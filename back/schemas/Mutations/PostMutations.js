@@ -56,7 +56,7 @@ const PostMutations = {
       id: {type: GraphQLString}, // User ID
       secretkey: {type: GraphQLString}, // User secret key for authentication
     },
-    async resolve(parent, args, {auth, sanitise, log, req}) {
+    async resolve(parent, args, {auth, sanitise, log, req, prisma}) {
       try {
         // Sanitize the input arguments
         args = sanitise(args)
@@ -80,7 +80,7 @@ const PostMutations = {
         })
 
         // If the user hasn't viewed the post before
-        if (!post.viewedBy) {
+        if (post.viewedBy.length == 0) {
           // Fetch additional data about the post
           const inDepth = await prisma.post.findFirst({
             where: {
@@ -94,23 +94,40 @@ const PostMutations = {
           })
 
           // Calculate the average ratio based on likes and views
-          const ratio = inDepth.likedBy.length / (inDepth.viewedBy.length + 1)
+          const ratio =
+            inDepth.likedBy.length + 1 / (inDepth.viewedBy.length + 2)
 
           // Create a new record in the ViewedPost table
-          await prisma.ViewedPost.create({
+          const v = await prisma.ViewedPost.create({
             data: {
               postId: args.post,
               userId: args.id,
+            },
+          })
+
+          // Update avgRatio of post
+          const p = await prisma.post.update({
+            where: {
+              id: args.post,
+            },
+            data: {
               avgRatio: ratio,
             },
           })
+          return {
+            url: 'Post Viewed',
+          }
+        } else {
+          return {
+            url: 'Already Viewed',
+          }
         }
-
-        return
       } catch (e) {
         // Log any errors
         log(e)
-        return
+        return {
+          url: 'ERROR',
+        }
       }
     },
   },
@@ -123,7 +140,7 @@ const PostMutations = {
       id: {type: GraphQLString}, // User ID
       secretkey: {type: GraphQLString}, // User secret key for authentication
     },
-    async resolve(parent, args, {auth, sanitise, log, req}) {
+    async resolve(parent, args, {auth, sanitise, log, req, prisma}) {
       try {
         // Sanitize the input arguments
         args = sanitise(args)
@@ -147,7 +164,7 @@ const PostMutations = {
         })
 
         // If the user hasn't liked the post before
-        if (!post.likedBy) {
+        if (post.likedBy.length == 0) {
           // Fetch additional data about the post
           const inDepth = await prisma.post.findFirst({
             where: {
@@ -161,23 +178,40 @@ const PostMutations = {
           })
 
           // Calculate the average ratio based on likes and views
-          const ratio = (inDepth.likedBy.length + 1) / inDepth.viewedBy.length
+          const ratio =
+            (inDepth.likedBy.length + 2) / inDepth.viewedBy.length + 1
 
           // Create a new record in the LikedPost table
           await prisma.LikedPost.create({
             data: {
               postId: args.post,
               userId: args.id,
+            },
+          })
+
+          await prisma.post.update({
+            where: {
+              id: args.post,
+            },
+            data: {
               avgRatio: ratio,
             },
           })
-        }
 
-        return
+          return {
+            url: 'Post Liked',
+          }
+        } else {
+          return {
+            url: 'Already Liked',
+          }
+        }
       } catch (e) {
         // Log any errors
         log(e)
-        return
+        return {
+          url: 'ERROR',
+        }
       }
     },
   },

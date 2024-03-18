@@ -39,6 +39,7 @@ function Input(props) {
 			height: 160,
 			background: "#F3F3F3",
 			backgroundImage: `url(${val})`,
+			backgroundSize: "cover",
 			marginTop: (window.innerWidth - 160) / 2,
 			borderRadius: 160,
 		},

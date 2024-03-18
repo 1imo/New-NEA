@@ -78,6 +78,7 @@ const ChatroomMutations = {
                     id: true,
                     name: true,
                     username: true,
+                    socket: true,
                   },
                 },
               },
@@ -93,8 +94,11 @@ const ChatroomMutations = {
           lastMessage: {},
         }
 
-        // Emit the updated chat data to the first user
-        io.to(userOne.socket).emit('updatedChat', chat)
+        // Emit the updated chat data to users
+        data.chatroomUsers.map((user) => {
+          console.log(user.user.socket, 'SOCKETS EMITTING TO')
+          io.to(user.user.socket).emit('updatedChat', chat)
+        })
 
         return chat
       } catch (e) {
@@ -162,7 +166,6 @@ const ChatroomMutations = {
 
         // Emit the new message to all users in the chatroom
         chatroom.chatroomUsers.map((user) => {
-          console.log(user.user.socket, 'SOCKETS EMITTING TO')
           io.to(user.user.socket).emit('chatroom', message)
           io.to(user.user.socket).emit('updatedChat', message)
         })
@@ -185,8 +188,10 @@ const ChatroomMutations = {
       message: {type: GraphQLString}, // Message ID
       edit: {type: GraphQLString}, // Edit action (read, unread, delete)
     },
-    async resolve(parent, args, {prisma, io, socket, req}) {
+    async resolve(parent, args, {prisma, io, req, log, sanitise, auth}) {
       try {
+        // Sanitize the input arguments
+        args = sanitise(args)
         // Authenticate the user
         const exists = await auth(args.id, args.secretkey, req)
 
@@ -213,20 +218,25 @@ const ChatroomMutations = {
         // Prepare update data based on the edit action
         if (args.edit === 'read') {
           updateData.read = true
+          console.log(args, 'READ')
         } else if (args.edit === 'unread') {
           updateData.read = false
+          console.log(args, 'UNREAD')
         } else if (args.edit === 'delete') {
           updateData.content = 'This message has been deleted'
+          console.log(args, 'DELETE')
         }
 
         // Update the message if necessary
         if (Object.keys(updateData).length > 0) {
-          await prisma.message.update({
+          const m = await prisma.message.update({
             where: {
-              id: args.message,
+              AND: [{id: args.message}, {senderId: args.id}],
             },
             data: updateData,
           })
+
+          console.log(m, 'message')
         }
 
         // Emit the updated chat data to all users in the chatroom

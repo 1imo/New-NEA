@@ -242,6 +242,7 @@ const styles = {
 		justifyContent: "center",
 		boxSize: "border-box",
 		margin: "0 auto",
+		cursor: "pointer",
 	},
 	buttons: {
 		width: "100%",
