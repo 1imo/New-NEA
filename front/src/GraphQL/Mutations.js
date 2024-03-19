@@ -99,10 +99,7 @@ export const GET_CHATROOM = gql`
 export const VIEW_POST = gql`
 	mutation postViewed($post: Int!, $id: String!, $secretkey: String!) {
 		postViewed(post: $post, id: $id, secretkey: $secretkey) {
-			id
-			views {
-				id
-			}
+			url
 		}
 	}
 `;
@@ -111,10 +108,7 @@ export const VIEW_POST = gql`
 export const LIKE_POST = gql`
 	mutation postLiked($post: Int!, $id: String!, $secretkey: String!) {
 		postLiked(post: $post, id: $id, secretkey: $secretkey) {
-			id
-			likes {
-				id
-			}
+			url
 		}
 	}
 `;

@@ -1,0 +1,309 @@
+02:02:43    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:215:42
+
+  212 if (!session || req) {
+  213   // If no session exists or a request is provided
+  214   // Checking if the user data exists and is valid
+→ 215   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+02:02:43    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+02:02:43    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+02:02:43    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+02:02:43    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+03:57:35    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+03:57:35    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+03:57:35    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:35    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:41:35    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:215:42
+
+  212 if (!session || req) {
+  213   // If no session exists or a request is provided
+  214   // Checking if the user data exists and is valid
+→ 215   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+10:56:16    User not found 
+11:12:51    Invalid Credentials 
+11:12:52    Invalid Credentials 
+11:12:52    Invalid Credentials 
+11:32:56    
+Invalid `prisma.user.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/UserMutations.js:34:40
+
+  31 console.log(args)
+  32 
+  33 // Create a new user in the database
+→ 34 const user = await prisma.user.create(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:44    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:88:40
+
+  85 async resolve(parent, args, {prisma, sanitise, log}) {
+  86   try {
+  87     args = sanitise(args)
+→ 88     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:44    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:51:31
+
+  48   friendshipsReceived,
+  49   followers,
+  50   following,
+→ 51 } = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:44    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:50    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:50    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:50    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:38:50    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:40:28    Cannot read properties of null (reading 'posts') 
+11:43:24    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:215:42
+
+  212 if (!session || req) {
+  213   // If no session exists or a request is provided
+  214   // Checking if the user data exists and is valid
+→ 215   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:43:24    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:215:42
+
+  212 if (!session || req) {
+  213   // If no session exists or a request is provided
+  214   // Checking if the user data exists and is valid
+→ 215   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:43:34    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:215:42
+
+  212 if (!session || req) {
+  213   // If no session exists or a request is provided
+  214   // Checking if the user data exists and is valid
+→ 215   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:43:34    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:215:42
+
+  212 if (!session || req) {
+  213   // If no session exists or a request is provided
+  214   // Checking if the user data exists and is valid
+→ 215   const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+12:00:35    
+Invalid `prisma.LikedPost.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/PostMutations.js:187:34
+
+  184   (inDepth.likedBy.length + 2) / inDepth.viewedBy.length + 1
+  185 
+  186 // Create a new record in the LikedPost table
+→ 187 await prisma.LikedPost.create(
+Unique constraint failed on the fields: (`postId`,`userId`) 
+12:01:01    
+Invalid `prisma.LikedPost.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/PostMutations.js:187:34
+
+  184   (inDepth.likedBy.length + 2) / inDepth.viewedBy.length + 1
+  185 
+  186 // Create a new record in the LikedPost table
+→ 187 await prisma.LikedPost.create(
+Unique constraint failed on the fields: (`postId`,`userId`) 
+12:07:07    Cannot read properties of null (reading 'posts') 
+12:51:23    Cannot destructure property 'id' of '(intermediate value)' as it is null. 
+12:51:23    Cannot read properties of null (reading 'posts') 
+12:51:54    Cannot read properties of null (reading 'posts') 
+12:51:57    Cannot read properties of null (reading 'posts') 
+12:52:01    Cannot destructure property 'id' of '(intermediate value)' as it is null. 
+12:52:01    Cannot read properties of null (reading 'posts') 
+12:52:04    Cannot read properties of null (reading 'posts') 
+12:52:26    Cannot read properties of null (reading 'posts') 
+13:21:28    Cannot read properties of null (reading 'posts') 
+13:22:34    Cannot read properties of null (reading 'posts') 

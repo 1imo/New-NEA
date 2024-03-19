@@ -23,6 +23,7 @@ const PostMutations = {
         // Authenticate the user
         const exists = await auth(args.id, args.secretkey, req)
 
+        console.log(args, exists)
         // Create a new post in the database
         const post = await prisma.post.create({
           data: {
@@ -34,6 +35,7 @@ const PostMutations = {
             id: true,
           },
         })
+        console.log(post, 'CREATED')
 
         // Return the URL and ID of the created post
         return {

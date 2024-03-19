@@ -112,12 +112,21 @@ const UserQuery = {
           },
         })
 
+        console.log(user.posts)
+
+        const included = new Set()
+
         if (user) {
           user.posts.forEach((post) => {
-            post.likes = post.likedBy
-            post.views = post.viewedBy
-            delete post.likedBy
-            delete post.viewedBy
+            if (!included.has(post?.id)) {
+              post.likes = post.likedBy
+              post.views = post.viewedBy
+              delete post.likedBy
+              delete post.viewedBy
+              included.add(post?.id)
+            } else {
+              delete post
+            }
           })
         }
 
@@ -304,6 +313,7 @@ const UserQuery = {
 
         let followingPosts = []
         let friendsPosts = []
+        const included = new Set()
 
         // Collect posts from users the user is following
         if (args.type != 'Friends') {
@@ -313,7 +323,10 @@ const UserQuery = {
               x < posts.following[i]?.following?.posts.length;
               x++
             ) {
-              followingPosts.unshift(posts.following[i]?.following?.posts[x])
+              if (!included.has(posts.following[i]?.following?.posts[x].id)) {
+                followingPosts.unshift(posts.following[i]?.following?.posts[x])
+                included.add(posts.following[i]?.following?.posts[x].id)
+              }
             }
           }
         }
@@ -327,7 +340,10 @@ const UserQuery = {
         if (args.type != 'Following') {
           for (let i = 0; i < posts.friends.length; i++) {
             for (let x = 0; x < posts.friends[i]?.userTwo?.posts.length; x++) {
-              friendsPosts.unshift(posts.friends[i]?.userTwo?.posts[x])
+              if (!included.has(posts.friends[i]?.userTwo?.posts[x].id)) {
+                included.add(posts.friends[i]?.userTwo?.posts[x].id)
+                friendsPosts.unshift(posts.friends[i]?.userTwo?.posts[x])
+              }
             }
           }
 
@@ -337,9 +353,16 @@ const UserQuery = {
               x < posts.friendshipsReceived[i]?.userOne?.posts.length;
               x++
             ) {
-              friendsPosts.unshift(
-                posts.friendshipsReceived[i]?.userOne?.posts[x],
-              )
+              if (
+                !included.has(
+                  posts.friendshipsReceived[i]?.userOne?.posts[x].id,
+                )
+              ) {
+                included.add(posts.friendshipsReceived[i]?.userOne?.posts[x].id)
+                friendsPosts.unshift(
+                  posts.friendshipsReceived[i]?.userOne?.posts[x],
+                )
+              }
             }
           }
         }

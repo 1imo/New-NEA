@@ -87,8 +87,8 @@ function DiscoverProfile(props) {
 		return (
 			<div
 				style={styles.card}
-				onTouchStart={() => navigate(`/profile/${user.username}`)}
-				onMouseDown={() => navigate(`/profile/${user.username}`)}
+				onTouchEndCapture={() => navigate(`/profile/${user.username}`)}
+				onMouseUp={() => navigate(`/profile/${user.username}`)}
 				className="carousel"
 			>
 				<div
@@ -123,8 +123,8 @@ function DiscoverProfile(props) {
 				overflowX: "hidden",
 			}}
 		>
-			{queue?.current?.get_current_items()?.map((user, i) => {
-				return <Profile key={i} user={JSON.parse(user)} />;
+			{data?.recommendedUsers.map((user, i) => {
+				return <Profile key={i} user={user} />;
 			})}
 		</div>
 	);

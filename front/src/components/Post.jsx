@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import { LIKE_POST, VIEW_POST } from "../GraphQL/Mutations";
 import { Context } from "../context/Context";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 function Post(props) {
 	// Initializing hooks and state
@@ -53,14 +54,17 @@ function Post(props) {
 
 	return (
 		<section
-			style={styles.section}
+			style={{ ...styles.section, ...(!Ctx.id && { marginTop: 40 }) }}
 			ref={ref}
-			onClick={() => navigate(`/post/id/${props?.data?.id}`)}
+			// onClick={() => navigate(`/post/id/${props?.data?.id}`)}
 			onDoubleClick={() => like()}
 		>
 			{/* User avatar */}
 			<div>
 				<div
+					onClick={() =>
+						navigate(`/profile/${props?.data?.user?.username}`)
+					}
 					style={{
 						borderRadius: 80,
 						backgroundColor: "#F3F3F3",
@@ -83,11 +87,26 @@ function Post(props) {
 					width: "100%",
 				}}
 			>
-				<h3 style={{ textAlign: "left" }}>{props?.data?.user?.name}</h3>
-				<h5 style={{ textAlign: "left" }}>
+				<h3
+					onClick={() =>
+						navigate(`/profile/${props?.data?.user?.username}`)
+					}
+					style={{ textAlign: "left" }}
+				>
+					{props?.data?.user?.name}
+				</h3>
+				<h5
+					onClick={() =>
+						navigate(`/profile/${props?.data?.user?.username}`)
+					}
+					style={{ textAlign: "left" }}
+				>
 					@{props?.data?.user?.username}
 				</h5>
-				<p style={{ textAlign: "left", padding: "0px 0px" }}>
+				<p
+					onClick={() => navigate(`/post/id/${props?.data?.id}`)}
+					style={{ textAlign: "left", padding: "0px 0px" }}
+				>
 					{props?.data?.content}
 				</p>
 
@@ -107,6 +126,7 @@ function Post(props) {
 
 				{/* Rendering post image */}
 				<div
+					onClick={() => navigate(`/post/id/${props?.data?.id}`)}
 					style={{
 						width: "100%",
 						maxWidth: 640,

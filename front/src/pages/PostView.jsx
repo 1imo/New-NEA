@@ -6,6 +6,7 @@ import { LOAD_POST } from "../GraphQL/Queries";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../context/Context";
+import Loading from "../components/Loading";
 
 function PostView() {
 	// Get the post ID from the URL parameters
@@ -35,14 +36,31 @@ function PostView() {
 			{/* Render the Nav component if the user is logged in */}
 			{Ctx?.id && <Nav />}
 
-			{/* Render the Post component if the post data is available, otherwise show "Post Not Found" */}
-			{data?.getPost ? (
+			{/* Conditionally render based on loading state */}
+			{loading ? (
+				<Loading />
+			) : // Render the Post component if the post data is available, otherwise show "Post Not Found"
+			data?.getPost ? (
 				<Post data={data?.getPost} />
 			) : (
-				<h4>Post Not Found</h4>
+				<h4 style={styles.display}>Post Not Found</h4>
 			)}
 		</>
 	);
 }
+
+const styles = {
+	display: {
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%, -50%)",
+		color: "#CECECD",
+		fontSize: 15,
+		lineHeight: "24px",
+		fontFamily: "Poppins",
+		fontWeight: 700,
+	},
+};
 
 export default PostView;

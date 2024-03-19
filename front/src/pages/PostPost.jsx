@@ -5,6 +5,7 @@ import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
 import Nav from "../components/Nav";
+import Loading from "../components/Loading";
 
 function PostPost() {
 	// Use the CREATE_NEWPOST mutation
@@ -14,11 +15,17 @@ function PostPost() {
 	// Handle error
 	if (errorMain) alert("Error Posting");
 
+	// Handle loading
+	if (loadingMain) return <Loading />;
+
 	// Create a reference for the post input
 	const postRef = useRef();
 
 	// State for storing the photo
 	const [photo, setPhoto] = useState(null);
+
+	// Create a reference for the sent state to prevent multiple rerenders
+	const sent = useRef(false);
 
 	// Get the navigate function from useNavigate
 	const navigate = useNavigate();
@@ -28,6 +35,12 @@ function PostPost() {
 
 	// Function to handle posting
 	async function post() {
+		if (!sent.current) {
+			sent.current = true;
+		} else {
+			return;
+		}
+
 		// Call the createPost mutation with the provided variables
 		const res = await createPost({
 			variables: {

@@ -25,9 +25,6 @@ function Home() {
 	const [vars, setVars] = useState(Cookies.get("feed"));
 	const [load, setLoading] = useState(true);
 
-	// Initializing the navigate function
-	const navigate = useNavigate("/");
-
 	// Executing the GET_FEED query
 	const { error, loading, data } = useQuery(GET_FEED, {
 		variables: {
@@ -61,14 +58,14 @@ function Home() {
 			data?.getFeed?.map((da, index) => {
 				// Rendering the Post component for each post
 				if (index != 2) {
-					return <Post data={da} key={da.id || index} />;
+					return <Post data={da} key={index} />;
 				} else {
 					// After the third post, rendering the DiscoverProfile component
 					return (
-						<>
-							<Post data={da} key={da.id || index} />
+						<div key={index}>
+							<Post data={da} />
 							<DiscoverProfile />
-						</>
+						</div>
 					);
 				}
 			})
