@@ -9,14 +9,12 @@ import Loading from "../components/Loading";
 
 function PostPost() {
 	// Use the CREATE_NEWPOST mutation
-	const [createPost, { dataMain, errorMain, loadingMain }] =
-		useMutation(CREATE_NEWPOST);
+	const [createPost, { data, error, loading }] = useMutation(CREATE_NEWPOST);
+
+	// const [loading, setLoading] = useState(false);
 
 	// Handle error
-	if (errorMain) alert("Error Posting");
-
-	// Handle loading
-	if (loadingMain) return <Loading />;
+	if (error) alert("Error Posting");
 
 	// Create a reference for the post input
 	const postRef = useRef();
@@ -37,6 +35,7 @@ function PostPost() {
 	async function post() {
 		if (!sent.current) {
 			sent.current = true;
+			// setLoading(true);
 		} else {
 			return;
 		}
@@ -50,6 +49,8 @@ function PostPost() {
 				photo: photo !== null ? true : false,
 			},
 		});
+
+		console.log("LOADING", res);
 
 		// If the post is created successfully and a photo is provided
 		if (res?.data?.createPost?.id && photo !== null) {
@@ -97,7 +98,9 @@ function PostPost() {
 	}
 
 	// Render the component
-	return (
+	return loading ? (
+		<Loading />
+	) : (
 		<>
 			<section style={{ height: "calc(100dvh - 136px)" }}>
 				<Nav icons={false} />

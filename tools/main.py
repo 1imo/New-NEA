@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 import argparse
 import concurrent.futures
@@ -6,93 +7,78 @@ import threading
 import re
 import tldextract
 
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
+counter = 0
 
-    def dfs(self, level=0, prefix="", is_last=True):
-        if self is None:
-            return
-        if level == 0:
-            print(self.data)
-        else:
-            print(prefix + "+-- " + self.data)
-        if self.left:
-            self.left.dfs(level + 1, prefix + ("    " if is_last else "|   "), False)
-        if self.right:
-            self.right.dfs(level + 1, prefix + ("    " if is_last else "|   "), True)
-
-    @classmethod
-    def build_tree(self, root_url, depth):
-        root = Node(root_url)
+def dfs(url, depth, visited=None, level=0, prefix=""):
+    global counter
+    counter+=1
+    # Overwriting params
+    if visited is None:
         visited = set()
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            self.build_tree_recursive(root, depth, visited, executor)
-        return root
 
-    @staticmethod
-    def build_tree_recursive(node, depth, visited, executor):
-        if depth == 0 or node.data in visited:
-            return
-        visited.add(node.data)
+    if level > depth or url in visited:
+        # BASE CASE
+        return
+
+    visited.add(url)  # Mark URL as visited
+
+    print(prefix + "+-- " + url)  # Print with indentation
+
+    if level < depth:
         try:
-            queue = req(node.data)
-            futures = []
-            for url in queue:
-                if url not in visited:
-                    if node.left is None:
-                        node.left = Node(url)
-                        future = executor.submit(Node.build_tree_recursive, node.left, depth - 1, visited, executor)
-                        futures.append(future)
-                    elif node.right is None:
-                        node.right = Node(url)
-                        future = executor.submit(Node.build_tree_recursive, node.right, depth - 1, visited, executor)
-                        futures.append(future)
-                    else:
-                        break
-            concurrent.futures.wait(futures)
+            urls = req(url)  # Fetch URLs from the current URL
+            for i, new_url in enumerate(urls): # index and value at ordinal of index
+                if new_url not in visited:
+                    # Recursively traverse the child URL
+                    dfs(new_url, depth, visited, level + 1, prefix + ("    " if i == len(urls) - 1 else "|   "))
         except Exception as e:
-            print(f"Error fetching URLs for {node.data}: {e}")
+            print(f"Error fetching URLs for {url}: {e}")
 
 def bfs(url, depth):
-    visited = set()
-    queue = Queue()
-    queue.put((url, 0, "", True))
-    visited.add(url)
+    global counter
+    counter+=1 # Include the root node in count
+
+    visited = set()  # Set to keep track of visited URLs
+    queue = Queue()  # Queue for BFS traversal
+    queue.put((url, 0, ""))  # Add the root URL to the queue
+    visited.add(url)  # Mark as visited
 
     while not queue.empty():
-        current_url, current_depth, prefix, is_last = queue.get()
+        current_url, current_depth, prefix = queue.get()  # Dequeue next URL from queue
         if current_depth > depth:
+            # BASE CASE
             break
 
-        if current_depth == 0:
-            print(current_url)
-        else:
-            print(prefix + "+-- " + current_url)
+        print(prefix + "+-- " + current_url)  # Print with indentation
 
         if current_depth < depth:
             try:
-                urls = req(current_url)
-                for i, new_url in enumerate(urls):
+                urls = req(current_url)  # Fetch URLs from the current URL
+                for new_url in urls:
                     if new_url not in visited:
-                        queue.put((new_url, current_depth + 1, prefix + ("    " if is_last else "|   "), i == len(urls) - 1))
-                        visited.add(new_url)
+                        # Add the new URL to the queue
+                        queue.put((new_url, current_depth + 1, prefix + "|   ")) # Enqueue new URL
+                        counter+=1 # Increment the counter
+                        visited.add(new_url)  # Mark the new URL as visited
+
+                        # Get root domain
                         path = new_url.split("://")[1].split("/")[0]
                         tld = tldextract.extract(path).suffix
                         path = path.split(tld)[0]
                         path = path.split(".")[len(path.split(".")) - 2]
                         
                         with open(path + ".txt", "a") as file:
+                            # Save the URL to a text file based on the domain
                             file.write(new_url + "\n")
             except Exception as e:
                 print(f"Error fetching URL: {current_url} - {e}")
 
 def req(url):
+    # Make a request to the given URL and extract URLs from the response content
     try:
-        response = requests.get(url.strip())
-        content = str(response.content)
+        response = requests.get(url.strip())  # Send a GET request to the URL
+        content = str(response.content)  # Get the response content as a string
+        # Extract URLs from the content using regex
         urls = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', content)
         
         return urls
@@ -101,19 +87,28 @@ def req(url):
         return []
 
 def main():
+    global counter
+    # Main function to parse command-line arguments and start the web crawler
     parser = argparse.ArgumentParser(description="Web Crawler")
     parser.add_argument("--url", help="Root URL to start crawling from")
     parser.add_argument("--depth", help="URL depth to crawl")
     args = parser.parse_args()
 
-    root_url = args.url
-    depth = int(args.depth)
+    root_url = args.url  # Get the root URL from command-line arguments
+    depth = int(args.depth)  # Get the depth from command-line arguments
 
+    ts = datetime.now()
     print("DFS Traversal:")
-    root = Node.build_tree(root_url, depth)
-    root.dfs()
+    dfs(root_url, depth)  # Perform DFS traversal and tree building
+    print(f"DFS Traversal Time: {datetime.now() - ts}")
+    print(counter)
+    print("\n\n\n\n\n")
 
+    counter = 0
+    ts = datetime.now()
     print("\nBFS Traversal:")
-    bfs(root_url, depth)
+    bfs(root_url, depth)  # Perform BFS traversal
+    print(f"DFS Traversal Time: {datetime.now() - ts}")
+    print(counter)
 
 main()
