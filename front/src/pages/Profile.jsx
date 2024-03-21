@@ -14,9 +14,6 @@ function Profile() {
 	// State for storing the reversed posts
 	const [reversed, setReversed] = useState([]);
 
-	// State for checking the loading state of the ProfileInfo component
-	const [loadingInfo, setLoadingInfo] = useState(false);
-
 	// Use the GET_USERPOSTS query to fetch the user's posts
 	const { loading, error, data } = useQuery(GET_USERPOSTS, {
 		variables: {
@@ -41,7 +38,7 @@ function Profile() {
 	return !loading ? (
 		<>
 			{/* Render the ProfileInfo component */}
-			<ProfileInfo setLoadingInfo={setLoadingInfo} id={id} />
+			<ProfileInfo id={id} />
 
 			{/* Render the reversed posts if there are any, otherwise show "No Posts to Display" */}
 			{reversed?.length > 0 ? (

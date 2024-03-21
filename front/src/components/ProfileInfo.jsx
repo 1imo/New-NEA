@@ -9,7 +9,7 @@ import Loading from "./Loading";
 
 function ProfileInfo(props) {
 	// Destucturing of props from Profile Page
-	const { id, setLoadingInfo } = props;
+	const { id } = props;
 
 	// Accessing the Context object
 	const Ctx = useContext(Context);
@@ -38,7 +38,7 @@ function ProfileInfo(props) {
 			variables: {
 				id: Ctx.id,
 				secretkey: Ctx.secretkey,
-				username: d,
+				username: id,
 			},
 		}).then(() => window.location.reload());
 	}
@@ -60,14 +60,6 @@ function ProfileInfo(props) {
 			e.preventDefault();
 		});
 	});
-
-	useEffect(() => {
-		console.log(loading, data, props);
-		if (!loading) {
-			setLoadingInfo(false);
-			console.log(data, props);
-		}
-	}, [loading]);
 
 	return !loading ? (
 		<section
