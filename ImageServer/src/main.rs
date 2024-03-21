@@ -47,8 +47,6 @@ async fn upload_image(Json(payload): Json<Payload>) -> String {
         .map(|num| num.parse::<u8>().expect("Invalid number in string"))
         .collect();
 
-    println!("{:?}", payload.correlation);
-
     // Match on the correlation type to determine where to save the image
     match payload.correlation {
         UploadType::Post => {
@@ -100,8 +98,6 @@ async fn send_image(Path((type_id, id)): Path<(String, String)>) -> Response<Bod
     
     // Convert the type_id to a string slice
     let type_id = type_id.as_str();
-
-    println!("{:?}", type_id);
 
     // Match on the type_id to determine the file path prefix
     match type_id {
