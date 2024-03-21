@@ -7,14 +7,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FOLLOW_UNFOLLOW } from "../GraphQL/Mutations";
 import Loading from "./Loading";
 
-function ProfileInfo() {
-	// Initializing Apollo client
-	const client = useApolloClient();
-
-	// Getting the username parameter from the URL
-	const { id } = useParams();
-	// State to store the username
-	const [d, setD] = useState("");
+function ProfileInfo(props) {
+	// Destucturing of props from Profile Page
+	const { id, setLoadingInfo } = props;
 
 	// Accessing the Context object
 	const Ctx = useContext(Context);
@@ -48,11 +43,6 @@ function ProfileInfo() {
 		}).then(() => window.location.reload());
 	}
 
-	// Setting the 'd' state with the username parameter when it changes
-	useEffect(() => {
-		setD(id);
-	}, [id]);
-
 	// Navigating to the 404 page if there's an error
 	if (error) {
 		navigate("/404");
@@ -62,16 +52,24 @@ function ProfileInfo() {
 	useEffect(() => {
 		const followBtn = document.querySelector(".followBtn");
 
-		followBtn.addEventListener("mousedown", (e) => {
+		followBtn?.addEventListener("mousedown", (e) => {
 			e.preventDefault();
 		});
 
-		followBtn.addEventListener("touchstart", (e) => {
+		followBtn?.addEventListener("touchstart", (e) => {
 			e.preventDefault();
 		});
 	});
 
-	return (
+	useEffect(() => {
+		console.log(loading, data, props);
+		if (!loading) {
+			setLoadingInfo(false);
+			console.log(data, props);
+		}
+	}, [loading]);
+
+	return !loading ? (
 		<section
 			style={{
 				display: "flex",
@@ -86,10 +84,7 @@ function ProfileInfo() {
 				{/* User information */}
 				<div style={{ display: "flex", columnGap: 8 }}>
 					<div>
-						<h3>
-							{data?.getPublicInfo?.name.split(" ")[0]}{" "}
-							{data?.getPublicInfo?.name.split(" ")[1]}
-						</h3>
+						<h3>{data?.getPublicInfo?.name}</h3>
 						<h5>@{data?.getPublicInfo?.username}</h5>
 					</div>
 				</div>
@@ -174,6 +169,8 @@ function ProfileInfo() {
 				&nbsp;
 			</div>
 		</section>
+	) : (
+		<Loading />
 	);
 }
 

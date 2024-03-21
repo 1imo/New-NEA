@@ -11,26 +11,21 @@ function Profile() {
 	// Get the username from the URL parameters
 	const { id } = useParams();
 
-	// State for storing the username
-	const [d, setD] = useState("");
-
 	// State for storing the reversed posts
 	const [reversed, setReversed] = useState([]);
+
+	// State for checking the loading state of the ProfileInfo component
+	const [loadingInfo, setLoadingInfo] = useState(false);
 
 	// Use the GET_USERPOSTS query to fetch the user's posts
 	const { loading, error, data } = useQuery(GET_USERPOSTS, {
 		variables: {
-			username: d,
+			username: id,
 		},
 	});
 
 	// Handle error
 	if (error) alert("Error Loading Profile");
-
-	// Update the username state whenever the id changes
-	useEffect(() => {
-		setD(id);
-	}, [id]);
 
 	// Update the reversed posts state whenever the data changes
 	useEffect(() => {
@@ -43,10 +38,10 @@ function Profile() {
 	}, [data]);
 
 	// Render the component
-	return (
+	return !loading ? (
 		<>
 			{/* Render the ProfileInfo component */}
-			<ProfileInfo />
+			<ProfileInfo setLoadingInfo={setLoadingInfo} id={id} />
 
 			{/* Render the reversed posts if there are any, otherwise show "No Posts to Display" */}
 			{reversed?.length > 0 ? (
@@ -62,12 +57,15 @@ function Profile() {
 						left: "50%",
 						transform: "translate(-50%, -50%)",
 						color: "#CECECD",
+						zIndex: 9,
 					}}
 				>
 					No Posts to Display
 				</h4>
 			)}
 		</>
+	) : (
+		<Loading />
 	);
 }
 

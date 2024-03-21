@@ -111,7 +111,7 @@ function DiscoverProfile(props) {
 	}
 
 	// Rendering the DiscoverProfile component
-	return (
+	return !loading ? (
 		<div
 			style={{
 				display: "flex",
@@ -127,6 +127,8 @@ function DiscoverProfile(props) {
 				return <Profile key={i} user={user} />;
 			})}
 		</div>
+	) : (
+		<Loading />
 	);
 }
 
