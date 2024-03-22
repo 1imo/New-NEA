@@ -1,0 +1,45 @@
+17:50:14    
+Invalid `prisma.chatroom.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/ChatroomQueries.js:27:42
+
+  24 let chatroom = {}
+  25 
+  26 // Fetch the chatroom data along with messages and chatroom users
+→ 27 chatroom = await prisma.chatroom.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+17:50:14    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+17:50:14    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+17:50:14    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+17:50:14    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 

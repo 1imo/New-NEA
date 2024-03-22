@@ -169,20 +169,16 @@ function MessageToPerson() {
 
 	// DateEl component to display the date between messages
 	function DateEl({ msg, msgTwo }) {
-		// Calculate the time difference between the two messages in minutes
-		const difference = (msgTwo.date - msg.date) / (100 * 60);
-
 		// Create Date objects for the two messages
 		const date1 = new Date(parseInt(msg.date));
 		const date2 = new Date(parseInt(msgTwo.date));
 
-		// Check if the time difference is greater than 24 hours or if the messages are from different days
-		if (difference > 24 * 60 || date1.getDay() !== date2.getDay()) {
-			// Create a Date object for the current message
-			const date = new Date(parseInt(msg.date));
-			// Create a Date object for the current time
-			const current = new Date(Date.now());
-
+		// Check if the messages are from different days
+		if (
+			date1.getFullYear() !== date2.getFullYear() ||
+			date1.getMonth() !== date2.getMonth() ||
+			date1.getDate() !== date2.getDate()
+		) {
 			// Arrays for day and month names
 			const days = [
 				"Sunday",
@@ -208,31 +204,15 @@ function MessageToPerson() {
 				"Dec",
 			];
 
-			// Determine the day name based on the time difference
-			const day =
-				Math.abs(current - date) > 24 * 60 * 1000
-					? days[date.getDay()]
-					: "";
-
-			// Determine the date based on the time difference
-			const dte =
-				Math.abs(current - date) > 24 * 7 * 60 * 1000
-					? date.getDate()
-					: "";
-
-			// Determine the month name based on the current month and message month
-			const month =
-				date.getMonth == current.getMonth
-					? ""
-					: months[date.getMonth()];
-
-			// Extract hours and minutes from the message date
-			const hours = date.getHours();
-			const minutes = date.getMinutes();
-			const time = hours + ":" + minutes;
+			// Extract day, date, month, hours, and minutes from the message date
+			const day = days[date1.getDay()];
+			const dte = date1.getDate();
+			const month = months[date1.getMonth()];
+			const hours = date1.getHours();
+			const minutes = date1.getMinutes();
 
 			// Construct the date string
-			const dateStr = day + " " + dte + " " + month + " " + time;
+			const dateStr = `${day} ${dte} ${month} ${hours}:${minutes}`;
 
 			// Render the date element
 			return (
@@ -250,7 +230,11 @@ function MessageToPerson() {
 				</p>
 			);
 		}
+
+		// Return null if the messages are from the same day
+		return null;
 	}
+
 	// Function to post an image
 	function postImage() {
 		// Create an input element of type "file"
@@ -303,7 +287,7 @@ function MessageToPerson() {
 	}
 
 	// Function to send an attachment
-	function sendAttatchment() {
+	function sendAttachment() {
 		// Create an input element of type "file"
 		const input = document.createElement("input");
 		input.type = "file";
@@ -389,925 +373,104 @@ function MessageToPerson() {
 					/>
 					{/* Send file button */}
 					<img
-						onClick={() => sendAttatchment()}
+						onClick={() => sendAttachment()}
 						src="/attach.svg"
 						alt="Send File"
 					/>
 				</div>
-
-				{/* Message container */}
+				{/* Message container */}{" "}
 				<div className="msgContainer">
-					{/* Render messages */}
+					{" "}
+					{/* Render messages */}{" "}
 					{msgState.length > 0 &&
 						msgState.map((cont, index) => {
-							if (index !== msgState.length - 1 && index !== 0) {
-								if (cont.sender.id !== Ctx.id) {
-									if (
-										index + 1 < msgStore.current.length &&
-										msgStore.current[index + 1].sender
-											.id !== cont.sender.id &&
-										msgStore.current[index - 1].sender
-											.id !== cont.sender.id
-									) {
-										return (
-											<>
-												{/* Render date element */}
-												<DateEl
-													msg={cont}
-													msgTwo={
-														msgStore.current[
-															index - 1
-														]
-													}
-												/>
-												{/* Render message */}
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-start",
-													}}
-												>
-													<div>
-														<p
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"4px 8px 8px 4px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											</>
-										);
-									} else if (
-										index + 1 < msgStore.current.length &&
-										cont.sender.id ===
-											msgStore.current[index + 1].sender
-												.id &&
-										cont.sender.id ===
-											msgStore.current[index - 1].sender
-												.id
-									) {
-										return (
-											<>
-												{/* Render date element */}
-												<DateEl
-													msg={cont}
-													msgTwo={
-														msgStore.current[
-															index - 1
-														]
-													}
-												/>
-												{/* Render message */}
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-start",
-													}}
-												>
-													<div>
-														<p
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"4px 8px 8px 4px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id}) cover`,
-																		height: 200,
-																		width: 200,
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											</>
-										);
-									} else if (
-										index + 1 < msgStore.current.length &&
-										cont.sender.id !==
-											msgStore.current[index - 1].sender
-												.id
-									) {
-										return (
-											<>
-												{/* Render date element */}
-												<DateEl
-													msg={cont}
-													msgTwo={
-														msgStore.current[
-															index - 1
-														]
-													}
-												/>
-												{/* Render message */}
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-start",
-													}}
-												>
-													<div>
-														<p
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"16px 16px 4px 4px",
-																	marginTop: 8,
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											</>
-										);
-									} else {
-										return (
-											<>
-												{/* Render date element */}
-												<DateEl
-													msg={cont}
-													msgTwo={
-														msgStore.current[
-															index - 1
-														]
-													}
-												/>
-												{/* Render message */}
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-start",
-													}}
-												>
-													<div>
-														<p
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"4px 4px 16px 16px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											</>
-										);
-									}
+							const isLastMsg = index === msgState.length - 1;
+							const isFirstMsg = index === 0;
+							const isSenderUser = cont.sender.id === Ctx.id;
+							const prevMsg = msgStore.current[index - 1];
+							const nextMsg = msgStore.current[index + 1];
+							const isPrevSameSender =
+								prevMsg && prevMsg.sender.id === cont.sender.id;
+							const isNextSameSender =
+								nextMsg && nextMsg.sender.id === cont.sender.id;
+
+							let borderRadius = "8px";
+							if (isSenderUser) {
+								if (isFirstMsg || !isPrevSameSender) {
+									borderRadius = "16px 16px 4px 4px";
+								} else if (isLastMsg || !isNextSameSender) {
+									borderRadius = "4px 4px 16px 16px";
 								} else {
-									if (
-										index + 1 < msgStore.current.length &&
-										msgStore.current[index + 1].sender
-											.id !== Ctx.id &&
-										msgStore.current[index - 1].sender
-											.id !== Ctx.id
-									) {
-										return (
-											<>
-												{/* Render date element */}
-												<DateEl
-													msg={cont}
-													msgTwo={
-														msgStore.current[
-															index - 1
-														]
-													}
-												/>
-												{/* Render message */}
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-end",
-													}}
-												>
-													<div>
-														<p
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"8px 4px 4px 8px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											</>
-										);
-									} else if (
-										index + 1 < msgStore.current.length &&
-										cont.sender.id ===
-											msgStore.current[index + 1].sender
-												.id &&
-										cont.sender.id ===
-											msgStore.current[index - 1].sender
-												.id
-									) {
-										return (
-											<>
-												{/* Render date element */}
-												<DateEl
-													msg={cont}
-													msgTwo={
-														msgStore.current[
-															index - 1
-														]
-													}
-												/>
-												{/* Render message */}
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-end",
-													}}
-												>
-													<div>
-														<p
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"8px 4px 4px 8px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											</>
-										);
-									} else if (
-										index + 1 < msgStore.current.length &&
-										cont.sender.id !==
-											msgStore.current[index - 1].sender
-												.id
-									) {
-										return (
-											<>
-												{/* Render date element */}
-												<DateEl
-													msg={cont}
-													msgTwo={
-														msgStore.current[
-															index - 1
-														]
-													}
-												/>
-												{/* Render message */}
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-end",
-													}}
-												>
-													<div>
-														<p
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"16px 16px 4px 4px",
-																	marginTop: 8,
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											</>
-										);
-									} else {
-										return (
-											<>
-												{/* Render date element */}
-												<DateEl
-													msg={cont}
-													msgTwo={
-														msgStore.current[
-															index - 1
-														]
-													}
-												/>
-												{/* Render message */}
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-end",
-													}}
-												>
-													<div>
-														<p
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"4px 4px 16px 16px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											</>
-										);
-									}
+									borderRadius = "8px 4px 4px 8px";
 								}
 							} else {
-								if (index === 0) {
-									if (cont.sender.id !== Ctx.id) {
-										if (
-											index + 1 <
-												msgStore.current.length &&
-											msgStore.current[index + 1].sender
-												.id !== cont.sender.id
-										) {
-											return (
-												<>
-													{/* Render date element */}
-													<DateEl
-														msg={cont}
-														msgTwo={
-															msgStore.current[
-																index + 1
-															]
-														}
-													/>
-													{/* Render message */}
-													<div
-														key={index}
-														style={{
-															width: "100%",
-															display: "flex",
-															justifyContent:
-																"flex-start",
-														}}
-													>
-														<div>
-															<p
-																style={{
-																	...styles.msg,
-																	...{
-																		borderRadius:
-																			"8px 4px 4px 8px",
-																	},
-																}}
-															>
-																{cont?.type ===
-																"message" ? (
-																	cont?.content
-																) : (
-																	<div
-																		style={{
-																			backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																			height: 200,
-																			width: 200,
-																			backgroundSize:
-																				"cover",
-																		}}
-																	>
-																		&nbsp;
-																	</div>
-																)}
-															</p>
-														</div>
-													</div>
-												</>
-											);
-										} else if (
-											index + 1 <
-												msgStore.current.length &&
-											cont.sender.id ===
-												msgStore.current[index + 1]
-													.sender.id
-										) {
-											return (
-												<>
-													{/* Render date element */}
-													<DateEl
-														msg={cont}
-														msgTwo={
-															msgStore.current[
-																index + 1
-															]
-														}
-													/>
-													{/* Render message */}
-													<div
-														key={index}
-														style={{
-															width: "100%",
-															display: "flex",
-															justifyContent:
-																"flex-start",
-														}}
-													>
-														<div>
-															<p
-																style={{
-																	...styles.msg,
-																	...{
-																		borderRadius:
-																			"16px 16px 4px 4px",
-																	},
-																}}
-															>
-																{cont?.type ===
-																"message" ? (
-																	cont?.content
-																) : (
-																	<div
-																		style={{
-																			backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																			height: 200,
-																			width: 200,
-																			backgroundSize:
-																				"cover",
-																		}}
-																	>
-																		&nbsp;
-																	</div>
-																)}
-															</p>
-														</div>
-													</div>
-												</>
-											);
-										}
-									} else {
-										if (
-											index + 1 <
-												msgStore.current.length &&
-											msgStore.current[index + 1].sender
-												.id !== cont.sender.id
-										) {
-											return (
-												<>
-													{/* Render date element */}
-													<DateEl
-														msg={cont}
-														msgTwo={
-															msgStore.current[
-																index + 1
-															]
-														}
-													/>
-													{/* Render message */}
-													<div
-														key={index}
-														style={{
-															width: "100%",
-															display: "flex",
-															justifyContent:
-																"flex-end",
-														}}
-													>
-														<div>
-															<p
-																style={{
-																	...styles.msg,
-																	...{
-																		borderRadius:
-																			"4px 8px 8px 4px",
-																	},
-																}}
-															>
-																{cont?.type ===
-																"message" ? (
-																	cont?.content
-																) : (
-																	<div
-																		style={{
-																			backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																			height: 200,
-																			width: 200,
-																			backgroundSize:
-																				"cover",
-																		}}
-																	>
-																		&nbsp;
-																	</div>
-																)}
-															</p>
-														</div>
-													</div>
-												</>
-											);
-										} else if (
-											index + 1 <
-												msgStore.current.length &&
-											cont.sender.id ===
-												msgStore.current[index + 1]
-													.sender.id
-										) {
-											return (
-												<>
-													{/* Render date element */}
-													<DateEl
-														msg={cont}
-														msgTwo={
-															msgStore.current[
-																index + 1
-															]
-														}
-													/>
-													{/* Render message */}
-													<div
-														key={index}
-														style={{
-															width: "100%",
-															display: "flex",
-															justifyContent:
-																"flex-end",
-														}}
-													>
-														<div>
-															<p
-																style={{
-																	...styles.msg,
-																	...{
-																		borderRadius:
-																			"16px 16px 4px 4px",
-																	},
-																}}
-															>
-																{cont?.type ===
-																"message" ? (
-																	cont?.content
-																) : (
-																	<div
-																		style={{
-																			backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																			height: 200,
-																			width: 200,
-																			backgroundSize:
-																				"cover",
-																		}}
-																	>
-																		&nbsp;
-																	</div>
-																)}
-															</p>
-														</div>
-													</div>
-												</>
-											);
-										}
-									}
+								if (isFirstMsg || !isPrevSameSender) {
+									borderRadius = "16px 16px 4px 4px";
+								} else if (isLastMsg || !isNextSameSender) {
+									borderRadius = "4px 4px 16px 16px";
 								} else {
-									if (cont.sender.id !== Ctx.id) {
-										if (
-											index - 1 <
-												msgStore.current.length &&
-											msgStore.current[index - 1].sender
-												.id !== cont.sender.id
-										) {
-											return (
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-start",
-													}}
-												>
-													<div>
-														<p
-															className="bottomMsg"
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"4px 8px 8px 4px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											);
-										} else if (
-											index - 1 <
-												msgStore.current.length &&
-											cont.sender.id ===
-												msgStore.current[index - 1]
-													.sender.id
-										) {
-											return (
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-start",
-													}}
-												>
-													<div>
-														<p
-															className="bottomMsg"
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"4px 8px 8px 4px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											);
-										}
-									} else {
-										if (
-											index - 1 <
-												msgStore.current.length &&
-											msgStore.current[index - 1].sender
-												.id !== cont.sender.id
-										) {
-											return (
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-end",
-													}}
-												>
-													<div>
-														<p
-															className="bottomMsg"
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"8px 4px 4px 8px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											);
-										} else if (
-											index - 1 <
-												msgStore.current.length &&
-											cont.sender.id ===
-												msgStore.current[index - 1]
-													.sender.id
-										) {
-											return (
-												<div
-													key={index}
-													style={{
-														width: "100%",
-														display: "flex",
-														justifyContent:
-															"flex-end",
-													}}
-												>
-													<div>
-														<p
-															className="bottomMsg"
-															style={{
-																...styles.msg,
-																...{
-																	borderRadius:
-																		"8px 4px 4px 8px",
-																},
-															}}
-														>
-															{cont?.type ===
-															"message" ? (
-																cont?.content
-															) : (
-																<div
-																	style={{
-																		backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
-																		height: 200,
-																		width: 200,
-																		backgroundSize:
-																			"cover",
-																	}}
-																>
-																	&nbsp;
-																</div>
-															)}
-														</p>
-													</div>
-												</div>
-											);
-										}
-									}
+									borderRadius = "4px 8px 8px 4px";
 								}
 							}
+
+							return (
+								<div key={index}>
+									{/* Render date element */}
+									{(!isFirstMsg || !isLastMsg) && (
+										<DateEl
+											msg={cont}
+											msgTwo={
+												isFirstMsg ? nextMsg : prevMsg
+											}
+										/>
+									)}
+									{/* Render message */}
+									<div
+										style={{
+											width: "100%",
+											display: "flex",
+											justifyContent: isSenderUser
+												? "flex-end"
+												: "flex-start",
+										}}
+									>
+										<div>
+											<p
+												className={
+													isLastMsg ? "bottomMsg" : ""
+												}
+												style={{
+													...styles.msg,
+													borderRadius,
+													marginTop:
+														!isFirstMsg &&
+														!isPrevSameSender
+															? 8
+															: 0,
+												}}
+											>
+												{cont?.type === "message" ? (
+													cont?.content
+												) : (
+													<div
+														style={{
+															backgroundImage: `url(${Ctx.imageServer}/fetch/chats/${cont?.id})`,
+															height: 200,
+															width: 200,
+															backgroundSize:
+																"cover",
+														}}
+													>
+														&nbsp;
+													</div>
+												)}
+											</p>
+										</div>
+									</div>
+								</div>
+							);
 						})}
 				</div>
-
 				{/* Navigation bar */}
 				<nav
 					style={{
