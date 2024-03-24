@@ -109,17 +109,14 @@ function MessageToPerson() {
 					edit("read", data.id);
 				}
 				setMsgState(msgStore.current);
-				console.log(msgState, msgStore.current, data);
 			} else if (
 				msgStore.current[msgStore.current.length - 1]?.read !=
 				data?.read
 			) {
-				console.log("ELSE");
 				msgStore.current = [
 					...msgStore.current.slice(0, msgStore.current.length - 2),
 					data,
 				];
-				console.log(msgStore.current);
 				setMsgState(msgStore.current);
 			}
 		};
@@ -155,7 +152,6 @@ function MessageToPerson() {
 			msgStore.current[msgStore.current.length - 1]?.id !== Ctx.id
 		) {
 			// Mark the last message as read
-			console.log("READ");
 			edit("read", msgStore.current[msgStore.current.length - 1].id);
 		}
 	}, [inView]);
@@ -177,7 +173,6 @@ function MessageToPerson() {
 
 			// Update the 'msgState' with the current 'msgStore'
 			setMsgState(msgStore.current);
-			console.log(data?.getChatroomData?.messages);
 		}
 	}, [loading]);
 
