@@ -224,25 +224,68 @@ const ChatroomMutations = {
           console.log(args, 'UNREAD')
         } else if (args.edit === 'delete') {
           updateData.content = 'This message has been deleted'
-          console.log(args, 'DELETE')
+          console.log(args, 'DELETE', updateData)
         }
 
         // Update the message if necessary
         if (Object.keys(updateData).length > 0) {
-          const m = await prisma.message.update({
-            where: {
-              AND: [{id: args.message}, {senderId: args.id}],
-            },
-            data: updateData,
-          })
-
-          console.log(m, 'message')
+          // Check so that only the sender can delete their message
+          if (args.edit === 'delete') {
+            const m = await prisma.message.update({
+              where: {
+                id: args.message,
+              },
+              data: updateData,
+              select: {
+                id: true,
+                sender: {
+                  select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                  },
+                },
+                content: true,
+                type: true,
+                date: true,
+                read: true,
+              },
+            })
+            // // Emit the updated chat data to all users in the chatroom
+            // chatroom.chatroomUsers.map((user) => {
+            //   console.log(user)
+            //   io.to(user.socket).emit('chatroom', {
+            //     read: true
+            //   })
+            // })
+          } else {
+            const m = await prisma.message.update({
+              where: {
+                id: args.message,
+              },
+              data: updateData,
+              select: {
+                id: true,
+                sender: {
+                  select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                  },
+                },
+                content: true,
+                type: true,
+                date: true,
+                read: true,
+              },
+            })
+            // Emit the updated chat data to all users in the chatroom
+            chatroom.chatroomUsers.map((user) => {
+              console.log(user)
+              io.to(user.user.socket).emit('chatroom', m)
+            })
+          }
         }
-
-        // Emit the updated chat data to all users in the chatroom
-        chatroom.chatroomUsers.map((user) => {
-          io.to(user.socket).emit('updatedChat', updateData)
-        })
 
         return
       } catch (e) {

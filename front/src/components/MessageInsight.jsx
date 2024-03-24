@@ -34,6 +34,7 @@ function MessageInsight(props) {
 
 	// Determining the visibility of the unread indicator
 	const read = props?.data?.lastMessage?.read ? { display: "none" } : null;
+	console.log(`url(${Ctx.imageServer}/fetch/profile/${recipient?.id}`);
 
 	return (
 		<>
@@ -47,7 +48,7 @@ function MessageInsight(props) {
 					}}
 				>
 					<img
-						src="./shoe_collective.jpg"
+						src={`${Ctx.imageServer}/fetch/profile/${recipient?.id}`}
 						height="80px"
 						width="80px"
 						style={{ borderRadius: 400 }}

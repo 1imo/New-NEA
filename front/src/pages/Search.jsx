@@ -35,6 +35,7 @@ function Search() {
 				className="normInputScreen"
 				placeholder={`|Search`}
 				onChange={(e) => setSearchTerm(e.target.value)}
+				style={{ marginTop: 40 }}
 			/>
 
 			{/* Search results section */}

@@ -31,8 +31,6 @@ function ProfileInsight(props) {
 				},
 			});
 
-			console.log(res);
-
 			if (res?.data?.getLocation?.id) {
 				// Navigating to the chatroom
 				navigate("/messaging/id/" + res.data.getLocation.id);
@@ -55,13 +53,8 @@ function ProfileInsight(props) {
 					action: "add",
 				},
 			});
-
-			console.log(res);
 		}
 	}
-
-	console.log(props);
-	console.log(props?.id);
 
 	return (
 		<>

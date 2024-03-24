@@ -1,0 +1,175 @@
+13:36:52    
+Invalid `prisma.message.update()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/ChatroomMutations.js:234:44
+
+  231 if (Object.keys(updateData).length > 0) {
+  232   // Check so that only the sender can delete their message
+  233   if (args.edit === 'delete') {
+→ 234     const m = await prisma.message.update({
+            where: {
+              AND: [
+                {
+                  id: "419e61de-de62-4957-81d5-bd7792d95f3d"
+                },
+                {
+                  senderId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+                }
+              ],
+          ?   id?: String,
+          ?   OR?: MessageWhereInput[],
+          ?   NOT?: MessageWhereInput | MessageWhereInput[],
+          ?   content?: StringFilter | String,
+          ?   senderId?: StringFilter | String,
+          ?   date?: DateTimeFilter | DateTime,
+          ?   read?: BoolFilter | Boolean,
+          ?   type?: StringFilter | String,
+          ?   chatroomId?: StringNullableFilter | String | Null,
+          ?   sender?: UserRelationFilter | UserWhereInput,
+          ?   chatroom?: ChatroomNullableRelationFilter | ChatroomWhereInput | Null
+            },
+            data: {
+              content: "This message has been deleted"
+            }
+          })
+
+Argument `where` of type MessageWhereUniqueInput needs at least one of `id` or `id` arguments. Available options are marked with ?. 
+13:37:07    
+Invalid `prisma.message.update()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/ChatroomMutations.js:234:44
+
+  231 if (Object.keys(updateData).length > 0) {
+  232   // Check so that only the sender can delete their message
+  233   if (args.edit === 'delete') {
+→ 234     const m = await prisma.message.update({
+            where: {
+              AND: [
+                {
+                  id: "419e61de-de62-4957-81d5-bd7792d95f3d"
+                },
+                {
+                  senderId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+                }
+              ],
+          ?   id?: String,
+          ?   OR?: MessageWhereInput[],
+          ?   NOT?: MessageWhereInput | MessageWhereInput[],
+          ?   content?: StringFilter | String,
+          ?   senderId?: StringFilter | String,
+          ?   date?: DateTimeFilter | DateTime,
+          ?   read?: BoolFilter | Boolean,
+          ?   type?: StringFilter | String,
+          ?   chatroomId?: StringNullableFilter | String | Null,
+          ?   sender?: UserRelationFilter | UserWhereInput,
+          ?   chatroom?: ChatroomNullableRelationFilter | ChatroomWhereInput | Null
+            },
+            data: {
+              content: "This message has been deleted"
+            }
+          })
+
+Argument `where` of type MessageWhereUniqueInput needs at least one of `id` or `id` arguments. Available options are marked with ?. 
+13:38:17    
+Invalid `prisma.message.update()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/ChatroomMutations.js:234:44
+
+  231 if (Object.keys(updateData).length > 0) {
+  232   // Check so that only the sender can delete their message
+  233   if (args.edit === 'delete') {
+→ 234     const m = await prisma.message.update({
+            where: {
+              AND: [
+                {
+                  id: "419e61de-de62-4957-81d5-bd7792d95f3d"
+                },
+                {
+                  senderId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+                }
+              ],
+          ?   id?: String,
+          ?   OR?: MessageWhereInput[],
+          ?   NOT?: MessageWhereInput | MessageWhereInput[],
+          ?   content?: StringFilter | String,
+          ?   senderId?: StringFilter | String,
+          ?   date?: DateTimeFilter | DateTime,
+          ?   read?: BoolFilter | Boolean,
+          ?   type?: StringFilter | String,
+          ?   chatroomId?: StringNullableFilter | String | Null,
+          ?   sender?: UserRelationFilter | UserWhereInput,
+          ?   chatroom?: ChatroomNullableRelationFilter | ChatroomWhereInput | Null
+            },
+            data: {
+              content: "This message has been deleted"
+            }
+          })
+
+Argument `where` of type MessageWhereUniqueInput needs at least one of `id` or `id` arguments. Available options are marked with ?. 
+13:43:09    
+Invalid `prisma.message.update()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/ChatroomMutations.js:234:44
+
+  231 if (Object.keys(updateData).length > 0) {
+  232   // Check so that only the sender can delete their message
+  233   if (args.edit == 'delete') {
+→ 234     const m = await prisma.message.update({
+            where: {
+              AND: [
+                {
+                  id: "419e61de-de62-4957-81d5-bd7792d95f3d"
+                },
+                {
+                  senderId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+                }
+              ],
+          ?   id?: String,
+          ?   OR?: MessageWhereInput[],
+          ?   NOT?: MessageWhereInput | MessageWhereInput[],
+          ?   content?: StringFilter | String,
+          ?   senderId?: StringFilter | String,
+          ?   date?: DateTimeFilter | DateTime,
+          ?   read?: BoolFilter | Boolean,
+          ?   type?: StringFilter | String,
+          ?   chatroomId?: StringNullableFilter | String | Null,
+          ?   sender?: UserRelationFilter | UserWhereInput,
+          ?   chatroom?: ChatroomNullableRelationFilter | ChatroomWhereInput | Null
+            },
+            data: {
+              content: "This message has been deleted"
+            }
+          })
+
+Argument `where` of type MessageWhereUniqueInput needs at least one of `id` or `id` arguments. Available options are marked with ?. 
+13:44:50    
+Invalid `prisma.message.update()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/ChatroomMutations.js:235:44
+
+  232 // Check so that only the sender can delete their message
+  233 if (args.edit === 'delete') {
+  234   console.log('DEL')
+→ 235   const m = await prisma.message.update({
+          where: {
+            AND: [
+              {
+                id: "419e61de-de62-4957-81d5-bd7792d95f3d"
+              },
+              {
+                senderId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+              }
+            ],
+        ?   id?: String,
+        ?   OR?: MessageWhereInput[],
+        ?   NOT?: MessageWhereInput | MessageWhereInput[],
+        ?   content?: StringFilter | String,
+        ?   senderId?: StringFilter | String,
+        ?   date?: DateTimeFilter | DateTime,
+        ?   read?: BoolFilter | Boolean,
+        ?   type?: StringFilter | String,
+        ?   chatroomId?: StringNullableFilter | String | Null,
+        ?   sender?: UserRelationFilter | UserWhereInput,
+        ?   chatroom?: ChatroomNullableRelationFilter | ChatroomWhereInput | Null
+          },
+          data: {
+            content: "This message has been deleted"
+          }
+        })
+
+Argument `where` of type MessageWhereUniqueInput needs at least one of `id` or `id` arguments. Available options are marked with ?. 

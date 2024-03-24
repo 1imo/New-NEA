@@ -62,6 +62,7 @@ function MessageToPerson() {
 	// Error handling for chatroom data loading and message editing
 	if (error) alert("Error Loading Chatroom Data");
 	if (errorMain) alert("Error Editing Chat");
+
 	// Function to send a message
 	async function send() {
 		// Check if the message content is empty
@@ -100,17 +101,25 @@ function MessageToPerson() {
 	useEffect(() => {
 		// Function to handle updated chat data
 		const handleUpdatedChat = (data) => {
-			console.log("UPDATE", data);
-
 			// Check if the last message in the 'msgStore' matches the updated chat data
-			if (
-				msgStore.current.length > 0 &&
-				msgStore.current[msgStore.current.length - 1]?.id == data?.id
-			) {
-				return;
-			} else {
+			if (msgStore.current[msgStore.current.length - 1]?.id != data?.id) {
 				// Update the 'msgStore' with the new chat data
 				msgStore.current = [...msgStore.current, data];
+				if (data.sender.id != Ctx.id) {
+					edit("read", data.id);
+				}
+				setMsgState(msgStore.current);
+				console.log(msgState, msgStore.current, data);
+			} else if (
+				msgStore.current[msgStore.current.length - 1]?.read !=
+				data?.read
+			) {
+				console.log("ELSE");
+				msgStore.current = [
+					...msgStore.current.slice(0, msgStore.current.length - 2),
+					data,
+				];
+				console.log(msgStore.current);
 				setMsgState(msgStore.current);
 			}
 		};
@@ -128,10 +137,13 @@ function MessageToPerson() {
 
 	// UseEffect hook to scroll to the bottom of the message container when the message store updates
 	useEffect(() => {
-		// Get the message container element
-		const messageContainer = document.querySelector(".msgContainer");
-		// Scroll to the bottom of the message container
-		messageContainer.scrollTop = messageContainer.scrollHeight;
+		if (document) {
+			// Get the message container element
+			const messageContainer =
+				document.querySelector(".msgContainer") || {};
+			// Scroll to the bottom of the message container
+			messageContainer.scrollTop = messageContainer?.scrollHeight;
+		}
 	}, [msgStore.current]);
 
 	// UseEffect hook to mark messages as read when they come into view
@@ -139,9 +151,11 @@ function MessageToPerson() {
 		// Check if the last message is in view and the sender is not the current user
 		if (
 			inView &&
-			msgStore.current[msgStore.current.length - 1]?.sender?.id !== Ctx.id
+			msgStore.current[msgStore.current.length - 1]?.read == false &&
+			msgStore.current[msgStore.current.length - 1]?.id !== Ctx.id
 		) {
 			// Mark the last message as read
+			console.log("READ");
 			edit("read", msgStore.current[msgStore.current.length - 1].id);
 		}
 	}, [inView]);
@@ -171,10 +185,11 @@ function MessageToPerson() {
 	function DateEl({ msg, msgTwo }) {
 		// Create Date objects for the two messages
 		const date1 = new Date(parseInt(msg.date));
-		const date2 = new Date(parseInt(msgTwo.date));
+		const date2 = msgTwo ? new Date(parseInt(msgTwo.date)) : null;
 
-		// Check if the messages are from different days
+		// Check if the messages are from different days or if msgTwo is null
 		if (
+			!date2 ||
 			date1.getFullYear() !== date2.getFullYear() ||
 			date1.getMonth() !== date2.getMonth() ||
 			date1.getDate() !== date2.getDate()
@@ -336,7 +351,7 @@ function MessageToPerson() {
 		};
 	}
 	// Render the component JSX
-	return (
+	return !loading ? (
 		<>
 			{/* Container for the message section */}
 			<section
@@ -394,6 +409,11 @@ function MessageToPerson() {
 							const isNextSameSender =
 								nextMsg && nextMsg.sender.id === cont.sender.id;
 
+							let read = false;
+							if (isLastMsg && isSenderUser) {
+								read = cont.read;
+							}
+
 							let borderRadius = "8px";
 							if (isSenderUser) {
 								if (isFirstMsg || !isPrevSameSender) {
@@ -429,12 +449,20 @@ function MessageToPerson() {
 										style={{
 											width: "100%",
 											display: "flex",
-											justifyContent: isSenderUser
+											flexDirection: "column",
+											alignItems: isSenderUser
 												? "flex-end"
 												: "flex-start",
 										}}
 									>
-										<div>
+										<div
+											ref={
+												isLastMsg && !isSenderUser
+													? ref
+													: null
+											}
+											style={{ width: "min-content" }}
+										>
 											<p
 												className={
 													isLastMsg ? "bottomMsg" : ""
@@ -466,6 +494,16 @@ function MessageToPerson() {
 												)}
 											</p>
 										</div>
+										{read ? (
+											<img
+												src="/circle-user-round.svg"
+												style={{
+													height: 12,
+													width: 12,
+													opacity: 0.5,
+												}}
+											/>
+										) : null}
 									</div>
 								</div>
 							);
@@ -488,7 +526,7 @@ function MessageToPerson() {
 					<div style={{ display: "flex", columnGap: 8 }}>
 						{/* Recipient avatar */}
 						<img
-							src="/shoe_collective.jpg"
+							src={`${Ctx.imageServer}/fetch/profile/${recipient?.current?.id}`}
 							height="40px"
 							width="40px"
 							style={{ borderRadius: 80 }}
@@ -502,6 +540,8 @@ function MessageToPerson() {
 				</nav>
 			</section>
 		</>
+	) : (
+		<Loading />
 	);
 }
 

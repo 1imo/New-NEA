@@ -65,7 +65,7 @@ function MessageList() {
 		};
 	}, []);
 
-	return (
+	return !loading ? (
 		<>
 			{/* Navigation bar */}
 			<nav
@@ -81,30 +81,32 @@ function MessageList() {
 			</nav>
 
 			{/* Rendering chats or a message if no chats are available */}
-			{!loading &&
-				(chats?.length > 0 ? (
-					chats.map((chat, index) => {
-						return (
-							<MessageInsight
-								key={index}
-								data={chats[chats.length - index - 1]}
-							/>
-						);
-					})
-				) : (
-					<h4
-						style={{
-							position: "absolute",
-							top: "50%",
-							left: "50%",
-							transform: "translate(-50%, -50%)",
-							color: "#CECECD",
-						}}
-					>
-						No Messages
-					</h4>
-				))}
+
+			{chats?.length > 0 ? (
+				chats.map((chat, index) => {
+					return (
+						<MessageInsight
+							key={index}
+							data={chats[chats.length - index - 1]}
+						/>
+					);
+				})
+			) : (
+				<h4
+					style={{
+						position: "absolute",
+						top: "50%",
+						left: "50%",
+						transform: "translate(-50%, -50%)",
+						color: "#CECECD",
+					}}
+				>
+					No Messages
+				</h4>
+			)}
 		</>
+	) : (
+		<Loading />
 	);
 }
 
