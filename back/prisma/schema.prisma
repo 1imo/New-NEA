@@ -85,6 +85,7 @@ model ViewedPost {
   postId Int
   user   User   @relation(fields: [userId], references: [id])
   userId String
+  time   DateTime @default(now())
 
   @@id([postId, userId])
 }

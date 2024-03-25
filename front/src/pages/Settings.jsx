@@ -77,7 +77,7 @@ function Settings() {
 
 		const original = Cookies.get("feed");
 		const index = feedOptns.findIndex((op) => op === original);
-		setOptn(index || "Recommended");
+		setOptn(index || 0);
 
 		return () => {
 			socket.off("followed", followedHandler);
@@ -90,8 +90,15 @@ function Settings() {
 			<Nav icons={true} />
 
 			{render && (
-				<section style={{ marginBottom: 24 }}>
-					<h4 style={{ marginBottom: 16 }}>Pending</h4>
+				<section
+					style={{
+						marginBottom: 24,
+						display: "flex",
+						flexDirection: "column",
+						rowGap: 16,
+					}}
+				>
+					<h4>Pending</h4>
 					{render?.map((info, index) => {
 						return (
 							<ProfileInsight

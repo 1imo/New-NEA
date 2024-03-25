@@ -40,6 +40,7 @@ function Post(props) {
 	// Function to handle post like
 	async function like() {
 		setLiking(true);
+		console.log("LIKE");
 		const res = await postLiked({
 			variables: {
 				id: Ctx.id,
@@ -57,7 +58,6 @@ function Post(props) {
 			style={{ ...styles.section, ...(!Ctx.id && { marginTop: 40 }) }}
 			ref={ref}
 			// onClick={() => navigate(`/post/id/${props?.data?.id}`)}
-			onDoubleClick={() => like()}
 		>
 			{/* User avatar */}
 			<div>
@@ -88,7 +88,7 @@ function Post(props) {
 				}}
 			>
 				<h3
-					onClick={() =>
+					onDoubleClick={() =>
 						navigate(`/profile/${props?.data?.user?.username}`)
 					}
 					style={{ textAlign: "left" }}
@@ -104,25 +104,31 @@ function Post(props) {
 					@{props?.data?.user?.username}
 				</h5>
 				<p
-					onClick={() => navigate(`/post/id/${props?.data?.id}`)}
-					style={{ textAlign: "left", padding: "0px 0px" }}
+					onDoubleClick={() =>
+						navigate(`/post/id/${props?.data?.id}`)
+					}
+					onClick={() => like()}
+					style={{
+						textAlign: "left",
+						padding: "0px 0px",
+						width: "100%",
+					}}
 				>
 					{props?.data?.content}
+					{/* Rendering 'liked' animation */}
+					{liking ? (
+						<img
+							src="/heart.svg"
+							alt="Liked Post"
+							style={{
+								position: "absolute",
+								top: "50%",
+								// left: "50%",
+								transform: `translateY(-50%)`,
+							}}
+						/>
+					) : null}
 				</p>
-
-				{/* Rendering 'liked' animation */}
-				{liking ? (
-					<img
-						src="/heart.svg"
-						alt="Liked Post"
-						style={{
-							position: "absolute",
-							top: "50%",
-							left: "50%",
-							transform: `translate(-50%, -50%)`,
-						}}
-					/>
-				) : null}
 
 				{/* Rendering post image */}
 				<div

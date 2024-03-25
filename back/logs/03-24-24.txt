@@ -173,3 +173,1152 @@ Invalid `prisma.message.update()` invocation in
         })
 
 Argument `where` of type MessageWhereUniqueInput needs at least one of `id` or `id` arguments. Available options are marked with ?. 
+22:50:30    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:52:07    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:52:26    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:52:41    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:52:53    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:53:09    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:53:35    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:54:07    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:54:49    prisma.user.findFirst(...).viewedPosts.map is not a function 
+22:59:13    post is not defined 
+22:59:31    post is not defined 
+22:59:36    post is not defined 
+23:29:03    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          viewedAt: true
+        },
+        orderBy: {
+          viewedAt: "desc",
+          ~~~~~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `viewedAt`. Available options are marked with ?. 
+23:29:13    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          viewedAt: true
+        },
+        orderBy: {
+          viewedAt: "desc",
+          ~~~~~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `viewedAt`. Available options are marked with ?. 
+23:29:16    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          viewedAt: true
+        },
+        orderBy: {
+          viewedAt: "desc",
+          ~~~~~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `viewedAt`. Available options are marked with ?. 
+23:29:47    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          viewedAt: true
+        },
+        orderBy: {
+          viewedAt: "desc",
+          ~~~~~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `viewedAt`. Available options are marked with ?. 
+23:30:05    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          viewedAt: true
+        },
+        orderBy: {
+          viewedAt: "desc",
+          ~~~~~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `viewedAt`. Available options are marked with ?. 
+23:33:29    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          time: true
+        },
+        orderBy: {
+          viewedAt: "desc",
+          ~~~~~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   time?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `viewedAt`. Available options are marked with ?. 
+23:36:07    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          time: true
+        },
+        orderBy: {
+          viewedAt: "desc",
+          ~~~~~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   time?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `viewedAt`. Available options are marked with ?. 
+23:36:17    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          time: true
+        },
+        orderBy: {
+          viewedAt: "desc",
+          ~~~~~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   time?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `viewedAt`. Available options are marked with ?. 
+23:39:11    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:244:41
+
+  241   viewedPosts.length > 0 ? viewedPosts[0].viewedAt : true
+  242 
+  243 // Fetch Posts
+→ 244 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                        ~~
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Unknown argument `gt`. 
+23:39:37    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:224:53
+
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+  223 // Fetch viewed posts
+→ 224 const viewedPosts = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true
+        },
+        orderBy: {
+          date: "desc",
+          ~~~~
+      ?   postId?: SortOrder,
+      ?   userId?: SortOrder,
+      ?   time?: SortOrder,
+      ?   post?: PostOrderByWithRelationInput,
+      ?   user?: UserOrderByWithRelationInput
+        },
+        take: 1
+      })
+
+Unknown argument `date`. Did you mean `time`? Available options are marked with ?. 
+23:39:53    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:241:41
+
+  238   viewedPosts.length > 0 ? viewedPosts[0].viewedAt : true
+  239 
+  240 // Fetch Posts
+→ 241 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                        ~~
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Unknown argument `gt`. 
+23:41:35    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:241:41
+
+  238   viewedPosts?.length > 0 ? viewedPosts[0]?.viewedAt : true
+  239 
+  240 // Fetch Posts
+→ 241 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                        ~~
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: true
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Unknown argument `gt`. 
+23:42:04    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:241:41
+
+  238   viewedPosts?.length > 0 ? viewedPosts[0]?.viewedAt : null
+  239 
+  240 // Fetch Posts
+→ 241 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: null
+                        ~~
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: null
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: {
+                        gt: null
+                      }
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Unknown argument `gt`. 
+23:46:01    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:241:41
+
+  238   viewedPosts?.length > 0 ? viewedPosts[0]?.viewedAt : null
+  239 
+  240 // Fetch Posts
+→ 241 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+      +                 gt: DateTime
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: null
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: null
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Argument `gt` must not be null. 
+23:47:33    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:241:41
+
+  238   viewedPosts?.length > 0 ? viewedPosts[0]?.viewedAt : 0
+  239 
+  240 // Fetch Posts
+→ 241 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: 0
+                            ~
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: 0
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: 0
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Argument `gt`: Invalid value provided. Expected DateTime or DateTimeFieldRefInput, provided Int. 
+23:49:05    viewedPostIdSet is not defined 
+23:51:19    viewedPostIdSet is not defined 
+23:51:28    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:241:41
+
+  238   viewedPosts?.length > 0 ? viewedPosts[0]?.time : null
+  239 
+  240 // Fetch Posts
+→ 241 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+      +                 gt: DateTime
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: null
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: null
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Argument `gt` must not be null. 
+23:52:23    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:241:41
+
+  238   viewedPosts?.length > 0 ? viewedPosts[0]?.time : null
+  239 
+  240 // Fetch Posts
+→ 241 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+      +                 gt: DateTime
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: null
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: null
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Argument `gt` must not be null. 

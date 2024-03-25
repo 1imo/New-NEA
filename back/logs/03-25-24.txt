@@ -1,0 +1,514 @@
+24:10:22    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:241:41
+
+  238   viewedPosts?.length > 0 ? viewedPosts[0]?.time : null
+  239 
+  240 // Fetch Posts
+→ 241 const posts = await prisma.user.findFirst({
+        where: {
+          id: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          following: {
+            select: {
+              following: {
+                select: {
+                  posts: {
+                    where: {
+                      date: {
+                        gt: true
+                            ~~~~
+                      }
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friends: {
+            select: {
+              userTwo: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          friendshipsReceived: {
+            select: {
+              userOne: {
+                select: {
+                  posts: {
+                    select: {
+                      user: {
+                        select: {
+                          name: true,
+                          id: true,
+                          username: true
+                        }
+                      },
+                      photo: true,
+                      content: true,
+                      id: true,
+                      avgRatio: true,
+                      multiplier: true,
+                      date: true
+                    },
+                    orderBy: {
+                      date: "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+Argument `gt`: Invalid value provided. Expected DateTime or DateTimeFieldRefInput, provided Boolean. 
+24:29:17    
+Invalid `prisma.LikedPost.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/PostMutations.js:187:34
+
+  184   (inDepth.likedBy.length + 2) / inDepth.viewedBy.length + 1
+  185 
+  186 // Create a new record in the LikedPost table
+→ 187 await prisma.LikedPost.create(
+Unique constraint failed on the fields: (`postId`,`userId`) 
+24:44:32    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+24:44:32    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+24:44:32    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+24:50:50    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:18:40
+
+  15 async resolve(parent, args, {prisma, sanitise, log, req}) {
+  16   try {
+  17     args = sanitise(args)
+→ 18     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+24:50:50    
+Invalid `prisma.post.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/PostQueries.js:23:40
+
+  20 args = sanitise(args)
+  21 
+  22 // Fetch the post data from the database
+→ 23 const post = await prisma.post.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+24:50:50    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:30:07    prisma.findMany is not a function 
+11:30:45    prisma.findMany is not a function 
+11:31:03    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:223:48
+
+  220 args = sanitise(args)
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+→ 223 const viewed = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          id: true,
+          ~~
+      ?   postId?: true,
+      ?   userId?: true,
+      ?   time?: true,
+      ?   post?: true,
+      ?   user?: true
+        }
+      })
+
+Unknown field `id` for select statement on model `ViewedPost`. Available options are marked with ?. 
+11:31:37    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:223:48
+
+  220 args = sanitise(args)
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+→ 223 const viewed = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          id: true,
+          ~~
+      ?   postId?: true,
+      ?   userId?: true,
+      ?   time?: true,
+      ?   post?: true,
+      ?   user?: true
+        }
+      })
+
+Unknown field `id` for select statement on model `ViewedPost`. Available options are marked with ?. 
+11:34:22    viewed is not defined 
+11:34:38    viewed is not defined 
+11:35:43    viewed is not defined 
+11:36:05    
+Invalid `prisma.ViewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:223:48
+
+  220 args = sanitise(args)
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+→ 223 const viewed = await prisma.ViewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          id: true,
+          ~~
+      ?   postId?: true,
+      ?   userId?: true,
+      ?   time?: true,
+      ?   post?: true,
+      ?   user?: true
+        }
+      })
+
+Unknown field `id` for select statement on model `ViewedPost`. Available options are marked with ?. 
+11:36:19    
+Invalid `prisma.ViewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:223:48
+
+  220 args = sanitise(args)
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+→ 223 const viewed = await prisma.ViewedPost.findMany({
+        where: {
+          userId: "810135b9-d705-4fd7-96e8-e3a108c2a1cf"
+        },
+        select: {
+          id: true,
+          ~~
+      ?   postId?: true,
+      ?   userId?: true,
+      ?   time?: true,
+      ?   post?: true,
+      ?   user?: true
+        }
+      })
+
+Unknown field `id` for select statement on model `ViewedPost`. Available options are marked with ?. 
+11:36:28    
+Invalid `prisma.ViewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:223:48
+
+  220 args = sanitise(args)
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+→ 223 const viewed = await prisma.ViewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          id: true,
+          ~~
+      ?   postId?: true,
+      ?   userId?: true,
+      ?   time?: true,
+      ?   post?: true,
+      ?   user?: true
+        }
+      })
+
+Unknown field `id` for select statement on model `ViewedPost`. Available options are marked with ?. 
+11:36:56    
+Invalid `prisma.ViewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:223:48
+
+  220 args = sanitise(args)
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+→ 223 const viewed = await prisma.ViewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          id: true,
+          ~~
+      ?   postId?: true,
+      ?   userId?: true,
+      ?   time?: true,
+      ?   post?: true,
+      ?   user?: true
+        }
+      })
+
+Unknown field `id` for select statement on model `ViewedPost`. Available options are marked with ?. 
+11:37:08    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:223:48
+
+  220 args = sanitise(args)
+  221 const exists = auth(args.id, args.secretkey, req)
+  222 
+→ 223 const viewed = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          id: true,
+          ~~
+      ?   postId?: true,
+      ?   userId?: true,
+      ?   time?: true,
+      ?   post?: true,
+      ?   user?: true
+        }
+      })
+
+Unknown field `id` for select statement on model `ViewedPost`. Available options are marked with ?. 
+11:37:23    
+Invalid `prisma.viewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:225:48
+
+  222 
+  223 console.log('RESOVE')
+  224 
+→ 225 const viewed = await prisma.viewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          id: true,
+          ~~
+      ?   postId?: true,
+      ?   userId?: true,
+      ?   time?: true,
+      ?   post?: true,
+      ?   user?: true
+        }
+      })
+
+Unknown field `id` for select statement on model `ViewedPost`. Available options are marked with ?. 
+11:38:51    
+Invalid `prisma.ViewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:225:48
+
+  222 
+  223 console.log('RESOVE')
+  224 
+→ 225 const viewed = await prisma.ViewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          time: true
+        },
+        sortBy: {
+        ~~~~~~
+          time: "desc"
+        },
+        take: 1,
+      ? orderBy?: ViewedPostOrderByWithRelationInput[] | ViewedPostOrderByWithRelationInput,
+      ? cursor?: ViewedPostWhereUniqueInput,
+      ? skip?: Int,
+      ? distinct?: ViewedPostScalarFieldEnum | ViewedPostScalarFieldEnum[]
+      })
+
+Unknown argument `sortBy`. Available options are marked with ?. 
+11:39:01    
+Invalid `prisma.ViewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:225:48
+
+  222 
+  223 console.log('RESOVE')
+  224 
+→ 225 const viewed = await prisma.ViewedPost.findMany({
+        where: {
+          userId: "97a35fce-5856-43d7-9c75-265cfe1d836e"
+        },
+        select: {
+          postId: true,
+          time: true
+        },
+        sortBy: {
+        ~~~~~~
+          date: "desc"
+        },
+        take: 1,
+      ? orderBy?: ViewedPostOrderByWithRelationInput[] | ViewedPostOrderByWithRelationInput,
+      ? cursor?: ViewedPostWhereUniqueInput,
+      ? skip?: Int,
+      ? distinct?: ViewedPostScalarFieldEnum | ViewedPostScalarFieldEnum[]
+      })
+
+Unknown argument `sortBy`. Available options are marked with ?. 
+11:39:12    viewedSet.set is not a function 
+11:39:37    viewedSet.set is not a function 
+11:39:43    viewedSet.set is not a function 
+11:40:26    viewedSet.set is not a function 
+11:40:46    viewedSet.set is not a function 
+11:41:09    viewedSet.set is not a function 
+11:44:21    gt is not defined 
+11:44:38    gt is not defined 
+12:33:58    Cannot read properties of undefined (reading 'time') 
+12:55:56    Cannot read properties of null (reading 'posts') 
+12:55:56    Cannot destructure property 'id' of '(intermediate value)' as it is null. 
+12:56:03    Cannot read properties of null (reading 'posts') 
+12:56:04    Cannot destructure property 'id' of '(intermediate value)' as it is null. 
+14:02:20    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+14:02:20    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+14:02:20    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+14:19:24    
+Invalid `prisma.ViewedPost.findMany()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:225:48
+
+  222 
+  223 console.log('RESOVE')
+  224 
+→ 225 const viewed = await prisma.ViewedPost.findMany(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+14:19:24    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:117:44
+
+  114 data = sanitise(data)
+  115 console.log(data)
+  116 // Checking if the user data exists and is valid
+→ 117 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+14:19:25    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:534:40
+
+  531 args = sanitise(args)
+  532 const exists = auth(args.id, args.secretkey, req)
+  533 
+→ 534 const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+14:19:25    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:18:40
+
+  15 async resolve(parent, args, {prisma, sanitise, log, req}) {
+  16   try {
+  17     args = sanitise(args)
+→ 18     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 

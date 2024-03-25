@@ -193,7 +193,6 @@ io.on('connect_error', (err) => {
 
 // Authentication function
 async function auth(id, key, req) {
-  console.log(sessions) // Logging the current sessions
   let session = sessions.has(id) // Checking if a session exists for the given ID
   if (session && req) {
     // If a session exists and a request is provided
@@ -204,7 +203,10 @@ async function auth(id, key, req) {
       current.userAgent !== req.headers['user-agent'] ||
       current.expiry < new Date(Date.now())
     ) {
-      session = false // If the session is invalid, set session to false
+      if (current.expiry < new Date(Date.now())) {
+        sessions.delete(id) // Expired session
+      }
+      session = false
     } else {
       return true // If the session is valid, return true
     }

@@ -219,6 +219,28 @@ const UserQuery = {
       try {
         args = sanitise(args)
         const exists = auth(args.id, args.secretkey, req)
+
+        console.log('RESOVE')
+
+        const viewed = await prisma.ViewedPost.findMany({
+          where: {
+            userId: args.id,
+          },
+          select: {
+            postId: true,
+            time: true,
+          },
+          orderBy: {
+            time: 'desc',
+          },
+          take: 1,
+        })
+        console.log(viewed, 'VIEWED')
+
+        const viewedSet = new Set()
+        viewed.forEach((id) => viewedSet.add(id.postId))
+        console.log(viewedSet, 'VIEWED SET')
+
         const posts = await prisma.user.findFirst({
           where: {
             id: args.id,
@@ -229,6 +251,9 @@ const UserQuery = {
                 following: {
                   select: {
                     posts: {
+                      where: {
+                        date: {gt: viewed[0].time},
+                      },
                       select: {
                         user: {
                           select: {
@@ -257,6 +282,9 @@ const UserQuery = {
                 userTwo: {
                   select: {
                     posts: {
+                      where: {
+                        date: {gt: viewed[0].time},
+                      },
                       select: {
                         user: {
                           select: {
@@ -285,6 +313,9 @@ const UserQuery = {
                 userOne: {
                   select: {
                     posts: {
+                      where: {
+                        date: {gt: viewed[0].time},
+                      },
                       select: {
                         user: {
                           select: {
@@ -315,6 +346,8 @@ const UserQuery = {
         let friendsPosts = []
         const included = new Set()
 
+        console.log(posts, 'POSTS')
+
         // Collect posts from users the user is following
         if (args.type != 'Friends') {
           for (let i = 0; i < posts.following.length; i++) {
@@ -323,7 +356,10 @@ const UserQuery = {
               x < posts.following[i]?.following?.posts.length;
               x++
             ) {
-              if (!included.has(posts.following[i]?.following?.posts[x].id)) {
+              if (
+                !included.has(posts.following[i]?.following?.posts[x].id) &&
+                !viewedSet.has(posts.following[i]?.following?.posts[x].id)
+              ) {
                 followingPosts.unshift(posts.following[i]?.following?.posts[x])
                 included.add(posts.following[i]?.following?.posts[x].id)
               }
@@ -663,10 +699,8 @@ const UserQuery = {
               id: true,
             },
           })
-          console.log(highPerformers)
 
           jsonData = [...jsonData, ...highPerformers.map((u) => u.id)]
-          console.log(jsonData, 'JD')
         }
 
         // Return recommended users with their public information
