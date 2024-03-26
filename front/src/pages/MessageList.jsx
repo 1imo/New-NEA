@@ -6,6 +6,7 @@ import { Context } from "../context/Context";
 import { useQuery } from "@apollo/client";
 import { GET_CHATS } from "../GraphQL/Queries";
 import Loading from "../components/Loading";
+import { useInView } from "react-intersection-observer";
 
 function MessageList() {
 	// Accessing the Context object
@@ -16,6 +17,9 @@ function MessageList() {
 
 	// State to store chats
 	const [chats, setChats] = useState([]);
+
+	// Intersection Observer for messages
+	const [ref, inView] = useInView();
 
 	// Executing the GET_CHATS query
 	const { loading, data, error } = useQuery(GET_CHATS, {

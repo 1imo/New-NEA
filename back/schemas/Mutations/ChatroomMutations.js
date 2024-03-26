@@ -213,6 +213,8 @@ const ChatroomMutations = {
           },
         })
 
+        console.log('SOCKETS', chatroom.chatroomUsers)
+
         let updateData = {}
 
         // Prepare update data based on the edit action
@@ -251,13 +253,11 @@ const ChatroomMutations = {
                 read: true,
               },
             })
-            // // Emit the updated chat data to all users in the chatroom
-            // chatroom.chatroomUsers.map((user) => {
-            //   console.log(user)
-            //   io.to(user.socket).emit('chatroom', {
-            //     read: true
-            //   })
-            // })
+            // Emit the updated chat data to all users in the chatroom
+            chatroom.chatroomUsers.map((user) => {
+              console.log(user.user.socket)
+              io.to(user.user.socket).emit('chatroom', m)
+            })
           } else {
             const m = await prisma.message.update({
               where: {
@@ -281,7 +281,7 @@ const ChatroomMutations = {
             })
             // Emit the updated chat data to all users in the chatroom
             chatroom.chatroomUsers.map((user) => {
-              console.log(user)
+              console.log(user.user.socket)
               io.to(user.user.socket).emit('chatroom', m)
             })
           }

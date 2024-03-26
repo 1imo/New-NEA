@@ -113,6 +113,7 @@ io.on('connection', (socket) => {
       // Sanitizing the incoming data
       data = sanitise(data)
       console.log(data)
+      console.log(socket.id, 'ID')
       // Checking if the user data exists and is valid
       const exists = await prisma.userData.count({
         where: {
@@ -130,11 +131,16 @@ io.on('connection', (socket) => {
         return
       } else {
         // If the user data is valid, update the user's socket ID and emit an 'auth' event with true
-        await prisma.user
-          .update({where: {id: data.id}, data: {socket: socket.id}})
-          .then(() => {
-            io.to(socket.id).emit('auth', true)
-          })
+        const id = await prisma.user.update({
+          where: {id: data.id},
+          data: {
+            socket: socket.id,
+          },
+        })
+
+        if (id) {
+          io.to(socket.id).emit('auth', true)
+        }
       }
     } catch (e) {
       // Logging any errors that occur

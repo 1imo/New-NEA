@@ -99,8 +99,10 @@ function MessageToPerson() {
 
 	// UseEffect hook to handle socket events for updated chats
 	useEffect(() => {
+		console.log(socket);
 		// Function to handle updated chat data
 		const handleUpdatedChat = (data) => {
+			console.log(data, "UPDATED CHAT");
 			// Check if the last message in the 'msgStore' matches the updated chat data
 			if (msgStore.current[msgStore.current.length - 1]?.id != data?.id) {
 				// Update the 'msgStore' with the new chat data
@@ -117,6 +119,11 @@ function MessageToPerson() {
 					...msgStore.current.slice(0, msgStore.current.length - 2),
 					data,
 				];
+				setMsgState(msgStore.current);
+			} else {
+				msgStore.current.forEach((msg, i) => {
+					if (msg.id == data.id) msgStore.current[i] = data;
+				});
 				setMsgState(msgStore.current);
 			}
 		};
@@ -431,7 +438,7 @@ function MessageToPerson() {
 							return (
 								<div key={index}>
 									{/* Render date element */}
-									{(!isFirstMsg || !isLastMsg) && (
+									{!isLastMsg && (
 										<DateEl
 											msg={cont}
 											msgTwo={
@@ -449,6 +456,10 @@ function MessageToPerson() {
 												? "flex-end"
 												: "flex-start",
 										}}
+										onClick={() => edit("unread", cont.id)}
+										onDoubleClick={() =>
+											edit("delete", cont.id)
+										}
 									>
 										<div
 											ref={

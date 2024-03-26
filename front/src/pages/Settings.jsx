@@ -177,6 +177,8 @@ function Settings() {
 		if (res?.data?.editDetails?.secretkey) {
 			Cookies.set("secretkey", res?.data?.editDetails?.secretkey, {
 				expires: 7,
+				secure: true,
+				sameSite: "Strict",
 			});
 		}
 

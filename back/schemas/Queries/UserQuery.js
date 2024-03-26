@@ -220,14 +220,12 @@ const UserQuery = {
         args = sanitise(args)
         const exists = auth(args.id, args.secretkey, req)
 
-        console.log('RESOVE')
-
+        // Fetch the DATE TIME of their last viewed post
         const viewed = await prisma.ViewedPost.findMany({
           where: {
             userId: args.id,
           },
           select: {
-            postId: true,
             time: true,
           },
           orderBy: {
@@ -235,12 +233,8 @@ const UserQuery = {
           },
           take: 1,
         })
-        console.log(viewed, 'VIEWED')
 
-        const viewedSet = new Set()
-        viewed.forEach((id) => viewedSet.add(id.postId))
-        console.log(viewedSet, 'VIEWED SET')
-
+        // Fetch all posts of the user's following and friends from the point of their last viewed post
         const posts = await prisma.user.findFirst({
           where: {
             id: args.id,
@@ -356,10 +350,7 @@ const UserQuery = {
               x < posts.following[i]?.following?.posts.length;
               x++
             ) {
-              if (
-                !included.has(posts.following[i]?.following?.posts[x].id) &&
-                !viewedSet.has(posts.following[i]?.following?.posts[x].id)
-              ) {
+              if (!included.has(posts.following[i]?.following?.posts[x].id)) {
                 followingPosts.unshift(posts.following[i]?.following?.posts[x])
                 included.add(posts.following[i]?.following?.posts[x].id)
               }
@@ -492,27 +483,18 @@ const UserQuery = {
           return raw
         }
 
-        // Swap function to sort posts by average ratio
-        let swaps = 0
+        // Swap function to sort posts by average ratio in bubble sort
+        let swap = true
 
-        function swapRatio(arr) {
-          for (let i = 0; i < arr.length; i++) {
-            if (i + 1 != arr.length) {
-              if (arr[i].avgRatio < arr[i + 1].avgRatio) {
-                ;[arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]
-                swaps += 1
-              }
+        while (swap) {
+          swap = false
+          for (let i = 1; i < raw.length; i++) {
+            if (raw[i - 1].avgRatio < raw[i].avgRatio) {
+              ;[raw[i - 1], raw[i]] = [raw[i], raw[i - 1]]
+              swap = true
             }
           }
-
-          if (swaps != 0) {
-            swaps = 0
-            swapRatio(arr)
-          }
         }
-
-        // Sort posts by average ratio
-        swapRatio(raw)
 
         return raw
       } catch (e) {

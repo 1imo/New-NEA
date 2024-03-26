@@ -512,3 +512,13 @@ Invalid `prisma.user.findFirst()` invocation in
 Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
 
 Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+17:14:08    
+Invalid `prisma.user.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/UserMutations.js:34:40
+
+  31 console.log(args)
+  32 
+  33 // Create a new user in the database
+→ 34 const user = await prisma.user.create(
+Unique constraint failed on the fields: (`username`) 
+17:14:56    Cannot read properties of undefined (reading 'time') 

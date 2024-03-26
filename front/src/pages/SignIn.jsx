@@ -29,8 +29,16 @@ export default function SignIn() {
 
 		if (res?.data?.signIn?.secretkey && res?.data?.signIn?.id) {
 			// Set cookies for secretkey and id with an expiration of 7 days
-			Cookies.set("secretkey", res.data.signIn.secretkey, { expires: 7 });
-			Cookies.set("id", res.data.signIn.id, { expires: 7 });
+			Cookies.set("secretkey", res.data.signIn.secretkey, {
+				expires: 7,
+				secure: true,
+				sameSite: "Strict",
+			});
+			Cookies.set("id", res.data.signIn.id, {
+				expires: 7,
+				secure: true,
+				sameSite: "Strict",
+			});
 
 			// Navigate to the home page after successful sign-in
 			navigate("/");

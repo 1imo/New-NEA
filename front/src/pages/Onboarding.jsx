@@ -51,8 +51,14 @@ function Onboarding() {
 			// Set cookies for secretkey and id with an expiration of 7 days
 			Cookies.set("secretkey", res.data.createUser.secretkey, {
 				expires: 7,
+				secure: true,
+				sameSite: "Strict",
 			});
-			Cookies.set("id", res.data.createUser.id, { expires: 7 });
+			Cookies.set("id", res.data.createUser.id, {
+				expires: 7,
+				secure: true,
+				sameSite: "Strict",
+			});
 
 			// If a profile image is provided
 			if (profile) {
@@ -70,8 +76,8 @@ function Onboarding() {
 				});
 			}
 
-			// Navigate to the home page
-			navigate("/");
+			// Navigate to the home page after storing cookies
+			setTimeout(() => navigate("/"), 1000);
 		} else {
 			// If an error occurs, show an alert and redirect to the onboarding page
 			alert("Error Occurred");
@@ -143,7 +149,7 @@ function Onboarding() {
 	];
 
 	// Render the current screen based on the position state if not loading
-	return <>{!load && screens[position]}</>;
+	return <>{!load ? screens[position] : <Loading />}</>;
 }
 
 export default Onboarding;
