@@ -49,14 +49,15 @@ export const LOAD_NAV = gql`
 
 // GraphQL query to get public data of a user
 export const GET_PUBLICDATA = gql`
-	query ($username: String!) {
-		getPublicInfo(username: $username) {
+	query ($username: String!, $id: String!) {
+		getPublicInfo(username: $username, id: $id) {
 			id
 			name
 			username
 			friendCount
 			followerCount
 			followingCount
+			status
 		}
 	}
 `;
@@ -96,6 +97,7 @@ export const GET_CHATS = gql`
 			lastMessage {
 				id
 				content
+				read
 			}
 			chatroomUsers {
 				id

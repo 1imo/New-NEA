@@ -20,6 +20,7 @@ function Onboarding() {
 	const [profile, setProfile] = useState("");
 	const [position, setPosition] = useState(0);
 	const [load, setLoading] = useState(false);
+	const [change, setChange] = useState(false);
 
 	// Use useMutation to create a user mutation
 	const [createUser, { data, error, loading }] =
@@ -45,6 +46,8 @@ function Onboarding() {
 				password: pass,
 			},
 		});
+
+		console.log(res);
 
 		// If the user creation is successful
 		if (res.data.createUser.secretkey && res.data.createUser.id) {
@@ -77,7 +80,10 @@ function Onboarding() {
 			}
 
 			// Navigate to the home page after storing cookies
-			setTimeout(() => navigate("/"), 1000);
+			setTimeout(
+				() => window.location.assign("http://localhost:5173"),
+				1000
+			);
 		} else {
 			// If an error occurs, show an alert and redirect to the onboarding page
 			alert("Error Occurred");
@@ -116,6 +122,18 @@ function Onboarding() {
 		}
 	}, [fn, ln, username, pass, profile]);
 
+	// Navigate backwards in the flow
+	useEffect(() => {
+		if (change) {
+			setChange(false);
+			if (position != 0) {
+				setPosition((prev) => prev - 1);
+			} else {
+				navigate("/portal");
+			}
+		}
+	}, [change]);
+
 	// Define an array of screens with input components
 	const screens = [
 		<Input
@@ -130,6 +148,7 @@ function Onboarding() {
 			value={setLn}
 			last={fn}
 			referer={null}
+			setChange={setChange}
 		/>,
 		<Input
 			type="text"
@@ -137,6 +156,7 @@ function Onboarding() {
 			value={setUsername}
 			last={ln}
 			referer={null}
+			setChange={setChange}
 		/>,
 		<Input
 			type="password"
@@ -144,8 +164,15 @@ function Onboarding() {
 			value={setPass}
 			last={username}
 			referer={null}
+			setChange={setChange}
 		/>,
-		<Input type="file" value={setProfile} last={pass} referer={null} />,
+		<Input
+			type="file"
+			value={setProfile}
+			last={pass}
+			referer={null}
+			setChange={setChange}
+		/>,
 	];
 
 	// Render the current screen based on the position state if not loading

@@ -1,0 +1,149 @@
+10:38:02    Cannot read properties of undefined (reading 'time') 
+10:44:15    Cannot read properties of undefined (reading 'time') 
+10:46:03    Cannot read properties of undefined (reading 'time') 
+10:46:49    Cannot read properties of undefined (reading 'time') 
+10:50:58    Cannot read properties of undefined (reading 'time') 
+13:26:22    Cannot read properties of undefined (reading 'time') 
+13:28:43    Cannot read properties of undefined (reading 'time') 
+13:38:38    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:118:44
+
+  115 console.log(data)
+  116 console.log(socket.id, 'ID')
+  117 // Checking if the user data exists and is valid
+→ 118 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+13:53:03    Cannot read properties of undefined (reading 'time') 
+13:54:05    Cannot read properties of undefined (reading 'time') 
+14:06:34    Cannot read properties of undefined (reading 'time') 
+14:07:35    Cannot read properties of undefined (reading 'time') 
+14:07:38    Cannot read properties of undefined (reading 'time') 
+14:13:30    Cannot read properties of undefined (reading 'time') 
+14:15:42    Cannot read properties of undefined (reading 'time') 
+14:18:32    Cannot read properties of undefined (reading 'time') 
+14:20:28    
+Invalid `prisma.LikedPost.create()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/PostMutations.js:187:34
+
+  184   (inDepth.likedBy.length + 2) / inDepth.viewedBy.length + 1
+  185 
+  186 // Create a new record in the LikedPost table
+→ 187 await prisma.LikedPost.create(
+Unique constraint failed on the fields: (`postId`,`userId`) 
+14:56:11    Cannot read properties of undefined (reading 'time') 
+15:12:08    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:117:40
+
+  114 async resolve(parent, args, {prisma, sanitise, log}) {
+  115   try {
+  116     args = sanitise(args)
+→ 117     const user = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:12:08    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:118:44
+
+  115 console.log(data)
+  116 console.log(socket.id, 'ID')
+  117 // Checking if the user data exists and is valid
+→ 118 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:12:08    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:118:44
+
+  115 console.log(data)
+  116 console.log(socket.id, 'ID')
+  117 // Checking if the user data exists and is valid
+→ 118 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:12:08    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:118:44
+
+  115 console.log(data)
+  116 console.log(socket.id, 'ID')
+  117 // Checking if the user data exists and is valid
+→ 118 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:12:08    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:118:44
+
+  115 console.log(data)
+  116 console.log(socket.id, 'ID')
+  117 // Checking if the user data exists and is valid
+→ 118 const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:12:13    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:43:43
+
+  40 async resolve(parent, args, {prisma, sanitise, log}) {
+  41   try {
+  42     args = sanitise(args)
+→ 43     const reqUser = await prisma.user.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:12:23    
+Invalid `prisma.user.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Queries/UserQuery.js:117:40
+
+  114 async resolve(parent, args, {prisma, sanitise, log}) {
+  115   try {
+  116     args = sanitise(args)
+→ 117     const user = await prisma.user.findFirst(
+Unknown nested field 'sortBy' for operation findFirstUser does not match any query. 
+15:38:35    Cannot read properties of undefined (reading 'time') 
+15:40:23    Cannot read properties of undefined (reading 'time') 
+15:41:02    Cannot read properties of undefined (reading 'time') 
+15:45:58    Cannot read properties of undefined (reading 'time') 
+16:12:58    Cannot read properties of undefined (reading 'time') 
+16:14:38    Cannot read properties of undefined (reading 'time') 
+16:15:42    
+Invalid `prisma.message.update()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/ChatroomMutations.js:291:44
+
+  288 if (Object.keys(updateData).length > 0) {
+  289   // Check so that only the sender can delete their message
+  290   if (args.edit === 'delete') {
+→ 291     const m = await prisma.message.update(
+An operation failed because it depends on one or more records that were required but not found. Record to update not found. 
+16:16:48    Cannot read properties of undefined (reading 'time') 
+16:35:36    Cannot read properties of undefined (reading 'time') 
+16:37:46    Cannot read properties of undefined (reading 'time') 
+16:54:00    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/new-nea/back/index.js:118:44
+
+  115 console.log(data)
+  116 console.log(socket.id, 'ID')
+  117 // Checking if the user data exists and is valid
+→ 118 const exists = await prisma.userData.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 13) 
+17:12:52    
+Invalid `prisma.chatroom.findFirst()` invocation in
+/home/mute/Documents/js/new-nea/back/schemas/Mutations/ChatroomMutations.js:256:48
+
+  253 const exists = await auth(args.id, args.secretkey, req)
+  254 
+  255 // Fetch the chatroom data with associated users' sockets
+→ 256 const chatroom = await prisma.chatroom.findFirst(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 

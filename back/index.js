@@ -199,7 +199,8 @@ io.on('connect_error', (err) => {
 
 // Authentication function
 async function auth(id, key, req) {
-  let session = sessions.has(id) // Checking if a session exists for the given ID
+  let session = sessions.has(id)
+  console.log(sessions) // Checking if a session exists for the given ID
   if (session && req) {
     // If a session exists and a request is provided
     const current = sessions.get(id)

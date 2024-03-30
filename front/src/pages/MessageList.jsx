@@ -70,7 +70,11 @@ function MessageList() {
 	}, []);
 
 	return !loading ? (
-		<>
+		<div
+			onFocusCapture={() =>
+				setTimeout(() => window.location.reload(), 250)
+			}
+		>
 			{/* Navigation bar */}
 			<nav
 				style={{
@@ -108,7 +112,7 @@ function MessageList() {
 					No Messages
 				</h4>
 			)}
-		</>
+		</div>
 	) : (
 		<Loading />
 	);

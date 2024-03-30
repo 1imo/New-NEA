@@ -36,7 +36,7 @@ model Friendship {
   userTwo   User   @relation("User_Two", fields: [userTwoId], references: [id])
   userTwoId String
 
-  @@unique([userOneId, userTwoId, id])
+  @@unique([userOneId, userTwoId])
 }
 
 model Follow {
@@ -47,7 +47,7 @@ model Follow {
   followingId String
   denial      Boolean @default(false)
 
-  @@unique([followerId, followingId, id])
+  @@unique([followerId, followingId])
 }
 
 model UserData {
@@ -107,6 +107,8 @@ model Chatroom {
   date          DateTime       @default(now()) @updatedAt
   chatroomUsers ChatroomUser[]
   messages      Message[]      @relation("Chatroom_Messages")
+
+  @@index([id])
 }
 
 model ChatroomUser {

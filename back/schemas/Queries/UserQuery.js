@@ -36,19 +36,11 @@ const UserQuery = {
   // Retrieves public profile information for a user
   getPublicInfo: {
     type: ProfileType,
-    args: {username: {type: GraphQLString}},
+    args: {username: {type: GraphQLString}, id: {type: GraphQLString}},
     async resolve(parent, args, {prisma, sanitise, log}) {
       try {
         args = sanitise(args)
-        const {
-          id,
-          name,
-          username,
-          friends,
-          friendshipsReceived,
-          followers,
-          following,
-        } = await prisma.user.findFirst({
+        const reqUser = await prisma.user.findFirst({
           where: {
             username: args.username,
           },
@@ -63,13 +55,50 @@ const UserQuery = {
           },
         })
 
+        if (!reqUser) return
+
+        let status = 'Follow'
+
+        const following = await prisma.follow.findFirst({
+          where: {
+            AND: [{followerId: args.id}, {followingId: reqUser.id}],
+          },
+          select: {
+            id: true,
+          },
+        })
+
+        if (!following) {
+          const friends = await prisma.friendship.findFirst({
+            where: {
+              OR: [
+                {AND: [{userOneId: args.id}, {userTwoId: reqUser.id}]},
+                {AND: [{userOneId: reqUser.id}, {userTwoId: args.id}]},
+              ],
+            },
+            select: {
+              id: true,
+            },
+          })
+
+          if (friends) {
+            status = 'Friends'
+          }
+        } else {
+          status = 'Following'
+        }
+
+        console.log(reqUser, 'REQUSER')
+
         return {
-          id,
-          name,
-          username,
-          friendCount: friends.length + friendshipsReceived.length,
-          followerCount: followers.length,
-          followingCount: following.length,
+          id: reqUser.id,
+          name: reqUser.name,
+          username: reqUser.username,
+          friendCount:
+            reqUser.friends.length + reqUser.friendshipsReceived.length,
+          followerCount: reqUser.followers.length,
+          followingCount: reqUser.following.length,
+          status,
         }
       } catch (e) {
         log(e)
@@ -107,6 +136,9 @@ const UserQuery = {
                 },
                 likedBy: true,
                 viewedBy: true,
+              },
+              orderBy: {
+                date: 'asc',
               },
             },
           },

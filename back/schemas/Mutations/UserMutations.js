@@ -28,7 +28,7 @@ const UserMutations = {
         const {nanoid} = await import('nanoid')
         const apiKey = nanoid()
 
-        console.log(args)
+        console.log(args, 'ARGS CREATE')
 
         // Create a new user in the database
         const user = await prisma.user.create({
@@ -42,6 +42,9 @@ const UserMutations = {
                 expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // Expiry date (1 week from now)
               },
             },
+          },
+          select: {
+            id: true,
           },
         })
 
@@ -151,8 +154,8 @@ const UserMutations = {
           },
         })
 
-        // If recipient user not found, throw an error
-        if (!recipient) throw new Error('User not found')
+        // If recipient user not found, return null
+        if (!recipient) return
 
         // Check if a follow relationship already exists between the two users
         const followExists = await prisma.follow.count({
@@ -188,30 +191,56 @@ const UserMutations = {
             url: 'unfollowed',
           }
         } else {
-          // Create a new follow relationship
-          let follow = await prisma.follow.create({
-            data: {
-              followerId: args.id,
-              followingId: recipient.id,
-            },
-            select: {
-              id: true,
-              follower: {
-                select: {
-                  id: true,
-                  name: true,
-                  username: true,
-                },
-              },
+          const friends = await prisma.friendship.count({
+            where: {
+              OR: [
+                {AND: [{userOneId: args.id}, {userTwoId: recipient.id}]},
+                {AND: [{userOneId: recipient.id}, {userTwoId: args.id}]},
+              ],
             },
           })
 
-          // Emit a "followed" event to the recipient's socket
-          io.to(recipient.socket).emit('followed', follow)
+          if (!friends) {
+            // Create a new follow relationship
+            let follow = await prisma.follow.create({
+              data: {
+                followerId: args.id,
+                followingId: recipient.id,
+              },
+              select: {
+                id: true,
+                follower: {
+                  select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                  },
+                },
+              },
+            })
 
-          // Testing purposes otherwise return null
-          return {
-            url: 'followed',
+            // Emit a "followed" event to the recipient's socket
+            io.to(recipient.socket).emit('followed', follow)
+
+            // Testing purposes otherwise return null
+            return {
+              url: 'followed',
+            }
+          } else {
+            await prisma.friendship
+              .deleteMany({
+                where: {
+                  OR: [
+                    {AND: [{userOneId: args.id}, {userTwoId: recipient.id}]},
+                    {AND: [{userOneId: recipient.id}, {userTwoId: args.id}]},
+                  ],
+                },
+              })
+              .then(() => {
+                return {
+                  url: 'unfriended',
+                }
+              })
           }
         }
       } catch (e) {

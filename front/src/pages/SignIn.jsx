@@ -13,6 +13,7 @@ export default function SignIn() {
 	const [pass, setPass] = useState("");
 	const [position, setPosition] = useState(0);
 	const [load, setLoading] = useState(false);
+	const [change, setChange] = useState(false);
 
 	// Get the navigate function from react-router-dom
 	const navigate = useNavigate();
@@ -41,7 +42,10 @@ export default function SignIn() {
 			});
 
 			// Navigate to the home page after successful sign-in
-			navigate("/");
+			setTimeout(
+				() => window.location.assign("http://localhost:5173"),
+				1000
+			);
 		} else {
 			alert("An error has occurred");
 		}
@@ -64,6 +68,18 @@ export default function SignIn() {
 		}
 	}, [username, pass]);
 
+	// Navigate backwards in the flow
+	useEffect(() => {
+		if (change) {
+			setChange(false);
+			if (position != 0) {
+				setPosition((prev) => prev - 1);
+			} else {
+				navigate("/portal");
+			}
+		}
+	}, [change]);
+
 	// Array of input screens
 	const screens = [
 		<Input
@@ -71,6 +87,7 @@ export default function SignIn() {
 			placeholder="|What's your username?"
 			value={setUsername}
 			referer={null}
+			setChange={setChange}
 		/>,
 		<Input
 			type="password"
@@ -78,6 +95,7 @@ export default function SignIn() {
 			value={setPass}
 			last={username}
 			referer={null}
+			setChange={setChange}
 		/>,
 	];
 

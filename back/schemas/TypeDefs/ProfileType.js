@@ -11,6 +11,7 @@ const ProfileType = new GraphQLObjectType({
     friendCount: {type: GraphQLInt}, // 'friendCount' field with type GraphQLInt
     followerCount: {type: GraphQLInt}, // 'followerCount' field with type GraphQLInt
     followingCount: {type: GraphQLInt}, // 'followingCount' field with type GraphQLInt
+    status: {type: GraphQLString}, // 'status' field with type GraphQLString
   }),
 })
 

@@ -131,6 +131,7 @@ const ChatroomQueries = {
                             username: true,
                           },
                         },
+                        read: true,
                         date: true,
                       },
                     },

@@ -33,8 +33,13 @@ function MessageInsight(props) {
 			  });
 
 	// Determining the visibility of the unread indicator
-	const read = props?.data?.lastMessage?.read ? { display: "none" } : null;
-	console.log(`url(${Ctx.imageServer}/fetch/profile/${recipient?.id}`);
+	const read =
+		props?.data?.lastMessage?.read == true
+			? { display: "none" }
+			: { display: "block" };
+	console.log(read);
+	console.log(props);
+	console.log(props?.data?.lastMessage);
 
 	return (
 		<>
@@ -45,19 +50,22 @@ function MessageInsight(props) {
 						columnGap: 8,
 						alignItems: "center",
 						margin: "16px 0",
+						width: "100%",
+						justifyContent: "space-between",
 					}}
 				>
 					<img
 						src={`${Ctx.imageServer}/fetch/profile/${recipient?.id}`}
 						height="80px"
 						width="80px"
-						style={{ borderRadius: 400 }}
+						style={{ borderRadius: 400, aspectRatio: "1/1" }}
 					/>
-					<div>
+					<div style={{ width: "calc(100% - 96px)" }}>
 						<div
 							style={{
 								display: "flex",
 								justifyContent: "space-between",
+								width: "calc(100%)",
 							}}
 						>
 							<h4>{recipient?.name}</h4>

@@ -21,6 +21,7 @@ function ProfileInfo(props) {
 	const { loading, error, data } = useQuery(GET_PUBLICDATA, {
 		variables: {
 			username: id,
+			id: Ctx.id,
 		},
 	});
 	// Rendering the Loading component if data is loading (commented out)
@@ -136,7 +137,7 @@ function ProfileInfo(props) {
 							userSelect: "none",
 						}}
 					>
-						Follow
+						{data?.getPublicInfo?.status}
 					</span>
 					<div style={styles.btnDecContainer}>
 						<div style={styles.btnDec}>&nbsp;</div>

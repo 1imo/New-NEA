@@ -115,28 +115,34 @@ function Settings() {
 			)}
 			<section>
 				<h4 style={{ marginBottom: 16 }}>Settings</h4>
-				<p style={{ marginBottom: 8 }} onClick={() => changeFeed()}>
+				<p
+					style={{ marginBottom: 8, cursor: "pointer" }}
+					onClick={() => changeFeed()}
+				>
 					Tap to change feed: {feedOptns[optn]}
 				</p>
 				<p
-					style={{ marginBottom: 8 }}
+					style={{ marginBottom: 8, cursor: "pointer" }}
 					onClick={() => edit("New Name..", "name")}
 				>
 					Change Name
 				</p>
 				<p
-					style={{ marginBottom: 8 }}
+					style={{ marginBottom: 8, cursor: "pointer" }}
 					onClick={() => edit("New Username..", "username")}
 				>
 					Change Username
 				</p>
 				<p
-					style={{ marginBottom: 8 }}
+					style={{ marginBottom: 8, cursor: "pointer" }}
 					onClick={() => edit("New Password..", "password")}
 				>
 					Change Password
 				</p>
-				<p style={{ marginBottom: 8 }} onClick={() => logout()}>
+				<p
+					style={{ marginBottom: 8, cursor: "pointer" }}
+					onClick={() => logout()}
+				>
 					Log Out
 				</p>
 			</section>

@@ -38,12 +38,69 @@ const ChatroomMutations = {
           }),
         ])
 
+        // Check if chatroom already exists between the two users
+        let chatroom = await prisma.chatroom.findFirst({
+          where: {
+            chatroomUsers: {
+              every: {
+                userId: {
+                  in: [userOne.id, userTwo.id],
+                },
+              },
+            },
+            AND: [
+              {
+                chatroomUsers: {
+                  some: {
+                    userId: userOne.id,
+                  },
+                },
+              },
+              {
+                chatroomUsers: {
+                  some: {
+                    userId: userTwo.id,
+                  },
+                },
+              },
+            ],
+          },
+          select: {
+            id: true,
+            chatroomUsers: {
+              select: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                    socket: true,
+                  },
+                },
+              },
+            },
+          },
+        })
+
+        if (chatroom) {
+          const chat = {
+            id: chatroom.id,
+            chatroomUsers: chatroom.chatroomUsers,
+            messages: [],
+            lastMessage: {},
+          }
+
+          return chat
+        }
+
+        console.log(chatroom, 'CHATROOM')
+
         // Generate a unique chatroom ID
         const {nanoid} = await import('nanoid')
         const id = nanoid()
 
         // Create a new chatroom
-        const chatroom = await prisma.chatroom.create({
+        chatroom = await prisma.chatroom.create({
           data: {
             id,
           },
@@ -213,8 +270,6 @@ const ChatroomMutations = {
           },
         })
 
-        console.log('SOCKETS', chatroom.chatroomUsers)
-
         let updateData = {}
 
         // Prepare update data based on the edit action
@@ -236,6 +291,7 @@ const ChatroomMutations = {
             const m = await prisma.message.update({
               where: {
                 id: args.message,
+                senderId: args.id,
               },
               data: updateData,
               select: {

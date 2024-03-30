@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { Context } from "../context/Context";
 import { useInView } from "react-intersection-observer";
 import Loading from "../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 // Define the MessageToPerson component
 function MessageToPerson() {
@@ -23,6 +24,9 @@ function MessageToPerson() {
 
 	// Get the entire context using useContext
 	const Ctx = useContext(Context);
+
+	// Hook to navigate programmatically to another page in a SPA environment
+	const navigate = useNavigate();
 
 	// State variables
 	// 'rerender' is a state variable used to trigger a re-render of the component
@@ -102,30 +106,35 @@ function MessageToPerson() {
 		console.log(socket);
 		// Function to handle updated chat data
 		const handleUpdatedChat = (data) => {
-			console.log(data, "UPDATED CHAT");
-			// Check if the last message in the 'msgStore' matches the updated chat data
-			if (msgStore.current[msgStore.current.length - 1]?.id != data?.id) {
-				// Update the 'msgStore' with the new chat data
-				msgStore.current = [...msgStore.current, data];
-				if (data.sender.id != Ctx.id) {
+			// Index of the existing message in the message store
+			const existingMessageIndex = msgStore.current.findIndex(
+				(msg) => msg.id == data.id
+			);
+			console.log(data);
+			console.log(existingMessageIndex);
+
+			if (existingMessageIndex !== -1) {
+				const updatedMessage = {
+					...msgStore.current[existingMessageIndex],
+					read: data.read,
+					content: data.content,
+				};
+				msgStore.current = [
+					...msgStore.current.slice(0, existingMessageIndex),
+					updatedMessage,
+					...msgStore.current.slice(existingMessageIndex + 1),
+				];
+			} else {
+				if (data.sender.id !== Ctx.id) {
 					edit("read", data.id);
 				}
-				setMsgState(msgStore.current);
-			} else if (
-				msgStore.current[msgStore.current.length - 1]?.read !=
-				data?.read
-			) {
-				msgStore.current = [
-					...msgStore.current.slice(0, msgStore.current.length - 2),
-					data,
-				];
-				setMsgState(msgStore.current);
-			} else {
-				msgStore.current.forEach((msg, i) => {
-					if (msg.id == data.id) msgStore.current[i] = data;
-				});
-				setMsgState(msgStore.current);
+				msgStore.current.push(data);
+				if (data.content == "You have been sent an image") {
+					window.location.reload();
+				}
 			}
+
+			setMsgState(msgStore.current);
 		};
 
 		// Register event listeners for "chatroom" and "updatedChat" events
@@ -264,16 +273,16 @@ function MessageToPerson() {
 
 		// Handle the file selection
 		input.onchange = async () => {
-			// Get the selected file
 			const file = input.files[0];
-			// Create a FileReader instance
 			const reader = new FileReader();
-			// Read the file as an ArrayBuffer
 			reader.readAsArrayBuffer(file);
 
-			// Handle the file loading
-			reader.onload = async (e) => {
-				// Send a message with the image type
+			reader.onloadend = async () => {
+				if (reader.error) {
+					console.error("File reading error:", reader.error);
+					return;
+				}
+
 				const res = await sendMessage({
 					variables: {
 						id: Ctx.id,
@@ -284,21 +293,30 @@ function MessageToPerson() {
 					},
 				});
 
-				// Create a Uint8Array from the loaded ArrayBuffer
-				const uint8Array = new Uint8Array(e.target.result);
+				const uint8Array = new Uint8Array(reader.result);
 
-				// Upload the image to the server
-				fetch(Ctx.imageServer + "/upload", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						id: res?.data?.sendMessage?.id,
-						image: String(uint8Array),
-						correlation: "Chat",
-					}),
-				}).then(() => window.location.reload());
+				try {
+					const response = await fetch(Ctx.imageServer + "/upload", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							id: res?.data?.sendMessage?.id,
+							image: String(uint8Array),
+							correlation: "Chat",
+						}),
+					});
+
+					if (!response.ok) {
+						throw new Error("Image upload failed");
+					}
+
+					window.location.reload();
+				} catch (error) {
+					console.error("Image upload error:", error);
+					alert("UNABLE TO UPLOAD IMAGE");
+				}
 			};
 		};
 	}
@@ -322,7 +340,7 @@ function MessageToPerson() {
 			reader.readAsArrayBuffer(file);
 
 			// Handle the file loading
-			reader.onload = async (e) => {
+			reader.onload = async () => {
 				// Send a message with the file name and type
 				const res = await sendMessage({
 					variables: {
@@ -337,18 +355,26 @@ function MessageToPerson() {
 				// Create a Uint8Array from the loaded ArrayBuffer
 				const uint8Array = new Uint8Array(e.target.result);
 
-				// Upload the file to the server
-				fetch(Ctx.imageServer + "/upload", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						id: res?.data?.sendMessage?.id,
-						image: String(uint8Array),
-						correlation: "Chat",
-					}),
-				}).then(() => window.location.reload());
+				console.log(uint8Array);
+
+				if (res) {
+					// Upload the file to the server
+					const r = await fetch(Ctx.imageServer + "/upload", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							id: res?.data?.sendMessage?.id,
+							image: String(uint8Array),
+							correlation: "Chat",
+						}),
+					});
+				}
+
+				if (r) {
+					window.location.reload();
+				}
 			};
 		};
 	}
@@ -529,7 +555,16 @@ function MessageToPerson() {
 					}}
 				>
 					{/* Recipient information */}
-					<div style={{ display: "flex", columnGap: 8 }}>
+					<div
+						style={{
+							display: "flex",
+							columnGap: 8,
+							cursor: "pointer",
+						}}
+						onClick={() =>
+							navigate(`/profile/${recipient?.current?.username}`)
+						}
+					>
 						{/* Recipient avatar */}
 						<img
 							src={`${Ctx.imageServer}/fetch/profile/${recipient?.current?.id}`}

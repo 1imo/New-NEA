@@ -96,7 +96,7 @@ function Input(props) {
 					if (/\d/.test(char)) {
 						hasDigit = true;
 					}
-					if (!/\w\s/.test(char)) {
+					if (/[^a-zA-Z0-9\s]/.test(char)) {
 						hasSpecial = true;
 					}
 					if (/[A-Z]/.test(char)) {
@@ -168,8 +168,11 @@ function Input(props) {
 					<button
 						className="accentBtn"
 						style={styles.second}
-						onClick={() => (window.location.href = props.referer)}
-						onTouchStart={() => navigate(`${props.referer}`)}
+						onClick={() =>
+							props?.referer
+								? navigate(`${props.referer}`)
+								: props.setChange(true)
+						}
 					>
 						<img src="/arrow-back-circle.svg" alt="Back" />
 					</button>
