@@ -1,0 +1,80 @@
+10:38:42    
+Invalid `prisma.user.create()` invocation in
+/home/mute/Documents/js/social-social-media/back/schemas/Mutations/UserMutations.js:34:36
+
+  31 console.log(args, "ARGS CREATE");
+  32 
+  33 // Create a new user in the database
+→ 34 const user = await prisma.user.create(
+Authentication failed against database server at `postgdb.postgres.database.azure.com`, the provided database credentials for `smmdbad112` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `postgdb.postgres.database.azure.com`. 
+10:41:46    
+Invalid `prisma.user.create()` invocation in
+/home/mute/Documents/js/social-social-media/back/schemas/Mutations/UserMutations.js:34:36
+
+  31 console.log(args, "ARGS CREATE");
+  32 
+  33 // Create a new user in the database
+→ 34 const user = await prisma.user.create(
+Authentication failed against database server at `postgdb.postgres.database.azure.com`, the provided database credentials for `smmdbad112` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `postgdb.postgres.database.azure.com`. 
+10:46:22    firstName is not defined 
+10:46:55    firstName is not defined 
+10:47:03    firstName is not defined 
+10:47:19    firstName is not defined 
+10:47:36    firstName is not defined 
+10:48:10    firstName is not defined 
+10:48:37    firstName is not defined 
+10:48:42    firstName is not defined 
+10:53:21    this.log is not a function 
+11:11:34    log is not defined 
+11:12:03    log is not defined 
+11:40:07    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/social-social-media/back/index.js:254:40
+
+  251 if (!session || req) {
+  252 	// If no session exists or a request is provided
+  253 	// Checking if the user data exists and is valid
+→ 254 	const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:40:25    
+Invalid `prisma.userData.count()` invocation in
+/home/mute/Documents/js/social-social-media/back/index.js:254:40
+
+  251 if (!session || req) {
+  252 	// If no session exists or a request is provided
+  253 	// Checking if the user data exists and is valid
+→ 254 	const exists = await prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+11:44:54    id is not defined 
+11:44:59    id is not defined 
+11:45:04    id is not defined 
+11:45:08    id is not defined 
+11:45:33    id is not defined 
+11:45:45    id is not defined 
+11:46:05    id is not defined 
+11:46:12    id is not defined 
+11:46:33    id is not defined 
+11:46:57    id is not defined 
+11:47:05    id is not defined 
+11:47:35    id is not defined 
+11:47:41    id is not defined 
+11:47:58    id is not defined 
+11:48:26    id is not defined 
+11:50:21    this.log is not a function 
+11:51:27    this.log is not a function 
+11:51:34    this.log is not a function 
+11:51:44    this.log is not a function 
+11:52:22    this.log is not a function 
+11:53:17    this.log is not a function 
+11:54:00    this.log is not a function 
+11:55:49    this.log is not a function 
+11:55:56    this.log is not a function 
+11:56:16    this.log is not a function 

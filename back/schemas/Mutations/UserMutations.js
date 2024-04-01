@@ -1,414 +1,180 @@
 // Importing the required modules and types
-const {GraphQLString} = require('graphql')
-const bcrypt = require('bcrypt')
+const { GraphQLString } = require("graphql");
+const bcrypt = require("bcrypt");
 
-const UserType = require('../TypeDefs/UserType')
-const SensitiveUserDataType = require('../TypeDefs/SensitiveUserDataType')
-const LinkType = require('../TypeDefs/LinkType')
+const UserType = require("../TypeDefs/UserType");
+const SensitiveUserDataType = require("../TypeDefs/SensitiveUserDataType");
+const LinkType = require("../TypeDefs/LinkType");
+const User = require("../../classes/user");
 
 // Defining mutations related to user data
 const UserMutations = {
-  // Mutation to create a new user
-  createUser: {
-    // The return type is SensitiveUserDataType
-    type: SensitiveUserDataType,
-    args: {
-      firstName: {type: GraphQLString}, // User's first name
-      lastName: {type: GraphQLString}, // User's last name
-      username: {type: GraphQLString}, // User's username
-      password: {type: GraphQLString}, // User's password
-    },
-    async resolve(parent, args, {prisma, sanitise, log}) {
-      try {
-        // Sanitize the input arguments
-        args = sanitise(args)
-        // Hash the password
-        const pass = await bcrypt.hash(args.password, 10)
-        // Generate a unique API key
-        const {nanoid} = await import('nanoid')
-        const apiKey = nanoid()
+	// Mutation to create a new user
+	createUser: {
+		// The return type is SensitiveUserDataType
+		type: SensitiveUserDataType,
+		args: {
+			firstName: { type: GraphQLString }, // User's first name
+			lastName: { type: GraphQLString }, // User's last name
+			username: { type: GraphQLString }, // User's username
+			password: { type: GraphQLString }, // User's password
+		},
+		async resolve(parent, args, { prisma, sanitise, log }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-        console.log(args, 'ARGS CREATE')
+				// Create a new User object
+				const user = new User(prisma, log);
 
-        // Create a new user in the database
-        const user = await prisma.user.create({
-          data: {
-            name: `${args.firstName} ${args.lastName}`, // Full name
-            username: args.username, // Username
-            userData: {
-              create: {
-                password: pass, // Hashed password
-                secretkey: apiKey, // API key
-                expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // Expiry date (1 week from now)
-              },
-            },
-          },
-          select: {
-            id: true,
-          },
-        })
+				// Return the user ID and API key
+				return await user.createUser(args);
+			} catch (e) {
+				// Log any errors
+				log(e);
+				return;
+			}
+		},
+	},
 
-        console.log(user, 'USER')
+	// Mutation to sign in a user
+	signIn: {
+		type: SensitiveUserDataType,
+		args: {
+			username: { type: GraphQLString }, // User's username
+			pass: { type: GraphQLString }, // User's password
+		},
+		async resolve(parent, args, { prisma, sanitise, log }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-        // Return the user ID and API key
-        return {
-          id: user.id,
-          secretkey: apiKey,
-        }
-      } catch (e) {
-        // Log any errors
-        log(e)
-        return
-      }
-    },
-  },
+				// Create a new User object
+				const user = new User(prisma, log);
 
-  // Mutation to sign in a user
-  signIn: {
-    type: SensitiveUserDataType,
-    args: {
-      username: {type: GraphQLString}, // User's username
-      pass: {type: GraphQLString}, // User's password
-    },
-    async resolve(parent, args, {io, prisma, sanitise, log}) {
-      // Sanitize the input arguments
-      args = sanitise(args)
+				return await user.signIn_details(args);
+			} catch (e) {
+				// Log any errors
+				log(e);
+				return;
+			}
+		},
+	},
 
-      try {
-        // Find the user's data based on the username
-        const userData = await prisma.userData.findFirst({
-          where: {
-            user: {
-              username: args.username,
-            },
-          },
-          select: {
-            id: true,
-            secretkey: true,
-            password: true,
-          },
-        })
+	// Mutation to follow or unfollow a user
+	followUnfollowUser: {
+		type: LinkType,
+		args: {
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User's API key
+			username: { type: GraphQLString }, // Username of the user to follow/unfollow
+		},
+		async resolve(parent, args, { io, prisma, sanitise, auth, log, req }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-        // If user not found, throw an error
-        if (!userData) {
-          throw new Error('User not found')
-        }
+				// Create a new User object
+				const user = new User(prisma, log, io);
 
-        // Compare the provided password with the hashed password
-        const hash = await bcrypt.compare(args.pass, userData.password)
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-        // If the password is correct
-        if (hash) {
-          // Generate a new API key
-          const nano = await import('nanoid')
-          const apiKey = nano.nanoid()
+				// Return if the user is invalid
+				if (!exists) return;
 
-          // Update the user's API key and expiry date
-          await prisma.userData.update({
-            where: {
-              id: userData.id,
-            },
-            data: {
-              secretkey: apiKey,
-              expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-            },
-          })
+				// Follow, unfollow, friend and unfriend the user based on the context
+				return await user.followUnfollowUser({
+					id: args.id,
+					username: args.username,
+				});
+			} catch (e) {
+				// Log any errors
+				log(e);
+				return;
+			}
+		},
+	},
 
-          // Return the user ID and new API key
-          return {
-            id: userData.id,
-            secretkey: apiKey,
-          }
-        } else throw new Error('Password is incorrect')
-      } catch (e) {
-        // Log any errors
-        log(e)
-        return
-      }
-    },
-  },
+	// Mutation to accept or reject a follow request
+	pendingRequest: {
+		type: LinkType,
+		args: {
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User's API key
+			request: { type: GraphQLString }, // Request ID
+			action: { type: GraphQLString }, // Action to perform ('add' or 'remove')
+		},
+		async resolve(parent, args, { io, prisma, auth, sanitise, log, req }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-  // Mutation to follow or unfollow a user
-  followUnfollowUser: {
-    type: LinkType,
-    args: {
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User's API key
-      username: {type: GraphQLString}, // Username of the user to follow/unfollow
-    },
-    async resolve(parent, args, {io, prisma, sanitise, auth, log, req}) {
-      try {
-        // Sanitize the input arguments
-        args = sanitise(args)
-        // Authenticate the user
-        const exists = await auth(args.id, args.secretkey, req)
+				// Create a new User object
+				const user = new User(prisma, log, io);
 
-        // Find the recipient user based on the username
-        const recipient = await prisma.user.findFirst({
-          where: {
-            username: args.username,
-          },
-          select: {
-            id: true,
-            socket: true,
-          },
-        })
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-        // If recipient user not found, return null
-        if (!recipient) return
+				// Return if the user is invalid
+				if (!exists) return;
 
-        // Check if a follow relationship already exists between the two users
-        const followExists = await prisma.follow.count({
-          where: {
-            OR: [
-              {AND: [{followerId: args.id}, {followingId: recipient.id}]},
-              {AND: [{followerId: recipient.id}, {followingId: args.id}]},
-            ],
-          },
-        })
+				// Accept or reject the follow request based on the action
+				return await user.pendingRequest({
+					id: args.id,
+					request: args.request,
+					action: args.action,
+				});
+			} catch (e) {
+				// Log any errors
+				log(e);
+				return;
+			}
+		},
+	},
 
-        // If a follow relationship exists
-        if (followExists) {
-          // Find the existing follow relationship
-          const follow = await prisma.follow.findFirst({
-            where: {
-              OR: [
-                {AND: [{followerId: args.id}, {followingId: recipient.id}]},
-                {AND: [{followerId: recipient.id}, {followingId: args.id}]},
-              ],
-            },
-            select: {
-              id: true,
-            },
-          })
-          // Delete the follow relationship (unfollow)
-          await prisma.follow.delete({
-            where: {id: follow.id},
-          })
+	// Mutation to edit user details (name, username, password)
+	editDetails: {
+		type: SensitiveUserDataType,
+		args: {
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User's API key
+			request: { type: GraphQLString }, // Type of request ('name', 'username', or 'password')
+			data: { type: GraphQLString }, // New data to update
+		},
+		async resolve(parent, args, { io, prisma, sanitise, auth, log, req }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-          // Testing purposes otherwise return null
-          return {
-            url: 'unfollowed',
-          }
-        } else {
-          const friends = await prisma.friendship.count({
-            where: {
-              OR: [
-                {AND: [{userOneId: args.id}, {userTwoId: recipient.id}]},
-                {AND: [{userOneId: recipient.id}, {userTwoId: args.id}]},
-              ],
-            },
-          })
+				// Create a new User object
+				const user = new User(prisma, log, io);
 
-          if (!friends) {
-            // Create a new follow relationship
-            let follow = await prisma.follow.create({
-              data: {
-                followerId: args.id,
-                followingId: recipient.id,
-              },
-              select: {
-                id: true,
-                follower: {
-                  select: {
-                    id: true,
-                    name: true,
-                    username: true,
-                  },
-                },
-              },
-            })
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-            // Emit a "followed" event to the recipient's socket
-            io.to(recipient.socket).emit('followed', follow)
+				// Return if the user is invalid
+				if (!exists) return;
 
-            // Testing purposes otherwise return null
-            return {
-              url: 'followed',
-            }
-          } else {
-            await prisma.friendship
-              .deleteMany({
-                where: {
-                  OR: [
-                    {AND: [{userOneId: args.id}, {userTwoId: recipient.id}]},
-                    {AND: [{userOneId: recipient.id}, {userTwoId: args.id}]},
-                  ],
-                },
-              })
-              .then(() => {
-                return {
-                  url: 'unfriended',
-                }
-              })
-          }
-        }
-      } catch (e) {
-        // Log any errors
-        log(e)
-        return
-      }
-    },
-  },
-
-  // Mutation to accept or reject a follow request
-  pendingRequest: {
-    type: LinkType,
-    args: {
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User's API key
-      request: {type: GraphQLString}, // Request ID
-      action: {type: GraphQLString}, // Action to perform ('add' or 'remove')
-    },
-    async resolve(parent, args, {io, prisma, auth, sanitise, log, req}) {
-      try {
-        // Sanitize the input arguments
-        args = sanitise(args)
-        // Authenticate the user
-        const exists = await auth(args.id, args.secretkey, req)
-
-        // Find the follow request based on the request ID
-        const follow = await prisma.follow.findFirst({
-          where: {id: args.request},
-          select: {
-            follower: {
-              select: {
-                id: true,
-                username: true,
-                name: true,
-              },
-            },
-            following: {
-              select: {
-                id: true,
-                username: true,
-                name: true,
-              },
-            },
-            id: true,
-          },
-        })
-
-        // Perform the specified action
-        switch (args.action) {
-          case 'add':
-            // Create a new friendship between the two users
-            const c = await prisma.friendship.create({
-              data: {
-                userOneId: follow.follower.id,
-                userTwoId: follow.following.id,
-              },
-            })
-
-            // Delete the follow request
-            const r = await prisma.follow.delete({
-              where: {id: follow.id},
-            })
-
-            // Return State
-            return {
-              url: 'befriended',
-            }
-
-          case 'remove':
-            // Mark the follow request as denied
-            const u = await prisma.follow.update({
-              where: {
-                id: args.request,
-              },
-              data: {
-                denial: true,
-              },
-            })
-
-            // Return State
-            return {
-              url: 'denied',
-            }
-        }
-      } catch (e) {
-        // Log any errors
-        log(e)
-        return
-      }
-    },
-  },
-
-  // Mutation to edit user details (name, username, password)
-  editDetails: {
-    type: SensitiveUserDataType,
-    args: {
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User's API key
-      request: {type: GraphQLString}, // Type of request ('name', 'username', or 'password')
-      data: {type: GraphQLString}, // New data to update
-    },
-    async resolve(parent, args, {io, prisma, sanitise, auth, log, req}) {
-      try {
-        // Sanitize the input arguments
-        args = sanitise(args)
-        // Authenticate the user
-        const exists = await auth(args.id, args.secretkey, req)
-
-        // Update the user data based on the request type
-        switch (args.request) {
-          case 'name':
-            // Update the user's name
-            await prisma.user.update({
-              where: {
-                id: args.id,
-              },
-              data: {
-                name: args.data,
-              },
-            })
-            console.log('Name Updated: ', args)
-            return
-
-          case 'username':
-            // Update the user's username
-            await prisma.user.update({
-              where: {
-                id: args.id,
-              },
-              data: {
-                username: args.data,
-              },
-            })
-            console.log('Username Updated: ', args)
-            return
-
-          case 'password':
-            // Hash the new password
-            const pass = await bcrypt.hash(args.data, 10)
-            // Generate a new API key
-            const {nanoid} = await import('nanoid')
-            const apiKey = nanoid()
-
-            // Update the user's password, API key, and expiry date
-            await prisma.userData.update({
-              where: {
-                id: args.id,
-              },
-              data: {
-                password: pass,
-                secretkey: apiKey,
-                expiry: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-              },
-            })
-            // Return the new API key
-            return {
-              secretkey: apiKey,
-            }
-        }
-      } catch (e) {
-        // Log any errors
-        log(e)
-        return
-      }
-    },
-  },
-}
+				// Edit the user details based on the request
+				return await user.editDetails(args);
+			} catch (e) {
+				// Log any errors
+				log(e);
+				return;
+			}
+		},
+	},
+};
 
 // Export the UserMutations object
-module.exports = UserMutations
+module.exports = UserMutations;

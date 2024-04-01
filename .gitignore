@@ -9,4 +9,4 @@ back/.prettierrc
 front/.eslintrc.cjs
 front/.gitignore
 front/vite.config.js
-
+back/.env

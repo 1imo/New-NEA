@@ -1,0 +1,8 @@
+21:49:57    this.log is not a function 
+21:50:11    this.log is not a function 
+21:50:24    this.log is not a function 
+21:52:31    this.log is not a function 
+21:53:18    this.log is not a function 
+21:53:57    this.log is not a function 
+21:54:14    this.log is not a function 
+21:56:34    this.log is not a function 
