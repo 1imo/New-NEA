@@ -69,7 +69,7 @@ const UserMutations = {
 			secretkey: { type: GraphQLString }, // User's API key
 			username: { type: GraphQLString }, // Username of the user to follow/unfollow
 		},
-		async resolve(parent, args, { io, prisma, sanitise, auth, log, req }) {
+		async resolve(parent, args, { io, prisma, sanitise, log }) {
 			try {
 				// Sanitize the input arguments
 				args = sanitise(args);
@@ -108,7 +108,7 @@ const UserMutations = {
 			request: { type: GraphQLString }, // Request ID
 			action: { type: GraphQLString }, // Action to perform ('add' or 'remove')
 		},
-		async resolve(parent, args, { io, prisma, auth, sanitise, log, req }) {
+		async resolve(parent, args, { io, prisma, sanitise, log }) {
 			try {
 				// Sanitize the input arguments
 				args = sanitise(args);
@@ -148,7 +148,7 @@ const UserMutations = {
 			request: { type: GraphQLString }, // Type of request ('name', 'username', or 'password')
 			data: { type: GraphQLString }, // New data to update
 		},
-		async resolve(parent, args, { io, prisma, sanitise, auth, log, req }) {
+		async resolve(parent, args, { io, prisma, sanitise, log }) {
 			try {
 				// Sanitize the input arguments
 				args = sanitise(args);

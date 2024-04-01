@@ -78,3 +78,102 @@ Please make sure your database server is running at `postgdb.postgres.database.a
 11:55:49    this.log is not a function 
 11:55:56    this.log is not a function 
 11:56:16    this.log is not a function 
+12:26:47    io is not defined 
+12:27:06    user.createPost is not a function 
+12:27:24    user.createPost is not a function 
+12:27:54    user.createPost is not a function 
+12:29:58    user.createPost is not a function 
+12:32:00    Post is not defined 
+12:32:38    Post is not defined 
+12:37:20    Post is not defined 
+12:37:45    Post is not defined 
+12:37:55    Post is not defined 
+12:38:13    Post is not defined 
+12:38:32    Post is not a constructor 
+12:38:37    Post is not a constructor 
+12:59:20    prisma is not defined 
+12:59:44    prisma is not defined 
+12:59:59    prisma is not defined 
+13:00:34    prisma is not defined 
+13:01:00    prisma is not defined 
+13:01:01    prisma is not defined 
+13:02:48    prisma is not defined 
+13:05:10    prisma is not defined 
+13:05:40    prisma is not defined 
+13:06:15    prisma is not defined 
+13:06:50    pthis is not defined 
+13:14:39    
+Invalid `this.prisma.likedPost.delete()` invocation in
+/home/mute/Documents/js/social-social-media/back/classes/post.js:102:39
+
+   99 
+  100 // 0 is a falsy value, so we can use it to check if the post has been viewed
+  101 if (postLiked) {
+→ 102 	await this.prisma.likedPost.delete({
+        where: {
+          postId: 36,
+          userId: "df5d9289-c685-4943-9635-9dad774dfc2c",
+      ?   postId_userId?: LikedPostPostIdUserIdCompoundUniqueInput,
+      ?   AND?: LikedPostWhereInput | LikedPostWhereInput[],
+      ?   OR?: LikedPostWhereInput[],
+      ?   NOT?: LikedPostWhereInput | LikedPostWhereInput[],
+      ?   post?: PostRelationFilter | PostWhereInput,
+      ?   user?: UserRelationFilter | UserWhereInput
+        }
+      })
+
+Argument `where` of type LikedPostWhereUniqueInput needs at least one of `postId_userId` arguments. Available options are marked with ?. 
+13:15:28    
+Invalid `this.prisma.likedPost.delete()` invocation in
+/home/mute/Documents/js/social-social-media/back/classes/post.js:102:39
+
+   99 
+  100 // 0 is a falsy value, so we can use it to check if the post has been viewed
+  101 if (postLiked) {
+→ 102 	await this.prisma.likedPost.delete({
+        where: {
+          AND: [
+            {
+              postId: 36
+            },
+            {
+              userId: "df5d9289-c685-4943-9635-9dad774dfc2c"
+            }
+          ],
+      ?   postId_userId?: LikedPostPostIdUserIdCompoundUniqueInput,
+      ?   OR?: LikedPostWhereInput[],
+      ?   NOT?: LikedPostWhereInput | LikedPostWhereInput[],
+      ?   postId?: IntFilter | Int,
+      ?   userId?: StringFilter | String,
+      ?   post?: PostRelationFilter | PostWhereInput,
+      ?   user?: UserRelationFilter | UserWhereInput
+        }
+      })
+
+Argument `where` of type LikedPostWhereUniqueInput needs at least one of `postId_userId` arguments. Available options are marked with ?. 
+13:16:05    this.prisma.likedPost.deleteFirst is not a function 
+13:16:09    this.prisma.likedPost.deleteFirst is not a function 
+13:16:11    this.prisma.likedPost.deleteFirst is not a function 
+13:16:35    this.prisma.likedPost.deleteFirst is not a function 
+13:16:37    this.prisma.likedPost.deleteFirst is not a function 
+13:17:31    
+Invalid `this.prisma.likedPost.delete()` invocation in
+/home/mute/Documents/js/social-social-media/back/classes/post.js:102:39
+
+   99 
+  100 // 0 is a falsy value, so we can use it to check if the post has been viewed
+  101 if (postLiked) {
+→ 102 	await this.prisma.likedPost.delete({
+        where: {
+          postId: 36,
+          userId: "df5d9289-c685-4943-9635-9dad774dfc2c",
+      ?   postId_userId?: LikedPostPostIdUserIdCompoundUniqueInput,
+      ?   AND?: LikedPostWhereInput | LikedPostWhereInput[],
+      ?   OR?: LikedPostWhereInput[],
+      ?   NOT?: LikedPostWhereInput | LikedPostWhereInput[],
+      ?   post?: PostRelationFilter | PostWhereInput,
+      ?   user?: UserRelationFilter | UserWhereInput
+        }
+      })
+
+Argument `where` of type LikedPostWhereUniqueInput needs at least one of `postId_userId` arguments. Available options are marked with ?. 

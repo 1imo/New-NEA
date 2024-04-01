@@ -1,223 +1,133 @@
 // Importing required types from the 'graphql' package
-const {GraphQLInt, GraphQLString, GraphQLBoolean} = require('graphql')
+const { GraphQLInt, GraphQLString, GraphQLBoolean } = require("graphql");
 
 // Importing the LinkType (likely a custom GraphQL type definition)
-const LinkType = require('../TypeDefs/LinkType')
+const LinkType = require("../TypeDefs/LinkType");
+const User = require("../../classes/user");
+const Post = require("../../classes/post");
 
 // Defining the PostMutations object
 const PostMutations = {
-  // Mutation to create a new post
-  createPost: {
-    type: LinkType, // The return type of the mutation
-    args: {
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User secret key for authentication
-      content: {type: GraphQLString}, // Content of the post
-      photo: {type: GraphQLBoolean}, // Indicates whether the post includes a photo or not
-    },
-    async resolve(parent, args, {prisma, auth, sanitise, log, req}) {
-      try {
-        // Sanitize the input arguments
-        args = sanitise(args)
+	// Mutation to create a new post
+	createPost: {
+		type: LinkType, // The return type of the mutation
+		args: {
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User secret key for authentication
+			content: { type: GraphQLString }, // Content of the post
+			photo: { type: GraphQLBoolean }, // Indicates whether the post includes a photo or not
+		},
+		async resolve(parent, args, { prisma, sanitise, log }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-        // Authenticate the user
-        const exists = await auth(args.id, args.secretkey, req)
+				// Create a new User object
+				const user = new User(prisma, log);
 
-        console.log(args, exists)
-        // Create a new post in the database
-        const post = await prisma.post.create({
-          data: {
-            content: args.content,
-            userId: args.id,
-            photo: args.photo,
-          },
-          select: {
-            id: true,
-          },
-        })
-        console.log(post, 'CREATED')
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-        // Return the URL and ID of the created post
-        return {
-          url: `/post/id/${post.id}`,
-          id: post.id,
-        }
-      } catch (e) {
-        // Log any errors
-        log(e)
-        return
-      }
-    },
-  },
+				// Return if the user is invalid
+				if (!exists) return;
 
-  // Mutation to mark a post as viewed
-  postViewed: {
-    type: LinkType,
-    args: {
-      post: {type: GraphQLInt}, // Post ID
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User secret key for authentication
-    },
-    async resolve(parent, args, {auth, sanitise, log, req, prisma}) {
-      try {
-        // Sanitize the input arguments
-        args = sanitise(args)
+				// Create a new Post object
+				const post = new Post(prisma, log);
 
-        // Authenticate the user
-        const exists = await auth(args.id, args.secretkey, req)
+				// Return the URL and ID of the created post
+				return await post.createPost({
+					id: args.id,
+					content: args.content,
+					photo: args.photo,
+				});
+			} catch (e) {
+				// Log any errors
+				log(e);
+				return;
+			}
+		},
+	},
 
-        // Find the post and check if the user has already viewed it
-        const post = await prisma.post.findFirst({
-          where: {
-            id: args.post,
-          },
-          select: {
-            viewedBy: {
-              where: {
-                userId: args.id,
-              },
-            },
-            avgRatio: true,
-          },
-        })
+	// Mutation to mark a post as viewed
+	postViewed: {
+		type: LinkType,
+		args: {
+			post: { type: GraphQLInt }, // Post ID
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User secret key for authentication
+		},
+		async resolve(parent, args, { auth, sanitise, log, req, prisma }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-        // If the user hasn't viewed the post before
-        if (post.viewedBy.length == 0) {
-          // Fetch additional data about the post
-          const inDepth = await prisma.post.findFirst({
-            where: {
-              id: args.post,
-            },
-            select: {
-              viewedBy: true,
-              likedBy: true,
-              avgRatio: true,
-            },
-          })
+				// Create a new User object
+				const user = new User(prisma, log);
 
-          // Calculate the average ratio based on likes and views
-          const ratio =
-            inDepth.likedBy.length + 1 / (inDepth.viewedBy.length + 2)
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-          // Create a new record in the ViewedPost table
-          const v = await prisma.ViewedPost.create({
-            data: {
-              postId: args.post,
-              userId: args.id,
-            },
-          })
+				// Return if the user is invalid
+				if (!exists) return;
 
-          // Update avgRatio of post
-          const p = await prisma.post.update({
-            where: {
-              id: args.post,
-            },
-            data: {
-              avgRatio: ratio,
-            },
-          })
-          return {
-            url: 'Post Viewed',
-          }
-        } else {
-          return {
-            url: 'Already Viewed',
-          }
-        }
-      } catch (e) {
-        // Log any errors
-        log(e)
-        return {
-          url: 'ERROR',
-        }
-      }
-    },
-  },
+				// Create a new Post object
+				const post = new Post(prisma, log);
 
-  // Mutation to mark a post as liked
-  postLiked: {
-    type: LinkType,
-    args: {
-      post: {type: GraphQLInt}, // Post ID
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User secret key for authentication
-    },
-    async resolve(parent, args, {auth, sanitise, log, req, prisma}) {
-      try {
-        // Sanitize the input arguments
-        args = sanitise(args)
+				return await post.viewPost({ post: args.post, id: args.id });
+			} catch (e) {
+				// Log any errors
+				log(e);
+				return;
+			}
+		},
+	},
 
-        // Authenticate the user
-        const exists = await auth(args.id, args.secretkey, req)
+	// Mutation to mark a post as liked
+	postLiked: {
+		type: LinkType,
+		args: {
+			post: { type: GraphQLInt }, // Post ID
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User secret key for authentication
+		},
+		async resolve(parent, args, { auth, sanitise, log, req, prisma }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-        // Find the post and check if the user has already liked it
-        const post = await prisma.post.findFirst({
-          where: {
-            id: args.post,
-          },
-          select: {
-            likedBy: {
-              where: {
-                userId: args.id,
-              },
-            },
-            avgRatio: true,
-          },
-        })
+				// Create a new User object
+				const user = new User(prisma, log);
 
-        // If the user hasn't liked the post before
-        if (post.likedBy.length == 0) {
-          // Fetch additional data about the post
-          const inDepth = await prisma.post.findFirst({
-            where: {
-              id: args.post,
-            },
-            select: {
-              viewedBy: true,
-              likedBy: true,
-              avgRatio: true,
-            },
-          })
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-          // Calculate the average ratio based on likes and views
-          const ratio =
-            (inDepth.likedBy.length + 2) / inDepth.viewedBy.length + 1
+				// Return if the user is invalid
+				if (!exists) return;
 
-          // Create a new record in the LikedPost table
-          await prisma.LikedPost.create({
-            data: {
-              postId: args.post,
-              userId: args.id,
-            },
-          })
+				// Create a new Post object
+				const post = new Post(prisma, log);
 
-          await prisma.post.update({
-            where: {
-              id: args.post,
-            },
-            data: {
-              avgRatio: ratio,
-            },
-          })
-
-          return {
-            url: 'Post Liked',
-          }
-        } else {
-          return {
-            url: 'Already Liked',
-          }
-        }
-      } catch (e) {
-        // Log any errors
-        log(e)
-        return {
-          url: 'ERROR',
-        }
-      }
-    },
-  },
-}
+				// Like, unlike a post
+				return await post.likePost({ post: args.post, id: args.id });
+			} catch (e) {
+				// Log any errors
+				log(e);
+				return {
+					url: "ERROR",
+				};
+			}
+		},
+	},
+};
 
 // Export the PostMutations object
-module.exports = PostMutations
+module.exports = PostMutations;
