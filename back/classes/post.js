@@ -88,6 +88,8 @@ class Post {
 		}
 	}
 
+	// Like a post
+	// Arguments: id, post
 	async likePost(args) {
 		try {
 			const postLiked = await this.prisma.likedPost.count({
@@ -149,7 +151,6 @@ class Post {
 			};
 		} catch (e) {
 			this.log(e);
-			console.log(e);
 			return {
 				url: "Error",
 			};

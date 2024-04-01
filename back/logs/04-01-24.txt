@@ -177,3 +177,48 @@ Invalid `this.prisma.likedPost.delete()` invocation in
       })
 
 Argument `where` of type LikedPostWhereUniqueInput needs at least one of `postId_userId` arguments. Available options are marked with ?. 
+13:39:12    sanitise is not defined 
+13:39:27    sanitise is not defined 
+13:39:44    sanitise is not defined 
+13:39:58    sanitise is not defined 
+13:40:16    sanitise is not defined 
+13:40:56    sanitise is not defined 
+13:41:15    sanitise is not defined 
+13:41:41    sanitise is not defined 
+13:41:54    chatroom.getLocation is not a function 
+13:42:07    prisma is not defined 
+13:43:00    prisma is not defined 
+13:43:36    
+Invalid `this.prisma.chatroom.findFirst()` invocation in
+/home/mute/Documents/js/social-social-media/back/classes/chatroom.js:32:48
+
+  29 
+  30 console.log(users, "users");
+  31 
+→ 32 const chatroom = await this.prisma.chatroom.findFirst({
+       where: {
+         chatroomUsers: {
+           every: {
+             userId: {
+               in: [
+                 [
+                   "df5d9289-c685-4943-9635-9dad774dfc2c",
+                   "cd6655d1-b279-4487-bcc3-cc3892eb2e4d"
+                 ]
+               ]
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             }
+           }
+         }
+       },
+       select: {
+         id: true
+       }
+     })
+
+Argument `in`: Invalid value provided. Expected String or ListStringFieldRefInput, provided ((String, String)). 
+13:59:31    sanitise is not defined 
+13:59:48    sanitise is not defined 
+13:59:57    sanitise is not defined 
+14:00:01    sanitise is not defined 
+14:00:18    sanitise is not defined 

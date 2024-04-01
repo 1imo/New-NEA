@@ -1,355 +1,135 @@
 // Importing required modules and types
-const {GraphQLString} = require('graphql')
-const ChatroomType = require('../TypeDefs/ChatroomType')
-const MessageType = require('../TypeDefs/MessageType')
-const LinkType = require('../TypeDefs/LinkType.js')
+const { GraphQLString } = require("graphql");
+const ChatroomType = require("../TypeDefs/ChatroomType");
+const MessageType = require("../TypeDefs/MessageType");
+const LinkType = require("../TypeDefs/LinkType.js");
+
+const User = require("../../classes/user");
+const Chatroom = require("../../classes/chatroom");
 
 // Chatroom Mutations for creating, sending, and editing messages
 const ChatroomMutations = {
-  // Mutation to get location (create a new chatroom) and return its data
-  getLocation: {
-    type: ChatroomType,
-    args: {
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User secret key for authentication
-      username: {type: GraphQLString}, // Username of the other user to create chatroom with
-    },
-    async resolve(parent, args, {prisma, io, auth, log, req}) {
-      try {
-        // Authenticate the user and fetch user data
-        const [exists, userOne, userTwo] = await Promise.all([
-          auth(args.id, args.secretkey, req),
-          prisma.user.findFirst({
-            where: {
-              id: args.id,
-            },
-            select: {
-              id: true,
-              socket: true,
-            },
-          }),
-          prisma.user.findFirst({
-            where: {
-              username: args.username,
-            },
-            select: {
-              id: true,
-            },
-          }),
-        ])
+	// Mutation to get location (create a new chatroom) and return its data
+	getLocation: {
+		type: ChatroomType,
+		args: {
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User secret key for authentication
+			username: { type: GraphQLString }, // Username of the other user to create chatroom with
+		},
+		async resolve(parent, args, { sanitise, prisma, io, auth, log, req }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-        // Check if chatroom already exists between the two users
-        let chatroom = await prisma.chatroom.findFirst({
-          where: {
-            chatroomUsers: {
-              every: {
-                userId: {
-                  in: [userOne.id, userTwo.id],
-                },
-              },
-            },
-            AND: [
-              {
-                chatroomUsers: {
-                  some: {
-                    userId: userOne.id,
-                  },
-                },
-              },
-              {
-                chatroomUsers: {
-                  some: {
-                    userId: userTwo.id,
-                  },
-                },
-              },
-            ],
-          },
-          select: {
-            id: true,
-            chatroomUsers: {
-              select: {
-                user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    username: true,
-                    socket: true,
-                  },
-                },
-              },
-            },
-          },
-        })
+				// Create a new User object
+				const user = new User(prisma, log);
 
-        if (chatroom) {
-          const chat = {
-            id: chatroom.id,
-            chatroomUsers: chatroom.chatroomUsers,
-            messages: [],
-            lastMessage: {},
-          }
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-          return chat
-        }
+				// Return if the user is invalid
+				if (!exists) return;
 
-        console.log(chatroom, 'CHATROOM')
+				const chatroom = new Chatroom(prisma, log, io);
 
-        // Generate a unique chatroom ID
-        const {nanoid} = await import('nanoid')
-        const id = nanoid()
+				return await chatroom.findChatroom({
+					id: args.id,
+					username: args.username,
+				});
+			} catch (e) {
+				log(e);
+				return;
+			}
+		},
+	},
 
-        // Create a new chatroom
-        chatroom = await prisma.chatroom.create({
-          data: {
-            id,
-          },
-        })
+	// Mutation to send a message in a chatroom
+	sendMessage: {
+		type: MessageType,
+		args: {
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User secret key for authentication
+			chatroom: { type: GraphQLString }, // Chatroom ID
+			content: { type: GraphQLString }, // Message content
+			type: { type: GraphQLString }, // Message type (e.g., text, image, etc.)
+		},
+		async resolve(parent, args, { sanitise, io, prisma, auth, req, log }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-        // Associate the two users with the newly created chatroom
-        await prisma.chatroomUser.create({
-          data: {
-            chatroomId: chatroom.id,
-            userId: userOne.id,
-          },
-        })
+				// Create a new User object
+				const user = new User(prisma, log);
 
-        await prisma.chatroomUser.create({
-          data: {
-            chatroomId: chatroom.id,
-            userId: userTwo.id,
-          },
-        })
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-        // Fetch the chatroom data with associated users
-        const data = await prisma.chatroom.findFirst({
-          where: {
-            id: chatroom.id,
-          },
-          select: {
-            id: true,
-            chatroomUsers: {
-              select: {
-                user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    username: true,
-                    socket: true,
-                  },
-                },
-              },
-            },
-          },
-        })
+				// Return if the user is invalid
+				if (!exists) return;
 
-        // Prepare the chatroom data to be sent to the client
-        const chat = {
-          id: data.id,
-          chatroomUsers: data.chatroomUsers,
-          messages: [],
-          lastMessage: {},
-        }
+				const chatroom = new Chatroom(prisma, log, io);
 
-        // Emit the updated chat data to users
-        data.chatroomUsers.map((user) => {
-          console.log(user.user.socket, 'SOCKETS EMITTING TO')
-          io.to(user.user.socket).emit('updatedChat', chat)
-        })
+				return await chatroom.sendMessage({
+					id: args.id,
+					chatroom: args.chatroom,
+					content: args.content,
+					type: args.type,
+				});
+			} catch (e) {
+				log(e);
+				return;
+			}
+		},
+	},
 
-        return chat
-      } catch (e) {
-        log(e)
-        return
-      }
-    },
-  },
+	// Mutation to edit a message in a chatroom
+	editMessage: {
+		type: LinkType,
+		args: {
+			id: { type: GraphQLString }, // User ID
+			secretkey: { type: GraphQLString }, // User secret key for authentication
+			chatroom: { type: GraphQLString }, // Chatroom ID
+			message: { type: GraphQLString }, // Message ID
+			edit: { type: GraphQLString }, // Edit action (read, unread, delete)
+		},
+		async resolve(parent, args, { prisma, io, req, log, sanitise, auth }) {
+			try {
+				// Sanitize the input arguments
+				args = sanitise(args);
 
-  // Mutation to send a message in a chatroom
-  sendMessage: {
-    type: MessageType,
-    args: {
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User secret key for authentication
-      chatroom: {type: GraphQLString}, // Chatroom ID
-      content: {type: GraphQLString}, // Message content
-      type: {type: GraphQLString}, // Message type (e.g., text, image, etc.)
-    },
-    async resolve(parent, args, {io, prisma, auth, req}) {
-      try {
-        // Authenticate the user, fetch chatroom data, and sender data
-        const [exists, chatroom, sender] = await Promise.all([
-          auth(args.id, args.secretkey, req),
-          prisma.chatroom.findFirst({
-            where: {id: args.chatroom},
-            include: {
-              chatroomUsers: {
-                select: {
-                  user: {
-                    select: {
-                      socket: true,
-                    },
-                  },
-                },
-              },
-            },
-          }),
-          prisma.user.findFirst({where: {id: args.id}, select: {id: true}}),
-        ])
+				// Create a new User object
+				const user = new User(prisma, log);
 
-        // Create a new message
-        const message = await prisma.message.create({
-          data: {
-            content: args.content,
-            senderId: sender.id,
-            chatroomId: chatroom.id,
-            type: args.type,
-          },
-          select: {
-            id: true,
-            sender: {
-              select: {
-                id: true,
-                username: true,
-                name: true,
-              },
-            },
-            content: true,
-            type: true,
-            date: true,
-            read: true,
-          },
-        })
+				// Authenticate the user
+				const exists = await user.signIn_apiKey({
+					id: args.id,
+					secretkey: args.secretkey,
+				});
 
-        // Emit the new message to all users in the chatroom
-        chatroom.chatroomUsers.map((user) => {
-          io.to(user.user.socket).emit('chatroom', message)
-          io.to(user.user.socket).emit('updatedChat', message)
-        })
+				// Return if the user is invalid
+				if (!exists) return;
 
-        return message
-      } catch (e) {
-        console.log(e)
-        return
-      }
-    },
-  },
+				const chatroom = new Chatroom(prisma, log, io);
 
-  // Mutation to edit a message in a chatroom
-  editMessage: {
-    type: LinkType,
-    args: {
-      id: {type: GraphQLString}, // User ID
-      secretkey: {type: GraphQLString}, // User secret key for authentication
-      chatroom: {type: GraphQLString}, // Chatroom ID
-      message: {type: GraphQLString}, // Message ID
-      edit: {type: GraphQLString}, // Edit action (read, unread, delete)
-    },
-    async resolve(parent, args, {prisma, io, req, log, sanitise, auth}) {
-      try {
-        // Sanitize the input arguments
-        args = sanitise(args)
-        // Authenticate the user
-        const exists = await auth(args.id, args.secretkey, req)
+				return chatroom.editMessage({
+					id: args.id,
+					chatroom: args.chatroom,
+					message: args.message,
+					edit: args.edit,
+				});
+			} catch (e) {
+				log(e);
+				return;
+			}
+		},
+	},
+};
 
-        // Fetch the chatroom data with associated users' sockets
-        const chatroom = await prisma.chatroom.findFirst({
-          where: {
-            id: args.chatroom,
-          },
-          select: {
-            chatroomUsers: {
-              select: {
-                user: {
-                  select: {
-                    socket: true,
-                  },
-                },
-              },
-            },
-          },
-        })
-
-        let updateData = {}
-
-        // Prepare update data based on the edit action
-        if (args.edit === 'read') {
-          updateData.read = true
-          console.log(args, 'READ')
-        } else if (args.edit === 'unread') {
-          updateData.read = false
-          console.log(args, 'UNREAD')
-        } else if (args.edit === 'delete') {
-          updateData.content = 'This message has been deleted'
-          console.log(args, 'DELETE', updateData)
-        }
-
-        // Update the message if necessary
-        if (Object.keys(updateData).length > 0) {
-          // Check so that only the sender can delete their message
-          if (args.edit === 'delete') {
-            const m = await prisma.message.update({
-              where: {
-                id: args.message,
-                senderId: args.id,
-              },
-              data: updateData,
-              select: {
-                id: true,
-                sender: {
-                  select: {
-                    id: true,
-                    username: true,
-                    name: true,
-                  },
-                },
-                content: true,
-                type: true,
-                date: true,
-                read: true,
-              },
-            })
-            // Emit the updated chat data to all users in the chatroom
-            chatroom.chatroomUsers.map((user) => {
-              console.log(user.user.socket)
-              io.to(user.user.socket).emit('chatroom', m)
-            })
-          } else {
-            const m = await prisma.message.update({
-              where: {
-                id: args.message,
-              },
-              data: updateData,
-              select: {
-                id: true,
-                sender: {
-                  select: {
-                    id: true,
-                    username: true,
-                    name: true,
-                  },
-                },
-                content: true,
-                type: true,
-                date: true,
-                read: true,
-              },
-            })
-            // Emit the updated chat data to all users in the chatroom
-            chatroom.chatroomUsers.map((user) => {
-              console.log(user.user.socket)
-              io.to(user.user.socket).emit('chatroom', m)
-            })
-          }
-        }
-
-        return
-      } catch (e) {
-        log(e)
-        return
-      }
-    },
-  },
-}
-
-module.exports = ChatroomMutations
+module.exports = ChatroomMutations;
