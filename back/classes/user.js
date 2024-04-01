@@ -1,6 +1,8 @@
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
+const sessions = new Map();
+
 class User {
 	constructor(prisma, log, io) {
 		this.prisma = prisma;
@@ -376,6 +378,79 @@ class User {
 			}
 		} catch (error) {
 			this.log(error);
+			return;
+		}
+	}
+
+	// Get the user's chatrooms
+	// Arguments: id
+	async getChats(args) {
+		try {
+			// Fetch the user's chatrooms along with chatroom users and last message
+			const chatrooms = await this.prisma.user.findFirst({
+				where: {
+					id: args.id,
+				},
+				select: {
+					chatroomUsers: {
+						select: {
+							chatroom: {
+								select: {
+									id: true,
+									chatroomUsers: {
+										select: {
+											user: {
+												select: {
+													name: true,
+													id: true,
+													username: true,
+												},
+											},
+										},
+									},
+									messages: {
+										orderBy: {
+											date: "desc",
+										},
+										take: 1,
+										select: {
+											id: true,
+											content: true,
+											sender: {
+												select: {
+													name: true,
+													username: true,
+												},
+											},
+											read: true,
+											date: true,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			});
+
+			// Process the chatroom data and prepare the response
+			const insights = chatrooms.chatroomUsers.map((chatroomUser) => {
+				const chatroom = chatroomUser.chatroom;
+				const lastMessage = chatroom.messages[0];
+				const recipients = chatroom.chatroomUsers.map(
+					(author) => author.user
+				);
+
+				return {
+					id: chatroom.id,
+					chatroomUsers: recipients,
+					lastMessage,
+				};
+			});
+
+			return insights;
+		} catch (e) {
+			this.log(e);
 			return;
 		}
 	}

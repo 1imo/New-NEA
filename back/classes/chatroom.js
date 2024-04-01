@@ -99,6 +99,60 @@ class Chatroom {
 		}
 	}
 
+	// Get a chatroom
+	// Arguments: chatId
+	async getChatroom(args) {
+		try {
+			const chatroom = await this.prisma.chatroom.findFirst({
+				where: {
+					id: args.chatId,
+				},
+				select: {
+					id: true,
+					messages: {
+						orderBy: {
+							date: "desc",
+						},
+						select: {
+							id: true,
+							content: true,
+							date: true,
+							type: true,
+							read: true,
+							sender: {
+								select: {
+									id: true,
+									name: true,
+									username: true,
+								},
+							},
+						},
+					},
+					chatroomUsers: {
+						select: {
+							user: {
+								select: {
+									id: true,
+									name: true,
+									username: true,
+								},
+							},
+						},
+					},
+				},
+			});
+
+			return {
+				id: chatroom.id,
+				chatroomUsers: chatroom.chatroomUsers.map((user) => user.user),
+				messages: chatroom.messages,
+			};
+		} catch (e) {
+			this.log(e);
+			return;
+		}
+	}
+
 	// Send a message to a chatroom
 	// Arguments: id (user), secretkey, chatroom, content, type
 	async sendMessage(args) {
