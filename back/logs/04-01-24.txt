@@ -224,3 +224,45 @@ Argument `in`: Invalid value provided. Expected String or ListStringFieldRefInpu
 14:00:18    sanitise is not defined 
 14:22:27    io is not defined 
 14:22:42    io is not defined 
+15:32:46    prisma is not defined 
+15:33:28    prisma is not defined 
+15:33:39    prisma is not defined 
+15:43:07    
+Invalid `this.prisma.userData.count()` invocation in
+/home/mute/Documents/js/social-social-media/back/classes/user.js:53:46
+
+  50 // Arguments: id, secretkey
+  51 async signIn_apiKey(args) {
+  52 	try {
+→ 53 		const exists = await this.prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:43:22    
+Invalid `this.prisma.userData.count()` invocation in
+/home/mute/Documents/js/social-social-media/back/classes/user.js:53:46
+
+  50 // Arguments: id, secretkey
+  51 async signIn_apiKey(args) {
+  52 	try {
+→ 53 		const exists = await this.prisma.userData.count(
+Can't reach database server at `postgdb.postgres.database.azure.com`:`5432`
+
+Please make sure your database server is running at `postgdb.postgres.database.azure.com`:`5432`. 
+15:43:28    prisma is not defined 
+16:19:01    PriorityQueue is not defined 
+16:19:39    PriorityQueue is not defined 
+16:28:40    PriorityQueue is not defined 
+16:28:47    PriorityQueue is not defined 
+16:30:23    PriorityQueue is not defined 
+16:30:51    PriorityQueue is not defined 
+16:40:41    u is not defined 
+16:41:10    u is not defined 
+16:41:57    u is not defined 
+16:42:02    u is not defined 
+16:42:11    u is not defined 
+17:27:54    Cannot read properties of undefined (reading 'prisma') 
+17:28:13    Cannot read properties of undefined (reading 'prisma') 
+17:29:34    Cannot read properties of undefined (reading 'prisma') 
+17:31:03    Cannot read properties of undefined (reading 'prisma') 
+17:33:17    Cannot read properties of undefined (reading 'prisma') 

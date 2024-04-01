@@ -3,8 +3,8 @@ const { GraphQLInt, GraphQLString, GraphQLBoolean } = require("graphql");
 
 // Importing the LinkType (likely a custom GraphQL type definition)
 const LinkType = require("../TypeDefs/LinkType");
-const User = require("../../classes/user");
-const Post = require("../../classes/post");
+const User = require("../../classes/User");
+const Post = require("../../classes/Post");
 
 // Defining the PostMutations object
 const PostMutations = {

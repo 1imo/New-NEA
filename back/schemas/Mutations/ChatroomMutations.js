@@ -4,8 +4,8 @@ const ChatroomType = require("../TypeDefs/ChatroomType");
 const MessageType = require("../TypeDefs/MessageType");
 const LinkType = require("../TypeDefs/LinkType.js");
 
-const User = require("../../classes/user");
-const Chatroom = require("../../classes/chatroom");
+const User = require("../../classes/User.js");
+const Chatroom = require("../../classes/Chatroom.js");
 
 // Chatroom Mutations for creating, sending, and editing messages
 const ChatroomMutations = {

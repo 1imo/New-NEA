@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const UserType = require("../TypeDefs/UserType");
 const SensitiveUserDataType = require("../TypeDefs/SensitiveUserDataType");
 const LinkType = require("../TypeDefs/LinkType");
-const User = require("../../classes/user");
+const User = require("../../classes/User");
 
 // Defining mutations related to user data
 const UserMutations = {

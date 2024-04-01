@@ -29,6 +29,35 @@ class Post {
 		}
 	}
 
+	// Get a post
+	// Arguments: id
+	async getPost(args) {
+		try {
+			const post = await this.prisma.post.findFirst({
+				where: {
+					id: args.id,
+				},
+				select: {
+					id: true,
+					content: true,
+					photo: true,
+					user: {
+						select: {
+							name: true,
+							username: true,
+							id: true,
+						},
+					},
+				},
+			});
+
+			return post;
+		} catch (e) {
+			this.log(e);
+			return;
+		}
+	}
+
 	// View a post
 	// Arguments: id, post
 	async viewPost(args) {

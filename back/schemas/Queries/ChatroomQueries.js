@@ -5,8 +5,8 @@ const { GraphQLString, GraphQLList } = require("graphql");
 const ChatroomType = require("../TypeDefs/ChatroomType");
 
 // Importing classes
-const User = require("../../classes/user");
-const Chatroom = require("../../classes/chatroom");
+const User = require("../../classes/User");
+const Chatroom = require("../../classes/Chatroom");
 
 // Defining the ChatroomQueries object
 const ChatroomQueries = {
