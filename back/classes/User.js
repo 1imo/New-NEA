@@ -19,11 +19,13 @@ class User {
 			const pass = await bcrypt.hash(args.password, 10);
 			const apiKey = crypto.randomBytes(32).toString("hex");
 
+			// Create a user in the database
 			const user = await this.prisma.user.create({
 				data: {
 					name: `${args.firstName} ${args.lastName}`,
 					username: args.username,
 					userData: {
+						// Create User Data for the user
 						create: {
 							password: pass,
 							secretkey: apiKey,
@@ -353,7 +355,7 @@ class User {
 			// Find the follow request based on the request ID and check to see if the user has authority to accept or deny the request
 			const follow = await this.prisma.follow.findFirst({
 				where: {
-					AND: [{ id: args.request }, { followingId: args.id }],
+					AND: [{ id: args.request }, { followerId: args.id }],
 				},
 				select: {
 					follower: {
@@ -373,6 +375,8 @@ class User {
 					id: true,
 				},
 			});
+
+			console.log(follow, "FOLLOW");
 
 			if (!follow) return;
 
@@ -414,11 +418,23 @@ class User {
 	async editDetails(args) {
 		try {
 			// Based on the request, update the user's details at that attribute
-			switch (args.request) {
-				case "name" || "username":
-					const data = {};
-					data[args.request] = args.data;
+			const data = {};
+			data[args.request] = args.data;
 
+			switch (args.request) {
+				case "name":
+					await this.prisma.user.update({
+						where: {
+							id: args.id,
+						},
+						data,
+					});
+					// Testing purposes
+					return {
+						id: `${args.id} updated`,
+					};
+
+				case "username":
 					await this.prisma.user.update({
 						where: {
 							id: args.id,
@@ -530,6 +546,8 @@ class User {
 		}
 	}
 
+	// Get the user's posts
+	// Arguments: username
 	async getPosts(args) {
 		try {
 			const user = await this.prisma.user.findFirst({
@@ -589,7 +607,7 @@ class User {
 	// Arguments: id, type (Following, Friends, Date, Recommended)
 	async getFeed(args) {
 		try {
-			console.log(args);
+			// Fetch the user's following, and friends IDs
 			const user = await this.prisma.user.findUnique({
 				where: { id: args.id },
 				select: {
@@ -634,10 +652,12 @@ class User {
 				},
 				select: {
 					id: true,
-					user: { select: { id: true } },
+					user: { select: { id: true, name: true, username: true } },
 					avgRatio: true,
 					multiplier: true,
 					date: true,
+					content: true,
+					photo: true,
 				},
 			});
 
@@ -717,19 +737,11 @@ class User {
 						friends.has(post.user.id)
 					);
 				case "Date":
-					return sortedPostsByMultiplier.map(
-						({ user, id, avgRatio, multiplier, date }) => ({
-							user,
-							id,
-							avgRatio,
-							multiplier,
-							date,
-						})
-					);
+					return sortedPostsByMultiplier;
 				default:
 					// Get the top recommended posts
 					const recommendedPosts = [];
-					const maxPosts = 100; // Adjust this value as needed
+					const maxPosts = 100;
 					for (
 						let i = 0;
 						i < maxPosts && !priorityQueue.isEmpty();
@@ -738,15 +750,7 @@ class User {
 						recommendedPosts.push(priorityQueue.dequeue());
 					}
 
-					return recommendedPosts.map(
-						({ user, id, avgRatio, multiplier, date }) => ({
-							user,
-							id,
-							avgRatio,
-							multiplier,
-							date,
-						})
-					);
+					return recommendedPosts;
 			}
 		} catch (e) {
 			this.log(e);

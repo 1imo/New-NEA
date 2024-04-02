@@ -23,7 +23,7 @@ const PostQuery = {
 				const post = new Post(prisma, log);
 
 				// Return the fetched post data
-				return await post.getPost(args.id);
+				return await post.getPost({ id: args.id });
 			} catch (e) {
 				// Log any errors
 				log(e);

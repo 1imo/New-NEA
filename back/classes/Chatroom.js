@@ -300,7 +300,7 @@ class Chatroom {
 				this.io.to(user.user.socket).emit("chatroom", msg);
 			});
 
-			return;
+			return { id: args.edit };
 		} catch (e) {
 			this.log(e);
 			return;

@@ -9,9 +9,11 @@ const { PrismaClient } = require("@prisma/client");
 require("dotenv").config();
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const voyagerMiddleware = require("graphql-voyager/middleware");
 
 // Creating an Express application instance
 const app = express();
+app.use("/voyager", voyagerMiddleware.express({ endpointUrl: "/graphql" }));
 // Initializing the Prisma client
 const prisma = new PrismaClient();
 

@@ -28,3 +28,93 @@ Invalid `this.prisma.post.findMany()` invocation in
       })
 
 Invalid value for argument `in[0]`: Can not use `undefined` value within array. Use `null` or filter out `undefined` values. 
+14:43:24    Cannot read properties of null (reading 'posts') 
+17:44:21    Cannot access 'data' before initialization 
+17:44:27    Cannot access 'data' before initialization 
+17:44:51    Cannot access 'data' before initialization 
+17:52:34    
+Invalid `prisma.user.update()` invocation in
+/home/mute/Documents/js/social-social-media/back/index.js:161:34
+
+  158 	return;
+  159 } else {
+  160 	// If the user data is valid, update the user's socket ID and emit an 'auth' event with true
+→ 161 	const id = await prisma.user.update({
+        where: {
+          id: undefined,
+      ?   username?: String,
+      ?   AND?: UserWhereInput | UserWhereInput[],
+      ?   OR?: UserWhereInput[],
+      ?   NOT?: UserWhereInput | UserWhereInput[],
+      ?   name?: StringFilter | String,
+      ?   avgRatio?: FloatFilter | Float,
+      ?   multiplier?: FloatFilter | Float,
+      ?   socket?: StringNullableFilter | String | Null,
+      ?   lastUpdated?: DateTimeFilter | DateTime,
+      ?   userData?: UserDataNullableRelationFilter | UserDataWhereInput | Null,
+      ?   posts?: PostListRelationFilter,
+      ?   viewedPosts?: ViewedPostListRelationFilter,
+      ?   likedPosts?: LikedPostListRelationFilter,
+      ?   friends?: FriendshipListRelationFilter,
+      ?   friendshipsReceived?: FriendshipListRelationFilter,
+      ?   following?: FollowListRelationFilter,
+      ?   followers?: FollowListRelationFilter,
+      ?   chatroomUsers?: ChatroomUserListRelationFilter,
+      ?   Message?: MessageListRelationFilter
+        },
+        data: {
+          socket: "pATJ-pwqmFLVHSPCAAAB"
+        }
+      })
+
+Argument `where` of type UserWhereUniqueInput needs at least one of `id` or `username` arguments. Available options are marked with ?. 
+17:52:39    
+Invalid `prisma.user.update()` invocation in
+/home/mute/Documents/js/social-social-media/back/index.js:161:34
+
+  158 	return;
+  159 } else {
+  160 	// If the user data is valid, update the user's socket ID and emit an 'auth' event with true
+→ 161 	const id = await prisma.user.update({
+        where: {
+          id: undefined,
+      ?   username?: String,
+      ?   AND?: UserWhereInput | UserWhereInput[],
+      ?   OR?: UserWhereInput[],
+      ?   NOT?: UserWhereInput | UserWhereInput[],
+      ?   name?: StringFilter | String,
+      ?   avgRatio?: FloatFilter | Float,
+      ?   multiplier?: FloatFilter | Float,
+      ?   socket?: StringNullableFilter | String | Null,
+      ?   lastUpdated?: DateTimeFilter | DateTime,
+      ?   userData?: UserDataNullableRelationFilter | UserDataWhereInput | Null,
+      ?   posts?: PostListRelationFilter,
+      ?   viewedPosts?: ViewedPostListRelationFilter,
+      ?   likedPosts?: LikedPostListRelationFilter,
+      ?   friends?: FriendshipListRelationFilter,
+      ?   friendshipsReceived?: FriendshipListRelationFilter,
+      ?   following?: FollowListRelationFilter,
+      ?   followers?: FollowListRelationFilter,
+      ?   chatroomUsers?: ChatroomUserListRelationFilter,
+      ?   Message?: MessageListRelationFilter
+        },
+        data: {
+          socket: "pATJ-pwqmFLVHSPCAAAB"
+        }
+      })
+
+Argument `where` of type UserWhereUniqueInput needs at least one of `id` or `username` arguments. Available options are marked with ?. 
+17:58:38    io is not defined 
+17:58:41    io is not defined 
+18:00:43    this.io.to(...).emit(...).then is not a function 
+18:01:06    this.io.to(...).emit(...).then is not a function 
+18:01:17    this.io.to(...).emit(...).then is not a function 
+18:04:31    
+Invalid `this.prisma.message.update()` invocation in
+/home/mute/Documents/js/social-social-media/back/classes/Chatroom.js:253:38
+
+  250 if (Object.keys(updatedData).length > 0) {
+  251 	// Check so that only the sender can delete their message
+  252 	if (args.edit === "delete") {
+→ 253 		msg = await this.prisma.message.update(
+An operation failed because it depends on one or more records that were required but not found. Record to update not found. 
