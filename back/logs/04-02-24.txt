@@ -1,0 +1,30 @@
+09:42:41    
+Invalid `this.prisma.post.findMany()` invocation in
+/home/mute/Documents/js/social-social-media/back/classes/User.js:633:41
+
+  630 friends.delete(args.id);
+  631 
+  632 // Fetch posts from followed users and friends
+→ 633 const posts = await this.prisma.post.findMany({
+        where: {
+          userId: {
+            in: [
+              undefined
+              ~~~~~~~~~
+            ]
+          }
+        },
+        select: {
+          id: true,
+          user: {
+            select: {
+              id: true
+            }
+          },
+          avgRatio: true,
+          multiplier: true,
+          date: true
+        }
+      })
+
+Invalid value for argument `in[0]`: Can not use `undefined` value within array. Use `null` or filter out `undefined` values. 
