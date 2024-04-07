@@ -4,7 +4,7 @@
 This repository is for my Non-Exam Assessment (NEA) project for A2 A Level Computer Science AQA. It aims to provide the specifics of creating a social media system that focuses on human-centric values rooted in user control, privacy, and meaningful engagement that exist without the detrimental negative aspects of existing platforms.
 <br />
 <br />
-###### Project Overview
+##### Project Overview
 <br />
 The project represents the culmination of the knowledge and skills I have acquired during the A Level Computer Science course. With it, I intend to showcase my understanding of computer science concepts such as software development methodologies, data structures, algorithms, database management and web technologies.
 <br />
@@ -14,13 +14,21 @@ My project is centred around designing and developing a user-friendly social med
 <br />
 ###### Key Features
 - User-generated content creation and sharing
+  
 - Private chatrooms for one-on-one communication
+  
 - Relationship management system (friendships and followings)
+  
 - Customisable feed algorithms
+  
 - User engagement through likes and views
+  
 - Real-time updates and notifications
+  
 - Comprehensive search functionality
+  
 - Responsive and cross-compatible interfaces
+  
 - Open and well-documented API
 <br />
 These traits demonstrate the ability to apply computer science concepts to address challenges and develop an impactful, novel software product.
