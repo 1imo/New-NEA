@@ -8,6 +8,7 @@ This repository is for my Non-Exam Assessment (NEA) project for A2 A Level Compu
 <br />
 The project represents the culmination of the knowledge and skills I have acquired during the A Level Computer Science course. With it, I intend to showcase my understanding of computer science concepts such as software development methodologies, data structures, algorithms, database management and web technologies.
 <br />
+<br />
 My project is centred around designing and developing a user-friendly social media system that delivers a positive experience and is better than other existing social media platforms. In the documentation, I discuss how I have applied myself to design and implement a system that puts users in control, promotes privacy, and allows honest conversations between users.
 <br />
 <br />
