@@ -57,4 +57,4 @@ The Social Social Media project showcases my A2 A Level Computer Science AQA NEA
 
 From this project, I have come away with an understanding that systems must be designed beforehand for consistency and thought throughout. My future projects will likely be less haphazard and more planned since testing showed me the discrepancies and weaknesses of my code.
 
-To read more about the project, including code, design documents, and evaluation, check out the documentation and code in this repository.
+To read more about the project, including code, design documents, and evaluation, check out the documentation and code in the repository.
