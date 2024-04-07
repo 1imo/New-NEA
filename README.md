@@ -3,51 +3,54 @@
 
 This repository is for my Non-Exam Assessment (NEA) project for A2 A Level Computer Science AQA. It aims to provide the specifics of creating a social media system that focuses on human-centric values rooted in user control, privacy, and meaningful engagement that exist without the detrimental negative aspects of existing platforms.
 
+
 ###### Project Overview
 
 The project represents the culmination of the knowledge and skills I have acquired during the A Level Computer Science course. With it, I intend to showcase my understanding of computer science concepts such as software development methodologies, data structures, algorithms, database management and web technologies.
 
 My project is centred around designing and developing a user-friendly social media system that delivers a positive experience and is better than other existing social media platforms. In the documentation, I discuss how I have applied myself to design and implement a system that puts users in control, promotes privacy, and allows honest conversations between users.
 
+
 ###### Key Features
 
-    User-generated content creation and sharing
+- User-generated content creation and sharing
 
-    Private chatrooms for one-on-one communication
+- Private chatrooms for one-on-one communication
 
-    Relationship management system (friendships and followings)
+- Relationship management system (friendships and followings)
 
-    Customisable feed algorithms
+- Customisable feed algorithms
 
-    User engagement through likes and views
+- User engagement through likes and views
 
-    Real-time updates and notifications
+- Real-time updates and notifications
 
-    Comprehensive search functionality
+- Comprehensive search functionality
 
-    Responsive and cross-compatible interfaces
+- Responsive and cross-compatible interfaces
 
-    Open and well-documented API
+- Open and well-documented API
 
 These traits demonstrate the ability to apply computer science concepts to address challenges and develop an impactful, novel software product.
 
 The repository includes comprehensive documentation that covers various aspects of the project, including:
 
-    System design and architecture
+- System design and architecture
 
-    Data modelling and database design
+- Data modelling and database design
 
-    Algorithm design and implementation
+- Algorithm design and implementation
 
-    Testing and evaluation
+- Testing and evaluation
 
-    User interface and user experience design
+- User interface and user experience design
 
-    Security and privacy considerations
+- Security and privacy considerations
 
-    Future enhancements and optimisations
+- Future enhancements and optimisations
 
 The documentation showcases my ability to analyse requirements, design solutions, and communicate technical concepts. 
+
 
 ###### Conclusion
 
