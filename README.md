@@ -7,7 +7,7 @@ This repository is for my Non-Exam Assessment (NEA) project for A2 A Level Compu
 
 The project represents the culmination of the knowledge and skills I have acquired during the A Level Computer Science course. With it, I intend to showcase my understanding of computer science concepts such as software development methodologies, data structures, algorithms, database management and web technologies.
 
-My project is centred around designing and developing a user-friendly social media system that delivers a positive experience and is better than other existing social media platforms. In the documentation, I discuss how I have applied myself to design and implement a system that puts users in control, promotes privacy, and allows honest conversations between users.
+My project is centred around designing and developing a user-friendly social media system that delivers a positive experience and is better than other social media platforms. In the documentation, I discuss how I have applied myself to design and implement a system that puts users in control, promotes privacy, and allows honest conversations between users.
 
 ##### Key Features
 
@@ -23,9 +23,9 @@ My project is centred around designing and developing a user-friendly social med
 
 - Real-time updates and notifications
 
-- Comprehensive search functionality
+- Search functionality
 
-- Responsive and cross-compatible interfaces
+- An extremely responsive user interface
 
 - Open and well-documented API
 
@@ -33,7 +33,7 @@ These traits demonstrate the ability to apply computer science concepts to addre
 
 
 
-The repository includes comprehensive documentation that covers various aspects of the project, including:
+The repository includes documentation (documentation.odt) that covers aspects of the project, including:
 
 - System design and architecture
 
@@ -45,14 +45,16 @@ The repository includes comprehensive documentation that covers various aspects 
 
 - User interface and user experience design
 
-- Security and privacy considerations
+- Security and privacy
 
 - Future enhancements and optimisations
 
-The documentation showcases my ability to analyse requirements, design solutions, and communicate technical concepts. 
+The documentation showcases my ability to analyse, design and implement robust solutions using technical concepts to real-world problems.
 
 ##### Conclusion
 
-The Social Social Media project exemplifies my A2 A Level Computer Science AQA NEA, which demonstrates my capability to not only competently write code but also examine existing systems and clearly understand how they could be improved to enhance functionality or experience. The development of this project has been heavily influenced by my vision of how social networking platforms should be developed in the future. Therefore, my motivation for creating it lies in the philosophy that social media exists to enable users to communicate effectively, openly, and honestly with one another within their terms of control without compromising their privacy or interest and keeping them engaged in meaningful interactions. For a deeper look at the project, including source code, design documents, and evaluation, see the documentation and code at this repository.
+The Social Social Media project showcases my A2 A Level Computer Science AQA NEA. It demonstrates my capability to hopefully write code competently, examine existing systems, and clearly understand how they could be improved to enhance functionality or experience. The development of this project has been heavily influenced by my vision of how social networking platforms should be developed in the future. Therefore, my motivation for creating it lies in the philosophy that social media exists to enable users to communicate effectively, openly, and honestly with one another within their terms of control without compromising their privacy or interest and keeping them engaged in meaningful interactions.
+
+From this project, I have come away with an understanding that systems must be designed beforehand for consistency and thought throughout. My future projects will likely be less haphazard and more planned since testing showed me the discrepancies and weaknesses of my code.
 
 To read more about the project, including code, design documents, and evaluation, check out the documentation and code in this repository.
